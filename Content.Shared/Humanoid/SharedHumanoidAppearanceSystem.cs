@@ -495,6 +495,9 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         var markingObject = prototype.AsMarking();
         markingObject.Forced = forced;
+        // Palmtree/Coyote: genital markings start hidden and get toggled through the undies verbs.
+        if (prototype.MarkingCategory == MarkingCategories.Genital)
+            markingObject.Visible = false;
         if (color != null)
         {
             for (var i = 0; i < prototype.Sprites.Count; i++)
@@ -537,6 +540,9 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         var markingObject = new Marking(marking, colors);
         markingObject.Forced = forced;
+        // Palmtree/Coyote: genital markings start hidden and get toggled through the undies verbs.
+        if (prototype.MarkingCategory == MarkingCategories.Genital)
+            markingObject.Visible = false;
         humanoid.MarkingSet.AddBack(prototype.MarkingCategory, markingObject);
 
         if (sync)
@@ -576,5 +582,32 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         }
 
         return Loc.GetString("identity-age-old");
+    }
+
+    // Palmtree/Coyote: shows or hides a marking on a humanoid. Used by the undies/genital verbs.
+    public void SetMarkingVisibility(
+        EntityUid uid,
+        HumanoidAppearanceComponent? humanoid,
+        string markingId,
+        bool visible)
+    {
+        if (!Resolve(uid, ref humanoid))
+            return;
+
+        foreach (var markingList in humanoid.MarkingSet.Markings.Values)
+        {
+            foreach (var marking in markingList)
+            {
+                if (marking.MarkingId != markingId)
+                    continue;
+
+                if (marking.Visible == visible)
+                    return;
+
+                marking.Visible = visible;
+                Dirty(uid, humanoid);
+                return;
+            }
+        }
     }
 }

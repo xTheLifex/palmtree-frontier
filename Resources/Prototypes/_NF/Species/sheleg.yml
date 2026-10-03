@@ -4,6 +4,9 @@
   roundStart: true
   prototype: MobSheleg
   dollPrototype: MobShelegDummy
+  kind:
+  - BasicHumanlike
+  - BasicFurry
   markingLimits: MobShelegMarkingLimits
   sprites: MobShelegSprites
   skinColoration: ShelegToned
@@ -19,6 +22,8 @@
 - type: speciesBaseSprites
   id: MobShelegSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Special: MobHumanoidAnyMarking
     Head: MobShelegHead
     Hair: MobShelegHair
@@ -41,6 +46,9 @@
 - type: markingPoints
   id: MobShelegMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Special: # the cat ear joke
       points: 0
       required: false

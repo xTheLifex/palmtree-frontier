@@ -6,6 +6,8 @@
   sprites: MobVoxSprites
   markingLimits: MobVoxMarkingLimits
   dollPrototype: MobVoxDummy
+  kind:
+  - VoxLike
   skinColoration: Hues # imp VoxFeathers<Hues
   defaultSkinTone: "#6c741d"
   maleFirstNames: NamesVox
@@ -17,6 +19,8 @@
 - type: speciesBaseSprites
   id: MobVoxSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobVoxHead
     Snout: MobHumanoidAnyMarking
     Hair: MobHumanoidAnyMarking
@@ -39,6 +43,9 @@
   id: MobVoxMarkingLimits
   onlyWhitelisted: true
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

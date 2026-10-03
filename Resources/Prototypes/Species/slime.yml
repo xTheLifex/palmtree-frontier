@@ -7,11 +7,15 @@
   defaultSkinTone: "#b8b8b8"
   markingLimits: MobSlimeMarkingLimits
   dollPrototype: MobSlimePersonDummy
+  kind:
+  - BasicHumanlike
   skinColoration: Hues
 
 - type: speciesBaseSprites
   id: MobSlimeSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobSlimeHead
     Hair: MobSlimeMarkingFollowSkin
     FacialHair: MobSlimeMarkingFollowSkin
@@ -31,6 +35,9 @@
 - type: markingPoints
   id: MobSlimeMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

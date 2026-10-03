@@ -6,11 +6,16 @@
   sprites: MobHarpySprites
   markingLimits: MobHarpyMarkingLimits
   dollPrototype: MobHarpyDummy
+  kind:
+  - BasicHumanlike
+  - BasicFurry
   skinColoration: HumanToned
 
 - type: speciesBaseSprites
   id: MobHarpySprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobHarpyHead
     Hair: MobHumanoidAnyMarking
     FacialHair: MobHumanoidAnyMarking
@@ -36,6 +41,9 @@
 - type: markingPoints
   id: MobHarpyMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

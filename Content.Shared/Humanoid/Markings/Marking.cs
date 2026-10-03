@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using Content.Shared.Humanoid.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -11,6 +13,17 @@ namespace Content.Shared.Humanoid.Markings
     {
         [DataField("markingColor")]
         private List<Color> _markingColors = new();
+
+        // Palmtree/Coyote Start: advanced marking editor data
+        [DataField("scale")]
+        private float _markingScale = 1.0f;
+
+        [DataField("offsetX")]
+        private float _markingOffsetX;
+
+        [DataField("offsetY")]
+        private float _markingOffsetY;
+        // Palmtree/Coyote End
 
         private Marking()
         {
@@ -44,6 +57,11 @@ namespace Content.Shared.Humanoid.Markings
             _markingColors = new(other.MarkingColors);
             Visible = other.Visible;
             Forced = other.Forced;
+            // Palmtree/Coyote Start
+            _markingScale = other._markingScale;
+            _markingOffsetX = other._markingOffsetX;
+            _markingOffsetY = other._markingOffsetY;
+            // Palmtree/Coyote End
         }
 
         /// <summary>
@@ -57,6 +75,14 @@ namespace Content.Shared.Humanoid.Markings
         /// </summary>
         [ViewVariables]
         public IReadOnlyList<Color> MarkingColors => _markingColors;
+
+        // Palmtree/Coyote Start: advanced marking editor
+        [ViewVariables]
+        public float MarkingScale => _markingScale;
+
+        [ViewVariables]
+        public Vector2 MarkingOffset => new(_markingOffsetX, _markingOffsetY);
+        // Palmtree/Coyote End
 
         /// <summary>
         ///     If this marking is currently visible.
@@ -72,6 +98,19 @@ namespace Content.Shared.Humanoid.Markings
 
         public void SetColor(int colorIndex, Color color) =>
             _markingColors[colorIndex] = color;
+
+        // Palmtree/Coyote Start: advanced marking editor
+        public void SetScale(float scale)
+        {
+            _markingScale = Math.Clamp(scale, 0.1f, 4.0f);
+        }
+
+        public void SetOffset(float x, float y)
+        {
+            _markingOffsetX = Math.Clamp(x, -2f, 2f);
+            _markingOffsetY = Math.Clamp(y, -2f, 2f);
+        }
+        // Palmtree/Coyote End
 
         public void SetColor(Color color)
         {
@@ -108,7 +147,12 @@ namespace Content.Shared.Humanoid.Markings
             return MarkingId.Equals(other.MarkingId)
                 && _markingColors.SequenceEqual(other._markingColors)
                 && Visible.Equals(other.Visible)
-                && Forced.Equals(other.Forced);
+                && Forced.Equals(other.Forced)
+                // Palmtree/Coyote Start
+                && _markingScale == other._markingScale
+                && _markingOffsetX == other._markingOffsetX
+                && _markingOffsetY == other._markingOffsetY;
+                // Palmtree/Coyote End
         }
 
         // VERY BIG TODO: TURN THIS INTO JSONSERIALIZER IMPLEMENTATION
@@ -130,19 +174,45 @@ namespace Content.Shared.Humanoid.Markings
             foreach (Color color in _markingColors)
                 colorStringList.Add(color.ToHex());
 
-            return $"{sanitizedName}@{String.Join(',', colorStringList)}";
+            var result = $"{sanitizedName}@{String.Join(',', colorStringList)}";
+
+            // Palmtree/Coyote: append advanced editor data only when it differs from defaults,
+            // so old saved strings remain valid.
+            if (_markingScale != 1.0f || _markingOffsetX != 0f || _markingOffsetY != 0f)
+            {
+                result += string.Create(CultureInfo.InvariantCulture,
+                    $"@{_markingScale},{_markingOffsetX},{_markingOffsetY}");
+            }
+
+            return result;
         }
 
         public static Marking? ParseFromDbString(string input)
         {
             if (input.Length == 0) return null;
             var split = input.Split('@');
-            if (split.Length != 2) return null;
+            if (split.Length is < 2 or > 3) return null;
             List<Color> colorList = new();
             foreach (string color in split[1].Split(','))
                 colorList.Add(Color.FromHex(color));
 
-            return new Marking(split[0], colorList);
+            var marking = new Marking(split[0], colorList);
+
+            // Palmtree/Coyote: optional advanced editor data.
+            if (split.Length == 3)
+            {
+                var transform = split[2].Split(',');
+                if (transform.Length == 3
+                    && float.TryParse(transform[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var scale)
+                    && float.TryParse(transform[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetX)
+                    && float.TryParse(transform[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetY))
+                {
+                    marking.SetScale(scale);
+                    marking.SetOffset(offsetX, offsetY);
+                }
+            }
+
+            return marking;
         }
     }
 }

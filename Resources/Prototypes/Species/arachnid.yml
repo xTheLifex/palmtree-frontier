@@ -7,6 +7,8 @@
   defaultSkinTone: "#385878"
   markingLimits: MobArachnidMarkingLimits
   dollPrototype: MobArachnidDummy
+  kind:
+  - BasicHumanlike
   skinColoration: Hues
   maleFirstNames: NamesArachnidFirst
   femaleFirstNames: NamesArachnidFirst
@@ -17,6 +19,8 @@
 - type: speciesBaseSprites
   id: MobArachnidSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobArachnidHead
     Snout: MobHumanoidAnyMarking
     UndergarmentTop: MobHumanoidAnyMarking
@@ -45,6 +49,9 @@
   id: MobArachnidMarkingLimits
   onlyWhitelisted: true
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 0
       required: false

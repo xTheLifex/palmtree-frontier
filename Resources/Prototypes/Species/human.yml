@@ -6,6 +6,8 @@
   sprites: MobHumanSprites
   markingLimits: MobHumanMarkingLimits
   dollPrototype: MobHumanDummy
+  kind:
+  - BasicHumanlike
   skinColoration: HumanToned
 
 # The lack of a layer means that
@@ -17,6 +19,8 @@
 - type: speciesBaseSprites
   id: MobHumanSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Special: MobHumanoidAnyMarking
     Head: MobHumanHead
     Hair: MobHumanoidAnyMarking
@@ -41,6 +45,9 @@
 - type: markingPoints
   id: MobHumanMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Special: # the cat ear joke
       points: 0
       required: false

@@ -1,0 +1,7 @@
+- type: entity
+  id: ClothingConcealmentBackpackImplanter
+  name: dorsualiphobic augmentation implanter
+  parent: BaseImplantOnlyImplanter
+  components:
+  - type: Implanter
+    implant: ClothingConcealmentImplantBackpack

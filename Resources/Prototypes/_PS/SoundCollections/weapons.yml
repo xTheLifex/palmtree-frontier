@@ -1,0 +1,5 @@
+- type: soundCollection
+  id: Phaser
+  files:
+  - /Audio/_PS/Weapons/Phaser/phaser1.ogg
+  - /Audio/_PS/Weapons/Phaser/phaser2.ogg

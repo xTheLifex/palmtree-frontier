@@ -7,6 +7,8 @@
   defaultSkinTone: "#ffda93"
   markingLimits: MobMothMarkingLimits
   dollPrototype: MobMothDummy
+  kind:
+  - BasicFurry
   skinColoration: Hues
   maleFirstNames: NamesMothFirstMale
   femaleFirstNames: NamesMothFirstFemale
@@ -15,6 +17,8 @@
 - type: speciesBaseSprites
   id: MobMothSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobMothHead
     Snout: MobHumanoidAnyMarking
     UndergarmentTop: MobHumanoidAnyMarking
@@ -43,6 +47,9 @@
   id: MobMothMarkingLimits
   onlyWhitelisted: true
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 0
       required: false

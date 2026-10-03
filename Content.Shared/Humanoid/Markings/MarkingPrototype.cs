@@ -20,6 +20,13 @@ namespace Content.Shared.Humanoid.Markings
         [DataField("speciesRestriction")]
         public List<string>? SpeciesRestrictions { get; private set; }
 
+        /// <summary>
+        /// Palmtree/Floof: species "kinds" this marking is additionally allowed for.
+        /// Lets a marking be shared across groups of species without listing each one.
+        /// </summary>
+        [DataField("kindAllowance")]
+        public List<string>? KindAllowance { get; private set; }
+
         [DataField("sexRestriction")]
         public Sex? SexRestriction { get; private set; }
 
@@ -41,6 +48,21 @@ namespace Content.Shared.Humanoid.Markings
 
         [DataField("sprites", required: true)]
         public List<SpriteSpecifier> Sprites { get; private set; } = default!;
+
+        /// <summary>
+        /// Palmtree/Floof: allows specific marking sprites to be drawn into an arbitrary humanoid
+        /// layer, e.g. breasts that render behind the body while facing north.
+        /// Dictionary: sprite state -> humanoid visual layer name.
+        /// </summary>
+        [DataField("layering")]
+        public Dictionary<string, string>? Layering { get; private set; }
+
+        /// <summary>
+        /// Palmtree/Floof: links one sprite's color to another (format: child -> parent).
+        /// Linked sprites are hidden from the color picker and inherit the parent's color.
+        /// </summary>
+        [DataField("colorLinks")]
+        public Dictionary<string, string>? ColorLinks { get; private set; }
 
         // impstation edit - allow markings to support shaders
 		[DataField("shader")]

@@ -1,0 +1,52 @@
+- type: hitscan
+  id: PSXrayLaserCaspian
+  damage:
+    types:
+      Heat: 25
+      Shock: 10
+      Radiation: 20
+  muzzleFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: muzzle_xray
+  travelFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: xray
+  impactFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: impact_xray
+  maxLength: 30
+
+- type: hitscan
+  id: PhaserLethal
+  damage:
+    types:
+      Heat: 80
+  muzzleFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: muzzle_xray
+  travelFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: xray
+  impactFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: impact_xray
+  maxLength: 30
+
+- type: hitscan
+  id: HealBeam
+  damage:
+    groups:
+      Brute: -15
+      Toxin: -10
+      Airloss: -20
+      Burn: -20
+  muzzleFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: muzzle_omni
+  travelFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: beam_omni
+  impactFlash:
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+    state: impact_omni
+  maxLength: 30

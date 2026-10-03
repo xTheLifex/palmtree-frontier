@@ -1,0 +1,16 @@
+- type: entity
+  id: BlueFlashEffect
+  name: blue flash
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Transform
+  - type: PointLight
+    color: "#3aa0ff"
+    radius: 1.5
+    energy: 3
+    softness: 1
+  - type: TimedDespawn
+    lifetime: 0.35
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Magic/blink.ogg

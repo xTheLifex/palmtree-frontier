@@ -78,6 +78,14 @@ public sealed partial class SpeciesPrototype : IPrototype
     public EntProtoId DollPrototype { get; private set; } = default!;
 
     /// <summary>
+    /// Palmtree/Floof: marking "kinds" this species belongs to, used together with
+    /// <see cref="MarkingPrototype.KindAllowance"/> to share markings between species groups.
+    /// Can be null, in which case it is simply not used.
+    /// </summary>
+    [DataField("kind")]
+    public List<string>? Kind { get; private set; } = null;
+
+    /// <summary>
     /// Method of skin coloration used by the species.
     /// </summary>
     [DataField(required: true)]

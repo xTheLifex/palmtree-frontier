@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Client.DisplacementMap;
 using Content.Shared.CCVar;
 using Content.Shared.Humanoid;
@@ -261,7 +262,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             {
                 if (_markingManager.TryGetMarking(marking, out var markingPrototype))
                 {
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity);
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset);
                     if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
                         applyUndergarmentTop = false;
                     else if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentBottom)
@@ -353,19 +354,44 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
     private void ApplyMarking(MarkingPrototype markingPrototype,
         IReadOnlyList<Color>? colors,
         bool visible,
-        Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
+        Entity<HumanoidAppearanceComponent, SpriteComponent> entity,
+        // Palmtree/Coyote Start: advanced marking editor
+        float scale = 1.0f,
+        Vector2? offset = null)
+        // Palmtree/Coyote End
     {
         var humanoid = entity.Comp1;
         var sprite = entity.Comp2;
+        var markingOffset = offset ?? Vector2.Zero;
 
-        if (!_sprite.LayerMapTryGet((entity.Owner, sprite), markingPrototype.BodyPart, out var targetLayer, false))
+        // Palmtree/Floof: map sprite states to colors so colorLinks can copy colors between sprites.
+        var colorDict = new Dictionary<string, Color>();
+        for (var i = 0; i < markingPrototype.Sprites.Count; i++)
         {
-            return;
+            var spriteName = markingPrototype.Sprites[i] switch
+            {
+                SpriteSpecifier.Rsi rsi => rsi.RsiState,
+                SpriteSpecifier.Texture texture => texture.TexturePath.Filename,
+                _ => null
+            };
+
+            if (spriteName == null)
+                continue;
+
+            colorDict[spriteName] = colors != null && i < colors.Count ? colors[i] : Color.White;
         }
 
-        visible &= !IsHidden(humanoid, markingPrototype.BodyPart);
-        visible &= humanoid.BaseLayers.TryGetValue(markingPrototype.BodyPart, out var setting)
-           && setting.AllowsMarkings;
+        if (markingPrototype.ColorLinks != null)
+        {
+            foreach (var (child, parent) in markingPrototype.ColorLinks)
+            {
+                if (colorDict.TryGetValue(parent, out var linkedColor))
+                    colorDict[child] = linkedColor;
+            }
+        }
+
+        // Palmtree/Floof: track the sprite order for markings that place several sprites on one layer.
+        var layerDict = new Dictionary<string, int>();
 
         for (var j = 0; j < markingPrototype.Sprites.Count; j++)
         {
@@ -376,11 +402,55 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
                 continue;
             }
 
+            var layerSlot = markingPrototype.BodyPart;
+
+            // Palmtree/Floof: a marking may route individual sprites to arbitrary layers.
+            if (markingPrototype.Layering != null
+                && markingPrototype.Layering.TryGetValue(rsi.RsiState, out var layerName)
+                && Enum.TryParse<HumanoidVisualLayers>(layerName, out var parsedLayer))
+            {
+                layerSlot = parsedLayer;
+            }
+
+            if (!_sprite.LayerMapTryGet((entity.Owner, sprite), layerSlot, out var targetLayer, false))
+            {
+                continue;
+            }
+
+            var layerVisible = visible;
+            layerVisible &= !IsHidden(humanoid, layerSlot);
+            layerVisible &= humanoid.BaseLayers.TryGetValue(layerSlot, out var setting)
+               && setting.AllowsMarkings;
+
             var layerId = $"{markingPrototype.ID}-{rsi.RsiState}";
+
+            if (layerDict.TryGetValue(layerSlot.ToString(), out var layerIndex))
+            {
+                layerDict[layerSlot.ToString()] = layerIndex + 1;
+            }
+            else
+            {
+                layerDict.Add(layerSlot.ToString(), 0);
+            }
+
+            var targLayerAdj = targetLayer + layerDict[layerSlot.ToString()] + 1;
+
+            // Palmtree: keep genital markings beneath clothing while they sit on the genital layer.
+            if (layerSlot == HumanoidVisualLayers.Genital)
+            {
+                if (_sprite.LayerMapTryGet((entity.Owner, sprite), "jumpsuit", out var jumpsuitLayer, false))
+                    targLayerAdj = Math.Min(targLayerAdj, jumpsuitLayer - 1);
+
+                if (_sprite.LayerMapTryGet((entity.Owner, sprite), "outerClothing", out var outerClothingLayer, false))
+                    targLayerAdj = Math.Min(targLayerAdj, outerClothingLayer - 1);
+
+                if (targLayerAdj < 0)
+                    targLayerAdj = 0;
+            }
 
             if (!_sprite.LayerMapTryGet((entity.Owner, sprite), layerId, out _, false))
             {
-                var layer = _sprite.AddLayer((entity.Owner, sprite), markingSprite, targetLayer + j + 1);
+                var layer = _sprite.AddLayer((entity.Owner, sprite), markingSprite, targLayerAdj);
                 _sprite.LayerMapSet((entity.Owner, sprite), layerId, layer);
                 _sprite.LayerSetSprite((entity.Owner, sprite), layerId, rsi);
             }
@@ -393,9 +463,13 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             }
             // impstation edit end
 
-            _sprite.LayerSetVisible((entity.Owner, sprite), layerId, visible);
+            _sprite.LayerSetVisible((entity.Owner, sprite), layerId, layerVisible);
+            // Palmtree/Coyote Start: advanced marking editor
+            sprite.LayerSetScale(layerId, new Vector2(scale, scale));
+            sprite.LayerSetOffset(layerId, markingOffset);
+            // Palmtree/Coyote End
 
-            if (!visible || setting == null) // this is kinda implied
+            if (!layerVisible || setting == null) // this is kinda implied
             {
                 continue;
             }
@@ -403,18 +477,12 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             // Okay so if the marking prototype is modified but we load old marking data this may no longer be valid
             // and we need to check the index is correct.
             // So if that happens just default to white?
-            if (colors != null && j < colors.Count)
-            {
-                _sprite.LayerSetColor((entity.Owner, sprite), layerId, colors[j]);
-            }
-            else
-            {
-                _sprite.LayerSetColor((entity.Owner, sprite), layerId, Color.White);
-            }
+            var color = colorDict.TryGetValue(rsi.RsiState, out var targetColor) ? targetColor : Color.White;
+            _sprite.LayerSetColor((entity.Owner, sprite), layerId, color);
 
             if (humanoid.MarkingsDisplacement.TryGetValue(markingPrototype.BodyPart, out var displacementData) && markingPrototype.CanBeDisplaced)
             {
-                _displacement.TryAddDisplacement(displacementData, (entity.Owner, sprite), targetLayer + j + 1, layerId, out _);
+                _displacement.TryAddDisplacement(displacementData, (entity.Owner, sprite), targLayerAdj + 1, layerId, out _);
             }
         }
     }
@@ -470,7 +538,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             foreach (var marking in markingList)
             {
                 if (_markingManager.TryGetMarking(marking, out var markingPrototype) && markingPrototype.BodyPart == layer)
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite));
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScale, marking.MarkingOffset);
             }
         }
     }

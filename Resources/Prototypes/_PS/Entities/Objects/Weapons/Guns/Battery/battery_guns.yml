@@ -1,0 +1,90 @@
+- type: entity
+  name: Caspian svalinn 770
+  parent: [NFWeaponEnergyPistolLaserSvalinn, BaseC3Contraband]
+  id: NFWeaponEnergyPistolLaserSvalinnCaspian
+  description: Although it's usual model is a cheap and mass produced pistol, this one appears to be a unique special edition that fixes many of the issues of the original, while also increasing the efficiency of the weapon.
+  components:
+  - type: Gun
+    fireRate: 4
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
+  - type: HitscanBatteryAmmoProvider
+    proto: PSXrayLaserCaspian
+    fireCost: 5
+  - type: StaticPrice
+    price: 90000
+
+- type: entity
+  id: NFWeaponEnergyPistolN1984Pulse
+  parent: [NFBaseWeaponEnergyPistolHitScanPulse, BaseWeaponPowerCellSmall, BaseC2ContrabandUnredeemable]
+  name: Pulse N1984
+  description: |-
+    A pulse variant of the N1984 usually employed by officers.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Pistols/N1984.rsi
+    state: base
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/Pistols/N1984.rsi
+  - type: Gun
+    fireRate: 4
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser3.ogg
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left
+      right:
+      - state: inhand-right
+  - type: HitscanBatteryAmmoProvider
+    proto: NFPulse
+    fireCost: 50
+
+- type: entity
+  name: phaser
+  parent: [NFWeaponEnergyPistolLaserSvalinn, BaseC3Contraband]
+  id: NFWeaponEnergyPistolLaserPhaser
+  description: A PHASed Energy Rectification is Starfleet's primary directed-energy weapon, utilizing rapid nadion particles to stun, kill, or vaporize targets, or to cut through materials.
+  components:
+  - type: Gun
+    fireRate: 1
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    soundGunshot:
+      collection: Phaser
+  - type: HitscanBatteryAmmoProvider
+    proto: PhaserLethal
+    fireCost: 5
+  - type: StaticPrice
+    price: 92500
+
+- type: entity
+  id: PSWeaponEnergyHealgun
+  parent: [NFBaseWeaponEnergyRifleHitScan, NFBaseWeaponFrameEnergyRifleNanotrasen, BaseC3Contraband]
+  name: medical gun
+  suffix: Palmtree
+  description: |-
+    This experimental weapon is capable of recovering patients. Effective, albeit slowly.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Battery/pulse_rifle.rsi
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/Battery/pulse_rifle.rsi
+  - type: Gun
+    minAngle: 1.4
+    maxAngle: 7
+    angleIncrease: 0.5
+    angleDecay: 1.7
+    fireRate: 0.8
+    soundGunshot:
+      path: /Audio/_PS/Weapons/healer.ogg
+  - type: HitscanBatteryAmmoProvider
+    proto: HealBeam
+    fireCost: 80

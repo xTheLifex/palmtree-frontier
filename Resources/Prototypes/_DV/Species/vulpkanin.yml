@@ -7,6 +7,9 @@
   defaultSkinTone: "#985629"
   markingLimits: MobVulpkaninMarkingLimits
   dollPrototype: MobVulpkaninDummy
+  kind:
+  - BasicHumanlike
+  - BasicFurry
   skinColoration: Hues
   maleFirstNames: NamesVulpkaninMale
   femaleFirstNames: NamesVulpkaninFemale
@@ -15,6 +18,8 @@
 - type: speciesBaseSprites
   id: MobVulpkaninSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobVulpkaninHead
     Hair: MobHumanoidAnyMarking
     FacialHair: MobHumanoidAnyMarking
@@ -38,6 +43,9 @@
 - type: markingPoints
   id: MobVulpkaninMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

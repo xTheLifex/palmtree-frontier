@@ -7,6 +7,9 @@
   sprites: MobGoblinSprites
   markingLimits: MobGoblinMarkingLimits
   dollPrototype: MobGoblinDummy
+  kind:
+  - BasicHumanlike
+  - BasicFurry
   skinColoration: HumanToned #Possible values: TintedHues, Hues, HumanToned
   maleFirstNames: NamesGoblinFirstMale
   femaleFirstNames: NamesGoblinFirstFemale
@@ -15,6 +18,8 @@
 - type: speciesBaseSprites
   id: MobGoblinSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobGoblinHead
     Hair: MobHumanoidAnyMarking
     FacialHair: MobHumanoidAnyMarking
@@ -38,6 +43,9 @@
 - type: markingPoints
   id: MobGoblinMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

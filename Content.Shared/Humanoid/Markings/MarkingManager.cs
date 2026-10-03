@@ -63,16 +63,18 @@ namespace Content.Shared.Humanoid.Markings
         {
             var speciesProto = _prototypeManager.Index<SpeciesPrototype>(species);
             var markingPoints = _prototypeManager.Index(speciesProto.MarkingPoints);
+            var onlyWhitelisted = markingPoints.OnlyWhitelisted
+                || (markingPoints.Points.TryGetValue(category, out var categoryPoints) && categoryPoints.OnlyWhitelisted);
             var res = new Dictionary<string, MarkingPrototype>();
 
             foreach (var (key, marking) in MarkingsByCategory(category))
             {
-                if ((markingPoints.OnlyWhitelisted || markingPoints.Points[category].OnlyWhitelisted) && marking.SpeciesRestrictions == null)
+                if (onlyWhitelisted && marking.SpeciesRestrictions == null && marking.KindAllowance == null)
                 {
                     continue;
                 }
 
-                if (marking.SpeciesRestrictions != null && !marking.SpeciesRestrictions.Contains(species))
+                if (!IsAllowedBySpeciesOrKindAllowance(speciesProto, marking))
                 {
                     continue;
                 }
@@ -130,12 +132,12 @@ namespace Content.Shared.Humanoid.Markings
 
             foreach (var (key, marking) in MarkingsByCategory(category))
             {
-                if (onlyWhitelisted && marking.SpeciesRestrictions == null)
+                if (onlyWhitelisted && marking.SpeciesRestrictions == null && marking.KindAllowance == null)
                 {
                     continue;
                 }
 
-                if (marking.SpeciesRestrictions != null && !marking.SpeciesRestrictions.Contains(species))
+                if (!IsAllowedBySpeciesOrKindAllowance(speciesProto, marking))
                 {
                     continue;
                 }
@@ -157,6 +159,31 @@ namespace Content.Shared.Humanoid.Markings
         }
 
         /// <summary>
+        /// Palmtree/Floof: checks whether a marking is allowed for a species, either directly through
+        /// <see cref="MarkingPrototype.SpeciesRestrictions"/> or through a shared
+        /// <see cref="SpeciesPrototype.Kind"/> / <see cref="MarkingPrototype.KindAllowance"/> match.
+        /// </summary>
+        public static bool IsAllowedBySpeciesOrKindAllowance(SpeciesPrototype speciesProto, MarkingPrototype marking)
+        {
+            if (marking.SpeciesRestrictions == null)
+                return true; // no restrictions, so it's allowed
+
+            if (marking.SpeciesRestrictions.Contains(speciesProto.ID))
+                return true; // species is explicitly allowed
+
+            if (marking.KindAllowance == null || speciesProto.Kind == null)
+                return false;
+
+            return marking.KindAllowance.Any(kind => speciesProto.Kind.Contains(kind));
+        }
+
+        private bool IsAllowedBySpeciesOrKindAllowance(string species, MarkingPrototype marking)
+        {
+            var speciesProto = _prototypeManager.Index<SpeciesPrototype>(species);
+            return IsAllowedBySpeciesOrKindAllowance(speciesProto, marking);
+        }
+
+        /// <summary>
         ///     Check if a marking is valid according to the category, species, and current data this marking has.
         /// </summary>
         /// <param name="marking"></param>
@@ -172,7 +199,7 @@ namespace Content.Shared.Humanoid.Markings
             }
 
             if (proto.MarkingCategory != category ||
-                proto.SpeciesRestrictions != null && !proto.SpeciesRestrictions.Contains(species) ||
+                !IsAllowedBySpeciesOrKindAllowance(_prototypeManager.Index<SpeciesPrototype>(species), proto) ||
                 proto.SexRestriction != null && proto.SexRestriction != sex)
             {
                 return false;
@@ -204,13 +231,12 @@ namespace Content.Shared.Humanoid.Markings
                 return false;
             }
 
-            if (onlyWhitelisted && prototype.SpeciesRestrictions == null)
+            if (onlyWhitelisted && prototype.SpeciesRestrictions == null && prototype.KindAllowance == null)
             {
                 return false;
             }
 
-            if (prototype.SpeciesRestrictions != null
-                && !prototype.SpeciesRestrictions.Contains(species))
+            if (!IsAllowedBySpeciesOrKindAllowance(speciesProto, prototype))
             {
                 return false;
             }
@@ -230,13 +256,12 @@ namespace Content.Shared.Humanoid.Markings
             var speciesProto = prototypeManager.Index<SpeciesPrototype>(species);
             var onlyWhitelisted = prototypeManager.Index(speciesProto.MarkingPoints).OnlyWhitelisted;
 
-            if (onlyWhitelisted && prototype.SpeciesRestrictions == null)
+            if (onlyWhitelisted && prototype.SpeciesRestrictions == null && prototype.KindAllowance == null)
             {
                 return false;
             }
 
-            if (prototype.SpeciesRestrictions != null &&
-                !prototype.SpeciesRestrictions.Contains(species))
+            if (!IsAllowedBySpeciesOrKindAllowance(speciesProto, prototype))
             {
                 return false;
             }

@@ -1,0 +1,18 @@
+- type: entity
+  parent: BaseAction
+  id: ActionToggleConcealment
+  name: Toggle Concealment
+  description: Toggles your piece of clothing from being visible
+  components:
+  - type: Action
+    icon: Interface/Emotes/weh.png
+    iconOn: Interface/Default/blocked.png
+    useDelay: 1
+  - type: InstantAction
+    event: !type:ToggleClothingConcealmentEvent
+
+- type: entity
+  parent: ActionToggleConcealment
+  id: ActionToggleConcealmentBackpack
+  name: Toggle Backpack
+  description: Toggles the visibility of your backpack

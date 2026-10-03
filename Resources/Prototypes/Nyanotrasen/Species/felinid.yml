@@ -6,11 +6,16 @@
   sprites: MobHumanSprites
   markingLimits: MobFelinidMarkingLimits
   dollPrototype: MobFelinidDummy
+  kind:
+  - BasicFurry
   skinColoration: HumanToned
 
 - type: markingPoints
   id: MobFelinidMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

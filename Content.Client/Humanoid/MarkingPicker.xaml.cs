@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Numerics;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
@@ -29,6 +30,12 @@ public sealed partial class MarkingPicker : Control
     public Action<MarkingSet>? OnMarkingRankChange;
 
     private List<Color> _currentMarkingColors = new();
+
+    // Palmtree/Coyote Start: advanced marking editor
+    private float _currentMarkingScale = 1.0f;
+    private float _currentMarkingOffsetX;
+    private float _currentMarkingOffsetY;
+    // Palmtree/Coyote End
 
     private ItemList.Item? _selectedMarking;
     private ItemList.Item? _selectedUnusedMarking;
@@ -443,8 +450,214 @@ public sealed partial class MarkingPicker : Control
             colorSelector.OnColorChanged += colorChanged;
         }
 
+        // Palmtree/Coyote Start: advanced marking editor (scale + offset)
+        var selectedMarkingIndex = _currentMarkings.FindIndexOf(_selectedMarkingCategory, prototype.ID);
+        if (selectedMarkingIndex >= 0)
+        {
+            var selectedMarking = _currentMarkings.Markings[_selectedMarkingCategory][selectedMarkingIndex];
+            _currentMarkingScale = selectedMarking.MarkingScale;
+            _currentMarkingOffsetX = selectedMarking.MarkingOffset.X;
+            _currentMarkingOffsetY = selectedMarking.MarkingOffset.Y;
+            CMarkingColors.AddChild(BuildTransformControls());
+        }
+        // Palmtree/Coyote End
+
         CMarkingColors.Visible = true;
     }
+
+    // Palmtree/Coyote Start: advanced marking editor
+    private Control BuildTransformControls()
+    {
+        var transformButton = new Button
+        {
+            Text = Loc.GetString("marking-adjust-scale-text"),
+        };
+
+        var transformBox = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Vertical,
+            Visible = false,
+        };
+
+        var scaleRow = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 8,
+        };
+        var offsetXRow = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 8,
+        };
+        var offsetYRow = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 8,
+        };
+
+        var scaleSlider = new Slider
+        {
+            HorizontalExpand = true,
+            MinValue = 0.25f,
+            MaxValue = 3.0f,
+            Rounded = false,
+        };
+        var offsetXSlider = new Slider
+        {
+            HorizontalExpand = true,
+            MinValue = -1.0f,
+            MaxValue = 1.0f,
+            Rounded = false,
+        };
+        var offsetYSlider = new Slider
+        {
+            HorizontalExpand = true,
+            MinValue = -1.0f,
+            MaxValue = 1.0f,
+            Rounded = false,
+        };
+        var scaleValueBox = new SpinBox
+        {
+            MinSize = new Vector2(56f, 0f),
+            IsValid = value => value is >= 25 and <= 300,
+        };
+        var offsetXValueBox = new SpinBox
+        {
+            MinSize = new Vector2(56f, 0f),
+            IsValid = value => value is >= -100 and <= 100,
+        };
+        var offsetYValueBox = new SpinBox
+        {
+            MinSize = new Vector2(56f, 0f),
+            IsValid = value => value is >= -100 and <= 100,
+        };
+        scaleValueBox.InitDefaultButtons();
+        offsetXValueBox.InitDefaultButtons();
+        offsetYValueBox.InitDefaultButtons();
+
+        var settingScaleFromInput = false;
+        var settingScaleFromSlider = false;
+        var settingOffsetFromInput = false;
+        var settingOffsetFromSlider = false;
+
+        var initialScale = Math.Clamp(_currentMarkingScale, 0.25f, 3.0f);
+        scaleSlider.SetValueWithoutEvent(initialScale);
+        scaleValueBox.Value = (int)MathF.Round(initialScale * 100f);
+
+        var initialOffsetX = Math.Clamp(_currentMarkingOffsetX, -1.0f, 1.0f);
+        var initialOffsetY = Math.Clamp(_currentMarkingOffsetY, -1.0f, 1.0f);
+        offsetXSlider.SetValueWithoutEvent(initialOffsetX);
+        offsetYSlider.SetValueWithoutEvent(initialOffsetY);
+        offsetXValueBox.Value = (int)MathF.Round(initialOffsetX * 100f);
+        offsetYValueBox.Value = (int)MathF.Round(initialOffsetY * 100f);
+
+        scaleSlider.OnValueChanged += _ =>
+        {
+            if (settingScaleFromInput)
+                return;
+
+            settingScaleFromSlider = true;
+            _currentMarkingScale = Math.Clamp(scaleSlider.Value, 0.25f, 3.0f);
+            scaleValueBox.Value = (int)MathF.Round(_currentMarkingScale * 100f);
+            TransformChanged();
+            settingScaleFromSlider = false;
+        };
+
+        scaleValueBox.ValueChanged += _ =>
+        {
+            if (settingScaleFromSlider)
+                return;
+
+            settingScaleFromInput = true;
+            var clampedPercent = Math.Clamp(scaleValueBox.Value, 25, 300);
+            _currentMarkingScale = clampedPercent / 100f;
+            scaleSlider.SetValueWithoutEvent(_currentMarkingScale);
+            TransformChanged();
+            settingScaleFromInput = false;
+        };
+
+        void UpdateOffsetsFromSliders()
+        {
+            if (settingOffsetFromInput)
+                return;
+
+            settingOffsetFromSlider = true;
+            _currentMarkingOffsetX = Math.Clamp(offsetXSlider.Value, -1.0f, 1.0f);
+            _currentMarkingOffsetY = Math.Clamp(offsetYSlider.Value, -1.0f, 1.0f);
+
+            offsetXValueBox.Value = (int)MathF.Round(_currentMarkingOffsetX * 100f);
+            offsetYValueBox.Value = (int)MathF.Round(_currentMarkingOffsetY * 100f);
+
+            TransformChanged();
+            settingOffsetFromSlider = false;
+        }
+
+        void UpdateOffsetsFromBoxes()
+        {
+            if (settingOffsetFromSlider)
+                return;
+
+            settingOffsetFromInput = true;
+
+            _currentMarkingOffsetX = Math.Clamp(offsetXValueBox.Value, -100, 100) / 100f;
+            _currentMarkingOffsetY = Math.Clamp(offsetYValueBox.Value, -100, 100) / 100f;
+
+            offsetXSlider.SetValueWithoutEvent(_currentMarkingOffsetX);
+            offsetYSlider.SetValueWithoutEvent(_currentMarkingOffsetY);
+
+            TransformChanged();
+            settingOffsetFromInput = false;
+        }
+
+        offsetXSlider.OnValueChanged += _ => UpdateOffsetsFromSliders();
+        offsetYSlider.OnValueChanged += _ => UpdateOffsetsFromSliders();
+        offsetXValueBox.ValueChanged += _ => UpdateOffsetsFromBoxes();
+        offsetYValueBox.ValueChanged += _ => UpdateOffsetsFromBoxes();
+
+        transformButton.OnPressed += _ =>
+        {
+            transformBox.Visible = !transformBox.Visible;
+        };
+
+        scaleRow.AddChild(new Label { Text = Loc.GetString("marking-scale-label") });
+        scaleRow.AddChild(scaleSlider);
+        scaleRow.AddChild(scaleValueBox);
+        offsetXRow.AddChild(new Label { Text = Loc.GetString("marking-offset-x-label") });
+        offsetXRow.AddChild(offsetXSlider);
+        offsetXRow.AddChild(offsetXValueBox);
+        offsetYRow.AddChild(new Label { Text = Loc.GetString("marking-offset-y-label") });
+        offsetYRow.AddChild(offsetYSlider);
+        offsetYRow.AddChild(offsetYValueBox);
+
+        transformBox.AddChild(scaleRow);
+        transformBox.AddChild(offsetXRow);
+        transformBox.AddChild(offsetYRow);
+
+        var container = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Vertical,
+        };
+        container.AddChild(transformButton);
+        container.AddChild(transformBox);
+        return container;
+    }
+
+    private void TransformChanged()
+    {
+        if (_selectedMarking is null) return;
+        var markingPrototype = (MarkingPrototype)_selectedMarking.Metadata!;
+        int markingIndex = _currentMarkings.FindIndexOf(_selectedMarkingCategory, markingPrototype.ID);
+
+        if (markingIndex < 0) return;
+
+        var marking = new Marking(_currentMarkings.Markings[_selectedMarkingCategory][markingIndex]);
+        marking.SetScale(_currentMarkingScale);
+        marking.SetOffset(_currentMarkingOffsetX, _currentMarkingOffsetY);
+        _currentMarkings.Replace(_selectedMarkingCategory, markingIndex, marking);
+
+        OnMarkingColorChange?.Invoke(_currentMarkings);
+    }
+    // Palmtree/Coyote End
 
     private void ColorChanged(int colorIndex)
     {

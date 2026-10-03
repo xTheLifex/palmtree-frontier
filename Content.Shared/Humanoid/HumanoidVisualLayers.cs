@@ -12,6 +12,7 @@ namespace Content.Shared.Humanoid
         FacialHair,
         UndergarmentTop,
         UndergarmentBottom,
+        Genital, // Palmtree: genital markings layer
         Chest,
         Head,
         Snout,
@@ -27,6 +28,7 @@ namespace Content.Shared.Humanoid
         LLeg,
         RFoot,
         LFoot,
+        TailBehind, // Palmtree: markings that render behind the body (ported from Floof/Coyote)
         Handcuffs,
         StencilMask,
         Ensnare,

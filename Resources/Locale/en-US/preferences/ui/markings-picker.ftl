@@ -24,8 +24,15 @@ markings-category-Snout = Snout
 markings-category-SnoutCover = Snout (Cover)
 markings-category-UndergarmentTop = Undergarment (Top)
 markings-category-UndergarmentBottom = Undergarment (Bottom)
+markings-category-Genital = Genitals
 markings-category-Chest = Chest
 markings-category-Arms = Arms
 markings-category-Legs = Legs
 markings-category-Tail = Tail
 markings-category-Overlay = Overlay
+
+# Palmtree: advanced marking editor
+marking-adjust-scale-text = Adjust position/size
+marking-scale-label = Size:
+marking-offset-x-label = Offset X:
+marking-offset-y-label = Offset Y:

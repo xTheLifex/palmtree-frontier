@@ -7,6 +7,8 @@
   defaultSkinTone: "#cdb369"
   markingLimits: MobDionaMarkingLimits
   dollPrototype: MobDionaDummy
+  kind:
+  - BasicHumanlike
   skinColoration: Hues
   maleFirstNames: NamesDionaFirst
   femaleFirstNames: NamesDionaFirst
@@ -16,6 +18,8 @@
 - type: speciesBaseSprites
   id: MobDionaSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobDionaHead
     HeadTop: MobHumanoidAnyMarking
     HeadSide: MobHumanoidAnyMarking
@@ -36,6 +40,9 @@
   id: MobDionaMarkingLimits
   onlyWhitelisted: true
   points:
+    Genital:
+      points: 35
+      required: false
     Head:
       points: 2
       required: false

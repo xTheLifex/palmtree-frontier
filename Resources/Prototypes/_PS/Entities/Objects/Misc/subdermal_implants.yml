@@ -1,0 +1,20 @@
+- type: entity
+  parent: BaseSubdermalImplant
+  id: ClothingConcealmentImplant
+  abstract: true
+  name: concealment implant
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ConcealableClothingImplant
+
+- type: entity
+  parent: ClothingConcealmentImplant
+  id: ClothingConcealmentImplantBackpack
+  name: dorsualiphobic augmentation implant
+  description: |-
+    You despise the idea of being seen wearing any type of back-mounted storage apparatus!
+    A new technology shields you from the immense shame you may experience, by hiding your equipped backpack.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ConcealableClothingImplant
+    category: backpack

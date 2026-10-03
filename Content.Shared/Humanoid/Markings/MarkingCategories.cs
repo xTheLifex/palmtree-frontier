@@ -16,6 +16,7 @@ namespace Content.Shared.Humanoid.Markings
         Chest,
         UndergarmentTop,
         UndergarmentBottom,
+        Genital, // Palmtree: genital markings category
         Arms,
         Legs,
         Tail,
@@ -38,6 +39,7 @@ namespace Content.Shared.Humanoid.Markings
                 HumanoidVisualLayers.Chest => MarkingCategories.Chest,
                 HumanoidVisualLayers.UndergarmentTop => MarkingCategories.UndergarmentTop,
                 HumanoidVisualLayers.UndergarmentBottom => MarkingCategories.UndergarmentBottom,
+                HumanoidVisualLayers.Genital => MarkingCategories.Genital, // Palmtree
                 HumanoidVisualLayers.RArm => MarkingCategories.Arms,
                 HumanoidVisualLayers.LArm => MarkingCategories.Arms,
                 HumanoidVisualLayers.RHand => MarkingCategories.Arms,

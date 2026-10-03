@@ -7,6 +7,8 @@
   defaultSkinTone: "#34a223"
   markingLimits: MobReptilianMarkingLimits
   dollPrototype: MobReptilianDummy
+  kind:
+  - BasicFurry
   skinColoration: Hues
   maleFirstNames: NamesReptilianMale
   femaleFirstNames: NamesReptilianFemale
@@ -15,6 +17,8 @@
 - type: speciesBaseSprites
   id: MobReptilianSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobReptilianHead
     Snout: MobHumanoidAnyMarking
     UndergarmentTop: MobHumanoidAnyMarking
@@ -37,6 +41,9 @@
   id: MobReptilianMarkingLimits
   onlyWhitelisted: true
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 0
       required: false

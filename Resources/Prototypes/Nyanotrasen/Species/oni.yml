@@ -4,6 +4,8 @@
   roundStart: true
   prototype: MobOni
   dollPrototype: MobOniDummy
+  kind:
+  - BasicHumanlike
   markingLimits: MobOniMarkingLimits
   sprites: MobHumanSprites
   skinColoration: Hues
@@ -15,6 +17,9 @@
 - type: markingPoints
   id: MobOniMarkingLimits
   points:
+    Genital:
+      points: 35
+      required: false
     Hair:
       points: 1
       required: false

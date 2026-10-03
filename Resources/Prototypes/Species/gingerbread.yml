@@ -6,12 +6,16 @@
   sprites: MobGingerbreadSprites
   markingLimits: MobHumanMarkingLimits
   dollPrototype: MobGingerbreadDummy
+  kind:
+  - BasicHumanlike
   skinColoration: HumanToned
   defaultSkinTone: "#9a7c5a"
 
 - type: speciesBaseSprites
   id: MobGingerbreadSprites
   sprites:
+    Genital: MobHumanoidAnyMarking
+    TailBehind: MobHumanoidAnyMarking
     Head: MobGingerbreadHead
     HeadTop: MobHumanoidAnyMarking
     HeadSide: MobHumanoidAnyMarking
