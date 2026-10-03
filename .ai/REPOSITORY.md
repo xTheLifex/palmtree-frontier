@@ -61,7 +61,7 @@ It runs on the **RobustToolbox** engine, vendored as a git submodule. The engine
 | `Resources/` | Prototypes, maps, locale, textures, audio, configs, changelogs |
 | `Tools/` | Build/publish/changelog scripts |
 | `RobustToolbox/` | Engine submodule (never modify) |
-| `PORTING/` | **Untracked** audit folder from an earlier full-port attempt; not part of the build. See `.ai/PORTING.md`. |
+| `PORTING/` | Removed from the working tree; the earlier full-port attempt lives on the `port`/`port-wip` branches. See `.ai/PORTING.md`. |
 
 ## Solution projects
 

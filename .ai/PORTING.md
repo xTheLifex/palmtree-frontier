@@ -1,9 +1,9 @@
 # PORTING — Coyote/Floof → Palmtree (Frontier)
 
 > This document records what was ported from the old `coyote-frontier` checkout into this repository,
-> what was deliberately left out, why, and how to port more. It complements the untracked `PORTING/`
-> folder, which contains the audit logs of an earlier **full merge attempt** that was abandoned in
-> favor of a targeted port.
+> what was deliberately left out, why, and how to port more. The earlier full-merge attempt left
+> audit logs that were removed from the working tree; its decision history is preserved in this
+> document and on the `port`/`port-wip` branches (which still track a few `PORTING/*.md` files).
 
 ## 1. Background
 
@@ -11,8 +11,9 @@
   Palmtree (`_PS`). Frozen since Coyote was abandoned in 2026.
 - New base: this repo, Frontier Station @ 2026-10-03 (`df24c19f08`) + Palmtree branch `ps-erp`.
 - An earlier attempt merged the **entire** Coyote tree into Frontier (11,722 changed files, 1,347
-  conflicts). It is preserved on the `port`/`port-wip` branches and the untracked `PORTING/` folder
-  (`summary.md`, `conflicts.md`, `pending-patches/`, etc.). It is reference material only.
+  conflicts). It is preserved on the `port`/`port-wip` branches (a few `PORTING/*.md` audit files are
+  tracked there; most of the audit folder was removed from the working tree). It is reference
+  material only.
 - The current approach is **targeted**: only the requested features are ported, using additive
   changes to Frontier code where possible, and adapting old content to 2026 APIs.
 

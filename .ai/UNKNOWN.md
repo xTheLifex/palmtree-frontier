@@ -11,9 +11,10 @@ Questions that could not be answered confidently from the working tree. Treat th
    in-repo.
 3. **Postgres in production?** SQLite is the code default; no evidence either way in-repo.
 4. **`identifier.sqlite`** (0 bytes, tracked): origin and intended use unknown; referenced nowhere.
-5. **`PORTING/`** is an untracked leftover from the abandoned full-port attempt. Whether the
-   maintainer wants to keep it, archive it, or delete it is unknown; it must not be committed by
-   accident.
+5. **`PORTING/`** was the audit folder of the abandoned full-port attempt. Most of it was removed
+   from the working tree; only a few `PORTING/*.md` files are tracked on the `port`/`port-wip`
+   branches. Whether the maintainer wants anything else preserved is unknown; `.ai/PORTING.md`
+   captures the decisions.
 
 ## Ported-content behavior
 

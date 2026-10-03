@@ -171,6 +171,7 @@ added to `markings-picker.ftl`; the duplicate was removed).
 ## 17. Stray repository artifacts
 
 - `identifier.sqlite` — 0-byte tracked file at repo root, referenced nowhere.
-- `PORTING/` — untracked audit folder from the abandoned full-port attempt. It is not part of the
-  build; do not add it to commits accidentally (it contains hundreds of patch files).
+- `PORTING/` — remnant of the abandoned full-port audit. Most of it was removed from the working
+  tree; the decision history is in `.ai/PORTING.md` and the `port`/`port-wip` branches. Do not add it
+  to commits accidentally if it reappears.
 - `Resources/manifest.yml` window title/logo may not match Palmtree branding.
