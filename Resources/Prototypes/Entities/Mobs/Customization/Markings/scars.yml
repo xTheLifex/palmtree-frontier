@@ -3,6 +3,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, SlimePerson, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -13,6 +14,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, SlimePerson, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -23,6 +25,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Arachnid, Diona, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sexRestriction: [Male]
   followSkinColor: true
   sprites:
@@ -34,6 +37,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Arachnid, Diona, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sexRestriction: [Male]
   followSkinColor: true
   sprites:
@@ -45,6 +49,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Arachnid, Diona, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -55,6 +60,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -65,6 +71,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Arachnid, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -75,6 +82,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Arachnid, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -85,6 +93,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -95,6 +104,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Moth, Goblin, Sheleg, Felinid, Harpy, Oni, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -105,6 +115,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi
@@ -115,6 +126,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: true
   sprites:
   - sprite: Mobs/Customization/scars.rsi

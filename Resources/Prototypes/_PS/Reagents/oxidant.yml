@@ -1,0 +1,15 @@
+- type: reagent
+  id: Oxidant
+  name: reagent-name-oxidant
+  group: Toxins
+  desc: reagent-desc-oxidant
+  physicalDesc: reagent-physical-desc-ferrous
+  color: "#5c0000" # Noticeably darker than actual blood.
+  worksOnTheDead: true
+  metabolisms:
+    Poison:
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 3.5

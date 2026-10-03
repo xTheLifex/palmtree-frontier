@@ -3,6 +3,7 @@
   bodyPart: LArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -18,6 +19,7 @@
   bodyPart: LArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -28,6 +30,7 @@
   bodyPart: RArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -43,6 +46,7 @@
   bodyPart: RArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -53,6 +57,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -63,6 +68,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -73,6 +79,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -83,6 +90,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -93,6 +101,7 @@
   bodyPart: LFoot
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -108,6 +117,7 @@
   bodyPart: RFoot
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -123,6 +133,7 @@
   bodyPart: LHand
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -138,6 +149,7 @@
   bodyPart: LHand
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -148,6 +160,7 @@
   bodyPart: RHand
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -163,6 +176,7 @@
   bodyPart: RHand
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -173,6 +187,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -183,6 +198,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Human, Dwarf, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -193,6 +209,7 @@
   bodyPart: LLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -208,6 +225,7 @@
   bodyPart: LLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -218,6 +236,7 @@
   bodyPart: RLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   coloring:
     default:
@@ -233,6 +252,7 @@
   bodyPart: RLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi
@@ -243,6 +263,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Reptilian, SlimePerson, Arachnid, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   followSkinColor: false
   sprites:
   - sprite: _Impstation/Mobs/Customization/scars.rsi

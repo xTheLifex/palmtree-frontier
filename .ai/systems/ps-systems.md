@@ -73,10 +73,65 @@ Adaptations made when porting (old 2023 prototypes):
 Not ported from `_PS`: turrets, RCD, strobe lighting, shipyard cauterizer, announcement/interaction
 sound collections, custom emotes. See `.ai/PORTING.md`.
 
+## Synth species (IPC replacement)
+
+`Synth` is Palmtree's replacement for the deferred IPC species. It is a humanoid species that uses the
+marking system to look like anything and approximates IPC traits without the Einstein Engines silicon
+stack.
+
+| Piece | Path |
+|---|---|
+| Species + base sprites + marking points | `Resources/Prototypes/_PS/Species/synth.yml` |
+| Mob + dummy | `Resources/Prototypes/_PS/Entities/Mobs/Species/synth.yml` |
+| Player mob | `Resources/Prototypes/_PS/Entities/Mobs/Player/synth.yml` |
+| Body parts (1.5x leg speed) | `Resources/Prototypes/_PS/Body/Parts/synth.yml` |
+| Body prototype | `Resources/Prototypes/_PS/Body/Prototypes/synth.yml` |
+| Damage container + modifier set | `Resources/Prototypes/_PS/Damage/{containers,modifier_sets}.yml` |
+| Coolant reagent | `Resources/Prototypes/_PS/Reagents/oxidant.yml`, locale `_PS/reagents/oxidant.ftl` |
+| Species locale | `Resources/Locale/en-US/_PS/species/synth.ftl` |
+| Test | `Content.IntegrationTests/Tests/_PS/SynthSpeciesTest.cs` |
+
+Properties:
+
+- **1.5x speed**: Synth legs carry `MovementBodyPart walkSpeed: 3.75 / sprintSpeed: 6.75` (human
+  2.5/4.5). The `Body` system derives base speed from leg parts, so this must be done on the parts,
+  not only on the mob's `MovementSpeedModifier`. (Higher values caused client prediction instability.)
+- **3x durability**: `MobThresholds` 300 Critical / 600 Dead (human 100/200); `SlowOnDamage` and gib
+  thresholds scaled.
+- **IPC-like**: custom `Synth` damage container (Brute/Burn groups, Radiation/Bloodloss types),
+  `Synth` damage modifier set (0.8 brute, immune poison/asphyxiation/cold, weak heat/shock),
+  `ZombieImmune`, `CanHostGuardian`, robot typing indicator, insulated temperature, `Oxidant` coolant
+  blood, fixture density 462.5 (heavier, matching IPC).
+- **Silicon parts**: the Synth body uses `_EE/Mobs/Species/IPC/parts.rsi` sprites (robot limbs/head),
+  `Inorganic` damage container on parts, and synthetic organs (`OrganSynthEyes`, `OrganSynthPump`,
+  `OrganSynthBrain`, plus unused `OrganSynthTongue`/`OrganSynthEars`). Base sprites default to the
+  robot look; species-adaptor markings replace them.
+- **No breathing**: `SynthComponent` marks the mob and `RespiratorSystem.Update` skips it, so synths
+  do not gasp or suffocate despite having no lungs.
+- **Digitigrade**: Synth base sprites carry `altSprites` to the `DigilegSynthliz*` markings; the
+  Coyote leg-displacement system (`LegDisplacementPrototype`, `HumanoidAppearanceComponent.LegDisplacements`,
+  `_CS/LegDisplacement.yml`) is ported and wired into `ClientClothingSystem` so jumpsuit/shoes/
+  outerclothing get digileg displacement maps. Leg style is chosen in the marking picker.
+- **Any look**: kinds `BasicHumanlike`/`BasicFurry`/`BasicRobot`/`VoxLike` plus all marking layers
+  and unlimited points, so species-adaptor markings can replace the base robot parts. All
+  species-restricted markings now carry `kindAllowance` (Coyote behavior), so any species can wear
+  them.
+- Sexes: Male/Female/Unsexed.
+- Old exports that reference the removed `IPC` species are automatically imported as Synth
+  (`SharedHumanoidAppearanceSystem.FromStream` fallback).
+
+Dragging: `PullingSystem.OnRefreshMovespeed` was patched so a pulled entity heavier than the puller
+scales the puller's speed down (`clamp(pullerMass / pulledMass, 0.35, 1)`). A Synth (~178 kg vs ~71 kg
+human) slows the puller noticeably; light objects are unaffected.
+
+Differences from old IPCs (by design): no battery/power drain, no radio/encryption holder, no
+`Silicon` component (EMP/battery interactions), no silicon guidebook entry, no tongue/ear organ slots
+in the body prototype.
+
 ## Dependencies
 
 Upstream actions/implants/inventory/equipment visuals, `ContentAudioSystem`/lobby CVar, GameTicker,
-`_NF` contractor loadout groups.
+`_NF` contractor loadout groups, human body parts/organs and marking system.
 
 ## Tests
 

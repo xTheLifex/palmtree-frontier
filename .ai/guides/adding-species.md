@@ -123,7 +123,8 @@ dotnet test Content.IntegrationTests/Content.IntegrationTests.csproj --filter "F
 `EnsureDefault`/default-marking loop overrun. Also check the species appears in the character editor
 and that `legStyle: Digitigrade` renders correctly.
 
-## 8. IPC (special case)
+## 8. IPC / Synth (special case)
 
-Do **not** port IPC via the Einstein Engines silicon stack. It is deferred; see
-`.ai/PORTING.md` §6 for the intended direction (build on upstream `Content.Server/Silicons`).
+Do **not** port IPC via the Einstein Engines silicon stack. Palmtree implemented a replacement
+species, **Synth** (`_PS`), which uses the marking system to look like anything and approximates IPC
+stats; see `.ai/systems/ps-systems.md` and `.ai/PORTING.md` §6.

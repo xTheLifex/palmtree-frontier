@@ -29,11 +29,27 @@ markings-category-Chest = Chest
 markings-category-Arms = Arms
 markings-category-Legs = Legs
 markings-category-Tail = Tail
+markings-category-TailExtras = Tail Extras
 markings-category-Overlay = Overlay
+
+# Palmtree/Floof: base-layer marking categories
+markings-category-BaseChest = Base Chest
+markings-category-BaseHead = Base Head
+markings-category-BaseLArm = Base Arm (left)
+markings-category-BaseLFoot = Base Foot (left)
+markings-category-BaseLHand = Base Hand (left)
+markings-category-BaseLLeg = Base Leg (left)
+markings-category-BaseRArm = Base Arm (right)
+markings-category-BaseRFoot = Base Foot (right)
+markings-category-BaseRHand = Base Hand (right)
+markings-category-BaseRLeg = Base Leg (right)
+markings-category-BaseArms = Base Arms & Hands
+markings-category-BaseLegs = Base Legs & Feet
 
 # Palmtree: advanced marking editor
 marking-adjust-scale-text = Adjust position/size
 marking-scale-label = Size:
 marking-offset-x-label = Offset X:
 marking-offset-y-label = Offset Y:
+marking-glow-label = Glow
 markings-leg-style = Leg Style:

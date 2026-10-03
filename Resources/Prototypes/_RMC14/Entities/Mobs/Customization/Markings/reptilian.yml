@@ -3,6 +3,7 @@
   bodyPart: Tail
   markingCategory: Chest
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/reptilian.rsi
     state: body_dragonwings
@@ -14,6 +15,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_tail_snaketail
@@ -23,6 +25,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_tail_snakedual_primary
@@ -34,6 +37,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_tail_snakestripe_primary
@@ -45,6 +49,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_tail_snakestripealt_primary
@@ -56,6 +61,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_tail_snakeunder_primary
@@ -67,6 +73,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_waggingtail_snaketail
@@ -76,6 +83,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_waggingtail_snakedual_primary
@@ -87,6 +95,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_waggingtail_snakestripe_primary
@@ -98,6 +107,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_waggingtail_snakestripealt_primary
@@ -109,6 +119,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Customization/snake_tail.rsi
     state: m_waggingtail_snakeunder_primary

@@ -3,6 +3,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -17,6 +18,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -31,6 +33,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -45,6 +48,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -59,6 +63,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -73,6 +78,7 @@
   bodyPart: Head
   markingCategory: Head
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -87,6 +93,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:

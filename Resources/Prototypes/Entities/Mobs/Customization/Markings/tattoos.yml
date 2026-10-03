@@ -3,6 +3,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -17,6 +18,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -31,6 +33,7 @@
   bodyPart: LLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -45,6 +48,7 @@
   bodyPart: RLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -59,6 +63,7 @@
   bodyPart: LArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -73,6 +78,7 @@
   bodyPart: RArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -87,6 +93,7 @@
   bodyPart: LLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -101,6 +108,7 @@
   bodyPart: RLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -115,6 +123,7 @@
   bodyPart: Eyes
   markingCategory: Head
   speciesRestriction: [Human, SlimePerson, Reptilian, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -129,6 +138,7 @@
   bodyPart: Eyes
   markingCategory: Head
   speciesRestriction: [Human, SlimePerson, Reptilian, Dwarf, Goblin, Sheleg, Felinid, Oni, Harpy, Vulpkanin] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -143,6 +153,7 @@
   bodyPart: Eyes
   markingCategory: Overlay
   speciesRestriction: [Moth]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -157,6 +168,7 @@
   bodyPart: Eyes
   markingCategory: Overlay
   speciesRestriction: [Moth]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -176,6 +188,7 @@
   bodyPart: Eyes
   markingCategory: Overlay
   speciesRestriction: [Human, SlimePerson, Reptilian, Dwarf]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   forcedColoring: true
   sprites:
   - sprite: Mobs/Customization/tattoos.rsi
@@ -186,6 +199,7 @@
   bodyPart: Eyes
   markingCategory: Overlay
   speciesRestriction: [Human, SlimePerson, Reptilian, Dwarf]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   forcedColoring: true
   sprites:
   - sprite: Mobs/Customization/tattoos.rsi

@@ -23,6 +23,12 @@ namespace Content.Shared.Humanoid.Markings
 
         [DataField("offsetY")]
         private float _markingOffsetY;
+
+        [DataField("glowLevels")]
+        private List<float> _markingGlow = new();
+
+        [DataField("glow")]
+        private float _legacyGlow;
         // Palmtree/Coyote End
 
         private Marking()
@@ -34,6 +40,7 @@ namespace Content.Shared.Humanoid.Markings
         {
             MarkingId = markingId;
             _markingColors = markingColors;
+            _markingGlow = CreateGlowLevels(markingColors.Count);
         }
 
         public Marking(string markingId,
@@ -49,6 +56,7 @@ namespace Content.Shared.Humanoid.Markings
             for (int i = 0; i < colorCount; i++)
                 colors.Add(Color.White);
             _markingColors = colors;
+            _markingGlow = CreateGlowLevels(colorCount);
         }
 
         public Marking(Marking other)
@@ -61,6 +69,8 @@ namespace Content.Shared.Humanoid.Markings
             _markingScale = other._markingScale;
             _markingOffsetX = other._markingOffsetX;
             _markingOffsetY = other._markingOffsetY;
+            _markingGlow = new(other.MarkingGlow);
+            _legacyGlow = other._legacyGlow;
             // Palmtree/Coyote End
         }
 
@@ -71,6 +81,20 @@ namespace Content.Shared.Humanoid.Markings
             for (int i = 0; i < colorCount; i++)
                 colors.Add(Color.White);
             _markingColors = colors;
+            _markingGlow = NormalizeGlowLevels(marking.MarkingGlow, colorCount, marking._legacyGlow);
+        }
+
+        // Palmtree/Coyote: copy a marking with a new color list, preserving scale/offset/glow.
+        public Marking(Marking marking, List<Color> markingColors) : this(marking)
+        {
+            _markingColors = markingColors;
+            _markingGlow = NormalizeGlowLevels(marking.MarkingGlow, markingColors.Count, marking._legacyGlow);
+        }
+
+        public Marking(Marking marking, IReadOnlyList<Color> markingColors) : this(marking)
+        {
+            _markingColors = new(markingColors);
+            _markingGlow = NormalizeGlowLevels(marking.MarkingGlow, _markingColors.Count, marking._legacyGlow);
         }
 
         /// <summary>
@@ -91,6 +115,9 @@ namespace Content.Shared.Humanoid.Markings
 
         [ViewVariables]
         public Vector2 MarkingOffset => new(_markingOffsetX, _markingOffsetY);
+
+        [ViewVariables]
+        public IReadOnlyList<float> MarkingGlow => _markingGlow;
         // Palmtree/Coyote End
 
         /// <summary>
@@ -118,6 +145,16 @@ namespace Content.Shared.Humanoid.Markings
         {
             _markingOffsetX = Math.Clamp(x, -2f, 2f);
             _markingOffsetY = Math.Clamp(y, -2f, 2f);
+        }
+
+        public void SetGlow(int glowIndex, float glow)
+        {
+            if (glowIndex < 0 || glowIndex >= _markingGlow.Count)
+                return;
+
+            var normalizedGlow = Math.Clamp(glow, 0f, 1f);
+            _markingGlow[glowIndex] = normalizedGlow;
+            _legacyGlow = normalizedGlow;
         }
         // Palmtree/Coyote End
 
@@ -155,6 +192,7 @@ namespace Content.Shared.Humanoid.Markings
             }
             return MarkingId.Equals(other.MarkingId)
                 && _markingColors.SequenceEqual(other._markingColors)
+                && _markingGlow.SequenceEqual(other._markingGlow)
                 && Visible.Equals(other.Visible)
                 && Forced.Equals(other.Forced)
                 // Palmtree/Coyote Start
@@ -186,13 +224,20 @@ namespace Content.Shared.Humanoid.Markings
             var result = $"{sanitizedName}@{String.Join(',', colorStringList)}";
 
             // Palmtree/Coyote: append advanced editor data only when it differs from defaults,
-            // so old saved strings remain valid.
+            // so old saved strings remain valid. The glow segment is prefixed with 'g' so it is
+            // distinguishable from the transform segment.
             if (_markingScale != 1.0f || _markingOffsetX != 0f || _markingOffsetY != 0f)
             {
                 result += "@"
                     + _markingScale.ToString(CultureInfo.InvariantCulture) + ","
                     + _markingOffsetX.ToString(CultureInfo.InvariantCulture) + ","
                     + _markingOffsetY.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (_markingGlow.Any(glow => glow > 0f))
+            {
+                result += "@g" + String.Join(',', _markingGlow.Select(
+                    glow => glow.ToString(CultureInfo.InvariantCulture)));
             }
 
             return result;
@@ -202,7 +247,7 @@ namespace Content.Shared.Humanoid.Markings
         {
             if (input.Length == 0) return null;
             var split = input.Split('@');
-            if (split.Length is < 2 or > 3) return null;
+            if (split.Length is < 2 or > 4) return null;
             List<Color> colorList = new();
             foreach (string color in split[1].Split(','))
                 colorList.Add(Color.FromHex(color));
@@ -210,7 +255,8 @@ namespace Content.Shared.Humanoid.Markings
             var marking = new Marking(split[0], colorList);
 
             // Palmtree/Coyote: optional advanced editor data.
-            if (split.Length == 3)
+            var nextSegment = 2;
+            if (split.Length > 2 && !split[2].StartsWith('g'))
             {
                 var transform = split[2].Split(',');
                 if (transform.Length == 3
@@ -221,9 +267,49 @@ namespace Content.Shared.Humanoid.Markings
                     marking.SetScale(scale);
                     marking.SetOffset(offsetX, offsetY);
                 }
+
+                nextSegment = 3;
+            }
+
+            if (split.Length > nextSegment && split[nextSegment].StartsWith('g'))
+            {
+                var glowValues = split[nextSegment][1..].Split(',');
+                for (var i = 0; i < glowValues.Length; i++)
+                {
+                    if (float.TryParse(glowValues[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var glow))
+                        marking.SetGlow(i, glow);
+                }
             }
 
             return marking;
+        }
+
+        // Palmtree/Coyote: glow helpers.
+        private static List<float> CreateGlowLevels(int count)
+        {
+            var glowLevels = new List<float>(count);
+            for (var i = 0; i < count; i++)
+            {
+                glowLevels.Add(0f);
+            }
+
+            return glowLevels;
+        }
+
+        private static List<float> NormalizeGlowLevels(IEnumerable<float>? source, int count, float fallback)
+        {
+            var normalizedFallback = Math.Clamp(fallback, 0f, 1f);
+            var sourceList = source?.Select(value => Math.Clamp(value, 0f, 1f)).ToList() ?? new List<float>();
+
+            if (sourceList.Count > count)
+                sourceList.RemoveRange(count, sourceList.Count - count);
+
+            while (sourceList.Count < count)
+            {
+                sourceList.Add(normalizedFallback);
+            }
+
+            return sourceList;
         }
     }
 }

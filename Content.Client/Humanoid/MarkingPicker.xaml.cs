@@ -31,6 +31,7 @@ public sealed partial class MarkingPicker : Control
     public Action<HumanoidLegStyle>? OnLegStyleChanged; // Palmtree/Coyote
 
     private List<Color> _currentMarkingColors = new();
+    private List<float> _currentMarkingGlow = new(); // Palmtree/Coyote: glow
 
     // Palmtree/Coyote Start: advanced marking editor
     private float _currentMarkingScale = 1.0f;
@@ -447,6 +448,7 @@ public sealed partial class MarkingPicker : Control
 
         var stateNames = GetMarkingStateNames(prototype);
         _currentMarkingColors.Clear();
+        _currentMarkingGlow.Clear(); // Palmtree/Coyote
         CMarkingColors.DisposeAllChildren();
         List<ColorSelectorSliders> colorSliders = new();
         for (int i = 0; i < prototype.Sprites.Count; i++)
@@ -466,8 +468,9 @@ public sealed partial class MarkingPicker : Control
             colorContainer.AddChild(colorSelector);
 
             var listing = _currentMarkings.Markings[_selectedMarkingCategory];
+            var markingEntry = listing[listing.Count - 1 - item.ItemIndex];
 
-            var color = listing[listing.Count - 1 - item.ItemIndex].MarkingColors[i];
+            var color = markingEntry.MarkingColors[i];
             var currentColor = new Color(
                 color.RByte,
                 color.GByte,
@@ -484,6 +487,67 @@ public sealed partial class MarkingPicker : Control
                 ColorChanged(colorIndex);
             };
             colorSelector.OnColorChanged += colorChanged;
+
+            // Palmtree/Coyote: glow slider for this color.
+            var currentGlow = i < markingEntry.MarkingGlow.Count ? markingEntry.MarkingGlow[i] : 0f;
+            _currentMarkingGlow.Add(Math.Clamp(currentGlow, 0f, 1f));
+            var glowIndex = _currentMarkingGlow.Count - 1;
+
+            var glowRow = new BoxContainer
+            {
+                Orientation = LayoutOrientation.Horizontal,
+                SeparationOverride = 8,
+            };
+            var glowSlider = new Slider
+            {
+                HorizontalExpand = true,
+                MinValue = 0f,
+                MaxValue = 1f,
+                Rounded = false,
+            };
+            var glowValueBox = new SpinBox
+            {
+                MinSize = new Vector2(56f, 0f),
+                IsValid = value => value is >= 0 and <= 100,
+            };
+            glowValueBox.InitDefaultButtons();
+
+            var settingGlowFromInput = false;
+            var settingGlowFromSlider = false;
+            var initialGlow = Math.Clamp(_currentMarkingGlow[glowIndex], 0f, 1f);
+            glowSlider.SetValueWithoutEvent(initialGlow);
+            glowValueBox.Value = (int)MathF.Round(initialGlow * 100f);
+
+            glowSlider.OnValueChanged += _ =>
+            {
+                if (settingGlowFromInput)
+                    return;
+
+                settingGlowFromSlider = true;
+                var normalizedGlow = Math.Clamp(glowSlider.Value, 0f, 1f);
+                _currentMarkingGlow[glowIndex] = normalizedGlow;
+                glowValueBox.Value = (int)MathF.Round(normalizedGlow * 100f);
+                GlowChanged(glowIndex);
+                settingGlowFromSlider = false;
+            };
+
+            glowValueBox.ValueChanged += _ =>
+            {
+                if (settingGlowFromSlider)
+                    return;
+
+                settingGlowFromInput = true;
+                var normalizedGlow = Math.Clamp(glowValueBox.Value, 0, 100) / 100f;
+                _currentMarkingGlow[glowIndex] = normalizedGlow;
+                glowSlider.SetValueWithoutEvent(normalizedGlow);
+                GlowChanged(glowIndex);
+                settingGlowFromInput = false;
+            };
+
+            glowRow.AddChild(new Label { Text = Loc.GetString("marking-glow-label") });
+            glowRow.AddChild(glowSlider);
+            glowRow.AddChild(glowValueBox);
+            colorContainer.AddChild(glowRow);
         }
 
         // Palmtree/Coyote Start: advanced marking editor (scale + offset)
@@ -707,6 +771,22 @@ public sealed partial class MarkingPicker : Control
 
         var marking = new Marking(_currentMarkings.Markings[_selectedMarkingCategory][markingIndex]);
         marking.SetColor(colorIndex, _currentMarkingColors[colorIndex]);
+        _currentMarkings.Replace(_selectedMarkingCategory, markingIndex, marking);
+
+        OnMarkingColorChange?.Invoke(_currentMarkings);
+    }
+
+    // Palmtree/Coyote: updates a marking's glow level for one color.
+    private void GlowChanged(int glowIndex)
+    {
+        if (_selectedMarking is null) return;
+        var markingPrototype = (MarkingPrototype) _selectedMarking.Metadata!;
+        int markingIndex = _currentMarkings.FindIndexOf(_selectedMarkingCategory, markingPrototype.ID);
+
+        if (markingIndex < 0) return;
+
+        var marking = new Marking(_currentMarkings.Markings[_selectedMarkingCategory][markingIndex]);
+        marking.SetGlow(glowIndex, _currentMarkingGlow[glowIndex]);
         _currentMarkings.Replace(_selectedMarkingCategory, markingIndex, marking);
 
         OnMarkingColorChange?.Invoke(_currentMarkings);

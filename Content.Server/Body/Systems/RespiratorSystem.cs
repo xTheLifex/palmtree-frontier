@@ -17,6 +17,7 @@ using Content.Shared.EntityEffects;
 using Content.Shared.EntityEffects.EffectConditions;
 using Content.Shared.EntityEffects.Effects;
 using Content.Shared.Mobs.Systems;
+using Content.Shared._PS.Synth; // Palmtree
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -70,6 +71,10 @@ public sealed class RespiratorSystem : EntitySystem
         var query = EntityQueryEnumerator<RespiratorComponent>();
         while (query.MoveNext(out var uid, out var respirator))
         {
+            // Palmtree: synths are sealed and do not breathe.
+            if (HasComp<SynthComponent>(uid))
+                continue;
+
             if (_gameTiming.CurTime < respirator.NextUpdate)
                 continue;
 

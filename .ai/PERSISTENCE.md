@@ -18,12 +18,14 @@ Markings are stored as a JSON array of strings in `Profile.Markings` (jsonb colu
 `Marking.ToString()`:
 
 ```
-markingId@#rrggbb,#rrggbb,...            # legacy format
-markingId@#rrggbb,#rrggbb,...@1.25,0.1,-0.2   # Palmtree: scale,offsetX,offsetY
+markingId@#rrggbb,#rrggbb,...                       # legacy format
+markingId@#rrggbb,...@1.25,0.1,-0.2                 # Palmtree: scale,offsetX,offsetY
+markingId@#rrggbb,...@1.25,0.1,-0.2@g0.5,1          # Palmtree: + per-color glow levels
 ```
 
-- `Marking.ParseFromDbString` accepts both forms and clamps values.
-- Only non-default transform values are written, keeping old data valid.
+- `Marking.ParseFromDbString` accepts all forms and clamps values.
+- The transform segment is omitted when scale/offset are defaults; the glow segment (prefixed `g`)
+  is omitted when all glows are zero. Old data stays valid.
 - Changing the format requires updating `ToString` and `ParseFromDbString` together.
 
 ## Migrations

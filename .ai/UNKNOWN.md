@@ -18,9 +18,10 @@ Questions that could not be answered confidently from the working tree. Treat th
 
 ## Ported-content behavior
 
-6. **IPC port direction.** The maintainer wants IPCs "ported differently later"; the exact design
-   (upstream silicon/borg systems vs EE stack vs a new robot species) is undecided. See
-   `.ai/PORTING.md` §6.
+6. **IPC direction.** IPC is replaced by the Palmtree **Synth** species (`_PS`), which reuses the
+   marking system and approximates IPC stats without the Einstein Engines silicon stack. Whether a
+   full silicon implementation (battery/radio/EMP) is ever wanted is unknown. See
+   `.ai/systems/ps-systems.md` and `.ai/PORTING.md` §6.
 7. **Consent.** Whether/when the Floof consent system will be ported is undecided. Until then
    `ModifyUndies` is self-only and no consent-gated systems exist.
 8. **Traits.** 46 BodyType/Horny/Scent trait ids from character exports are not ported and are

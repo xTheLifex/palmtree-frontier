@@ -57,6 +57,12 @@ Notable in-place patches added by this port:
 - Species YAML (`Resources/Prototypes/Species/*`, `_DV`, `_NF`, `Nyanotrasen`, `_CS`) — new layers,
   `kind`, `altSprites`.
 - `Resources/Prototypes/_NF/Loadouts/**` — `CoyoteJumpsuit` subgroups and extra loadout entries.
+- `Content.Shared/Movement/Pulling/Systems/PullingSystem.cs` — mass-based pull slowdown for heavy
+  pulled entities (`// Palmtree`).
+- `Content.Server/Body/Systems/RespiratorSystem.cs` — skips entities with `SynthComponent`.
+- `Content.Client/Clothing/ClientClothingSystem.cs` — leg-style displacement override.
+- All species-restricted markings — `kindAllowance` added (914 markings across 39 files), so
+  markings are shared across species kinds like Coyote did.
 
 ## 5. Deliberate namespace collisions for partial classes
 
@@ -139,6 +145,12 @@ added to `markings-picker.ftl`; the duplicate was removed).
   markings; the old consent-gated behavior was intentionally dropped.
 - Base markings (`Base*` categories) hide the species base layer via `HiddenBaseLayers`; the list is
   rebuilt on every `UpdateLayers` and must be recomputed before hiding.
+- Profile application: `SharedHumanoidAppearanceSystem.LoadProfile` must use the
+  `AddMarking(uid, Marking marking, colors, ...)` overload. The `(string, colors)` overload creates a
+  fresh marking and silently drops `scale`, `offset` and `glow` (symptom: editor preview shows the
+  values, in-game they are defaults). Regression test:
+  `Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs`
+  (`ProfileLoadPreservesMarkingTransformAndGlow`).
 
 ## 14. Configuration defaults differ from upstream
 

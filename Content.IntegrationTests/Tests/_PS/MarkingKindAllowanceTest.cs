@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.Preferences;
+using Robust.Shared.GameObjects;
+using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 
 namespace Content.IntegrationTests.Tests._PS;
@@ -38,6 +42,42 @@ public sealed class MarkingKindAllowanceTest
                 set.Markings[markingProto.MarkingCategory].Any(m => m.MarkingId == markingProto.ID),
                 Is.True,
                 "The kind-allowed marking was removed by EnsureSpecies.");
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task ProfileLoadPreservesMarkingTransformAndGlow()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var profile = HumanoidCharacterProfile.DefaultWithSpecies("Human");
+            var marking = new Marking("VulpEarFade", new List<Color> { Color.White, Color.White });
+            marking.SetScale(1.5f);
+            marking.SetOffset(0.1f, -0.2f);
+            marking.SetGlow(0, 0.8f);
+            profile = profile.WithCharacterAppearance(
+                profile.Appearance.WithMarkings(new List<Marking> { marking }));
+
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
+            server.System<SharedHumanoidAppearanceSystem>().LoadProfile(mob, profile, humanoid);
+
+            var loaded = humanoid.MarkingSet.Markings.Values.SelectMany(list => list)
+                .FirstOrDefault(m => m.MarkingId == "VulpEarFade");
+
+            Assert.That(loaded, Is.Not.Null, "The marking was not applied to the mob.");
+            Assert.That(loaded!.MarkingScale, Is.EqualTo(1.5f).Within(0.0001f));
+            Assert.That(loaded.MarkingOffset.X, Is.EqualTo(0.1f).Within(0.0001f));
+            Assert.That(loaded.MarkingGlow[0], Is.EqualTo(0.8f).Within(0.0001f));
+
+            entMan.DeleteEntity(mob);
         });
 
         await pair.CleanReturnAsync();

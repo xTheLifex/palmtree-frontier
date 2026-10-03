@@ -1,0 +1,92 @@
+- type: entity
+  id: BaseSynthOrgan
+  parent: BaseItem
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _EE/Mobs/Species/IPC/organs.rsi
+  - type: Organ
+  - type: SolutionContainerManager
+    solutions:
+      organ:
+        reagents:
+        - ReagentId: Oil
+          Quantity: 10
+
+- type: entity
+  id: OrganSynthEyes
+  parent: BaseSynthOrgan
+  name: robotic eyes
+  description: "01001001 00100000 01110011 01100101 01100101 00100000 01111001 01101111 01110101 00100001"
+  components:
+  - type: Sprite
+    layers:
+    - state: eyeball-l
+    - state: eyeball-r
+  # Hacky fix to let them metabolize anything that isn't handled by the pump.
+  - type: Metabolizer
+    maxReagents: 5
+    metabolizerTypes: [Human]
+    groups:
+    - id: Food
+      rateModifier: 5
+      skipEffects: true
+    - id: Drink
+      rateModifier: 5
+      skipEffects: true
+    - id: Medicine
+      rateModifier: 5
+      skipEffects: true
+    - id: Cryogenic # Frontier
+      rateModifier: 5
+      skipEffects: true
+    - id: Narcotic
+      rateModifier: 5
+      skipEffects: true
+    - id: Alcohol
+      rateModifier: 5
+      skipEffects: true
+    removeEmpty: true
+
+- type: entity
+  id: OrganSynthTongue
+  parent: BaseSynthOrgan
+  name: vocal modulator
+  description: "A vocal modulator, used to produce speech."
+  components:
+  - type: Sprite
+    state: tongue
+
+- type: entity
+  id: OrganSynthEars
+  parent: BaseSynthOrgan
+  name: sonic receptors
+  description: "Receptors used to hear the world around you."
+  components:
+  - type: Sprite
+    state: ears
+
+- type: entity
+  id: OrganSynthPump
+  parent: BaseSynthOrgan
+  name: micro pump
+  description: "A micro pump, used to circulate coolant."
+  components:
+  - type: Sprite
+    state: heart-on
+  # The pump metabolizes poisons that aren't filtered out by other organs.
+  - type: Metabolizer
+    maxReagents: 2
+    metabolizerTypes: [Human]
+    groups:
+    - id: Poison
+    removeEmpty: true
+
+- type: entity
+  id: OrganSynthBrain
+  parent: BaseSynthOrgan
+  name: positronic brain
+  description: "A synthetic brain, the seat of a synth's mind."
+  components:
+  - type: Sprite
+    state: microcell

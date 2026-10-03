@@ -49,6 +49,37 @@ public sealed class MarkingSerializationTest
         Assert.That(parsed!.MarkingId, Is.EqualTo("GenitalVaginaHuman"));
         Assert.That(parsed.MarkingScale, Is.EqualTo(1.0f));
         Assert.That(parsed.MarkingOffset, Is.EqualTo(System.Numerics.Vector2.Zero));
+        Assert.That(parsed.MarkingGlow, Is.Empty.Or.All.EqualTo(0f));
+    }
+
+    [Test]
+    public void DbStringRoundTripGlow()
+    {
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White, Color.Red });
+        marking.SetGlow(0, 0.5f);
+        marking.SetGlow(1, 1f);
+
+        var parsed = Marking.ParseFromDbString(marking.ToString());
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.MarkingGlow[0], Is.EqualTo(0.5f).Within(0.0001f));
+        Assert.That(parsed.MarkingGlow[1], Is.EqualTo(1f).Within(0.0001f));
+    }
+
+    [Test]
+    public void DbStringRoundTripTransformAndGlow()
+    {
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White });
+        marking.SetScale(1.5f);
+        marking.SetOffset(0.25f, -0.5f);
+        marking.SetGlow(0, 0.75f);
+
+        var parsed = Marking.ParseFromDbString(marking.ToString());
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.MarkingScale, Is.EqualTo(1.5f).Within(0.0001f));
+        Assert.That(parsed.MarkingOffset.X, Is.EqualTo(0.25f).Within(0.0001f));
+        Assert.That(parsed.MarkingGlow[0], Is.EqualTo(0.75f).Within(0.0001f));
     }
 
     [Test]

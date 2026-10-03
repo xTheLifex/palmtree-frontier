@@ -1,6 +1,8 @@
 using System.Numerics;
 using Content.Client.DisplacementMap;
+using Content.Shared._CS; // Palmtree/Coyote: leg displacement
 using Content.Shared.CCVar;
+using Content.Shared.DisplacementMap; // Palmtree/Coyote: leg displacement
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
@@ -302,7 +304,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
                 {
                     // Palmtree/Coyote: swap the marking for its alternate-leg-style version if one exists.
                     markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset);
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow);
                     if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
                         applyUndergarmentTop = false;
                     else if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentBottom)
@@ -362,6 +364,14 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
             _sprite.LayerMapRemove(spriteEnt.AsNullable(), layerId);
             _sprite.RemoveLayer(spriteEnt.AsNullable(), index);
+
+            // Palmtree/Coyote: remove the glow companion layer as well.
+            var glowLayerId = $"{layerId}-glow";
+            if (_sprite.LayerMapTryGet(spriteEnt.AsNullable(), glowLayerId, out var glowIndex, false))
+            {
+                _sprite.LayerMapRemove(spriteEnt.AsNullable(), glowLayerId);
+                _sprite.RemoveLayer(spriteEnt.AsNullable(), glowIndex);
+            }
         }
     }
 
@@ -397,7 +407,8 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         Entity<HumanoidAppearanceComponent, SpriteComponent> entity,
         // Palmtree/Coyote Start: advanced marking editor
         float scale = 1.0f,
-        Vector2? offset = null)
+        Vector2? offset = null,
+        IReadOnlyList<float>? glowLevels = null)
         // Palmtree/Coyote End
     {
         var humanoid = entity.Comp1;
@@ -421,12 +432,34 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             colorDict[spriteName] = colors != null && i < colors.Count ? colors[i] : Color.White;
         }
 
+        // Palmtree/Coyote: map sprite states to glow levels.
+        var glowDict = new Dictionary<string, float>();
+        for (var i = 0; i < markingPrototype.Sprites.Count; i++)
+        {
+            var spriteName = markingPrototype.Sprites[i] switch
+            {
+                SpriteSpecifier.Rsi rsi => rsi.RsiState,
+                SpriteSpecifier.Texture texture => texture.TexturePath.Filename,
+                _ => null
+            };
+
+            if (spriteName == null)
+                continue;
+
+            glowDict[spriteName] = glowLevels != null && i < glowLevels.Count
+                ? Math.Clamp(glowLevels[i], 0f, 1f)
+                : 0f;
+        }
+
         if (markingPrototype.ColorLinks != null)
         {
             foreach (var (child, parent) in markingPrototype.ColorLinks)
             {
                 if (colorDict.TryGetValue(parent, out var linkedColor))
                     colorDict[child] = linkedColor;
+
+                if (glowDict.TryGetValue(parent, out var linkedGlow))
+                    glowDict[child] = linkedGlow;
             }
         }
 
@@ -510,6 +543,13 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
             if (!layerVisible || setting == null) // this is kinda implied
             {
+                // Palmtree/Coyote: clean up any glow layer when the marking is hidden.
+                var hiddenGlowId = $"{layerId}-glow";
+                if (_sprite.LayerMapTryGet((entity.Owner, sprite), hiddenGlowId, out var hiddenGlowIndex, false))
+                {
+                    _sprite.LayerMapRemove((entity.Owner, sprite), hiddenGlowId);
+                    _sprite.RemoveLayer((entity.Owner, sprite), hiddenGlowIndex);
+                }
                 continue;
             }
 
@@ -517,7 +557,40 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             // and we need to check the index is correct.
             // So if that happens just default to white?
             var color = colorDict.TryGetValue(rsi.RsiState, out var targetColor) ? targetColor : Color.White;
-            _sprite.LayerSetColor((entity.Owner, sprite), layerId, color);
+            var glowFactor = glowDict.TryGetValue(rsi.RsiState, out var targetGlow) ? targetGlow : 0f;
+            var clampedGlow = Math.Clamp(glowFactor, 0f, 1f);
+            var glowLayerId = $"{layerId}-glow";
+
+            // Palmtree/Coyote: split alpha between the base and glow layers so the composed
+            // result keeps the original alpha. total = base + glow * (1 - base).
+            var baseAlpha = color.A;
+            var glowAlpha = baseAlpha * clampedGlow;
+            var denom = 1f - glowAlpha;
+            var baseLayerAlpha = denom > 0f ? (baseAlpha - glowAlpha) / denom : 0f;
+            baseLayerAlpha = Math.Clamp(baseLayerAlpha, 0f, 1f);
+
+            _sprite.LayerSetColor((entity.Owner, sprite), layerId, color.WithAlpha(baseLayerAlpha));
+
+            if (clampedGlow > 0f)
+            {
+                if (!_sprite.LayerMapTryGet((entity.Owner, sprite), glowLayerId, out _, false))
+                {
+                    var glowLayer = _sprite.AddLayer((entity.Owner, sprite), markingSprite, targLayerAdj + 1);
+                    _sprite.LayerMapSet((entity.Owner, sprite), glowLayerId, glowLayer);
+                    _sprite.LayerSetSprite((entity.Owner, sprite), glowLayerId, rsi);
+                }
+
+                sprite.LayerSetShader(glowLayerId, "unshaded");
+                _sprite.LayerSetVisible((entity.Owner, sprite), glowLayerId, layerVisible);
+                _sprite.LayerSetColor((entity.Owner, sprite), glowLayerId, color.WithAlpha(glowAlpha));
+                sprite.LayerSetScale(glowLayerId, new Vector2(scale, scale));
+                sprite.LayerSetOffset(glowLayerId, markingOffset);
+            }
+            else if (_sprite.LayerMapTryGet((entity.Owner, sprite), glowLayerId, out var glowIndex, false))
+            {
+                _sprite.LayerMapRemove((entity.Owner, sprite), glowLayerId);
+                _sprite.RemoveLayer((entity.Owner, sprite), glowIndex);
+            }
 
             if (humanoid.MarkingsDisplacement.TryGetValue(markingPrototype.BodyPart, out var displacementData) && markingPrototype.CanBeDisplaced)
             {
@@ -609,8 +682,48 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             foreach (var marking in markingList)
             {
                 if (_markingManager.TryGetMarking(marking, out var markingPrototype) && markingPrototype.BodyPart == layer)
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScale, marking.MarkingOffset);
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow);
             }
         }
+    }
+
+    // Palmtree/Coyote: override clothing displacement maps based on the humanoid's leg style.
+    public void GetDisplacementForLegStyle(
+        EntityUid uid,
+        string slot,
+        HumanoidAppearanceComponent? humanoidAppearance,
+        DisplacementData? baseDisplacementDataIn,
+        DisplacementData? maleDisplacementDataIn,
+        DisplacementData? femaleDisplacementDataIn,
+        out DisplacementData? baseDisplacementData,
+        out DisplacementData? maleDisplacementData,
+        out DisplacementData? femaleDisplacementData)
+    {
+        baseDisplacementData = baseDisplacementDataIn;
+        maleDisplacementData = maleDisplacementDataIn;
+        femaleDisplacementData = femaleDisplacementDataIn;
+
+        if (!Resolve(uid, ref humanoidAppearance))
+            return;
+
+        if (!_prototypeManager.TryIndex(humanoidAppearance.Species, out SpeciesPrototype? species)
+            || !species.AllowDigilegDisplacement)
+        {
+            return;
+        }
+
+        if (!humanoidAppearance.LegDisplacements.TryGetValue(
+                humanoidAppearance.LegStyle,
+                out ProtoId<LegDisplacementPrototype> displacement))
+        {
+            return;
+        }
+
+        if (!_prototypeManager.TryIndex(displacement, out LegDisplacementPrototype? legDisplacement))
+            return;
+
+        baseDisplacementData = legDisplacement.Displacements.GetValueOrDefault(slot, baseDisplacementDataIn);
+        maleDisplacementData = legDisplacement.MaleDisplacements.GetValueOrDefault(slot, maleDisplacementDataIn);
+        femaleDisplacementData = legDisplacement.FemaleDisplacements.GetValueOrDefault(slot, femaleDisplacementDataIn);
     }
 }

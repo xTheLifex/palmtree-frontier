@@ -1,0 +1,45 @@
+- type: body
+  id: Synth
+  name: "synth"
+  root: torso
+  slots:
+    head:
+      part: HeadSynth
+      connections:
+      - torso
+      organs:
+        eyes: OrganSynthEyes
+    torso:
+      part: TorsoSynth
+      connections:
+      - right_arm
+      - left_arm
+      - right_leg
+      - left_leg
+      organs:
+        posbrain: OrganSynthBrain
+        pump: OrganSynthPump
+    right_arm:
+      part: RightArmSynth
+      connections:
+      - right_hand
+    left_arm:
+      part: LeftArmSynth
+      connections:
+      - left_hand
+    right_hand:
+      part: RightHandSynth
+    left_hand:
+      part: LeftHandSynth
+    right_leg:
+      part: RightLegSynth
+      connections:
+      - right_foot
+    left_leg:
+      part: LeftLegSynth
+      connections:
+      - left_foot
+    right_foot:
+      part: RightFootSynth
+    left_foot:
+      part: LeftFootSynth

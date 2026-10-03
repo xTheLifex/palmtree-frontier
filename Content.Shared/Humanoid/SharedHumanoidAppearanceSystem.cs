@@ -79,6 +79,15 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         var profile = export.Profile;
         var collection = IoCManager.Instance;
+
+        // Palmtree: old exports may reference species that no longer exist (e.g. IPC).
+        // Prefer the Synth replacement when it exists, otherwise fall back to the default species.
+        if (!_proto.HasIndex(profile.Species))
+        {
+            var synth = new ProtoId<SpeciesPrototype>("Synth");
+            profile.Species = _proto.HasIndex(synth) ? synth : DefaultSpecies;
+        }
+
         profile.EnsureValid(session, collection!);
         return profile;
     }
@@ -408,7 +417,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
             {
                 if (!prototype.ForcedColoring)
                 {
-                    AddMarking(uid, marking.MarkingId, marking.MarkingColors, false);
+                    AddMarking(uid, marking, marking.MarkingColors, false);
                 }
                 else
                 {
@@ -460,7 +469,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
                 profile.Appearance.EyeColor,
                 humanoid.MarkingSet
             );
-            AddMarking(uid, marking.MarkingId, markingColors, false);
+            AddMarking(uid, marking, markingColors, false);
         }
 
         EnsureDefaultMarkings(uid, humanoid);
@@ -535,6 +544,28 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     {
         if (!Resolve(uid, ref humanoid)
             || !_markingManager.Markings.TryGetValue(marking, out var prototype))
+        {
+            return;
+        }
+
+        var markingObject = new Marking(marking, colors);
+        markingObject.Forced = forced;
+        // Palmtree/Coyote: genital markings start hidden and get toggled through the undies verbs.
+        if (prototype.MarkingCategory == MarkingCategories.Genital)
+            markingObject.Visible = false;
+        humanoid.MarkingSet.AddBack(prototype.MarkingCategory, markingObject);
+
+        if (sync)
+            Dirty(uid, humanoid);
+    }
+
+    /// <summary>
+    /// Palmtree/Coyote: adds a marking from a profile, preserving scale, offset and glow data.
+    /// </summary>
+    public void AddMarking(EntityUid uid, Marking marking, IReadOnlyList<Color> colors, bool sync = true, bool forced = false, HumanoidAppearanceComponent? humanoid = null)
+    {
+        if (!Resolve(uid, ref humanoid)
+            || !_markingManager.Markings.TryGetValue(marking.MarkingId, out var prototype))
         {
             return;
         }

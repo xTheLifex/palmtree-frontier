@@ -1,0 +1,88 @@
+- type: entity
+  save: false
+  name: Urist McSynth
+  parent: BaseMobSpeciesOrganic
+  id: BaseMobSynth
+  abstract: true
+  components:
+  # Appearance: human base body, reshaped by markings.
+  - type: Icon
+    sprite: _EE/Mobs/Species/IPC/parts.rsi
+    state: full
+  - type: HumanoidAppearance
+    species: Synth
+    hideLayersOnEquip:
+    - Hair
+    - Snout
+  - type: Body
+    prototype: Synth
+    requiredLegs: 2
+  - type: Inventory
+  # Synthetic physiology.
+  - type: Synth
+  - type: Damageable
+    damageContainer: Synth
+    damageModifierSet: Synth
+  - type: Bloodstream
+    bloodReagent: Oxidant
+    maxBleedAmount: 4
+    bloodlossThreshold: 0.5
+  - type: ZombieImmune
+  - type: CanHostGuardian
+  - type: TypingIndicator
+    proto: robot
+  - type: Temperature
+    heatDamageThreshold: 358.15
+    coldDamageThreshold: 0
+    currentTemperature: 310.15
+    specificHeat: 42
+    atmosTemperatureTransferEfficiency: 0.8
+  # Twice the speed of a normal person (defaults are 2.5 / 4.5).
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 3.75
+    baseSprintSpeed: 6.75
+  # Three times as durable as a normal person (human is 100 / 200).
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      300: Critical
+      600: Dead
+    stateAlertDict:
+      Alive: BorgHealth
+      Critical: BorgCrit
+      Dead: BorgDead
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      180: 0.7
+      240: 0.5
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 900
+      behaviors:
+      - !type:GibBehavior {}
+  # Heavier to drag/push, like the old IPCs.
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeCircle
+          radius: 0.35
+        density: 462.5
+        restitution: 0.0
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+
+- type: entity
+  save: false
+  name: Synth Dummy
+  parent: MobHumanDummy
+  id: MobSynthDummy
+  categories: [ HideSpawnMenu ]
+  description: A dummy synth meant to be used in character setup.
+  components:
+  - type: HumanoidAppearance
+    species: Synth

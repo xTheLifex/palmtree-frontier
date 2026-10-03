@@ -142,6 +142,14 @@ Fork modules are folder/namespace prefixes:
 - `MarkingsSet.EnsureDefault` loop must use `&&` (it once overran `DefaultMarkings`).
 - The concealable backpack implant requires the `ConcealableClothing` component on base
   `ClothingBackpack`; the lobby rotation requires the timer patch in `GameTicker.LobbyBackground.cs`.
+- `MarkingPrototype` filters: all species-restricted markings carry `kindAllowance`
+  (`[BasicHumanlike, BasicFurry, BasicRobot, VoxLike]`, Coyote behavior). Markings without
+  `kindAllowance` will be stripped from species that only match through kinds — always add it to new
+  species-restricted markings (`.ai/guides/adding-markings.md`).
+- Digitigrade legs: species base sprites use `altSprites`; Synth uses the `DigilegSynthliz*` set.
+  Clothing accommodation goes through `LegDisplacementPrototype` /
+  `HumanoidAppearanceComponent.LegDisplacements` and `ClientClothingSystem`.
+- Synths skip `RespiratorSystem` via `SynthComponent`; they have no lungs and do not gasp.
 - `dotnet run --project Content.YAMLLinter --no-build` uses stale assemblies; rebuild the project
   after C# changes before trusting lint results.
 - Fork-patched core files are common; never assume a file is untouched upstream.
@@ -216,3 +224,7 @@ When making architectural changes, update the affected `.ai/` document in the sa
 symbol names over line numbers as anchors; line numbers drift. Facts in these docs were gathered
 from the working tree on branch `ps-erp` (Frontier `df24c19f08` + the port commits listed in
 `.ai/PORTING.md`).
+
+A project-local OpenCode skill with the same knowledge as an operational playbook lives at
+`.opencode/skills/palmtree-station/SKILL.md` (porting, markings/ERP, species/Synth, validation,
+hazards, helper scripts). Keep it in sync when workflows change.

@@ -5,6 +5,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Felinid]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Felinids/leopard_tail.rsi
       state: m_tail_leopard_primary
@@ -16,6 +17,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Felinid]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Felinids/catbig_tail.rsi
       state: m_tail_catbig_primary
@@ -25,6 +27,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Felinid]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Felinids/tigerdouble_tail.rsi
       state: m_tail_tiger2_
@@ -38,6 +41,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: [Felinid]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Felinids/double_tail.rsi
       state: m_tail_twocat
@@ -49,6 +53,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Felinids/leopard_tail.rsi
     state: m_tail_leopard_primary_wag
@@ -60,6 +65,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _RMC14/Mobs/Felinids/catbig_tail.rsi
     state: m_tail_catbig_primary_wag
@@ -69,6 +75,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Felinids/tigerdouble_tail.rsi
       state: m_waggingtail_tiger2_primary
@@ -82,6 +89,7 @@
   bodyPart: Tail
   markingCategory: Tail
   speciesRestriction: []
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Felinids/double_tail.rsi
       state: m_waggingtail_twocat

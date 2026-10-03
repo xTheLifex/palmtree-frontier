@@ -61,6 +61,7 @@ It runs on the **RobustToolbox** engine, vendored as a git submodule. The engine
 | `Resources/` | Prototypes, maps, locale, textures, audio, configs, changelogs |
 | `Tools/` | Build/publish/changelog scripts |
 | `RobustToolbox/` | Engine submodule (never modify) |
+| `.opencode/skills/palmtree-station/` | Project-local OpenCode skill: porting playbook, marking/ERP reference, species/Synth, validation & hazards, helper scripts |
 | `PORTING/` | Removed from the working tree; the earlier full-port attempt lives on the `port`/`port-wip` branches. See `.ai/PORTING.md`. |
 
 ## Solution projects

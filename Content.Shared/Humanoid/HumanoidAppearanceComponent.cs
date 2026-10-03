@@ -1,3 +1,4 @@
+using Content.Shared._CS; // Palmtree/Coyote: leg displacement
 using Content.Shared.DisplacementMap;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
@@ -79,6 +80,15 @@ public sealed partial class HumanoidAppearanceComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public HumanoidLegStyle LegStyle = HumanoidLegStyle.Plantigrade;
+
+    /// <summary>
+    /// Palmtree/Coyote: displacement maps to use for clothing based on the humanoid's leg style.
+    /// </summary>
+    [DataField]
+    public Dictionary<HumanoidLegStyle, ProtoId<LegDisplacementPrototype>> LegDisplacements = new()
+    {
+        { HumanoidLegStyle.Digitigrade, new ProtoId<LegDisplacementPrototype>("LegDisplacementDigitigrade") },
+    };
 
     [DataField, AutoNetworkedField]
     public Sex Sex = Sex.Male;

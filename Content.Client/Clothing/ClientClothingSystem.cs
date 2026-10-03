@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using Content.Client.DisplacementMap;
+using Content.Client.Humanoid; // Palmtree/Coyote: leg displacement
 using Content.Client.Inventory;
 using Content.Shared.Clothing;
 using Content.Shared.Clothing.Components;
@@ -54,6 +55,7 @@ public sealed class ClientClothingSystem : ClothingSystem
     [Dependency] private readonly InventorySystem _inventorySystem = default!;
     [Dependency] private readonly DisplacementMapSystem _displacement = default!;
     [Dependency] private readonly SpriteSystem _sprite = default!;
+    [Dependency] private readonly HumanoidAppearanceSystem _humanoidSystem = default!; // Palmtree/Coyote: leg displacement
 
     public override void Initialize()
     {
@@ -288,6 +290,39 @@ public sealed class ClientClothingSystem : ClothingSystem
                         displacementData = inventory.FemaleDisplacements.GetValueOrDefault(slot);
                     break;
             }
+        }
+
+        // Palmtree/Coyote: override displacement maps based on the humanoid's leg style.
+        if (TryComp(equipee, out HumanoidAppearanceComponent? humanoidAppearance))
+        {
+            _humanoidSystem.GetDisplacementForLegStyle(
+                equipee,
+                slot,
+                humanoidAppearance,
+                inventory.Displacements.GetValueOrDefault(slot),
+                inventory.MaleDisplacements.GetValueOrDefault(slot),
+                inventory.FemaleDisplacements.GetValueOrDefault(slot),
+                out DisplacementData? baseDisplacement,
+                out DisplacementData? maleDisplacement,
+                out DisplacementData? femaleDisplacement);
+
+            DisplacementData? newDisplacementData = null;
+            switch (equipeeSex)
+            {
+                case Sex.Male:
+                    if (maleDisplacement != null)
+                        newDisplacementData = maleDisplacement;
+                    break;
+                case Sex.Female:
+                    if (femaleDisplacement != null)
+                        newDisplacementData = femaleDisplacement;
+                    break;
+            }
+
+            if (newDisplacementData != null)
+                displacementData = newDisplacementData;
+            else if (baseDisplacement != null)
+                displacementData = baseDisplacement;
         }
 
         // add the new layers

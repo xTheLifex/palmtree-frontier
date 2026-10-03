@@ -4,6 +4,7 @@
   markingCategory: HeadTop
   forcedColoring: false
   speciesRestriction: [Oni]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _DV/Mobs/Customization/Oni/oni_horns.rsi
     state: shaved
@@ -14,6 +15,7 @@
   markingCategory: HeadTop
   forcedColoring: false
   speciesRestriction: [Oni]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _DV/Mobs/Customization/Oni/oni_horns.rsi
     state: bull

@@ -77,7 +77,7 @@
 | Size manipulation / height-width system | Excluded. Character saves' `height`/`width` fields are ignored on import. |
 | Vore | Not ported. |
 | RPI economy, Needs, Healing bank, Space janitor, etc. (`_CS`) | Not ported; not requested. |
-| IPC species | Deferred on purpose — it depends on the Einstein Engines silicon stack (`Silicon`, battery slot locks, encryption holders, `SiliconEmitSoundOnDrained`, IPC inventory template) absent from this base. See §6. |
+| IPC species | Replaced by the Palmtree **Synth** species (`_PS`) — see `systems/ps-systems.md`. Old IPC content (Einstein Engines silicon stack, battery/radio/EMP) remains unported. |
 | Kitsune species | **Does not exist in the old codebase.** It only appears inside marking allowlists. Nothing to port. |
 | Turrets, RCD, strobe lighting, shipyard cauterizer, `_PS` emotes/interaction sounds | Not requested / possibly stale systems. |
 | Digitigrade leg displacement maps | The old `LegDisplacements` field is documented as "currently unused because it crashes" in the source; not ported. `altSprites` cover the visuals. |
@@ -110,20 +110,23 @@ These are important because they are easy to reintroduce:
    old `Content.Shared.dll` copies, producing bogus "value not found" enum errors. Always rebuild
    before linting.
 
-## 6. Porting IPC later (maintainer intent)
+## 6. IPC replacement: Synth (implemented)
 
-IPC was held back deliberately. The old implementation (`_EinsteinEngines`) needs:
+IPC was held back because the old implementation (`_EinsteinEngines`) needs the EE silicon stack:
+`Silicon`, `BatterySlotRequiresLock`, `EncryptionHolderRequiresLock`, `SiliconEmitSoundOnDrained`,
+`EmitBuzzWhileDamaged`, `DeadStartupButton`, `EncryptionKeyHolder`, `BatteryDrinker`, the `ipc`
+inventory template, and silicon body parts/organs.
 
-- `Silicon` component/`SiliconSystem` (EE), `BatterySlotRequiresLock`, `EncryptionHolderRequiresLock`,
-  `SiliconEmitSoundOnDrained`, `EmitBuzzWhileDamaged`, `DeadStartupButton`, `EncryptionKeyHolder`,
-  `BatteryDrinker`, plus the `ipc` inventory template.
-- Silicon body parts/organs/prototypes and robot speech/typing indicators.
-- Coyote additions it referenced (`Needs`, `RoleplayIncentive`, `ShortWhitelist`, `TallWhitelist`,
-  `Vore`) which are not ported.
+Instead, Palmtree implemented a replacement species, **Synth** (`_PS`), which reuses the marking
+system so players can look like any species and approximates IPC behavior: 1.5× speed, 3× durability,
+IPC-like damage container/modifier set, silicon body parts/organs (IPC sprites, `Inorganic` parts),
+coolant blood, robot typing indicator, insulated temperature, heavy fixture density, no
+hunger/thirst, and mass-based pull slowdown. See `.ai/systems/ps-systems.md` for details and known
+differences (no battery, no radio/encryption, no EMP interactions).
 
-A cleaner path is to build IPC on the upstream/engine silicon & borg systems already in this repo
-(`Content.Server/Silicons`, `Content.Shared/Silicons`) instead of importing the EE stack. This has
-not been attempted yet.
+If a true silicon implementation is ever wanted, build it on the upstream/engine silicon & borg
+systems already in this repo (`Content.Server/Silicons`, `Content.Shared/Silicons`) instead of
+importing the EE stack.
 
 ## 7. Character saves compatibility
 
@@ -139,6 +142,9 @@ The maintainer's exported characters live outside the repo
 - After the port, all 114 markings, 166 loadouts/items and all species referenced by those saves
   resolve except IPC.
 - `legStyle: Digitigrade` is now imported and honored.
+- **Unknown species fallback**: `FromStream` maps exports whose species no longer exists to `Synth`
+  (if present) or the default species, so old IPC saves import cleanly and can be switched to Synth
+  in the editor.
 
 ## 8. How to port more (short version)
 

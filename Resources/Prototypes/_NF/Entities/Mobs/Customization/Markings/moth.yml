@@ -4,6 +4,7 @@
   markingCategory: HeadTop
   forcedColoring: true
   speciesRestriction: [Moth]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:

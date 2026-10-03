@@ -23,6 +23,7 @@ using Content.Shared.Pulling.Events;
 using Content.Shared.Standing;
 using Content.Shared.Verbs;
 using Robust.Shared.Containers;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
@@ -266,15 +267,28 @@ public sealed class PullingSystem : EntitySystem
 
     private void OnRefreshMovespeed(EntityUid uid, PullerComponent component, RefreshMovementSpeedModifiersEvent args)
     {
+        var walkMod = component.WalkSpeedModifier;
+        var sprintMod = component.SprintSpeedModifier;
+
         if (TryComp<HeldSpeedModifierComponent>(component.Pulling, out var heldMoveSpeed) && component.Pulling.HasValue)
         {
-            var (walkMod, sprintMod) =
+            (walkMod, sprintMod) =
                 _clothingMoveSpeed.GetHeldMovementSpeedModifiers(component.Pulling.Value, heldMoveSpeed);
-            args.ModifySpeed(walkMod, sprintMod);
-            return;
         }
 
-        args.ModifySpeed(component.WalkSpeedModifier, component.SprintSpeedModifier);
+        // Palmtree: heavier pulled entities (e.g. synths) slow the puller down.
+        if (component.Pulling is { } pulled
+            && TryComp<PhysicsComponent>(pulled, out var pulledPhysics)
+            && TryComp<PhysicsComponent>(uid, out var pullerPhysics)
+            && pulledPhysics.Mass > 0f
+            && pulledPhysics.Mass > pullerPhysics.Mass)
+        {
+            var massMod = Math.Clamp(pullerPhysics.Mass / pulledPhysics.Mass, 0.35f, 1f);
+            walkMod *= massMod;
+            sprintMod *= massMod;
+        }
+
+        args.ModifySpeed(walkMod, sprintMod);
     }
 
     private void OnPullableMoveInput(EntityUid uid, PullableComponent component, ref MoveInputEvent args)

@@ -4,6 +4,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: beard_s
@@ -14,6 +15,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: colonel_s
@@ -24,6 +26,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: fu_s
@@ -34,6 +37,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: mane_s
@@ -44,6 +48,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: manesmall_s
@@ -54,6 +59,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: neck_s
@@ -64,6 +70,7 @@
   markingCategory: FacialHair
   canBeDisplaced: false
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: Mobs/Customization/vox_facial_hair.rsi
       state: tuft_s

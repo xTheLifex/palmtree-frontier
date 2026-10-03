@@ -4,6 +4,7 @@
   bodyPart: HeadTop
   markingCategory: HeadTop
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_ears.rsi
     state: goblin_ears_default
@@ -13,6 +14,7 @@
   bodyPart: HeadTop
   markingCategory: HeadTop
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_ears.rsi
     state: goblin_ears_default_alt
@@ -22,6 +24,7 @@
   bodyPart: HeadTop
   markingCategory: HeadTop
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_ears.rsi
     state: goblin_ears_long_01
@@ -31,6 +34,7 @@
   bodyPart: HeadTop
   markingCategory: HeadTop
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_ears.rsi
     state: goblin_ears_long_02
@@ -41,6 +45,7 @@
   bodyPart: Snout
   markingCategory: Snout
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_noses.rsi
     state: goblin_nose_default
@@ -50,6 +55,7 @@
   bodyPart: Snout
   markingCategory: Snout
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_noses.rsi
     state: goblin_nose_long
@@ -59,6 +65,7 @@
   bodyPart: Snout
   markingCategory: Snout
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_noses.rsi
     state: goblin_nose_crooked
@@ -69,6 +76,7 @@
   bodyPart: Snout
   markingCategory: Snout
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_tusks.rsi
     state: goblin_tusks_none
@@ -78,6 +86,7 @@
   bodyPart: Snout
   markingCategory: Snout
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_tusks.rsi
     state: goblin_tusks_small
@@ -87,6 +96,7 @@
   bodyPart: Snout
   markingCategory: Snout
   speciesRestriction: [Goblin]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
   - sprite: _NF/Mobs/Customization/goblin_tusks.rsi
     state: goblin_tusks_big

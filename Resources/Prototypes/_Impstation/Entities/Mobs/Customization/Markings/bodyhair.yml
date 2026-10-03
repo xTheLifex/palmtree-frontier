@@ -3,6 +3,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [ Dwarf, Human, Oni, Goblin, Felinid ] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sexRestriction: [ Male ]
   sprites:
   - sprite: _Impstation/Mobs/Customization/bodyhair.rsi
@@ -13,6 +14,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [ Dwarf, Human, Oni, Goblin, Felinid ] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sexRestriction: [ Female ]
   sprites:
   - sprite: _Impstation/Mobs/Customization/bodyhair.rsi
@@ -23,6 +25,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [ Dwarf, Human, Oni, Goblin, Felinid ] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sexRestriction: [ Unsexed ]
   sprites:
   - sprite: _Impstation/Mobs/Customization/bodyhair.rsi

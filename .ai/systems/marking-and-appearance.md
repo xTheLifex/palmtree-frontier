@@ -58,15 +58,16 @@ show/hide verbs.
 | `shader` | Optional layer shader (Impstation) |
 
 `Marking` (runtime instance) fields: `markingId`, colors, `visible`, `forced`, plus Palmtree
-extensions `scale` and `offsetX/offsetY` (directional offsets are not ported; only the uniform
-offset is used). `Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
+extensions `scale`, `offsetX/offsetY` and `glowLevels` (per-color 0..1, legacy `glow` scalar).
+`Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
 
 ```
-markingId@#rrggbb,#rrggbb,...[@scale,offsetX,offsetY]
+markingId@#rrggbb,#rrggbb,...[@scale,offsetX,offsetY][@g0.5,1,...]
 ```
 
-The optional third segment is only written when scale/offset differ from defaults, so old strings
-remain valid. `Equals` includes scale/offset/visible.
+The optional transform segment is only written when scale/offset differ from defaults, and the glow
+segment (prefixed with `g`) only when any glow is non-zero, so old strings remain valid. `Equals`
+includes scale/offset/glow/visible.
 
 `HumanoidAppearanceComponent` additions: `HiddenBaseLayers` (`List<HumanoidVisualLayers>`) and
 `LegStyle`. `HumanoidCharacterAppearance` adds `LegStyle` (persisted in the profile and exported
@@ -83,6 +84,21 @@ characters).
   **Every filter path must call it** (see HAZARDS §2).
 - `onlyWhitelisted` species (e.g. some forks) require either `speciesRestriction` or
   `kindAllowance` to be present.
+- This repo adds `kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike]` to **all**
+  species-restricted markings (914 across 39 files), mirroring Coyote: any species with a matching
+  kind can wear them. New species-restricted markings should include it.
+
+## Digitigrade legs & clothing displacement
+
+- `HumanoidCharacterAppearance.LegStyle` is chosen in the marking picker (`Plantigrade`/`Digitigrade`)
+  and persisted/exported with the profile.
+- Species base sprites use `altSprites` (e.g. `MobSynthLLeg → DigilegSynthlizLegLeft`); markings use
+  their own `altSprites` (species adaptors → `DigilegPaw*`/`DigilegFurry*`).
+- Clothing accommodation: `LegDisplacementPrototype` (`_CS/LegDisplacement.yml`) +
+  `HumanoidAppearanceComponent.LegDisplacements` (default `LegDisplacementDigitigrade`).
+  `ClientClothingSystem.RenderEquipment` calls `HumanoidAppearanceSystem.GetDisplacementForLegStyle`
+  to override jumpsuit/shoes/outerClothing displacement maps when the species allows it
+  (`SpeciesPrototype.AllowDigilegDisplacement`).
 
 ## Layers
 
@@ -103,6 +119,9 @@ undershirts) so hiding a parent hides its sublayers.
 ## Rendering pipeline (client)
 
 1. `HumanoidAppearanceSystem.UpdateSprite` → `UpdateLayers` → `ApplyMarkingSet` → `UpdateLayersAgain`.
+2. `LoadProfile` adds profile markings through the `Marking`-preserving `AddMarking` overload so
+   scale/offset/glow survive the trip from profile to component; the `(string, colors)` overload
+   creates a fresh marking and drops them (see HAZARDS).
 2. `UpdateLayers` clears and rebuilds `BaseLayers` from the species' `speciesBaseSprites`, applying
    `altSprites` for the current `LegStyle` (base-layer variant), then `SetLayerData`.
 3. `ApplyMarkingSet` iterates every marking; for each:
@@ -110,6 +129,8 @@ undershirts) so hiding a parent hides its sublayers.
    - `ApplyMarking` computes per-sprite `layerSlot` (BodyPart or `layering` override), creates layers
      named `<markingId>-<state>`, applies scale/offset, color (with `colorLinks`), visibility and
      displacement, and clamps genital layers below `jumpsuit`/`outerClothing`.
+     When a color's glow is > 0 it also creates a companion `<markingId>-<state>-glow` layer with the
+     `unshaded` shader, splitting alpha so the composed alpha is preserved.
    - Base markings (`Base*` categories) add their target layer to `HiddenBaseLayers` via
      `MarkingCategoriesConversion.Category2Layer`.
 4. `UpdateLayersAgain` hides every layer in `HiddenBaseLayers` (species adaptors replacing body
@@ -135,6 +156,8 @@ undershirts) so hiding a parent hides its sublayers.
 - `GetMarkings` uses `MarkingManager.MarkingsByCategoryAndSpeciesAndSex` (kind-aware).
 - Collapsible "Adjust position/size" controls edit scale (0.25–3.0) and offset X/Y (−1..1) via
   sliders + spin boxes, persisted through `Marking.SetScale/SetOffset`.
+- Each color has a **Glow** slider/spin box (0–100%) persisted through `Marking.SetGlow`; glowing
+  markings render an `unshaded` companion layer.
 - Leg Style selector (`Plantigrade`/`Digitigrade`) raises `OnLegStyleChanged`; the profile editor
   stores it with `HumanoidCharacterAppearance.WithLegs` and re-renders the preview.
 - Color selectors skip states present in `colorLinks` (they inherit a parent's color).
@@ -179,5 +202,5 @@ system, `DoAfter`, actions/verbs (ModifyUndies), `MarkingColoring`.
 
 ## Unknowns
 
-- Whether `RenderOverClothing`/directional marking offsets should be ported for future content.
 - Whether marking visibility should persist across sessions (currently session-only).
+- Whether `RenderOverClothing`/directional marking offsets should be ported for future content.

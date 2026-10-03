@@ -3,6 +3,7 @@
   bodyPart: Chest
   markingCategory: Chest
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -17,6 +18,7 @@
   bodyPart: LArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -31,6 +33,7 @@
   bodyPart: RArm
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -45,6 +48,7 @@
   bodyPart: LHand
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -59,6 +63,7 @@
   bodyPart: RHand
   markingCategory: Arms
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -73,6 +78,7 @@
   bodyPart: LLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -87,6 +93,7 @@
   bodyPart: RLeg
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Reptilian, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -101,6 +108,7 @@
   bodyPart: LFoot
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:
@@ -115,6 +123,7 @@
   bodyPart: RFoot
   markingCategory: Legs
   speciesRestriction: [Human, Dwarf, Arachnid, SlimePerson, Oni, Goblin, Felinid] # Frontier: add Oni, Goblin, Felinid
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   coloring:
     default:
       type:

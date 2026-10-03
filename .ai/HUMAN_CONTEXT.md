@@ -118,8 +118,10 @@ The engine RobustToolbox is never to be modified.
 
 Nobody but Wizden can modify the engine. And nobody but them understands it well.
 
-IPC is intentionally deferred. The maintainer wants to port IPCs in a different way later, not by
-dragging in the Einstein Engines silicon stack.
+IPC is not ported. It is replaced by the Palmtree **Synth** species (`_PS`), which reuses the marking
+system so players can look like any species while keeping IPC-like stats. If true silicon IPCs are
+ever wanted, they should be built on the upstream silicon systems instead of the Einstein Engines
+stack.
 
 There is no consent system in this repository (yet). `ModifyUndies` was ported self-only. If others
 should be able to reveal your markings, consent has to be ported first.
