@@ -24,6 +24,10 @@ public sealed partial class CCVars
     public static readonly CVarDef<bool> BwoinkSoundEnabled =
         CVarDef.Create("audio.bwoink_sound_enabled", true, CVar.ARCHIVE | CVar.CLIENTONLY);
 
+    // Palmtree/Floof: subtle chat notification sound, ported from Coyote.
+    public static readonly CVarDef<bool> SubtleSoundEnabled =
+        CVarDef.Create("audio.subtle_sound_enabled", false, CVar.ARCHIVE | CVar.CLIENTONLY);
+
     public static readonly CVarDef<string> AdminChatSoundPath =
         CVarDef.Create("audio.admin_chat_sound_path",
             "/Audio/Items/pop.ogg",

@@ -67,6 +67,10 @@
   (systems/components/action/implanter/loadout), battery guns/launchers/grenades/hitscan, audio.
 - **Digitigrade leg displacement** (`_CS/LegDisplacement.yml` + `LegDisplacements`), wired into
   `ClientClothingSystem` for jumpsuit/shoes/outerclothing (partial coverage, same maps as Coyote).
+- **Subtle chat** (`/subtle`, `/subtlelooc`): range- and wall-limited emotes/LOOC that ghosts cannot
+  see (Coyote port; `ChatTransmitRange.NoGhosts`). Also ported: `-`/`=` chat prefixes, selectable
+  Subtle/Subtle LOOC channels, `FocusSubtle`/`FocusSubtleLOOCWindow` keybinds and the subtle
+  notification sound option.
 
 ## 4. What was deliberately NOT ported
 

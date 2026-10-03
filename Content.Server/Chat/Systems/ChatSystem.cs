@@ -210,6 +210,9 @@ public sealed partial class ChatSystem : SharedChatSystem
         }
 
         bool shouldCapitalize = (desiredType != InGameICChatType.Emote);
+        // Palmtree/Floof: subtle messages are not capitalized either.
+        if (desiredType == InGameICChatType.Subtle)
+            shouldCapitalize = false;
         bool shouldPunctuate = _configurationManager.GetCVar(CCVars.ChatPunctuation);
         // Capitalizing the word I only happens in English, so we check language here
         bool shouldCapitalizeTheWordI = (!CultureInfo.CurrentCulture.IsNeutralCulture && CultureInfo.CurrentCulture.Parent.Name == "en")
@@ -248,6 +251,9 @@ public sealed partial class ChatSystem : SharedChatSystem
                 break;
             case InGameICChatType.Emote:
                 SendEntityEmote(source, message, range, nameOverride, hideLog: hideLog, ignoreActionBlocker: ignoreActionBlocker);
+                break;
+            case InGameICChatType.Subtle: // Palmtree/Floof
+                SendEntitySubtle(source, message, range, nameOverride, hideLog: hideLog, ignoreActionBlocker: ignoreActionBlocker);
                 break;
         }
     }
@@ -295,6 +301,9 @@ public sealed partial class ChatSystem : SharedChatSystem
                 break;
             case InGameOOCChatType.Looc:
                 SendLOOC(source, player, message, hideChat);
+                break;
+            case InGameOOCChatType.SubtleLooc: // Palmtree/Floof
+                SendSubtleLOOC(source, player, message, hideChat);
                 break;
         }
     }
@@ -610,6 +619,81 @@ public sealed partial class ChatSystem : SharedChatSystem
                 _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Emote from {ToPrettyString(source):user}: {action}");
     }
 
+    // Palmtree/Floof: subtle emote, ported from Coyote. Only players right next to the source can
+    // see it, walls block it, and ghosts never receive it (ChatTransmitRange.NoGhosts).
+    private void SendEntitySubtle(
+        EntityUid source,
+        string action,
+        ChatTransmitRange range,
+        string? nameOverride,
+        bool hideLog = false,
+        bool ignoreActionBlocker = false
+        )
+    {
+        if (!_actionBlocker.CanEmote(source) && !ignoreActionBlocker)
+            return;
+
+        // get the entity's apparent name (if no override provided).
+        var ent = Identity.Entity(source, EntityManager);
+        var name = FormattedMessage.EscapeText(nameOverride ?? Name(ent));
+
+        var wrappedMessage = Loc.GetString("chat-manager-entity-subtle-wrap-message",
+            ("entityName", name),
+            ("entity", ent),
+            ("message", FormattedMessage.RemoveMarkupOrThrow(action)));
+
+        foreach (var (session, data) in GetRecipients(source, SubtleRange, blockedByOcclusion: !SubtleGoesThroughWalls))
+        {
+            var entRange = MessageRangeCheck(session, data, range);
+            if (entRange == MessageRangeCheckResult.Disallowed)
+                continue;
+
+            var entHideChat = entRange == MessageRangeCheckResult.HideChat;
+            _chatManager.ChatMessageToOne(ChatChannel.Emotes, action, wrappedMessage, source, entHideChat, session.Channel, isSubtle: true);
+        }
+
+        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Emotes, action, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
+
+        if (!hideLog)
+        {
+            if (name != Name(source))
+                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Subtle from {ToPrettyString(source):user} as {name}: {action}");
+            else
+                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Subtle from {ToPrettyString(source):user}: {action}");
+        }
+    }
+
+    // Palmtree/Floof: subtle LOOC, ported from Coyote. Range- and wall-limited, never sent to ghosts.
+    private void SendSubtleLOOC(EntityUid source, ICommonSession player, string message, bool hideChat)
+    {
+        var name = FormattedMessage.EscapeText(Identity.Name(source, EntityManager));
+
+        if (_adminManager.IsAdmin(player))
+        {
+            if (!_adminLoocEnabled) return;
+        }
+        else if (!_loocEnabled) return;
+
+        // If crit player LOOC is disabled, don't send the message at all.
+        if (!_critLoocEnabled && _mobStateSystem.IsCritical(source))
+            return;
+
+        var wrappedMessage = Loc.GetString("chat-manager-entity-subtle-looc-wrap-message",
+            ("entityName", name),
+            ("message", FormattedMessage.EscapeText(message)));
+
+        foreach (var (session, data) in GetRecipients(source, SubtleLOOCRange, blockedByOcclusion: !SubtleLOOCGoesThroughWalls))
+        {
+            if (MessageRangeCheck(session, data, ChatTransmitRange.NoGhosts) == MessageRangeCheckResult.Disallowed)
+                continue;
+
+            _chatManager.ChatMessageToOne(ChatChannel.SubtleLOOC, message, wrappedMessage, source, hideChat, session.Channel, author: player.UserId, isSubtle: true);
+        }
+
+        _replay.RecordServerMessage(new ChatMessage(ChatChannel.SubtleLOOC, message, wrappedMessage, GetNetEntity(source), null, hideChat, isSubtle: true));
+        _adminLogger.Add(LogType.Chat, LogImpact.Low, $"SubtleLOOC from {player:Player}: {message}");
+    }
+
     // ReSharper disable once InconsistentNaming
     private void SendLOOC(EntityUid source, ICommonSession player, string message, bool hideChat)
     {
@@ -837,7 +921,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     /// <summary>
     ///     Returns list of players and ranges for all players withing some range. Also returns observers with a range of -1.
     /// </summary>
-    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, float voiceGetRange)
+    private Dictionary<ICommonSession, ICChatRecipientData> GetRecipients(EntityUid source, float voiceGetRange, bool blockedByOcclusion = false)
     {
         // TODO proper speech occlusion
 
@@ -860,6 +944,10 @@ public sealed partial class ChatSystem : SharedChatSystem
                 continue;
 
             var observer = ghostHearing.HasComponent(playerEntity);
+
+            // Palmtree/Floof: subtle chat is blocked by walls (Coyote behavior).
+            if (!observer && blockedByOcclusion && !_examineSystem.InRangeUnOccluded(source, playerEntity, voiceGetRange))
+                continue;
 
             // even if they are a ghost hearer, in some situations we still need the range
             if (sourceCoords.TryDistance(EntityManager, transformEntity.Coordinates, out var distance) && distance < voiceGetRange)
@@ -980,7 +1068,8 @@ public enum InGameICChatType : byte
 {
     Speak,
     Emote,
-    Whisper
+    Whisper,
+    Subtle // Palmtree/Floof
 }
 
 /// <summary>
@@ -989,7 +1078,8 @@ public enum InGameICChatType : byte
 public enum InGameOOCChatType : byte
 {
     Looc,
-    Dead
+    Dead,
+    SubtleLooc // Palmtree/Floof
 }
 
 /// <summary>

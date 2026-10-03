@@ -23,11 +23,20 @@ public abstract class SharedChatSystem : EntitySystem
     public const char EmotesAltPrefix = '*';
     public const char AdminPrefix = ']';
     public const char WhisperPrefix = ',';
+    public const char SubtlePrefix = '-'; // Palmtree/Floof
+    public const char SubtleLOOCPrefix = '='; // Palmtree/Floof
     public const char DefaultChannelKey = 'h';
 
     public const int VoiceRange = 10; // how far voice goes in world units
     public const int WhisperClearRange = 2; // how far whisper goes while still being understandable, in world units
     public const int WhisperMuffledRange = 5; // how far whisper goes at all, in world units
+
+    // Palmtree/Floof: subtle chat ranges, ported from Coyote. Subtle messages only reach players
+    // standing right next to the source, are blocked by walls, and are never sent to ghosts.
+    public const float SubtleRange = 1.5f;
+    public const float SubtleLOOCRange = SubtleRange;
+    public const bool SubtleGoesThroughWalls = false;
+    public const bool SubtleLOOCGoesThroughWalls = false;
     public static readonly SoundSpecifier DefaultAnnouncementSound
         = new SoundPathSpecifier("/Audio/Announcements/announce.ogg");
 

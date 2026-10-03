@@ -34,7 +34,14 @@ chat-manager-entity-me-wrap-message = [italic]{ PROPER($entity) ->
      [true] {CAPITALIZE($entityName)} {$message}[/italic]
     }
 
+# Palmtree/Floof: subtle emotes, ported from Coyote. Smaller and lower-case, only sent to nearby players.
+chat-manager-entity-subtle-wrap-message = [font size=11][italic]{ PROPER($entity) ->
+    *[false] the {$entityName} {$message}[/italic][/font]
+     [true] {CAPITALIZE($entityName)} {$message}[/italic][/font]
+    }
+
 chat-manager-entity-looc-wrap-message = LOOC: [bold]{$entityName}:[/bold] {$message}
+chat-manager-entity-subtle-looc-wrap-message = SubtleLOOC: [bold]{$entityName}:[/bold] {$message}
 chat-manager-send-ooc-wrap-message = OOC: [bold]{$playerName}:[/bold] {$message}
 chat-manager-send-ooc-patron-wrap-message = OOC: [bold][color={$patronColor}]{$playerName}[/color]:[/bold] {$message}
 

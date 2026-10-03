@@ -7,7 +7,7 @@
     ///     Maps to <see cref="ChatChannel"/>, giving better names.
     /// </remarks>
     [Flags]
-    public enum ChatSelectChannel : ushort
+    public enum ChatSelectChannel : uint
     {
         None = 0,
 
@@ -32,6 +32,11 @@
         LOOC = ChatChannel.LOOC,
 
         /// <summary>
+        ///     Palmtree/Floof: subtle LOOC, only visible to nearby players.
+        /// </summary>
+        SubtleLOOC = ChatChannel.SubtleLOOC,
+
+        /// <summary>
         ///     Out-of-character channel
         /// </summary>
         OOC = ChatChannel.OOC,
@@ -40,6 +45,11 @@
         ///     Emotes
         /// </summary>
         Emotes = ChatChannel.Emotes,
+
+        /// <summary>
+        ///     Palmtree/Floof: subtle emotes, only visible to nearby players.
+        /// </summary>
+        Subtle = ChatChannel.Subtle,
 
         /// <summary>
         ///     Deadchat

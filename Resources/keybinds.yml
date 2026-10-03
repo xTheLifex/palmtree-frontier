@@ -116,10 +116,16 @@ binds:
 - function: FocusRadioWindow
   type: State
   key: SemiColon
+- function: FocusSubtle
+  type: State
+  key: Minus
 - function: FocusLOOCWindow
   type: State
   mod1: Shift
   key: Num9
+- function: FocusSubtleLOOCWindow
+  type: State
+  key: Equal
 - function: FocusOOCWindow
   type: State
   key: LBracket

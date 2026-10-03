@@ -39,6 +39,13 @@
 ## Radio/speech/chat
 
 - Chat/radio/speech systems are upstream; no consent/censor contributors are registered here.
+- Palmtree/Floof subtle chat (`/subtle`, `/subtlelooc`, ported from Coyote): 1.5-tile range, blocked
+  by walls, never sent to ghosts (`ChatTransmitRange.NoGhosts`); subtle emotes render smaller and
+  uncapitalized. Implemented in `ChatSystem.SendEntitySubtle` / `SendSubtleLOOC` with commands in
+  `Content.Server/Chat/Commands/Subtle*Command.cs`.
+- Subtle chat is also selectable in the chat box (`ChatSelectChannel.Subtle`/`SubtleLOOC`, prefixes
+  `-` and `=`, focus keybinds `FocusSubtle`/`FocusSubtleLOOCWindow`) and can play a notification
+  sound (`CCVars.SubtleSoundEnabled`, Audio options tab) driven by `ChatMessage.IsSubtle`.
 - Ported species add speech sounds/verbs/typing indicators (Rodentia, Tajaran).
 
 ## Lighting/storage/misc

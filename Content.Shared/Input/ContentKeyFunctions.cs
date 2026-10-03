@@ -19,6 +19,8 @@ namespace Content.Shared.Input
         public static readonly BoundKeyFunction FocusRadio = "FocusRadioWindow";
         public static readonly BoundKeyFunction FocusLOOC = "FocusLOOCWindow";
         public static readonly BoundKeyFunction FocusOOC = "FocusOOCWindow";
+        public static readonly BoundKeyFunction FocusSubtle = "FocusSubtle"; // Palmtree/Floof
+        public static readonly BoundKeyFunction FocusSubtleLOOC = "FocusSubtleLOOCWindow"; // Palmtree/Floof
         public static readonly BoundKeyFunction FocusAdminChat = "FocusAdminChatWindow";
         public static readonly BoundKeyFunction FocusDeadChat = "FocusDeadChatWindow";
         public static readonly BoundKeyFunction FocusConsoleChat = "FocusConsoleChatWindow";

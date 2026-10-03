@@ -31,11 +31,14 @@ using Robust.Client.State;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
+using Robust.Client.Audio; // Palmtree/Floof
+using Robust.Shared.Audio; // Palmtree/Floof
 using Robust.Shared.Configuration;
 using Robust.Shared.GameObjects.Components.Localization;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
+using Robust.Shared.Player; // Palmtree/Floof
 using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
@@ -58,6 +61,7 @@ public sealed partial class ChatUIController : UIController
     [Dependency] private readonly IStateManager _state = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IReplayRecordingManager _replayRecording = default!;
+    [UISystemDependency] private readonly AudioSystem _audio = default!; // Palmtree/Floof
 
     [UISystemDependency] private readonly ExamineSystem? _examine = default;
     [UISystemDependency] private readonly GhostSystem? _ghost = default;
@@ -70,6 +74,11 @@ public sealed partial class ChatUIController : UIController
     private static readonly ProtoId<ColorPalettePrototype> ChatNamePalette = "ChatNames";
     private string[] _chatNameColors = default!;
     private bool _chatNameColorsEnabled;
+
+    // Palmtree/Floof: subtle chat notification sound, ported from Coyote.
+    private bool _subtleSoundEnabled;
+    private TimeSpan _lastSubtleSoundTime;
+    private static readonly TimeSpan SubtleSoundCooldown = TimeSpan.FromMinutes(1);
 
     private ISawmill _sawmill = default!;
 
@@ -84,7 +93,10 @@ public sealed partial class ChatUIController : UIController
         {SharedChatSystem.EmotesAltPrefix, ChatSelectChannel.Emotes},
         {SharedChatSystem.AdminPrefix, ChatSelectChannel.Admin},
         {SharedChatSystem.RadioCommonPrefix, ChatSelectChannel.Radio},
-        {SharedChatSystem.DeadPrefix, ChatSelectChannel.Dead}
+        {SharedChatSystem.DeadPrefix, ChatSelectChannel.Dead},
+        // Palmtree/Floof
+        {SharedChatSystem.SubtlePrefix, ChatSelectChannel.Subtle},
+        {SharedChatSystem.SubtleLOOCPrefix, ChatSelectChannel.SubtleLOOC}
     };
 
     public static readonly Dictionary<ChatSelectChannel, char> ChannelPrefixes = new()
@@ -97,7 +109,10 @@ public sealed partial class ChatUIController : UIController
         {ChatSelectChannel.Emotes, SharedChatSystem.EmotesPrefix},
         {ChatSelectChannel.Admin, SharedChatSystem.AdminPrefix},
         {ChatSelectChannel.Radio, SharedChatSystem.RadioCommonPrefix},
-        {ChatSelectChannel.Dead, SharedChatSystem.DeadPrefix}
+        {ChatSelectChannel.Dead, SharedChatSystem.DeadPrefix},
+        // Palmtree/Floof
+        {ChatSelectChannel.Subtle, SharedChatSystem.SubtlePrefix},
+        {ChatSelectChannel.SubtleLOOC, SharedChatSystem.SubtleLOOCPrefix}
     };
 
     /// <summary>
@@ -186,6 +201,7 @@ public sealed partial class ChatUIController : UIController
         SubscribeNetworkEvent<DamageForceSayEvent>(OnDamageForceSay);
         _config.OnValueChanged(CCVars.ChatEnableColorName, (value) => { _chatNameColorsEnabled = value; });
         _chatNameColorsEnabled = _config.GetCVar(CCVars.ChatEnableColorName);
+        _config.OnValueChanged(CCVars.SubtleSoundEnabled, (value) => { _subtleSoundEnabled = value; }, true); // Palmtree/Floof
 
         _speechBubbleRoot = new LayoutContainer();
 
@@ -205,6 +221,13 @@ public sealed partial class ChatUIController : UIController
 
         _input.SetInputCommand(ContentKeyFunctions.FocusLOOC,
             InputCmdHandler.FromDelegate(_ => FocusChannel(ChatSelectChannel.LOOC)));
+
+        // Palmtree/Floof
+        _input.SetInputCommand(ContentKeyFunctions.FocusSubtle,
+            InputCmdHandler.FromDelegate(_ => FocusChannel(ChatSelectChannel.Subtle)));
+
+        _input.SetInputCommand(ContentKeyFunctions.FocusSubtleLOOC,
+            InputCmdHandler.FromDelegate(_ => FocusChannel(ChatSelectChannel.SubtleLOOC)));
 
         _input.SetInputCommand(ContentKeyFunctions.FocusOOC,
             InputCmdHandler.FromDelegate(_ => FocusChannel(ChatSelectChannel.OOC)));
@@ -521,8 +544,10 @@ public sealed partial class ChatUIController : UIController
         // can always send/recieve OOC
         CanSendChannels |= ChatSelectChannel.OOC;
         CanSendChannels |= ChatSelectChannel.LOOC;
+        CanSendChannels |= ChatSelectChannel.SubtleLOOC; // Palmtree/Floof
         FilterableChannels |= ChatChannel.OOC;
         FilterableChannels |= ChatChannel.LOOC;
+        FilterableChannels |= ChatChannel.SubtleLOOC; // Palmtree/Floof
 
         // can always hear server (nobody can actually send server messages).
         FilterableChannels |= ChatChannel.Server;
@@ -544,6 +569,7 @@ public sealed partial class ChatUIController : UIController
                 CanSendChannels |= ChatSelectChannel.Whisper;
                 CanSendChannels |= ChatSelectChannel.Radio;
                 CanSendChannels |= ChatSelectChannel.Emotes;
+                CanSendChannels |= ChatSelectChannel.Subtle; // Palmtree/Floof
             }
         }
 
@@ -854,6 +880,24 @@ public sealed partial class ChatUIController : UIController
             }
         }
 
+        // Palmtree/Floof: subtle chat notification sound, ported from Coyote.
+        if (_subtleSoundEnabled && msg.IsSubtle)
+        {
+            var isOwnMessage = _player.LocalEntity is { } local
+                               && _ent.TryGetEntity(msg.SenderEntity, out var sender)
+                               && sender == local;
+            var currentTime = _timing.CurTime;
+
+            if (!isOwnMessage)
+            {
+                if (currentTime - _lastSubtleSoundTime >= SubtleSoundCooldown)
+                    _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_CS/UserInterface/subtle_sound.ogg"), Filter.Local(), false);
+
+                // Reset the cooldown on each message so it doesn't interrupt a conversation.
+                _lastSubtleSoundTime = currentTime;
+            }
+        }
+
         // Log all incoming chat to repopulate when filter is un-toggled
         if (!msg.HideChat)
         {
@@ -898,6 +942,11 @@ public sealed partial class ChatUIController : UIController
                 break;
 
             case ChatChannel.LOOC:
+                if (_config.GetCVar(CCVars.LoocAboveHeadShow))
+                    AddSpeechBubble(msg, SpeechBubble.SpeechType.Looc);
+                break;
+
+            case ChatChannel.SubtleLOOC: // Palmtree/Floof
                 if (_config.GetCVar(CCVars.LoocAboveHeadShow))
                     AddSpeechBubble(msg, SpeechBubble.SpeechType.Looc);
                 break;

@@ -41,6 +41,7 @@ ui-options-restart-sounds = Round Restart Sounds
 ui-options-event-music = Event Music
 ui-options-admin-sounds = Play Admin Sounds
 ui-options-bwoink-sound = Play AHelp Notification Sound
+ui-options-subtle-sound = Play Subtle Notification Sound
 ui-options-volume-label = Volume
 
 ## Graphics menu
@@ -192,6 +193,8 @@ ui-options-function-focus-emote = Focus chat (Emote)
 ui-options-function-focus-whisper-chat-window = Focus chat (Whisper)
 ui-options-function-focus-radio-window = Focus chat (Radio)
 ui-options-function-focus-looc-window = Focus chat (LOOC)
+ui-options-function-focus-subtle = Focus chat (Subtle)
+ui-options-function-focus-subtle-looc-window = Focus chat (Subtle LOOC)
 ui-options-function-focus-ooc-window = Focus chat (OOC)
 ui-options-function-focus-admin-chat-window = Focus chat (Admin)
 ui-options-function-focus-dead-chat-window = Focus chat (Dead)
