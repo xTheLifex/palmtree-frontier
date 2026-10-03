@@ -221,6 +221,8 @@
   fallbacks:
   - ContractorClothingUniformJumpsuitColorGrey
   - ContractorClothingUniformJumpskirtColorGrey
+  subgroups:
+  - CoyoteJumpsuit
 
 - type: loadoutGroup
   id: ContractorBackpack
@@ -229,6 +231,7 @@
   - ContractorClothingBackpack
   - ContractorClothingBackpackDuffel
   - ContractorClothingBackpackSatchel
+  - ContractorClothingBackpackSatchelLeather # Palmtree
   - ContractorClothingBackpackMessenger
   - ContractorClothingBackpackCaptain
   - ContractorClothingBackpackDuffelCaptain
@@ -455,6 +458,7 @@
   name: loadout-group-contractor-shoes
   loadouts:
   - ContractorClothingShoesColorBlack
+  - LoadoutFootProtectors # Palmtree
   - ContractorClothingShoesClothwrap
   - ContractorClothingShoesTourist
   - ContractorClothingShoesBootsSalvage
@@ -785,6 +789,7 @@
   loadouts:
   - ContractorMonkeyCubeWrapped
   - ContractorKoboldCubeWrapped
+  - ContractorClicker # Palmtree
   - ContractorCigPackBlue
   - ContractorCigPackRed
   - ContractorCigPackBlack

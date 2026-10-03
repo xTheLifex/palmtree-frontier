@@ -472,6 +472,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         }
 
         humanoid.Age = profile.Age;
+        humanoid.LegStyle = profile.Appearance.LegStyle; // Palmtree/Coyote
 
         Dirty(uid, humanoid);
     }

@@ -68,6 +68,18 @@ public sealed partial class HumanoidAppearanceComponent : Component
     [DataField, AutoNetworkedField]
     public Dictionary<HumanoidVisualLayers, SlotFlags> HiddenLayers = new();
 
+    /// <summary>
+    /// Palmtree/Floof: base layers hidden because a base marking (e.g. species adaptor) replaces them.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<HumanoidVisualLayers> HiddenBaseLayers = new();
+
+    /// <summary>
+    /// Palmtree/Coyote: the leg style of this humanoid, used to swap legs/feet/torso sprites.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public HumanoidLegStyle LegStyle = HumanoidLegStyle.Plantigrade;
+
     [DataField, AutoNetworkedField]
     public Sex Sex = Sex.Male;
 

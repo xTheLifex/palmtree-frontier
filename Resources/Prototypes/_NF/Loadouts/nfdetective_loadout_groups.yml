@@ -9,6 +9,8 @@
   fallbacks:
   - NFDetectiveClothingUniformJumpsuitDetective
   - NFDetectiveClothingUniformJumpskirtDetective
+  subgroups:
+  - CoyoteJumpsuit
   
 - type: loadoutGroup
   id: NFDetectiveOuterClothing

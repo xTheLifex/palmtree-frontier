@@ -36,3 +36,4 @@ marking-adjust-scale-text = Adjust position/size
 marking-scale-label = Size:
 marking-offset-x-label = Offset X:
 marking-offset-y-label = Offset Y:
+markings-leg-style = Leg Style:

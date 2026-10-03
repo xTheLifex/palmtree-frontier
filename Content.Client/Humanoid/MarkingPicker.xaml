@@ -15,6 +15,10 @@
 
                 <ItemList Name="CMarkingsUnused" VerticalExpand="True" MinSize="300 250" />
                 <Button Name="CMarkingAdd" Text="{Loc 'markings-add'}" StyleClasses="OpenRight" />
+                <BoxContainer HorizontalExpand="True" Orientation="Horizontal">
+                    <Label Text="{Loc 'markings-leg-style'}" />
+                    <OptionButton HorizontalExpand="True" Name="CMarkingLegStyle" />
+                </BoxContainer>
             </BoxContainer>
 
             <!-- Used markings -->

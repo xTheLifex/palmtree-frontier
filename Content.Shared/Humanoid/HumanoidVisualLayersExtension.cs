@@ -58,15 +58,23 @@ namespace Content.Shared.Humanoid
                     break;
                 case HumanoidVisualLayers.LLeg:
                     yield return HumanoidVisualLayers.LLeg;
+                    yield return HumanoidVisualLayers.LLegBehind; // Palmtree/Floof
                     yield return HumanoidVisualLayers.LFoot;
+                    yield return HumanoidVisualLayers.LFootBehind; // Palmtree/Floof
                     break;
                 case HumanoidVisualLayers.RLeg:
                     yield return HumanoidVisualLayers.RLeg;
+                    yield return HumanoidVisualLayers.RLegBehind; // Palmtree/Floof
                     yield return HumanoidVisualLayers.RFoot;
+                    yield return HumanoidVisualLayers.RFootBehind; // Palmtree/Floof
                     break;
                 case HumanoidVisualLayers.Chest:
                     yield return HumanoidVisualLayers.Chest;
+                    yield return HumanoidVisualLayers.UndershirtUnderclothes; // Palmtree/Floof
+                    yield return HumanoidVisualLayers.UndershirtOverclothes; // Palmtree/Floof
                     yield return HumanoidVisualLayers.Tail;
+                    yield return HumanoidVisualLayers.TailBehind; // Palmtree/Floof
+                    yield return HumanoidVisualLayers.TailOversuit; // Palmtree/Floof
                     break;
                 default:
                     yield break;

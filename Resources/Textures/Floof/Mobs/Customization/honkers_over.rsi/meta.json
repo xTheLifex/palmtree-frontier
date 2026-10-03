@@ -1,0 +1,547 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Fenny",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "bowbraalt",
+      "directions": 4
+    },
+    {
+      "name": "bowbra",
+      "directions": 4
+    },
+    {
+      "name": "bowbra_neko",
+      "directions": 4
+    },
+    {
+      "name": "bowbra_swimming",
+      "directions": 4
+    },
+    {
+      "name": "bowbra_swimming_alt",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_petite",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_girlish",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_curvy",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_busty",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_massive",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_petite",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_girlish",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_curvy",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_busty",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_massive",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_petite",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_girlish",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_curvy",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_busty",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_massive",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_petite",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_girlish",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_curvy",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_busty",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_massive",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_petite",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_girlish",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_curvy",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_busty",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_massive",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_petite",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_girlish",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_curvy",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_busty",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_massive",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "shapely_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_petite",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_girlish",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_curvy",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_busty",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_hyper",
+      "directions": 4
+    },
+    {
+      "name": "shapely_hyper",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_hyper",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_hyper",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_hyper",
+      "directions": 4
+    },
+    {
+      "name": "panties_cow",
+      "directions": 4
+    },
+    {
+      "name": "bra_cow",
+      "directions": 4
+    },
+    {
+      "name": "socks_cow",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_petite",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_girlish",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_curvy",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_busty",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_massive",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_backbreaker",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_hyper",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_humongous",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_hyper",
+      "directions": 4
+    },
+    {
+      "name": "bowbra_south",
+      "directions": 4
+    },
+    {
+      "name": "bowbraalt_south",
+      "directions": 4
+    },
+    {
+      "name": "bowbra_neko_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapelybra_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "pshapely_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "shapely_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyblt_hyper_south",
+      "directions": 4
+    },
+    {
+      "name": "shapely_hyper_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyss_hyper_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelytt_hyper_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelybra_hyper_south",
+      "directions": 4
+    },
+    {
+      "name": "bra_cow_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_petite_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_girlish_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_curvy_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_busty_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_massive_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_backbreaker_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelymoo_hyper_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_humongous_south",
+      "directions": 4
+    },
+    {
+      "name": "shapelyttfn_hyper_south",
+      "directions": 4
+    }
+  ]
+}

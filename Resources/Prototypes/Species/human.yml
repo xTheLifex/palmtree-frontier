@@ -41,6 +41,9 @@
     RFoot: MobHumanRFoot
     Tail: MobHumanoidAnyMarking # Nyanotrasen - Felinid
     HeadSide: MobHumanoidAnyMarking # Einstein Engines - Oni
+    TailOversuit: MobHumanoidAnyMarking
+    UndershirtUnderclothes: MobHumanoidAnyMarking
+    UndershirtOverclothes: MobHumanoidAnyMarking
 
 - type: markingPoints
   id: MobHumanMarkingLimits

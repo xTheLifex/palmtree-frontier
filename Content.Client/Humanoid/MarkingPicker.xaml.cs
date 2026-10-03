@@ -28,6 +28,7 @@ public sealed partial class MarkingPicker : Control
     public Action<MarkingSet>? OnMarkingRemoved;
     public Action<MarkingSet>? OnMarkingColorChange;
     public Action<MarkingSet>? OnMarkingRankChange;
+    public Action<HumanoidLegStyle>? OnLegStyleChanged; // Palmtree/Coyote
 
     private List<Color> _currentMarkingColors = new();
 
@@ -36,6 +37,14 @@ public sealed partial class MarkingPicker : Control
     private float _currentMarkingOffsetX;
     private float _currentMarkingOffsetY;
     // Palmtree/Coyote End
+
+    // Palmtree/Coyote: leg style selection
+    public HumanoidLegStyle CurrentLegStyle = HumanoidLegStyle.Plantigrade;
+    private readonly HashSet<HumanoidLegStyle> _availableLegStyles = new()
+    {
+        HumanoidLegStyle.Plantigrade,
+        HumanoidLegStyle.Digitigrade,
+    };
 
     private ItemList.Item? _selectedMarking;
     private ItemList.Item? _selectedUnusedMarking;
@@ -89,7 +98,7 @@ public sealed partial class MarkingPicker : Control
         }
     }
 
-    public void SetData(List<Marking> newMarkings, string species, Sex sex, Color skinColor, Color eyeColor)
+    public void SetData(List<Marking> newMarkings, string species, Sex sex, Color skinColor, Color eyeColor, HumanoidLegStyle legStyle)
     {
         var pointsProto = _prototypeManager
             .Index<SpeciesPrototype>(species).MarkingPoints;
@@ -104,6 +113,10 @@ public sealed partial class MarkingPicker : Control
         _currentSex = sex;
         CurrentSkinColor = skinColor;
         CurrentEyeColor = eyeColor;
+
+        // Palmtree/Coyote
+        CurrentLegStyle = _availableLegStyles.Contains(legStyle) ? legStyle : HumanoidLegStyle.Plantigrade;
+        SetupLegStyleButtons();
 
         Populate(CMarkingSearch.Text);
         PopulateUsed();
@@ -153,11 +166,33 @@ public sealed partial class MarkingPicker : Control
         CMarkingRankDown.OnPressed += _ => SwapMarkingDown();
 
         CMarkingSearch.OnTextChanged += args => Populate(args.Text);
+
+        CMarkingLegStyle.OnItemSelected += OnChangedLegStyle; // Palmtree/Coyote
+        SetupLegStyleButtons(); // Palmtree/Coyote
+    }
+
+    // Palmtree/Coyote: leg style selector
+    private void SetupLegStyleButtons()
+    {
+        CMarkingLegStyle.Clear();
+
+        foreach (var legStyle in _availableLegStyles)
+        {
+            CMarkingLegStyle.AddItem(Loc.GetString($"humanoid-leg-style-{legStyle.ToString()}"), (int)legStyle);
+        }
+
+        CMarkingLegStyle.SelectId((int)CurrentLegStyle);
+    }
+
+    private void OnChangedLegStyle(OptionButton.ItemSelectedEventArgs legs)
+    {
+        CMarkingLegStyle.SelectId(legs.Id);
+        CurrentLegStyle = (HumanoidLegStyle)legs.Id;
+        OnLegStyleChanged?.Invoke(CurrentLegStyle);
     }
 
     private void SetupCategoryButtons()
-    {
-        CMarkingCategoryButton.Clear();
+    {        CMarkingCategoryButton.Clear();
 
         var validCategories = new List<MarkingCategories>();
         for (var i = 0; i < _markingCategories.Count; i++)

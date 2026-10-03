@@ -64,6 +64,25 @@ namespace Content.Shared.Humanoid.Markings
         [DataField("colorLinks")]
         public Dictionary<string, string>? ColorLinks { get; private set; }
 
+        /// <summary>
+        /// Palmtree/Coyote: alternate sprites to use for a given leg style (e.g. digitigrade).
+        /// </summary>
+        [DataField("altSprites")]
+        public Dictionary<HumanoidLegStyle, ProtoId<MarkingPrototype>> AlternateSprites { get; private set; } = new();
+
+        /// <summary>
+        /// Palmtree/Floof: hidden from the character editor marking list if true.
+        /// Used for markings applied through another marking.
+        /// </summary>
+        [DataField("hidden")]
+        public bool Hidden { get; private set; } = false;
+
+        /// <summary>
+        /// Palmtree/Floof: sprite used when this marking replaces a species base layer.
+        /// </summary>
+        [DataField("baseLayerSprite")]
+        public SpriteSpecifier? BaseLayerSprite { get; private set; } = default!;
+
         // impstation edit - allow markings to support shaders
 		[DataField("shader")]
 		public string? Shader { get; private set; } = null;

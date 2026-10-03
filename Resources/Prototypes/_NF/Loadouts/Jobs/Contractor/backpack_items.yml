@@ -645,3 +645,10 @@
   storage:
     back:
     - NFPosterContraband
+
+- type: loadout
+  id: ContractorClicker
+  price: 500
+  storage:
+    back:
+    - Clicker

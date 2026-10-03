@@ -10,6 +10,8 @@
   fallbacks:
   - ChiefMedicalOfficerJumpsuit
   - ChiefMedicalOfficerJumpskirt
+  subgroups:
+  - CoyoteJumpsuit
 
 - type: loadoutGroup
   id: DocGloves

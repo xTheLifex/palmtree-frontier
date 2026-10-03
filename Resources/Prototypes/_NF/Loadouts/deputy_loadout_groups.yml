@@ -7,6 +7,8 @@
   fallbacks:
   - DeputyClothingUniformJumpsuitDeputy
   - DeputyClothingUniformJumpskirtDeputy
+  subgroups:
+  - CoyoteJumpsuit
   
 - type: loadoutGroup
   id: DeputyOuterClothing

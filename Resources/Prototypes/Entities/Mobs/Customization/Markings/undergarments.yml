@@ -1,11 +1,13 @@
 # These options are kept very sparse to not put emphasis on nudity, and to provide a base for players to feel comfortable with.
-# It's unlikely more will be added to upstream for cosmetic reasons. 
+# It's unlikely more will be added to upstream for cosmetic reasons.
+# Screw that, im putting heavy hornygraphic emphasis on sexunudity lewdwear
 
 - type: marking
   id: UndergarmentBottomBoxers
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -19,6 +21,7 @@
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -32,6 +35,7 @@
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -45,6 +49,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, Reptilian, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -58,6 +63,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, Reptilian, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -71,6 +77,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, Reptilian, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -84,6 +91,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Arachnid, Diona, Human, Dwarf, Moth, Reptilian, SlimePerson, Goblin, Sheleg, Felinid, Vulpkanin, Oni, Harpy] # Frontier: added Goblin and afterwards
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -92,11 +100,13 @@
   - sprite: Mobs/Customization/undergarments.rsi
     state: tanktop
 
+## VOX UNDIES
 - type: marking
   id: UndergarmentBottomBoxersVox # Voxers.
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -110,6 +120,7 @@
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -123,6 +134,7 @@
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -136,6 +148,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -149,6 +162,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -162,6 +176,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -175,6 +190,7 @@
   bodyPart: UndergarmentTop
   markingCategory: UndergarmentTop
   speciesRestriction: [Vox]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -183,11 +199,13 @@
   - sprite: Mobs/Customization/undergarments.rsi
     state: tanktop_vox
 
+## REPTILIAN UNDIES
 - type: marking
   id: UndergarmentBottomBoxersReptilian
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -201,6 +219,7 @@
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -214,6 +233,7 @@
   bodyPart: UndergarmentBottom
   markingCategory: UndergarmentBottom
   speciesRestriction: [Reptilian]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   coloring:
     default:
       type: null
@@ -221,3 +241,3045 @@
   sprites:
   - sprite: Mobs/Customization/undergarments.rsi
     state: satin_reptilian
+
+## FLOOF UNDERSHIRTs
+- type: marking
+  id: UndershirtStandard
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: t_undershirt
+
+- type: marking
+  id: UndershirtSleeveless
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: t_undershirt_sleeveless
+
+- type: marking
+  id: UndershirtRolled
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: t_rolled_undershirt
+
+- type: marking
+  id: UndershirtRolledSleeveless
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: t_rolled_undershirt_sleeveless
+
+- type: marking
+  id: UndershirtLong
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: t_long_undershirt
+
+- type: marking
+  id: UndershirtClassic
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: snow_bra
+
+- type: marking
+  id: UndershirtSports
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: snow_sports
+
+- type: marking
+  id: UndershirtStrapless
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: snow_strapless
+
+- type: marking
+  id: UndershirtBra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra
+
+- type: marking
+  id: UndershirtBraalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_alt
+
+- type: marking
+  id: UndershirtBrathin
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_thin
+
+- type: marking
+  id: UndershirtSportsbra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: sports_bra
+
+- type: marking
+  id: UndershirtSportsbraalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: sports_bra_alt
+
+- type: marking
+  id: UndershirtBrastrapless
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_strapless
+
+- type: marking
+  id: UndershirtBrastraplessalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_strapless_alt
+
+- type: marking
+  id: UndershirtHalterneckbra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: halterneck_bra
+
+- type: marking
+  id: UndershirtBraneko
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_neko
+
+- type: marking
+  id: UndershirtBraswimming
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_swimming
+
+- type: marking
+  id: UndershirtBraswimmingalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_swimming_alt
+
+- type: marking
+  id: UndershirtTubetop
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tubetop
+
+- type: marking
+  id: UndershirtBabydoll
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: babydoll
+
+- type: marking
+  id: UndershirtBrakinky
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_kinky
+
+- type: marking
+  id: UndershirtBraassblastusa
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_assblastusa
+
+- type: marking
+  id: UndershirtBrabeekini
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_bee-kini
+
+- type: marking
+  id: UndershirtBracommie
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_commie
+
+- type: marking
+  id: UndershirtBrauk
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_uk
+
+- type: marking
+  id: UndershirtBrastriped
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: striped_bra
+
+- type: marking
+  id: UndershirtSwimsuitblue
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: swimming_blue
+
+- type: marking
+  id: UndershirtSwimsuitred
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: swimming_red
+
+- type: marking
+  id: UndershirtSwimsuitblack
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: swimming_black
+
+- type: marking
+  id: UndershirtFishnet
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: fishnet
+
+- type: marking
+  id: UndershirtFishnetbody
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: fishnet_body
+
+- type: marking
+  id: UndershirtFishnetsleeves
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: fishnet_sleeves
+
+- type: marking
+  id: UndershirtFishnetgloves
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: fishnet_gloves
+
+- type: marking
+  id: UndershirtUndershirtgeneric
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: undershirt
+
+- type: marking
+  id: UndershirtShortsleeve
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shortsleeve
+
+- type: marking
+  id: UndershirtPolo
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: polo
+
+- type: marking
+  id: UndershirtTanktop
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tanktop
+
+- type: marking
+  id: UndershirtTanktoprainbow
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tank_rainbow
+
+- type: marking
+  id: UndershirtTanktopstripes
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tank_stripes
+
+- type: marking
+  id: UndershirtTanktopalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tanktop_alt
+
+- type: marking
+  id: UndershirtTanktopmidriff
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tank_midriff
+
+- type: marking
+  id: UndershirtTanktopmidriffalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tank_midriff_alt
+
+- type: marking
+  id: UndershirtTanktopsun
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tank_sun
+
+- type: marking
+  id: UndershirtIanshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: ian
+
+- type: marking
+  id: UndershirtLovershirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: lover
+
+- type: marking
+  id: UndershirtLoventshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: ilovent
+
+- type: marking
+  id: UndershirtUkshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: uk
+
+- type: marking
+  id: UndershirtPeaceshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: peace
+
+- type: marking
+  id: UndershirtBandshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: band
+
+- type: marking
+  id: UndershirtPogomanshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: pogoman
+
+- type: marking
+  id: UndershirtGreensportshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: greenshirtsport
+
+- type: marking
+  id: UndershirtRedsportshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: redshirtsport
+
+- type: marking
+  id: UndershirtBluesportshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: blueshirtsport
+
+- type: marking
+  id: UndershirtMatroska
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: matroska
+
+- type: marking
+  id: UndershirtSs13shirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_ss13
+
+- type: marking
+  id: UndershirtQuestionshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_question
+
+- type: marking
+  id: UndershirtSkullshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_skull
+
+- type: marking
+  id: UndershirtTankfireshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: tank_fire
+
+- type: marking
+  id: UndershirtCommieshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_commie
+
+- type: marking
+  id: UndershirtNanoshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_nano
+
+
+- type: marking
+  id: UndershirtMeatshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_meat
+
+- type: marking
+  id: UndershirtStripesshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_stripes
+
+- type: marking
+  id: UndershirtTiedyeshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_tiedye
+
+- type: marking
+  id: UndershirtRedjersey
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_redjersey
+
+- type: marking
+  id: UndershirtBluejersey
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_bluejersey
+
+- type: marking
+  id: UndershirtBowlingshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowling
+
+
+- type: marking
+  id: UndershirtBowlingpshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowlingp
+
+- type: marking
+  id: UndershirtBowlingashirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowlinga
+
+- type: marking
+  id: UndershirtBowlingwshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowlingw
+
+- type: marking
+  id: UndershirtBeeshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bee_shirt
+
+- type: marking
+  id: UndershirtAlienshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_alien
+
+- type: marking
+  id: UndershirtClownshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shirt_clown
+
+- type: marking
+  id: UndershirtNavycowboyshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: cowboyshirt_navy
+
+- type: marking
+  id: UndershirtRedcowboyshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: cowboyshirt_red
+
+- type: marking
+  id: UndershirtLongstripeshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: longstripe
+
+- type: marking
+  id: UndershirtBluelongstripeshirt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: longstripe_blue
+
+- type: marking
+  id: UndershirtShapelyshirtgirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shapely_girlish
+
+- type: marking
+  id: UndershirtShapelyshirtpetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shapely_petite
+
+- type: marking
+  id: UndershirtShapelyshirtcurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shapely_curvy
+
+- type: marking
+  id: UndershirtShapelyshirtbusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shapely_busty
+
+- type: marking
+  id: UndershirtShapelyshirtmassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shapely_massive
+
+- type: marking
+  id: UndershirtShapelyshirtbackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: shapely_backbreaker
+
+- type: marking
+  id: UndershirtBrabinder
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_binder
+
+- type: marking
+  id: UndershirtBrabinderstrapless
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bra_binder_strapless
+
+- type: marking
+  id: UndershirtScrubsgreen
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: scrubsgreen
+
+- type: marking
+  id: UndershirtScrubspurple
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: scrubspurple
+
+- type: marking
+  id: UndershirtBluebridebra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bride_blue
+
+- type: marking
+  id: UndershirtOrangebridebra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bride_orange
+
+- type: marking
+  id: UndershirtPurplebridebra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bride_purple
+
+- type: marking
+  id: UndershirtRedbridebra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bride_red
+
+- type: marking
+  id: UndershirtBowbra
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowbra
+
+- type: marking
+  id: UndershirtBowbraalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowbraalt
+
+- type: marking
+  id: UndershirtBowbraneko
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowbra_neko
+
+- type: marking
+  id: UndershirtBowbraswimming
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowbra_swimming
+
+- type: marking
+  id: UndershirtBowbraswimmingalt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/undershirt.rsi
+    state: bowbra_swimming_alt
+
+## FLOOF UNDERPANTIES
+- type: marking
+  id: UnderwearBoxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: snow_boxers
+
+- type: marking
+  id: UnderwearLowriders
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: snow_lowriders
+
+- type: marking
+  id: UnderwearBriefs
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: snow_briefs
+
+- type: marking
+  id: UnderwearSatin
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: snow_satin
+
+- type: marking
+  id: UnderwearTanga
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: snow_tanga
+
+- type: marking
+  id: UnderwearClassicbriefs
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: briefs
+
+- type: marking
+  id: UnderwearClassicjockstrap
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: jockstrap
+
+- type: marking
+  id: UnderwearClassicmankini
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: mankini
+
+- type: marking
+  id: UnderwearClassicboxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxers
+
+- type: marking
+  id: UnderwearClassicheartboxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxers_heart
+
+- type: marking
+  id: UnderwearClassicukboxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxers_uk
+
+- type: marking
+  id: UnderwearClassicassblastusaboxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxers_assblastusa
+
+- type: marking
+  id: UnderwearClassiccommieboxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxers_commie
+
+- type: marking
+  id: UnderwearClassicstripedboxers
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxers_striped
+
+- type: marking
+  id: UnderwearClassicboxerbriefs
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: boxer_briefs
+
+- type: marking
+  id: UnderwearClassicbeeshorts
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: bee_shorts
+
+- type: marking
+  id: UnderwearClassicpanties
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties
+
+- type: marking
+  id: UnderwearClassicpantiesalt
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_alt
+
+- type: marking
+  id: UnderwearClassicpantiesslim
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_slim
+
+- type: marking
+  id: UnderwearClassicpantiesthin
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_thin
+
+- type: marking
+  id: UnderwearClassicpantiesneko
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_neko
+
+- type: marking
+  id: UnderwearClassicpantiesswimming
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_swimming
+
+- type: marking
+  id: UnderwearClassicthong
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: thong
+
+- type: marking
+  id: UnderwearClassicthongbabydoll
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: thong_babydoll
+
+- type: marking
+  id: UnderwearFishnetlower
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: fishnet_lower
+
+- type: marking
+  id: UnderwearClassicpantiesassblastusa
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_assblastusa
+
+- type: marking
+  id: UnderwearClassicpantiesbeekini
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_bee-kini
+
+- type: marking
+  id: UnderwearClassicpantiescommie
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_commie
+
+- type: marking
+  id: UnderwearClassicpantiesuk
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_uk
+
+- type: marking
+  id: UnderwearClassicpantiesstriped
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: striped_panties
+
+- type: marking
+  id: UnderwearClassicpantiesbow
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: bowpanties
+
+- type: marking
+  id: UnderwearClassicpantiesbowslim
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: bowpanties_slim
+
+- type: marking
+  id: UnderwearClassicthongbow
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: bowthong
+
+- type: marking
+  id: UnderwearClassicthongbowbabydoll
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: bowthong_babydoll
+
+- type: marking
+  id: UnderwearClassicpantiescow
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/underwear.rsi
+    state: panties_cow
+
+## BOW BRAS
+- type: marking
+  id: UnderwearBraBow
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowbra
+
+- type: marking
+  id: UnderwearBraBowAlt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowbraalt
+
+- type: marking
+  id: UnderwearBraBowNeko
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowbra_neko
+
+- type: marking
+  id: UnderwearBraBowSwimming
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowbra_swimming
+
+- type: marking
+  id: UnderwearBraBowSwimmingAlt
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowbra_swimming_alt
+
+- type: marking
+  id: UnderwearBraCow # moo
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bra_cow
+
+## PANTIEs
+- type: marking
+  id: UnderwearPantiesBow
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowpanties
+
+- type: marking
+  id: UnderwearPantiesBowSlim
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowpanties_slim
+
+- type: marking
+  id: UnderwearPantiesBowThong
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowthong
+
+- type: marking
+  id: UnderwearPantiesBowThongBabydoll
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: bowthong_babydoll
+
+- type: marking
+  id: UnderwearPantiesCow
+  bodyPart: UndergarmentBottom
+  markingCategory: UndergarmentBottom
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: panties_cow
+
+## BOOB SHIRTS
+### PERKY SHIRTS
+- type: marking
+  id: UndershirtShapelyPerkyShirtBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapely_backbreaker
+
+- type: marking
+  id: UndershirtShapelyPerkyShirtBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapely_busty
+
+- type: marking
+  id: UndershirtShapelyPerkyShirtCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapely_curvy
+
+- type: marking
+  id: UndershirtShapelyPerkyShirtGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapely_girlish
+
+- type: marking
+  id: UndershirtShapelyPerkyShirtMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapely_massive
+
+- type: marking
+  id: UndershirtShapelyPerkyShirtPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapely_petite
+
+### BOOBBELT SHIRTS
+- type: marking
+  id: UndershirtShapelyPerkyBraBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapelybra_backbreaker
+
+- type: marking
+  id: UndershirtShapelyPerkyBraBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapelybra_busty
+
+- type: marking
+  id: UndershirtShapelyPerkyBraCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapelybra_curvy
+
+- type: marking
+  id: UndershirtShapelyPerkyBraGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapelybra_girlish
+
+- type: marking
+  id: UndershirtShapelyPerkyBraMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapelybra_massive
+
+- type: marking
+  id: UndershirtShapelyPerkyBraPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: pshapelybra_petite
+
+### BOOBBELT SHIRTS
+- type: marking
+  id: UndershirtShapelyBeltBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_backbreaker
+
+- type: marking
+  id: UndershirtShapelyBeltBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_busty
+
+- type: marking
+  id: UndershirtShapelyBeltCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_curvy
+
+- type: marking
+  id: UndershirtShapelyBeltGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_girlish
+
+- type: marking
+  id: UndershirtShapelyBeltPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_petite
+
+## HYPER BOOB BELT SHIRTS
+- type: marking
+  id: UndershirtShapelyBeltHumongous
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_humongous
+
+- type: marking
+  id: UndershirtShapelyBeltHyper
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyblt_hyper
+
+### NONPERKY BOOB SHIRTS
+- type: marking
+  id: UndershirtShapelyBraBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_backbreaker
+
+- type: marking
+  id: UndershirtShapelyBraBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_busty
+
+- type: marking
+  id: UndershirtShapelyBraCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_curvy
+
+- type: marking
+  id: UndershirtShapelyBraGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_girlish
+
+- type: marking
+  id: UndershirtShapelyBraMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_massive
+
+- type: marking
+  id: UndershirtShapelyBraPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_petite
+
+## HYPER BOOB BELT SHIRTS
+- type: marking
+  id: UndershirtShapelyBraHumongous
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_humongous
+
+- type: marking
+  id: UndershirtShapelyBraHyper
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelybra_hyper
+
+### COW BOOB SHIRTS
+- type: marking
+  id: UndershirtShapelyCowBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_backbreaker
+
+- type: marking
+  id: UndershirtShapelyCowBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_busty
+
+- type: marking
+  id: UndershirtShapelyCowCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_curvy
+
+- type: marking
+  id: UndershirtShapelyCowGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_girlish
+
+- type: marking
+  id: UndershirtShapelyCowMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_massive
+
+- type: marking
+  id: UndershirtShapelyCowPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_petite
+
+## HYPER BOOB BELT SHIRTS
+- type: marking
+  id: UndershirtShapelyCowHumongous
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_humongous
+
+- type: marking
+  id: UndershirtShapelyCowHyper
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelymoo_hyper
+
+### SHOULDERLESS SHIRT BOOB SHIRTS
+- type: marking
+  id: UndershirtShapelyShoulderlessBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_backbreaker
+
+- type: marking
+  id: UndershirtShapelyShoulderlessBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_busty
+
+- type: marking
+  id: UndershirtShapelyShoulderlessCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_curvy
+
+- type: marking
+  id: UndershirtShapelyShoulderlessGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_girlish
+
+- type: marking
+  id: UndershirtShapelyShoulderlessMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_massive
+
+- type: marking
+  id: UndershirtShapelyShoulderlessPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_petite
+
+## HYPER BOOB BELT SHIRTS
+- type: marking
+  id: UndershirtShapelyShoulderlessHumongous
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_humongous
+
+- type: marking
+  id: UndershirtShapelyShoulderlessHyper
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyss_hyper
+
+### BOOB TUBE TOPS
+- type: marking
+  id: UndershirtShapelyTubetopBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_backbreaker
+
+- type: marking
+  id: UndershirtShapelyTubetopBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_busty
+
+- type: marking
+  id: UndershirtShapelyTubetopCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_curvy
+
+- type: marking
+  id: UndershirtShapelyTubetopGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_girlish
+
+- type: marking
+  id: UndershirtShapelyTubetopMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_massive
+
+- type: marking
+  id: UndershirtShapelyTubetopPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_petite
+
+## HYPER BOOB BELT SHIRTS
+- type: marking
+  id: UndershirtShapelyTubetopHumongous
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_humongous
+
+- type: marking
+  id: UndershirtShapelyTubetopHyper
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelytt_hyper
+
+### BOOB TUBE TOPS with FISHNETS
+- type: marking
+  id: UndershirtShapelyTubetopFishnetBackbreaker
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_backbreaker
+
+- type: marking
+  id: UndershirtShapelyTubetopFishnetBusty
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_busty
+
+- type: marking
+  id: UndershirtShapelyTubetopFishnetCurvy
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_curvy
+
+- type: marking
+  id: UndershirtShapelyTubetopFishnetGirlish
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_girlish
+
+- type: marking
+  id: UndershirtShapelyTubetopFishnetMassive
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_massive
+
+- type: marking
+  id: UndershirtShapelyTubetopFishnetPetite
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_petite
+
+## HYPER BOOB BELT SHIRTS
+- type: marking
+  id: UndershirtShapelyTubetopFishnetHumongous
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_humongous
+
+- type: marking
+  id: UndershirtShapelyTubetopFishnetHyper
+  bodyPart: UndergarmentTop
+  markingCategory: UndergarmentTop
+  speciesRestriction: [Human]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  coloring:
+    default:
+      type:
+        !type:SimpleColoring
+        color: "#FFFFFF"
+  sprites:
+  - sprite: Floof/Mobs/Customization/honkers.rsi
+    state: shapelyttfn_hyper
+
+
+
+
+
+

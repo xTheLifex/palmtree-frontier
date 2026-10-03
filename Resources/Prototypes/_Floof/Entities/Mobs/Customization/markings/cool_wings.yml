@@ -1,0 +1,61 @@
+# cool wings, bro
+
+# Example wings, two layers, four sprites, two pairs of colorlinks
+- type: marking
+  id: CoyoteWingsDragon
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  layering:
+    m_insect_wings_dragon_alt_BEHIND_A: TailBehind
+    m_insect_wings_dragon_alt_BEHIND_B: TailBehind
+    m_insect_wings_dragon_alt_FRONT_A:  TailOversuit
+    m_insect_wings_dragon_alt_FRONT_B:  TailOversuit
+  colorLinks:
+    m_insect_wings_dragon_alt_BEHIND_A: m_insect_wings_dragon_alt_FRONT_A
+    m_insect_wings_dragon_alt_BEHIND_B: m_insect_wings_dragon_alt_FRONT_B
+  sprites:
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_dragon_alt_BEHIND_A
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_dragon_alt_BEHIND_B
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_dragon_alt_FRONT_A
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_dragon_alt_FRONT_B
+
+# Example wings, two layers, two sprites, one pair of colorlinks
+- type: marking
+  id: CoyoteWingsSepulchre
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  layering:
+    m_insect_wings_sepulchre_BEHIND_B: TailBehind
+    m_insect_wings_sepulchre_FRONT_B:  TailOversuit
+  colorLinks:
+    m_insect_wings_sepulchre_BEHIND_B: m_insect_wings_sepulchre_FRONT_B
+  sprites:
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_sepulchre_BEHIND_B
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_sepulchre_FRONT_B
+
+- type: marking
+  id: CoyoteWingsSuccubus
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
+  layering:
+    m_insect_wings_succubus_BEHIND_B: TailBehind
+    m_insect_wings_succubus_FRONT_B:  TailOversuit
+  colorLinks:
+    m_insect_wings_succubus_BEHIND_B: m_insect_wings_succubus_FRONT_B
+  sprites:
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_succubus_BEHIND_B
+  - sprite: _CS/wingbatcha.rsi
+    state: m_insect_wings_succubus_FRONT_B

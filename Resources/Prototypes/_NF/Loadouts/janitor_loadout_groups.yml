@@ -17,6 +17,8 @@
   fallbacks:
   - JanitorNFClothingUniformJumpsuitJanitor
   - JanitorNFClothingUniformJumpskirtJanitor
+  subgroups:
+  - CoyoteJumpsuit
 
 - type: loadoutGroup
   id: JanitorNFGloves

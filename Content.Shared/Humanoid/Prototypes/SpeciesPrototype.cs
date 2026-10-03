@@ -86,6 +86,18 @@ public sealed partial class SpeciesPrototype : IPrototype
     public List<string>? Kind { get; private set; } = null;
 
     /// <summary>
+    /// Palmtree/Coyote: the default leg style for this species.
+    /// </summary>
+    [DataField]
+    public HumanoidLegStyle DefaultLegStyle = HumanoidLegStyle.Plantigrade;
+
+    /// <summary>
+    /// Palmtree/Coyote: should this species get displacement maps applied when using digitigrade leg styles?
+    /// </summary>
+    [DataField]
+    public bool AllowDigilegDisplacement = true;
+
+    /// <summary>
     /// Method of skin coloration used by the species.
     /// </summary>
     [DataField(required: true)]

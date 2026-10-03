@@ -36,6 +36,14 @@
     LFoot: MobHarpyLFoot
     RFoot: MobHarpyRFoot
     RArmExtension: MobHumanoidAnyMarking # Frontier
+    NeckFluff: MobHumanoidAnyMarking
+    LLegBehind: MobHumanoidAnyMarking
+    RLegBehind: MobHumanoidAnyMarking
+    LFootBehind: MobHumanoidAnyMarking
+    RFootBehind: MobHumanoidAnyMarking
+    TailOversuit: MobHumanoidAnyMarking
+    UndershirtUnderclothes: MobHumanoidAnyMarking
+    UndershirtOverclothes: MobHumanoidAnyMarking
 
 
 - type: markingPoints
@@ -102,24 +110,32 @@
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: torso_m
 
+  altSprites:
+    Digitigrade: DigilegHumanTorsoMaleSkintoned
 - type: humanoidBaseSprite
   id: MobHarpyTorsoMale
   baseSprite:
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: torso_m
 
+  altSprites:
+    Digitigrade: DigilegHumanTorsoMaleSkintoned
 - type: humanoidBaseSprite
   id: MobHarpyTorsoFemale
   baseSprite:
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: torso_f
 
+  altSprites:
+    Digitigrade: DigilegHumanTorsoFemaleSkintoned
 - type: humanoidBaseSprite
   id: MobHarpyLLeg
   baseSprite:
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: l_leg
 
+  altSprites:
+    Digitigrade: DigilegAvianLegLeft
 - type: humanoidBaseSprite
   id: MobHarpyLHand
   baseSprite:
@@ -138,12 +154,16 @@
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: l_foot
 
+  altSprites:
+    Digitigrade: DigilegAvianFootLeft
 - type: humanoidBaseSprite
   id: MobHarpyRLeg
   baseSprite:
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: r_leg
 
+  altSprites:
+    Digitigrade: DigilegAvianLegRight
 - type: humanoidBaseSprite
   id: MobHarpyRHand
   baseSprite:
@@ -161,3 +181,6 @@
   baseSprite:
     sprite: _DV/Mobs/Species/Harpy/parts.rsi
     state: r_foot
+
+  altSprites:
+    Digitigrade: DigilegAvianFootRight

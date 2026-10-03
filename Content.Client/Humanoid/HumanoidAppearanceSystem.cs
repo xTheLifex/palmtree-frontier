@@ -48,6 +48,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
     {
         UpdateLayers(entity);
         ApplyMarkingSet(entity);
+        UpdateLayersAgain(entity); // Palmtree/Floof: hide base layers replaced by base markings
 
         var humanoidAppearance = entity.Comp1;
         var sprite = entity.Comp2;
@@ -65,6 +66,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
         var oldLayers = new HashSet<HumanoidVisualLayers>(component.BaseLayers.Keys);
         component.BaseLayers.Clear();
+        component.HiddenBaseLayers.Clear(); // Palmtree/Floof
 
         // add default species layers
         var speciesProto = _prototypeManager.Index(component.Species);
@@ -122,7 +124,42 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             layer.Color = component.SkinColor.WithAlpha(proto.LayerAlpha);
 
         if (proto.BaseSprite != null)
-            _sprite.LayerSetSprite((entity.Owner, sprite), layerIndex, proto.BaseSprite);
+        {
+            var appropriateSprite = proto.BaseSprite;
+
+            // Palmtree/Coyote: swap base sprites for the current leg style (e.g. digitigrade).
+            if (component.LegStyle != HumanoidLegStyle.Plantigrade && proto.AltSprites.Count > 0)
+            {
+                if (proto.AltSprites.TryGetValue(component.LegStyle, out var altSprite)
+                    || proto.AltSprites.TryGetValue(HumanoidLegStyle.Digitigrade, out altSprite))
+                {
+                    if (_prototypeManager.TryIndex(altSprite, out MarkingPrototype? altMarkingProto))
+                    {
+                        if (altMarkingProto.BaseLayerSprite is SpriteSpecifier.Rsi)
+                            appropriateSprite = altMarkingProto.BaseLayerSprite;
+                        else if (altMarkingProto.Sprites.Count > 0)
+                            appropriateSprite = altMarkingProto.Sprites[0];
+                    }
+                }
+            }
+
+            _sprite.LayerSetSprite((entity.Owner, sprite), layerIndex, appropriateSprite);
+        }
+    }
+
+    /// <summary>
+    /// Palmtree/Floof: hides base layers that are replaced by base markings (e.g. species adaptors).
+    /// </summary>
+    private void UpdateLayersAgain(Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
+    {
+        var component = entity.Comp1;
+        var sprite = entity.Comp2;
+
+        foreach (var layer in component.HiddenBaseLayers)
+        {
+            if (_sprite.LayerMapTryGet((entity.Owner, sprite), layer, out var index, false))
+                sprite[index].Visible = false;
+        }
     }
 
     /// <summary>
@@ -234,6 +271,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         humanoid.Sex = profile.Sex;
         humanoid.Gender = profile.Gender;
         humanoid.Age = profile.Age;
+        humanoid.LegStyle = profile.Appearance.LegStyle; // Palmtree/Coyote
         humanoid.Species = profile.Species;
         humanoid.SkinColor = profile.Appearance.SkinColor;
         humanoid.EyeColor = profile.Appearance.EyeColor;
@@ -262,6 +300,8 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             {
                 if (_markingManager.TryGetMarking(marking, out var markingPrototype))
                 {
+                    // Palmtree/Coyote: swap the marking for its alternate-leg-style version if one exists.
+                    markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
                     ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset);
                     if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
                         applyUndergarmentTop = false;
@@ -484,6 +524,38 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
                 _displacement.TryAddDisplacement(displacementData, (entity.Owner, sprite), targLayerAdj + 1, layerId, out _);
             }
         }
+
+        // Palmtree/Floof: base markings (e.g. species adaptors) hide the base layer they replace.
+        if (MarkingCategoriesConversion.Category2Layer(
+                markingPrototype.MarkingCategory,
+                markingPrototype.BodyPart,
+                out var baseLayerToHide))
+        {
+            if (!humanoid.HiddenBaseLayers.Contains(baseLayerToHide))
+                humanoid.HiddenBaseLayers.Add(baseLayerToHide);
+        }
+    }
+
+    /// <summary>
+    /// Palmtree/Coyote: returns the alternate marking prototype for the humanoid's leg style, if any.
+    /// </summary>
+    private MarkingPrototype GetMarkingForLegStyle(HumanoidAppearanceComponent humanoid, MarkingPrototype markingPrototype)
+    {
+        if (humanoid.LegStyle == HumanoidLegStyle.Plantigrade
+            || markingPrototype.AlternateSprites.Count == 0)
+        {
+            return markingPrototype;
+        }
+
+        if (markingPrototype.AlternateSprites.TryGetValue(humanoid.LegStyle, out var altMarkingProtoId)
+            || (humanoid.LegStyle != HumanoidLegStyle.Digitigrade
+                && markingPrototype.AlternateSprites.TryGetValue(HumanoidLegStyle.Digitigrade, out altMarkingProtoId)))
+        {
+            if (_prototypeManager.TryIndex(altMarkingProtoId, out MarkingPrototype? altPrototype))
+                return altPrototype;
+        }
+
+        return markingPrototype;
     }
 
     public override void SetSkinColor(EntityUid uid, Color skinColor, bool sync = true, bool verify = true, HumanoidAppearanceComponent? humanoid = null)

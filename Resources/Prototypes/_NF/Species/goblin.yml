@@ -39,6 +39,14 @@
     RLeg: MobGoblinRLeg
     LFoot: MobGoblinLFoot
     RFoot: MobGoblinRFoot
+    NeckFluff: MobHumanoidAnyMarking
+    LLegBehind: MobHumanoidAnyMarking
+    RLegBehind: MobHumanoidAnyMarking
+    LFootBehind: MobHumanoidAnyMarking
+    RFootBehind: MobHumanoidAnyMarking
+    TailOversuit: MobHumanoidAnyMarking
+    UndershirtUnderclothes: MobHumanoidAnyMarking
+    UndershirtOverclothes: MobHumanoidAnyMarking
 
 - type: markingPoints
   id: MobGoblinMarkingLimits
@@ -106,24 +114,32 @@
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: torso_m
 
+  altSprites:
+    Digitigrade: DigilegHumanTorsoMale
 - type: humanoidBaseSprite
   id: MobGoblinTorsoMale
   baseSprite:
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: torso_m
 
+  altSprites:
+    Digitigrade: DigilegHumanTorsoMale
 - type: humanoidBaseSprite
   id: MobGoblinTorsoFemale
   baseSprite:
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: torso_f
 
+  altSprites:
+    Digitigrade: DigilegHumanTorsoFemale
 - type: humanoidBaseSprite
   id: MobGoblinLLeg
   baseSprite:
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: l_leg
 
+  altSprites:
+    Digitigrade: DigilegPawLegLeft
 - type: humanoidBaseSprite
   id: MobGoblinLArm
   baseSprite:
@@ -142,12 +158,16 @@
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: l_foot
 
+  altSprites:
+    Digitigrade: DigilegPawFootLeft
 - type: humanoidBaseSprite
   id: MobGoblinRLeg
   baseSprite:
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: r_leg
 
+  altSprites:
+    Digitigrade: DigilegPawLegRight
 - type: humanoidBaseSprite
   id: MobGoblinRArm
   baseSprite:
@@ -165,3 +185,6 @@
   baseSprite:
     sprite: _NF/Mobs/Species/Goblin/parts.rsi
     state: r_foot
+
+  altSprites:
+    Digitigrade: DigilegPawFootRight

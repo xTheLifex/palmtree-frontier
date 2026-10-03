@@ -64,6 +64,15 @@ namespace Content.Shared.Humanoid.Markings
             // Palmtree/Coyote End
         }
 
+        // Palmtree/Coyote: copies a marking while resizing its color list.
+        public Marking(Marking marking, int colorCount) : this(marking)
+        {
+            List<Color> colors = new();
+            for (int i = 0; i < colorCount; i++)
+                colors.Add(Color.White);
+            _markingColors = colors;
+        }
+
         /// <summary>
         ///     ID of the marking prototype.
         /// </summary>

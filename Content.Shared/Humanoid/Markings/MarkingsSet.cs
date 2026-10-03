@@ -256,7 +256,8 @@ public sealed partial class MarkingSet
 
                 if (marking.Sprites.Count != list[i].MarkingColors.Count)
                 {
-                    list[i] = new Marking(marking.ID, marking.Sprites.Count);
+                    // Palmtree/Coyote: preserve the existing marking's transform data.
+                    list[i] = new Marking(list[i], marking.Sprites.Count);
                 }
             }
 
@@ -281,6 +282,12 @@ public sealed partial class MarkingSet
         foreach (var (category, points) in Points)
         {
             if (points.Points <= 0 || points.DefaultMarkings.Count <= 0)
+            {
+                continue;
+            }
+
+            // Palmtree/Floof: if the humanoid already has markings in this category, don't add defaults.
+            if (Markings.TryGetValue(category, out var existingMarkings) && existingMarkings.Count > 0)
             {
                 continue;
             }

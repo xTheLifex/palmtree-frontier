@@ -11,6 +11,8 @@
   fallbacks:
   - NFPirateJumpsuit
   - NFPirateJumpskirt
+  subgroups:
+  - CoyoteJumpsuit
 
 - type: loadoutGroup
   id: NFPiratePDA

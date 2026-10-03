@@ -7,6 +7,8 @@
   fallbacks:
   - CadetClothingUniformJumpsuitCadet
   - CadetClothingUniformJumpskirtCadet
+  subgroups:
+  - CoyoteJumpsuit
   
 - type: loadoutGroup
   id: CadetOuterClothing

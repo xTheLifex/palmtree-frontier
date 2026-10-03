@@ -427,6 +427,7 @@ namespace Content.Client.Lobby.UI
             Markings.OnMarkingRemoved += OnMarkingChange;
             Markings.OnMarkingColorChange += OnMarkingChange;
             Markings.OnMarkingRankChange += OnMarkingChange;
+            Markings.OnLegStyleChanged += OnLegsChanged; // Palmtree/Coyote
 
             #endregion Markings
 
@@ -1092,6 +1093,16 @@ namespace Content.Client.Lobby.UI
             ReloadProfilePreview();
         }
 
+        // Palmtree/Coyote
+        private void OnLegsChanged(HumanoidLegStyle legStyle)
+        {
+            if (Profile is null)
+                return;
+
+            Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithLegs(legStyle));
+            ReloadProfilePreview();
+        }
+
         private void OnSkinColorOnValueChanged()
         {
             if (Profile is null) return;
@@ -1444,7 +1455,8 @@ namespace Content.Client.Lobby.UI
             }
 
             Markings.SetData(Profile.Appearance.Markings, Profile.Species,
-                Profile.Sex, Profile.Appearance.SkinColor, Profile.Appearance.EyeColor
+                Profile.Sex, Profile.Appearance.SkinColor, Profile.Appearance.EyeColor,
+                Profile.Appearance.LegStyle
             );
         }
 
