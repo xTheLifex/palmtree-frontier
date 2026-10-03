@@ -1,5 +1,6 @@
 using Content.Server.GameTicking.Prototypes;
 using Robust.Shared.Random;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using System.Linq;
 
@@ -22,7 +23,19 @@ public sealed partial class GameTicker
             .Where(x => WhitelistedBackgroundExtensions.Contains(x.Extension))
             .ToList();
 
+        // Palmtree/Coyote: rotate the lobby background while players wait.
+        Timer.SpawnRepeating(30000, CycleLobbyBackground, System.Threading.CancellationToken.None);
         RandomizeLobbyBackground();
+    }
+
+    // Palmtree/Coyote: cycles the lobby background and tells clients to refresh it.
+    private void CycleLobbyBackground()
+    {
+        if (_lobbyBackgrounds == null || _lobbyBackgrounds.Count == 0)
+            return;
+
+        RandomizeLobbyBackground();
+        SendStatusToAll();
     }
 
     private void RandomizeLobbyBackground() {
