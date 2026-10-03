@@ -52,10 +52,10 @@ namespace Content.Shared.Humanoid.Markings
         /// <summary>
         /// Palmtree/Floof: allows specific marking sprites to be drawn into an arbitrary humanoid
         /// layer, e.g. breasts that render behind the body while facing north.
-        /// Dictionary: sprite state -> humanoid visual layer name.
+        /// Dictionary: sprite state -> humanoid visual layer.
         /// </summary>
         [DataField("layering")]
-        public Dictionary<string, string>? Layering { get; private set; }
+        public Dictionary<string, HumanoidVisualLayers>? Layering { get; private set; }
 
         /// <summary>
         /// Palmtree/Floof: links one sprite's color to another (format: child -> parent).

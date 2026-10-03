@@ -180,8 +180,10 @@ namespace Content.Shared.Humanoid.Markings
             // so old saved strings remain valid.
             if (_markingScale != 1.0f || _markingOffsetX != 0f || _markingOffsetY != 0f)
             {
-                result += string.Create(CultureInfo.InvariantCulture,
-                    $"@{_markingScale},{_markingOffsetX},{_markingOffsetY}");
+                result += "@"
+                    + _markingScale.ToString(CultureInfo.InvariantCulture) + ","
+                    + _markingOffsetX.ToString(CultureInfo.InvariantCulture) + ","
+                    + _markingOffsetY.ToString(CultureInfo.InvariantCulture);
             }
 
             return result;

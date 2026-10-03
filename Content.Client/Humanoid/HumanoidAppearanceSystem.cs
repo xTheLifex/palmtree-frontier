@@ -406,8 +406,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
             // Palmtree/Floof: a marking may route individual sprites to arbitrary layers.
             if (markingPrototype.Layering != null
-                && markingPrototype.Layering.TryGetValue(rsi.RsiState, out var layerName)
-                && Enum.TryParse<HumanoidVisualLayers>(layerName, out var parsedLayer))
+                && markingPrototype.Layering.TryGetValue(rsi.RsiState, out var parsedLayer))
             {
                 layerSlot = parsedLayer;
             }
