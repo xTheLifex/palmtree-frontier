@@ -97,13 +97,13 @@
   # headsets
   - MercenaryClothingHeadsetAltMercenaryCommon
   - MercenaryClothingHeadsetSecurityCommon
-  - MercenaryClothingHeadsetBrigmedicCommon
+  - MercenaryClothingHeadsetFirstResponderCommon
   - MercenaryClothingHeadsetAltSecurityCommon
   # wristsets
   - MercenaryNFClothingWristsetMercenaryCommon
   - MercenaryNFClothingWristsetPrivateSecCommon
   - MercenaryNFClothingWristsetSecurityCommon
-  - MercenaryNFClothingWristsetBrigmedicCommon
+  - MercenaryNFClothingWristsetFirstResponderCommon
   subgroups:
   - PilotEars
   - ContractorEars
