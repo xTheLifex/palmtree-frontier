@@ -259,8 +259,9 @@ public sealed partial class MarkingPicker : Control
         _selectedUnusedMarking = null;
 
         var sortedMarkings = GetMarkings(_selectedMarkingCategory).Values.Where(m =>
-            m.ID.ToLower().Contains(filter.ToLower()) ||
-            GetMarkingName(m).ToLower().Contains(filter.ToLower())
+            !m.Hidden && // Palmtree/Floof: hidden markings are applied through other markings
+            (m.ID.ToLower().Contains(filter.ToLower()) ||
+            GetMarkingName(m).ToLower().Contains(filter.ToLower()))
         ).OrderBy(p => Loc.GetString(GetMarkingName(p)));
 
         foreach (var marking in sortedMarkings)
