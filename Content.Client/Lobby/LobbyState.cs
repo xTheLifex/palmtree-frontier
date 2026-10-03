@@ -40,6 +40,12 @@ namespace Content.Client.Lobby
         // Frontier - save pickerwindow so it opens only once
         private PickerWindow? _pickerWindow = null;
 
+        // Palmtree - background crossfade
+        private TextureResource? _currentBg;
+        private TextureResource? _nextBg;
+        private float _fade = 1f;
+        private const float FadeTime = 1f;
+
         protected override void Startup()
         {
             if (_userInterfaceManager.ActiveScreen == null)
@@ -129,6 +135,33 @@ namespace Content.Client.Lobby
 
         public override void FrameUpdate(FrameEventArgs e)
         {
+            // Palmtree - background crossfade
+            if (_nextBg != null && Lobby != null)
+            {
+                _fade += (float)e.DeltaSeconds / FadeTime;
+
+                if (_fade >= 1f)
+                {
+                    _fade = 1f;
+                    _currentBg = _nextBg;
+                    _nextBg = null;
+
+                    Lobby.Background.Texture = _currentBg;
+                    Lobby.BackgroundFade.Texture = null;
+                }
+                else
+                {
+                    // smoothstep (nicer than linear)
+                    var t = _fade * _fade * (3 - 2 * _fade);
+
+                    if (_currentBg != null)
+                        Lobby.Background.Texture = _currentBg;
+
+                    Lobby.BackgroundFade.Texture = _nextBg;
+                    Lobby.BackgroundFade.Modulate = new Color(1f, 1f, 1f, t);
+                }
+            }
+
             if (_gameTicker.IsGameStarted)
             {
                 Lobby!.StartTime.Text = string.Empty;
@@ -257,15 +290,32 @@ namespace Content.Client.Lobby
 
         private void UpdateLobbyBackground()
         {
-            if (_gameTicker.LobbyBackground != null)
-            {
-                Lobby!.Background.Texture = _resourceCache.GetResource<TextureResource>(_gameTicker.LobbyBackground );
-            }
-            else
+            // Palmtree - crossfade between backgrounds instead of swapping instantly
+            if (_gameTicker.LobbyBackground == null)
             {
                 Lobby!.Background.Texture = null;
+                Lobby!.BackgroundFade.Texture = null;
+                _currentBg = null;
+                _nextBg = null;
+                _fade = 1f;
+                return;
             }
 
+            var newTexture = _resourceCache.GetResource<TextureResource>(_gameTicker.LobbyBackground);
+
+            if (_currentBg == null)
+            {
+                _currentBg = newTexture;
+                Lobby!.Background.Texture = newTexture;
+                Lobby!.BackgroundFade.Texture = null;
+                return;
+            }
+
+            if (_currentBg.Texture == newTexture.Texture)
+                return;
+
+            _nextBg = newTexture;
+            _fade = 0f;
         }
 
         private void SetReady(bool newReady)
