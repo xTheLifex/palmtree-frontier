@@ -8,3 +8,7 @@ modify-undies-verb-text = {$isVisible ->
 
 marking-toggle-self-start = You start to {$verb} your {$marking-name}.
 marking-toggle-self = You {$verb} your {$marking-name}.
+marking-toggle-other-start = You start to {$verb} their {$marking-name}.
+marking-toggle-other = You {$verb} their {$marking-name}.
+marking-toggle-by-other-start = {$other} starts to {$verb} your {$marking-name}.
+marking-toggle-by-other = {$other} {$verb} your {$marking-name}.

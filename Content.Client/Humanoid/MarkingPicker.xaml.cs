@@ -37,6 +37,9 @@ public sealed partial class MarkingPicker : Control
     private float _currentMarkingScale = 1.0f;
     private float _currentMarkingOffsetX;
     private float _currentMarkingOffsetY;
+    private string _currentMarkingCustomName = string.Empty;
+    private bool _currentMarkingCanToggle = true;
+    private bool _currentMarkingOtherCanToggle;
     // Palmtree/Coyote End
 
     // Palmtree/Coyote: leg style selection
@@ -550,7 +553,7 @@ public sealed partial class MarkingPicker : Control
             colorContainer.AddChild(glowRow);
         }
 
-        // Palmtree/Coyote Start: advanced marking editor (scale + offset)
+        // Palmtree/Coyote Start: advanced marking editor (scale + offset + visibility settings)
         var selectedMarkingIndex = _currentMarkings.FindIndexOf(_selectedMarkingCategory, prototype.ID);
         if (selectedMarkingIndex >= 0)
         {
@@ -558,7 +561,11 @@ public sealed partial class MarkingPicker : Control
             _currentMarkingScale = selectedMarking.MarkingScale;
             _currentMarkingOffsetX = selectedMarking.MarkingOffset.X;
             _currentMarkingOffsetY = selectedMarking.MarkingOffset.Y;
+            _currentMarkingCustomName = selectedMarking.CustomName ?? string.Empty;
+            _currentMarkingCanToggle = selectedMarking.CanToggleVisible;
+            _currentMarkingOtherCanToggle = selectedMarking.OtherCanToggleVisible;
             CMarkingColors.AddChild(BuildTransformControls());
+            CMarkingColors.AddChild(BuildVisibilityControls());
         }
         // Palmtree/Coyote End
 
@@ -753,6 +760,108 @@ public sealed partial class MarkingPicker : Control
         var marking = new Marking(_currentMarkings.Markings[_selectedMarkingCategory][markingIndex]);
         marking.SetScale(_currentMarkingScale);
         marking.SetOffset(_currentMarkingOffsetX, _currentMarkingOffsetY);
+        _currentMarkings.Replace(_selectedMarkingCategory, markingIndex, marking);
+
+        OnMarkingColorChange?.Invoke(_currentMarkings);
+    }
+
+    // Palmtree/Coyote: per-marking visibility settings (toggle on/off in-game, custom name).
+    private Control BuildVisibilityControls()
+    {
+        var settingsButton = new Button
+        {
+            Text = Loc.GetString("marking-settings-text"),
+        };
+
+        var settingsBox = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Vertical,
+            Visible = false,
+        };
+
+        var nameRow = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 8,
+        };
+        var customNameEdit = new LineEdit
+        {
+            HorizontalExpand = true,
+            Text = _currentMarkingCustomName,
+        };
+        nameRow.AddChild(new Label { Text = Loc.GetString("marking-custom-name") });
+        nameRow.AddChild(customNameEdit);
+
+        var canToggleRow = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 8,
+        };
+        var canToggleCheck = new CheckBox
+        {
+            Pressed = _currentMarkingCanToggle,
+        };
+        canToggleRow.AddChild(new Label { Text = Loc.GetString("marking-can-toggle"), HorizontalExpand = true });
+        canToggleRow.AddChild(canToggleCheck);
+
+        var otherCanToggleRow = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Horizontal,
+            SeparationOverride = 8,
+        };
+        var otherCanToggleCheck = new CheckBox
+        {
+            Pressed = _currentMarkingOtherCanToggle,
+        };
+        otherCanToggleRow.AddChild(new Label { Text = Loc.GetString("marking-can-toggle-other"), HorizontalExpand = true });
+        otherCanToggleRow.AddChild(otherCanToggleCheck);
+
+        customNameEdit.OnTextChanged += _ =>
+        {
+            _currentMarkingCustomName = customNameEdit.Text;
+            VisibilityChanged();
+        };
+        canToggleCheck.OnToggled += pressed =>
+        {
+            _currentMarkingCanToggle = pressed.Pressed;
+            VisibilityChanged();
+        };
+        otherCanToggleCheck.OnToggled += pressed =>
+        {
+            _currentMarkingOtherCanToggle = pressed.Pressed;
+            VisibilityChanged();
+        };
+
+        settingsButton.OnPressed += _ =>
+        {
+            settingsBox.Visible = !settingsBox.Visible;
+        };
+
+        settingsBox.AddChild(nameRow);
+        settingsBox.AddChild(canToggleRow);
+        settingsBox.AddChild(otherCanToggleRow);
+
+        var container = new BoxContainer
+        {
+            Orientation = LayoutOrientation.Vertical,
+        };
+        container.AddChild(settingsButton);
+        container.AddChild(settingsBox);
+        return container;
+    }
+
+    private void VisibilityChanged()
+    {
+        if (_selectedMarking is null) return;
+        var markingPrototype = (MarkingPrototype)_selectedMarking.Metadata!;
+        int markingIndex = _currentMarkings.FindIndexOf(_selectedMarkingCategory, markingPrototype.ID);
+
+        if (markingIndex < 0) return;
+
+        var marking = new Marking(_currentMarkings.Markings[_selectedMarkingCategory][markingIndex]);
+        marking.SetCustomName(_currentMarkingCustomName);
+        marking.CanToggleVisible = _currentMarkingCanToggle;
+        marking.OtherCanToggleVisible = _currentMarkingOtherCanToggle;
         _currentMarkings.Replace(_selectedMarkingCategory, markingIndex, marking);
 
         OnMarkingColorChange?.Invoke(_currentMarkings);

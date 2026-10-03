@@ -93,8 +93,8 @@ Follow the same pattern with:
 ## 7. Sprites and DB format
 
 - Runtime instance fields persist as
-  `markingId@#rrggbb,...[@scale,offsetX,offsetY][@g0.5,...]`; only change `Marking.ToString` and
-  `ParseFromDbString` together, keeping the legacy format parseable.
+  `markingId@#rrggbb,...[@scale,offsetX,offsetY][@g0.5,...][@m3][@cCustom Name]`; only change
+  `Marking.ToString` and `ParseFromDbString` together, keeping the legacy format parseable.
 - Scale is clamped to 0.1–4.0 (editor 0.25–3.0); offsets to ±2 (editor ±1).
 - Glow is per-instance, not a prototype field: each color gets a 0–100% glow slider in the editor,
   persisted as the `g` segment. Glowing markings render an `unshaded` companion layer.

@@ -14,10 +14,13 @@ using Robust.Shared.Utility;
 namespace Content.Server.FloofStation.ModifyUndies;
 
 /// <summary>
-/// Palmtree/Floof: lets a humanoid show or hide their undergarment and genital markings.
+/// Palmtree/Floof: lets a humanoid show or hide any of their markings in-game.
 /// </summary>
 /// <remarks>
-/// No consent system is present on this fork, so only the owner of a mob may toggle its markings.
+/// Which markings can be toggled is opt-in per marking through
+/// <see cref="Marking.CanToggleVisible"/> (by the owner) and
+/// <see cref="Marking.OtherCanToggleVisible"/> (by other players). No consent system is present
+/// on this fork, so the per-marking opt-in is the only gate for other players.
 /// </remarks>
 public sealed class ModifyUndiesSystem : EntitySystem
 {
@@ -45,25 +48,22 @@ public sealed class ModifyUndiesSystem : EntitySystem
         if (!TryComp<HumanoidAppearanceComponent>(args.Target, out var humApp))
             return;
 
-        // Without a consent system in place, only the owner can toggle their own markings.
-        if (args.User != args.Target)
-            return;
+        var isMine = args.User == args.Target;
 
         foreach (var marking in humApp.MarkingSet.Markings.Values.SelectMany(markingList => markingList))
         {
             if (!_markingManager.TryGetMarking(marking, out var mProt))
                 continue;
 
-            var partSlot = mProt.BodyPart;
-            if (!component.BodyPartTargets.Contains(partSlot))
+            if (!CanToggle(marking, isMine))
                 continue;
 
-            var localizedName = Loc.GetString($"marking-{mProt.ID}");
+            var localizedName = GetMarkingDisplayName(marking, mProt);
             var isVisible = marking.Visible;
             if (mProt.Sprites.Count < 1)
                 continue;
 
-            var icon = partSlot switch
+            var icon = mProt.BodyPart switch
             {
                 HumanoidVisualLayers.UndergarmentTop => new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/bra.png")),
                 HumanoidVisualLayers.UndergarmentBottom => new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/underpants.png")),
@@ -97,15 +97,42 @@ public sealed class ModifyUndiesSystem : EntitySystem
                         BlockDuplicate = true
                     };
 
-                    _popupSystem.PopupCoordinates(
-                        Loc.GetString(
-                            "marking-toggle-self-start",
-                            ("marking-name", localizedName),
-                            ("verb", isVisible ? "hide" : "show")),
-                        Transform(args.Target).Coordinates,
-                        Filter.Entities(args.Target),
-                        true,
-                        PopupType.Medium);
+                    var verbText = isVisible ? "hide" : "show";
+                    if (isMine)
+                    {
+                        _popupSystem.PopupCoordinates(
+                            Loc.GetString(
+                                "marking-toggle-self-start",
+                                ("marking-name", localizedName),
+                                ("verb", verbText)),
+                            Transform(args.Target).Coordinates,
+                            Filter.Entities(args.Target),
+                            true,
+                            PopupType.Medium);
+                    }
+                    else
+                    {
+                        _popupSystem.PopupCoordinates(
+                            Loc.GetString(
+                                "marking-toggle-other-start",
+                                ("marking-name", localizedName),
+                                ("verb", verbText)),
+                            Transform(args.Target).Coordinates,
+                            Filter.Entities(args.User),
+                            true,
+                            PopupType.Medium);
+
+                        _popupSystem.PopupCoordinates(
+                            Loc.GetString(
+                                "marking-toggle-by-other-start",
+                                ("marking-name", localizedName),
+                                ("verb", verbText),
+                                ("other", Identity.Entity(args.User, EntityManager))),
+                            Transform(args.Target).Coordinates,
+                            Filter.Entities(args.Target),
+                            true,
+                            PopupType.MediumCaution);
+                    }
 
                     var rufthleAudio = new SoundPathSpecifier("/Audio/Effects/thudswoosh.ogg");
                     _audio.PlayEntity(
@@ -121,6 +148,20 @@ public sealed class ModifyUndiesSystem : EntitySystem
 
             args.Verbs.Add(verb);
         }
+    }
+
+    private static bool CanToggle(Marking marking, bool isMine)
+    {
+        // The per-marking opt-in doubles as consent: other players can only toggle markings
+        // whose owner explicitly allowed it in the character editor.
+        return isMine ? marking.CanToggleVisible : marking.OtherCanToggleVisible;
+    }
+
+    private string GetMarkingDisplayName(Marking marking, MarkingPrototype prototype)
+    {
+        return string.IsNullOrWhiteSpace(marking.CustomName)
+            ? Loc.GetString($"marking-{prototype.ID}")
+            : marking.CustomName;
     }
 
     private void ToggleUndies(
@@ -139,17 +180,69 @@ public sealed class ModifyUndiesSystem : EntitySystem
         if (!TryComp<HumanoidAppearanceComponent>(args.Target, out var humApp))
             return;
 
+        Marking? targetMarking = null;
+        foreach (var markingList in humApp.MarkingSet.Markings.Values)
+        {
+            foreach (var marking in markingList)
+            {
+                if (marking.MarkingId != args.MarkingId)
+                    continue;
+
+                targetMarking = marking;
+                break;
+            }
+
+            if (targetMarking != null)
+                break;
+        }
+
+        if (targetMarking is null)
+            return;
+
+        var isMine = args.User == args.Target;
+        if (!CanToggle(targetMarking, isMine))
+            return;
+
+        var localizedName = GetMarkingDisplayName(targetMarking, prototype);
+        var verbText = args.IsVisible ? "hide" : "show";
+
         _humanoid.SetMarkingVisibility(uid, humApp, args.MarkingId, !args.IsVisible);
 
-        _popupSystem.PopupCoordinates(
-            Loc.GetString(
-                "marking-toggle-self",
-                ("marking-name", Loc.GetString($"marking-{prototype.ID}")),
-                ("verb", args.IsVisible ? "hide" : "show")),
-            Transform(args.Target.Value).Coordinates,
-            Filter.Entities(args.Target.Value),
-            true,
-            PopupType.Medium);
+        if (isMine)
+        {
+            _popupSystem.PopupCoordinates(
+                Loc.GetString(
+                    "marking-toggle-self",
+                    ("marking-name", localizedName),
+                    ("verb", verbText)),
+                Transform(args.Target.Value).Coordinates,
+                Filter.Entities(args.Target.Value),
+                true,
+                PopupType.Medium);
+        }
+        else
+        {
+            _popupSystem.PopupCoordinates(
+                Loc.GetString(
+                    "marking-toggle-other",
+                    ("marking-name", localizedName),
+                    ("verb", verbText)),
+                Transform(args.Target.Value).Coordinates,
+                Filter.Entities(args.User),
+                true,
+                PopupType.Medium);
+
+            _popupSystem.PopupCoordinates(
+                Loc.GetString(
+                    "marking-toggle-by-other",
+                    ("marking-name", localizedName),
+                    ("verb", verbText),
+                    ("other", Identity.Entity(args.User, EntityManager))),
+                Transform(args.Target.Value).Coordinates,
+                Filter.Entities(args.Target.Value),
+                true,
+                PopupType.MediumCaution);
+        }
 
         var rufthleAudio = new SoundPathSpecifier("/Audio/Effects/thudswoosh.ogg");
         _audio.PlayEntity(

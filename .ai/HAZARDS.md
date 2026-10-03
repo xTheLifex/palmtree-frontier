@@ -130,9 +130,10 @@ added to `markings-picker.ftl`; the duplicate was removed).
 - `LogType` numeric values are persisted; do not renumber.
 - Migrations exist twice (SQLite + Postgres); update both or a provider breaks.
 - Character markings are stored in `Profile.Markings` (jsonb) as strings:
-  `markingId@#rrggbb,...` with an optional `@scale,offsetX,offsetY` suffix. The parser tolerates the
-  legacy two-segment format. Changing this format requires updating `Marking.ToString` **and**
-  `Marking.ParseFromDbString`.
+  `markingId@#rrggbb,...` with optional `@scale,offsetX,offsetY`, `@g...`, `@m<flags>` and
+  `@c<name>` suffixes. The parser tolerates every older format and defaults to
+  `CanToggleVisible=true`, `OtherCanToggleVisible=false` when the flags segment is absent. Changing
+  this format requires updating `Marking.ToString` **and** `Marking.ParseFromDbString`.
 - No consent tables exist; no migrations were added by the port.
 
 ## 13. ERP/marking semantics
@@ -141,8 +142,9 @@ added to `markings-picker.ftl`; the duplicate was removed).
   for `MarkingCategories.Genital`. Visibility is session state (not persisted in the DB string);
   characters get hidden genitals again after respawn/relog. `ModifyUndies` flips `Marking.Visible`
   via `SetMarkingVisibility`.
-- `ModifyUndies` is **self-only** (no consent system). Do not assume other players can toggle your
-  markings; the old consent-gated behavior was intentionally dropped.
+- `ModifyUndies` has no consent gate: other players can toggle a marking only when its
+  `otherCanToggleVisible` opt-in is set (default off). The old consent-gated behavior was
+  intentionally dropped.
 - Base markings (`Base*` categories) hide the species base layer via `HiddenBaseLayers`; the list is
   rebuilt on every `UpdateLayers` and must be recomputed before hiding.
 - Profile application: `SharedHumanoidAppearanceSystem.LoadProfile` must use the

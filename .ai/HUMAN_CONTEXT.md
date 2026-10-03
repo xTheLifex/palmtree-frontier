@@ -123,5 +123,5 @@ system so players can look like any species while keeping IPC-like stats. If tru
 ever wanted, they should be built on the upstream silicon systems instead of the Einstein Engines
 stack.
 
-There is no consent system in this repository (yet). `ModifyUndies` was ported self-only. If others
-should be able to reveal your markings, consent has to be ported first.
+There is no consent system in this repository (yet). `ModifyUndies` is gated per marking: the owner
+can toggle by default, other players only when the marking has `otherCanToggleVisible` (default off).

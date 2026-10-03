@@ -93,4 +93,68 @@ public sealed class MarkingSerializationTest
         Assert.That(marking.MarkingOffset.X, Is.EqualTo(2.0f));
         Assert.That(marking.MarkingOffset.Y, Is.EqualTo(-2.0f));
     }
+
+    [Test]
+    public void DbStringRoundTripVisibilitySettings()
+    {
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White });
+        marking.CanToggleVisible = false;
+        marking.OtherCanToggleVisible = true;
+        marking.SetCustomName("Bedroom Eyes");
+
+        var parsed = Marking.ParseFromDbString(marking.ToString());
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.CanToggleVisible, Is.False);
+        Assert.That(parsed.OtherCanToggleVisible, Is.True);
+        Assert.That(parsed.CustomName, Is.EqualTo("Bedroom Eyes"));
+    }
+
+    [Test]
+    public void DbStringDefaultsVisibilitySettingsWhenAbsent()
+    {
+        // Legacy strings predate the per-marking visibility settings.
+        var parsed = Marking.ParseFromDbString("GenitalVaginaHuman@#ffffff@1.5,0.25,-0.5");
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.CanToggleVisible, Is.True);
+        Assert.That(parsed.OtherCanToggleVisible, Is.False);
+        Assert.That(parsed.CustomName, Is.Null);
+    }
+
+    [Test]
+    public void DbStringCustomNameCannotInjectSegments()
+    {
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White });
+        marking.SetCustomName("Bad@Name");
+
+        var parsed = Marking.ParseFromDbString(marking.ToString());
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.CustomName, Is.EqualTo("Bad_Name"));
+        Assert.That(parsed.CanToggleVisible, Is.True);
+    }
+
+    [Test]
+    public void DbStringRoundTripWithTransformGlowAndSettings()
+    {
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White, Color.Black });
+        marking.SetScale(0.5f);
+        marking.SetOffset(-0.25f, 0.75f);
+        marking.SetGlow(1, 0.4f);
+        marking.CanToggleVisible = false;
+        marking.OtherCanToggleVisible = true;
+        marking.SetCustomName("Custom");
+
+        var parsed = Marking.ParseFromDbString(marking.ToString());
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.MarkingScale, Is.EqualTo(0.5f).Within(0.0001f));
+        Assert.That(parsed.MarkingOffset.X, Is.EqualTo(-0.25f).Within(0.0001f));
+        Assert.That(parsed.MarkingOffset.Y, Is.EqualTo(0.75f).Within(0.0001f));
+        Assert.That(parsed.MarkingGlow[1], Is.EqualTo(0.4f).Within(0.0001f));
+        Assert.That(parsed.CanToggleVisible, Is.False);
+        Assert.That(parsed.OtherCanToggleVisible, Is.True);
+        Assert.That(parsed.CustomName, Is.EqualTo("Custom"));
+    }
 }

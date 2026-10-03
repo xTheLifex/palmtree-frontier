@@ -82,4 +82,61 @@ public sealed class MarkingKindAllowanceTest
 
         await pair.CleanReturnAsync();
     }
+
+    [Test]
+    public async Task ProfileLoadPreservesMarkingVisibilitySettings()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var profile = HumanoidCharacterProfile.DefaultWithSpecies("Human");
+            var marking = new Marking("VulpEarFade", new List<Color> { Color.White, Color.White });
+            marking.CanToggleVisible = false;
+            marking.OtherCanToggleVisible = true;
+            marking.SetCustomName("Sleepy Ears");
+            profile = profile.WithCharacterAppearance(
+                profile.Appearance.WithMarkings(new List<Marking> { marking }));
+
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
+            server.System<SharedHumanoidAppearanceSystem>().LoadProfile(mob, profile, humanoid);
+
+            var loaded = humanoid.MarkingSet.Markings.Values.SelectMany(list => list)
+                .FirstOrDefault(m => m.MarkingId == "VulpEarFade");
+
+            Assert.That(loaded, Is.Not.Null, "The marking was not applied to the mob.");
+            Assert.That(loaded!.CanToggleVisible, Is.False);
+            Assert.That(loaded.OtherCanToggleVisible, Is.True);
+            Assert.That(loaded.CustomName, Is.EqualTo("Sleepy Ears"));
+
+            entMan.DeleteEntity(mob);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task SlimeEyeglowAllowedForSynth()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+
+        await server.WaitAssertion(() =>
+        {
+            var proto = server.ResolveDependency<IPrototypeManager>();
+            var markingManager = server.ResolveDependency<MarkingManager>();
+
+            var speciesProto = proto.Index<SpeciesPrototype>("Synth");
+            var markingProto = proto.Index<MarkingPrototype>("SlimeEyeglow");
+
+            Assert.That(MarkingManager.IsAllowedBySpeciesOrKindAllowance(speciesProto, markingProto), Is.True);
+            Assert.That(markingManager.CanBeApplied("Synth", Sex.Male, markingProto, proto), Is.True);
+        });
+
+        await pair.CleanReturnAsync();
+    }
 }

@@ -53,3 +53,9 @@ marking-offset-x-label = Offset X:
 marking-offset-y-label = Offset Y:
 marking-glow-label = Glow
 markings-leg-style = Leg Style:
+
+# Palmtree: per-marking visibility settings
+marking-settings-text = Marking settings
+marking-custom-name = Custom Name
+marking-can-toggle = Can be toggled on/off in game by you
+marking-can-toggle-other = Can be toggled on/off in game by others

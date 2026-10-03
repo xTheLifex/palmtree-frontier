@@ -45,7 +45,8 @@
 - `MarkingPicker`: advanced size/offset editor and Leg Style selector.
 - Client renderer: layering routing, color links, scale/offset, genital-under-clothing ordering,
   `altSprites` swapping for base layers and markings, `HiddenBaseLayers` hiding.
-- `ModifyUndies` (`Content.Server/_Floof`, `Content.Shared/_Floof`): self-only show/hide verbs.
+- `ModifyUndies` (`Content.Server/_Floof`, `Content.Shared/_Floof`): per-marking show/hide verbs
+  (`canToggleVisible` default on, `otherCanToggleVisible` default off).
 
 ### 3.2 Content
 
@@ -71,7 +72,7 @@
 
 | Feature | Reason / status |
 |---|---|
-| Consent system (Floof UI/DB/toggles) | Maintainer decision: no consent system or DB migrations. `ModifyUndies` is self-only. See `systems/consent-and-erp.md` for how to add it later. |
+| Consent system (Floof UI/DB/toggles) | Maintainer decision: no consent system or DB migrations. `ModifyUndies` uses the per-marking `otherCanToggleVisible` opt-in instead (default off). See `systems/consent-and-erp.md` for how to add consent later. |
 | Traits (`BodyType*`, `Horny*`, `Scent*`, 46 ids) | Tied to un-ported HornyQuirks/BodyType/Scent systems. Imports filter unknown traits out safely (`HumanoidCharacterProfile.EnsureValid`). |
 | Scent / aphrodisiac visibility | Explicitly excluded. `ScentSystem`, `AphroLacedVisibility`, smell traits absent. |
 | Size manipulation / height-width system | Excluded. Character saves' `height`/`width` fields are ignored on import. |

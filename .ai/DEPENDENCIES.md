@@ -35,7 +35,7 @@ preferences DB/JSON ──► HumanoidCharacterProfile ──► SharedHumanoidA
 ### Marking verbs
 
 ```
-GetVerbsEvent ──► ModifyUndiesSystem (self-only) ──► ModifyUndiesDoAfterEvent
+GetVerbsEvent ──► ModifyUndiesSystem (per-marking opt-in) ──► ModifyUndiesDoAfterEvent
     ──► SharedHumanoidAppearanceSystem.SetMarkingVisibility ──► Marking.Visible ──► Dirty
     ──► client re-renders on state update
 ```

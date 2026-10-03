@@ -39,14 +39,18 @@ Deep dive: `.ai/systems/marking-and-appearance.md`; ERP status: `.ai/systems/con
 ## Runtime instance data & persistence
 
 `Marking` carries colors, `visible`, `forced`, `scale`, `offsetX/offsetY`, `glowLevels` (+ legacy
-`glow`). DB string format (`Marking.ToString`/`ParseFromDbString`):
+`glow`) and the toggle settings `customName`, `canToggleVisible` (default true),
+`otherCanToggleVisible` (default false). DB string format
+(`Marking.ToString`/`ParseFromDbString`):
 
 ```
-markingId@#rrggbb,...[@scale,offsetX,offsetY][@g0.5,1,...]
+markingId@#rrggbb,...[@scale,offsetX,offsetY][@g0.5,1,...][@m3][@cCustom Name]
 ```
 
-Transform segment omitted when default; glow segment (prefixed `g`) omitted when all zero. Old
-strings remain valid. Change `ToString` and `ParseFromDbString` together.
+Transform segment omitted when default; glow (`g`) omitted when all zero; visibility flags (`m`,
+bit 1 = self, bit 2 = others) omitted at defaults; custom name (`c`) omitted when empty (`@` is
+sanitized to `_`). Old strings remain valid and default to self-toggleable. Change `ToString` and
+`ParseFromDbString` together.
 
 **Profile load**: `SharedHumanoidAppearanceSystem.LoadProfile` must use
 `AddMarking(uid, Marking marking, colors, ...)` so scale/offset/glow survive. The
@@ -69,10 +73,12 @@ strings remain valid. Change `ToString` and `ParseFromDbString` together.
 
 - Genital markings: `bodyPart: Genital`, `markingCategory: Genital`, start hidden
   (`AddMarking` sets `Visible = false` for the category), toggled by `ModifyUndies`.
-- `ModifyUndiesSystem` is **self-only** (no consent system exists). It scans markings whose
-  `bodyPart` is undergarment/genital, starts a 1s do-after, then
-  `SharedHumanoidAppearanceSystem.SetMarkingVisibility` flips `Marking.Visible` and dirties.
-- Visibility is session state, not persisted.
+- `ModifyUndiesSystem` adds verbs for **any** marking whose `CanToggleVisible` (owner) or
+  `OtherCanToggleVisible` (others) is set. Defaults: owner on, others off. The per-marking opt-in is
+  the consent gate for others (no consent system). It starts a 1s do-after, then
+  `SharedHumanoidAppearanceSystem.SetMarkingVisibility` flips `Marking.Visible` and dirties. Verb
+  and popup text uses `CustomName` when set.
+- Visibility is session state, not persisted; toggle settings are persisted in the DB string.
 
 ## Digitigrade legs & clothing
 

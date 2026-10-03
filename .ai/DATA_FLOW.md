@@ -43,7 +43,7 @@ Client renderer:
        genital clamp ──► below jumpsuit/outerClothing
 ```
 
-Persistence format (DB string): `markingId@#rrggbb,...[@scale,offsetX,offsetY]`.
+Persistence format (DB string): `markingId@#rrggbb,...[@scale,offsetX,offsetY][@g...][@m<flags>][@c<name>]`.
 
 ## UI flow
 

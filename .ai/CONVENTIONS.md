@@ -23,7 +23,7 @@
 - Marking prototypes are data; marking behavior changes go through `MarkingManager`/renderer, never
   through per-prototype C#.
 - ERP content is explicit and adult, but code should stay neutral: no consent system exists, and
-  `ModifyUndies` is self-only.
+  `ModifyUndies` is gated by the per-marking `canToggleVisible`/`otherCanToggleVisible` opt-ins.
 
 ## Prototype conventions
 

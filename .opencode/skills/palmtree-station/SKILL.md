@@ -45,7 +45,7 @@ targeted port of Coyote/Floof ERP + marking systems. The old base lives in a sep
 - The marking system is Floof/Coyote-derived and lives in `Content.Shared/Humanoid/Markings`,
   `Content.Shared/Humanoid`, `Content.Client/Humanoid`, with verbs in `Content.Server/_Floof`.
 - Key features: `kindAllowance` sharing, `layering`/`colorLinks`, `altSprites` (digitigrade),
-  per-marking scale/offset/glow, genital markings, `ModifyUndies` (self-only), leg displacement.
+  per-marking scale/offset/glow, genital markings, `ModifyUndies` (per-marking toggle opt-in), leg displacement.
 - Details and hazards: `references/marking-and-erp.md`.
 
 ### Species

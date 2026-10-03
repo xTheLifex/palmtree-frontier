@@ -58,16 +58,21 @@ show/hide verbs.
 | `shader` | Optional layer shader (Impstation) |
 
 `Marking` (runtime instance) fields: `markingId`, colors, `visible`, `forced`, plus Palmtree
-extensions `scale`, `offsetX/offsetY` and `glowLevels` (per-color 0..1, legacy `glow` scalar).
-`Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
+extensions `scale`, `offsetX/offsetY`, `glowLevels` (per-color 0..1, legacy `glow` scalar) and the
+per-marking toggle settings `customName`, `canToggleVisible` (default true), `otherCanToggleVisible`
+(default false). `Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
 
 ```
-markingId@#rrggbb,#rrggbb,...[@scale,offsetX,offsetY][@g0.5,1,...]
+markingId@#rrggbb,#rrggbb,...[@scale,offsetX,offsetY][@g0.5,1,...][@m3][@cCustom Name]
 ```
 
-The optional transform segment is only written when scale/offset differ from defaults, and the glow
-segment (prefixed with `g`) only when any glow is non-zero, so old strings remain valid. `Equals`
-includes scale/offset/glow/visible.
+Optional segments: transform (only when scale/offset differ from defaults), glow (`g`, only when any
+glow is non-zero), visibility flags (`m`, only when the marking differs from
+`CanToggleVisible = true` / `OtherCanToggleVisible = false`; bit 1 = self-toggle, bit 2 = others) and
+custom name (`c`, only when set; `@` in the name is written as `_` so it cannot break the format).
+Old strings remain valid and default to self-toggleable, not other-toggleable. `Equals` includes
+scale/offset/glow/visible and the visibility settings. Change `ToString` and `ParseFromDbString`
+together.
 
 `HumanoidAppearanceComponent` additions: `HiddenBaseLayers` (`List<HumanoidVisualLayers>`) and
 `LegStyle`. `HumanoidCharacterAppearance` adds `LegStyle` (persisted in the profile and exported
@@ -85,7 +90,7 @@ characters).
 - `onlyWhitelisted` species (e.g. some forks) require either `speciesRestriction` or
   `kindAllowance` to be present.
 - This repo adds `kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike]` to **all**
-  species-restricted markings (914 across 39 files), mirroring Coyote: any species with a matching
+  species-restricted markings (915 across 39 files), mirroring Coyote: any species with a matching
   kind can wear them. New species-restricted markings should include it.
 
 ## Digitigrade legs & clothing displacement
@@ -138,16 +143,20 @@ undershirts) so hiding a parent hides its sublayers.
 5. Genital markings are hidden by default (`AddMarking` sets `Visible = false` for the Genital
    category) and toggled at runtime through `ModifyUndies`.
 
-## ModifyUndies (ERP toggle verbs)
+## ModifyUndies (marking toggle verbs)
 
 - `ModifyUndiesComponent` (server) is attached to `BaseMobSpeciesOrganic` and `BaseSpeciesDummy`.
-- `ModifyUndiesSystem` adds verbs for markings whose `bodyPart` is in the component's
-  `BodyPartTargets` (`UndergarmentTop`, `UndergarmentBottom`, `Genital`). It is **self-only**.
+  It is a marker component only; there is no body-part allowlist anymore.
+- `ModifyUndiesSystem` adds a verb for **every marking** whose `CanToggleVisible` (owner) or
+  `OtherCanToggleVisible` (other players) is set. Defaults are on for the owner and off for others,
+  so any marking can be hidden in-game out of the box; players opt in/out per marking in the editor.
+- The per-marking opt-in doubles as consent for other players (no consent system exists).
 - The verb starts a 1s do-after (`ModifyUndiesDoAfterEvent`), then calls
   `SharedHumanoidAppearanceSystem.SetMarkingVisibility`, which flips `Marking.Visible` and dirties
-  the component (auto-networked `MarkingSet`).
-- Icons: `Resources/Textures/Interface/VerbIcons/{undies,bra,underpants,love}.png`; locale in
-  `Resources/Locale/en-US/_Floof/markings/modify_undies.ftl`.
+  the component (auto-networked `MarkingSet`). Visibility is session state, not persisted.
+- Verb/popup text uses `CustomName` when set, otherwise `marking-<id>`.
+- Icons: `Resources/Textures/Interface/VerbIcons/{undies,bra,underpants,love}.png` (or the first
+  marking sprite); locale in `Resources/Locale/en-US/_Floof/markings/modify_undies.ftl`.
 
 ## Editor UI
 
@@ -156,6 +165,9 @@ undershirts) so hiding a parent hides its sublayers.
 - `GetMarkings` uses `MarkingManager.MarkingsByCategoryAndSpeciesAndSex` (kind-aware).
 - Collapsible "Adjust position/size" controls edit scale (0.25–3.0) and offset X/Y (−1..1) via
   sliders + spin boxes, persisted through `Marking.SetScale/SetOffset`.
+- Collapsible "Marking settings" controls edit the custom name and the self/other toggle
+  permissions, persisted through `Marking.SetCustomName`, `CanToggleVisible` and
+  `OtherCanToggleVisible`.
 - Each color has a **Glow** slider/spin box (0–100%) persisted through `Marking.SetGlow`; glowing
   markings render an `unshaded` companion layer.
 - Leg Style selector (`Plantigrade`/`Digitigrade`) raises `OnLegStyleChanged`; the profile editor

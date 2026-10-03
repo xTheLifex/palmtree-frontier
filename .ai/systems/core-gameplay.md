@@ -6,7 +6,7 @@
 ## Interactions and verbs
 
 - `InteractionSystem` + `GetVerbsEvent<T>` power context menus and interaction verbs.
-- `ModifyUndies` uses `GetVerbsEvent<Verb>` (self-only) — see `systems/marking-and-appearance.md`.
+- `ModifyUndies` uses `GetVerbsEvent<Verb>` (per-marking toggle opt-in) — see `systems/marking-and-appearance.md`.
 - `SharedHandsSystem` handles pickup/drop; `ItemToggle`, `UseDelay`, `DoAfter` gate actions.
 
 ## Body, damage and health

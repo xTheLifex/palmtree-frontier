@@ -40,7 +40,7 @@ There is no `RoundEndedEvent`; use `RoundEndMessageEvent` + `GameRunLevelChanged
 
 | Event | Consumer | Purpose |
 |---|---|---|
-| `GetVerbsEvent<Verb>` | `ModifyUndiesSystem` | Adds undies/genital toggle verbs (self-only) |
+| `GetVerbsEvent<Verb>` | `ModifyUndiesSystem` | Adds show/hide verbs for markings with the toggle opt-in |
 | `ModifyUndiesDoAfterEvent` | `ModifyUndiesSystem` | Completes the visibility toggle |
 | `GetItemActionsEvent` | `SharedConcealableClothingSystem` | Grants concealment action to equipped clothing |
 | `ToggleClothingConcealmentEvent` | `SharedConcealableClothingSystem` | Toggles concealment |

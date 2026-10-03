@@ -72,6 +72,9 @@ namespace Content.Shared.Humanoid.Markings
             _markingGlow = new(other.MarkingGlow);
             _legacyGlow = other._legacyGlow;
             // Palmtree/Coyote End
+            CustomName = other.CustomName;
+            CanToggleVisible = other.CanToggleVisible;
+            OtherCanToggleVisible = other.OtherCanToggleVisible;
         }
 
         // Palmtree/Coyote: copies a marking while resizing its color list.
@@ -126,6 +129,26 @@ namespace Content.Shared.Humanoid.Markings
         [DataField("visible")]
         public bool Visible = true;
 
+        // Palmtree/Coyote Start: per-marking visibility settings
+        /// <summary>
+        ///     Player-chosen name used in toggle verbs and popups instead of the prototype name.
+        /// </summary>
+        [DataField("customName")]
+        public string? CustomName;
+
+        /// <summary>
+        ///     Whether the owner of the mob can toggle this marking on/off in-game.
+        /// </summary>
+        [DataField("canToggleVisible")]
+        public bool CanToggleVisible = true;
+
+        /// <summary>
+        ///     Whether other players can toggle this marking on/off in-game.
+        /// </summary>
+        [DataField("otherCanToggleVisible")]
+        public bool OtherCanToggleVisible;
+        // Palmtree/Coyote End
+
         /// <summary>
         ///     If this marking should be forcefully applied, regardless of points.
         /// </summary>
@@ -155,6 +178,12 @@ namespace Content.Shared.Humanoid.Markings
             var normalizedGlow = Math.Clamp(glow, 0f, 1f);
             _markingGlow[glowIndex] = normalizedGlow;
             _legacyGlow = normalizedGlow;
+        }
+
+        // Palmtree/Coyote: per-marking visibility settings.
+        public void SetCustomName(string? name)
+        {
+            CustomName = string.IsNullOrWhiteSpace(name) ? null : name.Trim();
         }
         // Palmtree/Coyote End
 
@@ -198,7 +227,10 @@ namespace Content.Shared.Humanoid.Markings
                 // Palmtree/Coyote Start
                 && _markingScale == other._markingScale
                 && _markingOffsetX == other._markingOffsetX
-                && _markingOffsetY == other._markingOffsetY;
+                && _markingOffsetY == other._markingOffsetY
+                && CustomName == other.CustomName
+                && CanToggleVisible == other.CanToggleVisible
+                && OtherCanToggleVisible == other.OtherCanToggleVisible;
                 // Palmtree/Coyote End
         }
 
@@ -240,6 +272,22 @@ namespace Content.Shared.Humanoid.Markings
                     glow => glow.ToString(CultureInfo.InvariantCulture)));
             }
 
+            // Palmtree/Coyote: per-marking visibility settings. The defaults are
+            // CanToggleVisible = true, OtherCanToggleVisible = false, so the segment is only
+            // written when the marking differs from them.
+            var toggleFlags = (CanToggleVisible ? 1 : 0) | (OtherCanToggleVisible ? 2 : 0);
+            if (toggleFlags != 1)
+                result += "@m" + toggleFlags.ToString(CultureInfo.InvariantCulture);
+
+            if (!string.IsNullOrEmpty(CustomName))
+            {
+                var sanitizedCustomName = CustomName
+                    .Replace('@', '_')
+                    .Replace('\r', ' ')
+                    .Replace('\n', ' ');
+                result += "@c" + sanitizedCustomName;
+            }
+
             return result;
         }
 
@@ -247,37 +295,51 @@ namespace Content.Shared.Humanoid.Markings
         {
             if (input.Length == 0) return null;
             var split = input.Split('@');
-            if (split.Length is < 2 or > 4) return null;
+            if (split.Length is < 2 or > 8) return null;
             List<Color> colorList = new();
             foreach (string color in split[1].Split(','))
                 colorList.Add(Color.FromHex(color));
 
             var marking = new Marking(split[0], colorList);
 
-            // Palmtree/Coyote: optional advanced editor data.
-            var nextSegment = 2;
-            if (split.Length > 2 && !split[2].StartsWith('g'))
+            // Palmtree/Coyote: optional advanced editor data. Segments are prefixed by type:
+            // 'g' glow, 'm' visibility flags, 'c' custom name; anything else is a transform.
+            for (var i = 2; i < split.Length; i++)
             {
-                var transform = split[2].Split(',');
-                if (transform.Length == 3
-                    && float.TryParse(transform[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var scale)
-                    && float.TryParse(transform[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetX)
-                    && float.TryParse(transform[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetY))
+                var segment = split[i];
+
+                if (segment.StartsWith('g'))
                 {
-                    marking.SetScale(scale);
-                    marking.SetOffset(offsetX, offsetY);
+                    var glowValues = segment[1..].Split(',');
+                    for (var glowIndex = 0; glowIndex < glowValues.Length; glowIndex++)
+                    {
+                        if (float.TryParse(glowValues[glowIndex], NumberStyles.Float, CultureInfo.InvariantCulture, out var glow))
+                            marking.SetGlow(glowIndex, glow);
+                    }
                 }
-
-                nextSegment = 3;
-            }
-
-            if (split.Length > nextSegment && split[nextSegment].StartsWith('g'))
-            {
-                var glowValues = split[nextSegment][1..].Split(',');
-                for (var i = 0; i < glowValues.Length; i++)
+                else if (segment.StartsWith('m'))
                 {
-                    if (float.TryParse(glowValues[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var glow))
-                        marking.SetGlow(i, glow);
+                    if (int.TryParse(segment[1..], NumberStyles.Integer, CultureInfo.InvariantCulture, out var flags))
+                    {
+                        marking.CanToggleVisible = (flags & 1) != 0;
+                        marking.OtherCanToggleVisible = (flags & 2) != 0;
+                    }
+                }
+                else if (segment.StartsWith('c'))
+                {
+                    marking.CustomName = segment.Length > 1 ? segment[1..] : null;
+                }
+                else
+                {
+                    var transform = segment.Split(',');
+                    if (transform.Length == 3
+                        && float.TryParse(transform[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var scale)
+                        && float.TryParse(transform[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetX)
+                        && float.TryParse(transform[2], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetY))
+                    {
+                        marking.SetScale(scale);
+                        marking.SetOffset(offsetX, offsetY);
+                    }
                 }
             }
 

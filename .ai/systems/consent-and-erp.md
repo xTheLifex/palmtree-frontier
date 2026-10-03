@@ -11,7 +11,9 @@ There is **no** `Content.Shared/Consent`, `Content.Server/Consent`, `Content.Cli
 
 Consequences:
 
-- `ModifyUndies` is **self-only**; other players cannot reveal your genital markings.
+- `ModifyUndies` defaults to self-only; per-marking `OtherCanToggleVisible` is the only gate for
+  other players (there is no consent system). It defaults to off, including for undergarments and
+  genitals, so other players cannot reveal anything unless the owner opted in.
 - No system gates anything on `GenitalMarkings`, `NSFWDescriptions`, `SizeManipulation`,
   `Transformation`, `Vore`, `Digestion`, etc.
 - Character exports still contain `consentToggles`, `accountConsentFreetext` and
@@ -27,7 +29,7 @@ The old `coyote-frontier` repo has the complete Floof consent system; `.ai/PORTI
 | Feature | Location | Notes |
 |---|---|---|
 | Genital markings (core library, butts/bellies, Palmtree breasts) | `Resources/Prototypes/Entities/Mobs/Customization/Markings/genitals.yml`, `butts_and_bellies.yml`, `_PS/.../genitals.yml` | `bodyPart: Genital`, start hidden, render under clothing |
-| Show/hide verbs for undergarments + genitals | `Content.Server/_Floof/ModifyUndies/*` | Self-only, 1s do-after, `marking-toggle-*` locale |
+| Show/hide verbs for any marking | `Content.Server/_Floof/ModifyUndies/*` | Per-marking opt-in (`canToggleVisible` default on, `otherCanToggleVisible` default off), 1s do-after, `marking-toggle-*` locale |
 | Marking visibility state | `SharedHumanoidAppearanceSystem.SetMarkingVisibility` | Flips `Marking.Visible`; session-only |
 | Undergarment/over-garment marking library | `undergarments.yml`, `underovergarments.yml` | 218 + 67 markings, Floof sprites |
 | Genital-under-clothing ordering | `Content.Client/Humanoid/HumanoidAppearanceSystem.ApplyMarking` | Clamps below `jumpsuit`/`outerClothing` |

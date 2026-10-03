@@ -156,7 +156,8 @@ Fork modules are folder/namespace prefixes:
 - Directed vs broadcast events: `RaiseLocalEvent<T>(msg)` does not reach component handlers.
 - Subscribe only in `Initialize()`; subscriptions lock after startup.
 - DB migrations are load-bearing; both SQLite and Postgres must be updated.
-- No consent system exists in this repo; `ModifyUndies` is self-only (see `systems/consent-and-erp.md`).
+- No consent system exists in this repo; `ModifyUndies` is gated per marking by
+  `canToggleVisible`/`otherCanToggleVisible` (see `systems/consent-and-erp.md`).
 
 ## 8. Before modifying common systems, search these
 

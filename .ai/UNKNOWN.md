@@ -23,7 +23,8 @@ Questions that could not be answered confidently from the working tree. Treat th
    full silicon implementation (battery/radio/EMP) is ever wanted is unknown. See
    `.ai/systems/ps-systems.md` and `.ai/PORTING.md` §6.
 7. **Consent.** Whether/when the Floof consent system will be ported is undecided. Until then
-   `ModifyUndies` is self-only and no consent-gated systems exist.
+   `ModifyUndies` relies on the per-marking `otherCanToggleVisible` opt-in and no consent-gated
+   systems exist.
 8. **Traits.** 46 BodyType/Horny/Scent trait ids from character exports are not ported and are
    silently dropped on import. Whether they will be added later is unknown.
 9. **Size system.** Character `height`/`width` are ignored. Whether the size manipulation system
