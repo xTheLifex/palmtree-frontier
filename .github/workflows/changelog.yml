@@ -5,8 +5,8 @@ on:
     types: [closed]
 
 env:
-  GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-  CHANGELOG_DIR: Resources/Changelog/Frontier.yml # Frontier: Changelog.yml<Frontier.yml
+  GITHUB_TOKEN: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
+  CHANGELOG_DIR: Resources/Changelog/Palmtree.yml # Palmtree: Frontier.yml<Palmtree.yml
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
@@ -19,13 +19,13 @@ jobs:
       - name: Checkout Master
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.BOT_TOKEN }}
+          token: ${{ secrets.BOT_TOKEN || secrets.GITHUB_TOKEN }}
           ref: master
 
       - name: Setup Git
         run: |
-          git config --global user.name "${{ vars.CHANGELOG_USER }}"
-          git config --global user.email "${{ vars.CHANGELOG_EMAIL }}"
+          git config --global user.name "${{ vars.CHANGELOG_USER || 'github-actions[bot]' }}"
+          git config --global user.email "${{ vars.CHANGELOG_EMAIL || '41898282+github-actions[bot]@users.noreply.github.com' }}"
         shell: bash
 
       - name: Setup Node
@@ -47,9 +47,9 @@ jobs:
 
       - name: Commit Changelog
         run: |
-          git pull origin master
-          git add *.yml
-          git commit -m "${{ vars.CHANGELOG_MESSAGE }} (#${{ env.PR_NUMBER }})"
+          git add Resources/Changelog/Palmtree.yml
+          git commit -m "${{ vars.CHANGELOG_MESSAGE || 'Update changelog' }} (#${{ env.PR_NUMBER }})" || exit 0
+          git pull --rebase origin master
           git push
         shell: bash
         continue-on-error: true

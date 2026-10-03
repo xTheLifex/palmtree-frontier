@@ -1,0 +1,32 @@
+Name: Palmtree
+Order: -1
+Entries:
+- author: xTheLifex
+  changes:
+    - type: Add
+      message: >-
+        Added the Synth species, a humanoid robot that can wear any markings and
+        moves faster than most.
+    - type: Add
+      message: >-
+        Added the advanced marking system: per-marking size, offset and glow,
+        digitigrade legs, and cross-species markings.
+    - type: Add
+      message: >-
+        Added genital markings and in-game show/hide verbs for any marking,
+        including custom names.
+    - type: Add
+      message: Added the Rodentia, Anthromorph and Tajaran species.
+    - type: Add
+      message: >-
+        Added contractor loadout items, latex clothing, and the concealable
+        backpack implant.
+    - type: Add
+      message: Added Palmtree lobby backgrounds, music, weapons and grenades.
+    - type: Add
+      message: Added a search box to the keybind options tab.
+    - type: Fix
+      message: Slime eyeglow markings are now available to every species.
+  id: 90001
+  time: '2026-10-03T19:00:00.0000000+00:00'
+  url: https://github.com/xTheLifex/palmtree-frontier

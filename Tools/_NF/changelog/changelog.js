@@ -145,22 +145,18 @@ function getHighestCLNumber() {
 }
 
 function writeChangelog(entry) {
-    let data = { Entries: [] };
+    const block = yaml.dump([entry], { indent: 2 }).replace(/^---\n?/, "");
 
     // Create a new changelogs file if it does not exist
-    if (fs.existsSync(ChangelogFilePath)) {
-        const file = fs.readFileSync(ChangelogFilePath, "utf8");
-        data = yaml.load(file);
+    if (!fs.existsSync(ChangelogFilePath)) {
+        fs.writeFileSync(ChangelogFilePath, "Entries:\n" + block);
+        return;
     }
 
-    data.Entries.push(entry);
-
-    // Write updated changelogs file
-    fs.writeFileSync(
-        ChangelogFilePath,
-        "Entries:\n" +
-            yaml.dump(data.Entries, { indent: 2 }).replace(/^---/, "")
-    );
+    // Append to the file instead of rewriting it, so top-level fields like
+    // Name, Order and AdminOnly are preserved (Palmtree.yml uses them).
+    const file = fs.readFileSync(ChangelogFilePath, "utf8").replace(/\s+$/, "\n");
+    fs.writeFileSync(ChangelogFilePath, file + block);
 }
 
 // Run main
