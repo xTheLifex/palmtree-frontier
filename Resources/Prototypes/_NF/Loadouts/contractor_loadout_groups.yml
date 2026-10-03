@@ -987,6 +987,7 @@
   maxLimit: 2
   loadouts:
   - ContractorMedicalTrackingImplanter
+  - ContractorClothingConcealmentBackpackImplanter # Palmtree
   - ContractorLightImplanter
   - ContractorBikeHornImplanter
   - ContractorWehImplanter

@@ -32,6 +32,9 @@
   - type: ExplosionResistance
     damageCoefficient: 0.9
   - type: AllowsSleepInside # Frontier
+  - type: ConcealableClothing # Palmtree: backpack concealment implant support
+    toggleAction: ActionToggleConcealmentBackpack
+    category: backpack
   - type: Tag
     tags:
     - WhitelistChameleon
