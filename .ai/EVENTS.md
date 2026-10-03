@@ -1,0 +1,68 @@
+# EVENTS
+
+> How the engine's event bus works and the events that matter most here. Verify against
+> `RobustToolbox/Robust.Shared/GameObjects/EntityEventBus.*.cs`.
+
+## Dispatch model
+
+| Raise call | Reaches |
+|---|---|
+| `RaiseLocalEvent<T>(msg)` | system handlers `SubscribeLocalEvent<T>` (broadcast) |
+| `RaiseLocalEvent<T>(uid, msg)` | **directed** handlers `SubscribeLocalEvent<TComp, TEvent>` on `uid` |
+| `RaiseLocalEvent<T>(uid, msg, broadcast: true)` | both directed and broadcast |
+| `RaiseNetworkEvent(msg, filter)` | client/server network subscriptions (`SubscribeNetworkEvent`) |
+| `RaiseAllEvent` | all systems, no ordering guarantees |
+
+Key gotcha: `RaiseLocalEvent<T>(msg)` does **not** call component handlers. Many systems depend on
+this; if a handler "doesn't fire", check the raise overload.
+
+Subscriptions happen in `Initialize()` and are locked afterwards. Use `Subs.*` helpers for CVar and
+C# events so they unsubscribe on shutdown.
+
+## Lifecycle events
+
+| Event | When |
+|---|---|
+| `ComponentInit` / `ComponentStartup` / `ComponentShutdown` / `ComponentRemove` | component lifecycle |
+| `MapInitEvent` | entity is initialized on a map (not re-run on deserialization unless forced) |
+| `EntityTerminatingEvent` | entity is being deleted |
+| `PlayerAttachedEvent` / `PlayerDetachedEvent` | session attaches/detaches to an entity |
+| `RoundStartingEvent` / `RoundStartedEvent` / `RoundEndTextAppendEvent` / `RoundRestartCleanupEvent` | round flow |
+| `GameRunLevelChangedEvent` | lobby ↔ in-round ↔ post-round |
+| `RulePlayerSpawningEvent` / `RulePlayerJobsAssignedEvent` | spawning hooks |
+| `GameRuleAddedEvent` / `GameRuleStartedEvent` / `GameRuleEndedEvent` | rule lifecycle |
+| `PrototypesReloadedEventArgs` | prototype hot reload (use this, not `PrototypeReloadEvent`) |
+| `AfterAutoHandleStateEvent` | client finished applying auto-networked component state |
+
+There is no `RoundEndedEvent`; use `RoundEndMessageEvent` + `GameRunLevelChangedEvent`.
+
+## Events used by the ported systems
+
+| Event | Consumer | Purpose |
+|---|---|---|
+| `GetVerbsEvent<Verb>` | `ModifyUndiesSystem` | Adds undies/genital toggle verbs (self-only) |
+| `ModifyUndiesDoAfterEvent` | `ModifyUndiesSystem` | Completes the visibility toggle |
+| `GetItemActionsEvent` | `SharedConcealableClothingSystem` | Grants concealment action to equipped clothing |
+| `ToggleClothingConcealmentEvent` | `SharedConcealableClothingSystem` | Toggles concealment |
+| `EquipmentVisualsUpdatedEvent` / `GetEquipmentVisualsEvent` | client concealable system | Removes/clears equipment layers while concealed |
+| `ImplantImplantedEvent` | server concealable system | Registers the implant's concealment category |
+| `EntGotRemovedFromContainerMessage` | server concealable system | Removes the category when the implant leaves |
+| `ExaminedEvent` / `ExamineCompletedEvent` | examine pipeline | No ERP contributors registered in this repo |
+| `TickerLobbyStatusEvent` | `LobbyState` | Updates lobby UI + background |
+| `AfterAutoHandleStateEvent` | client humanoid system | Re-renders on marking/state changes |
+
+## Marking-related event/data notes
+
+- Marking changes are not events; they mutate `MarkingSet` on `HumanoidAppearanceComponent` and
+  `Dirty` the component. The client re-renders via `AfterAutoHandleStateEvent`.
+- `SetMarkingVisibility` is called directly by `ModifyUndies` after the do-after.
+- Profile changes flow through preferences messages, not gameplay events.
+
+## Gotchas
+
+- Paused entities are skipped by `EntityQueryEnumerator<T>`; use `AllEntityQueryEnumerator<T>` if
+  you need them.
+- `Dirty(uid, component)` is required after mutating networked state; nested mutations inside
+  auto-networked collections still rely on a component dirty.
+- Directed events for components require the component to be on the target entity.
+- Do not subscribe outside `Initialize()` (subscription lock).

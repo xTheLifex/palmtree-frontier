@@ -1,0 +1,183 @@
+# System: Markings & Humanoid Appearance
+
+> The heart of this fork's customization layer: a Floof/Coyote-derived marking system grafted
+> additively onto Frontier's upstream marking code. Read `.ai/HAZARDS.md` §2–§3 and §13 first.
+
+## Purpose
+
+Player character customization beyond upstream SS14: shared markings across species groups
+(`kindAllowance`), layered sprites, color links, per-marking scale/offset, digitigrade leg styles,
+base-layer replacement markings (species adaptors, furry chests) and genital markings with
+show/hide verbs.
+
+## Locations
+
+| Piece | Path |
+|---|---|
+| Marking data model | `Content.Shared/Humanoid/Markings/Marking.cs` |
+| Prototype definition | `Content.Shared/Humanoid/Markings/MarkingPrototype.cs` |
+| Category enum + conversions | `Content.Shared/Humanoid/Markings/MarkingCategories.cs` |
+| Marking set (per-humanoid storage) | `Content.Shared/Humanoid/Markings/MarkingsSet.cs` |
+| Prototype cache/filters | `Content.Shared/Humanoid/Markings/MarkingManager.cs` |
+| Coloring (incl. color links) | `Content.Shared/Humanoid/Markings/MarkingColoring.cs` |
+| Layer enum | `Content.Shared/Humanoid/HumanoidVisualLayers.cs` |
+| Layer helpers | `Content.Shared/Humanoid/HumanoidVisualLayersExtension.cs` |
+| Leg style enum | `Content.Shared/Humanoid/HumanoidLegStyle.cs` |
+| Species prototype | `Content.Shared/Humanoid/Prototypes/SpeciesPrototype.cs` |
+| Base sprite prototypes | `Content.Shared/Humanoid/Prototypes/HumanoidSpritePrototypes.cs` |
+| Humanoid component | `Content.Shared/Humanoid/HumanoidAppearanceComponent.cs` |
+| Profile appearance | `Content.Shared/Humanoid/HumanoidCharacterAppearance.cs` |
+| Shared server logic | `Content.Shared/Humanoid/SharedHumanoidAppearanceSystem.cs` |
+| Client renderer | `Content.Client/Humanoid/HumanoidAppearanceSystem.cs` |
+| Marking picker UI | `Content.Client/Humanoid/MarkingPicker.xaml(.cs)` |
+| Character editor wiring | `Content.Client/Lobby/UI/HumanoidProfileEditor.xaml.cs` |
+| Undies/genital verbs | `Content.Server/_Floof/ModifyUndies/*`, `Content.Shared/_Floof/ModifyUndiesDoAfterEvent.cs` |
+| Marking prototypes | `Resources/Prototypes/Entities/Mobs/Customization/Markings/*`, `_Floof/.../markings/*`, `_PS/.../genitals.yml`, `_DV`, `_DEN`, `_EE`, `_Starlight`, `_White` |
+| Sprites | `Resources/Textures/Mobs/Customization/*`, `Floof/Mobs/Customization/*`, `_PS`, `_CS`, `_DV`, `_DEN`, `_EE`, `_Starlight`, `_White` |
+| Locale | `Resources/Locale/en-US/preferences/ui/markings-picker.ftl`, `_Floof/anthro.ftl`, `_CS/genitals.ftl`, `_CS/undies*.ftl`, `_PS/genitals.ftl`, prefix marking locales |
+
+## Data model
+
+`MarkingPrototype` (YAML `type: marking`) fields:
+
+| Field | Meaning |
+|---|---|
+| `id` | Marking id; locale key `marking-<id>` (and `marking-<id>-<state>` per sprite) |
+| `bodyPart` | `HumanoidVisualLayers` the marking defaults to |
+| `markingCategory` | `MarkingCategories` used for editor grouping and points |
+| `speciesRestriction` | Explicit species allowlist (optional) |
+| `kindAllowance` | Species `kind` allowlist (Palmtree/Floof) — see below |
+| `sexRestriction` | Optional `Sex` restriction |
+| `sprites` | List of `SpriteSpecifier.Rsi` states; one color per sprite |
+| `layering` | `Dictionary<string, HumanoidVisualLayers>`: sprite state → layer override |
+| `colorLinks` | `Dictionary<string, string>`: child state → parent state (inherits color; hidden from color picker) |
+| `altSprites` | `Dictionary<HumanoidLegStyle, ProtoId<MarkingPrototype>>`: leg-style variants |
+| `hidden` | Hide from the editor list (used via another marking) |
+| `baseLayerSprite` | Sprite used when a base marking replaces a species base layer |
+| `followSkinColor` / `forcedColoring` / `coloring` | Coloring behavior (upstream + Floof `coloring` types) |
+| `shader` | Optional layer shader (Impstation) |
+
+`Marking` (runtime instance) fields: `markingId`, colors, `visible`, `forced`, plus Palmtree
+extensions `scale` and `offsetX/offsetY` (directional offsets are not ported; only the uniform
+offset is used). `Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
+
+```
+markingId@#rrggbb,#rrggbb,...[@scale,offsetX,offsetY]
+```
+
+The optional third segment is only written when scale/offset differ from defaults, so old strings
+remain valid. `Equals` includes scale/offset/visible.
+
+`HumanoidAppearanceComponent` additions: `HiddenBaseLayers` (`List<HumanoidVisualLayers>`) and
+`LegStyle`. `HumanoidCharacterAppearance` adds `LegStyle` (persisted in the profile and exported
+characters).
+
+## kindAllowance (cross-species markings)
+
+- `SpeciesPrototype.kind` is a list of strings (`BasicHumanlike`, `BasicFurry`, `BasicRobot`,
+  `VoxLike`, `Resomi`, ...). Most playable species carry one or two kinds.
+- `MarkingPrototype.kindAllowance` lets a marking be used by any species whose kind intersects.
+- The rule: allowed if `speciesRestriction` is null, or contains the species, or
+  `kindAllowance` intersects `species.kind`.
+- Implemented in `MarkingManager.IsAllowedBySpeciesOrKindAllowance(SpeciesPrototype, MarkingPrototype)`.
+  **Every filter path must call it** (see HAZARDS §2).
+- `onlyWhitelisted` species (e.g. some forks) require either `speciesRestriction` or
+  `kindAllowance` to be present.
+
+## Layers
+
+`HumanoidVisualLayers` now includes the Floof layers: `Genital`, `TailBehind`, `TailOversuit`,
+`NeckFluff`, `RLegBehind`/`LLegBehind`, `RFootBehind`/`LFootBehind`, `UndershirtUnderclothes`,
+`UndershirtOverclothes`, `TailExtras`, `Disregard`.
+
+Layer maps must exist in two places for a species to render a marking on that layer:
+
+1. The mob's `Sprite` component layers (`Resources/Prototypes/Entities/Mobs/Species/base.yml` for
+   the shared organic base + any species with a custom `Sprite`).
+2. The species' `speciesBaseSprites` prototype (`Genital: MobHumanoidAnyMarking`, etc.). The client
+   requires `BaseLayers[layer].AllowsMarkings` to render markings there.
+
+`HumanoidVisualLayersExtension.Sublayers` ties related layers together (behind legs, tail layers,
+undershirts) so hiding a parent hides its sublayers.
+
+## Rendering pipeline (client)
+
+1. `HumanoidAppearanceSystem.UpdateSprite` → `UpdateLayers` → `ApplyMarkingSet` → `UpdateLayersAgain`.
+2. `UpdateLayers` clears and rebuilds `BaseLayers` from the species' `speciesBaseSprites`, applying
+   `altSprites` for the current `LegStyle` (base-layer variant), then `SetLayerData`.
+3. `ApplyMarkingSet` iterates every marking; for each:
+   - `GetMarkingForLegStyle` swaps in an `altSprites` variant when one matches the leg style.
+   - `ApplyMarking` computes per-sprite `layerSlot` (BodyPart or `layering` override), creates layers
+     named `<markingId>-<state>`, applies scale/offset, color (with `colorLinks`), visibility and
+     displacement, and clamps genital layers below `jumpsuit`/`outerClothing`.
+   - Base markings (`Base*` categories) add their target layer to `HiddenBaseLayers` via
+     `MarkingCategoriesConversion.Category2Layer`.
+4. `UpdateLayersAgain` hides every layer in `HiddenBaseLayers` (species adaptors replacing body
+   parts).
+5. Genital markings are hidden by default (`AddMarking` sets `Visible = false` for the Genital
+   category) and toggled at runtime through `ModifyUndies`.
+
+## ModifyUndies (ERP toggle verbs)
+
+- `ModifyUndiesComponent` (server) is attached to `BaseMobSpeciesOrganic` and `BaseSpeciesDummy`.
+- `ModifyUndiesSystem` adds verbs for markings whose `bodyPart` is in the component's
+  `BodyPartTargets` (`UndergarmentTop`, `UndergarmentBottom`, `Genital`). It is **self-only**.
+- The verb starts a 1s do-after (`ModifyUndiesDoAfterEvent`), then calls
+  `SharedHumanoidAppearanceSystem.SetMarkingVisibility`, which flips `Marking.Visible` and dirties
+  the component (auto-networked `MarkingSet`).
+- Icons: `Resources/Textures/Interface/VerbIcons/{undies,bra,underpants,love}.png`; locale in
+  `Resources/Locale/en-US/_Floof/markings/modify_undies.ftl`.
+
+## Editor UI
+
+`MarkingPicker`:
+- Enumerates `MarkingCategories`; categories with markings for the current species appear as buttons.
+- `GetMarkings` uses `MarkingManager.MarkingsByCategoryAndSpeciesAndSex` (kind-aware).
+- Collapsible "Adjust position/size" controls edit scale (0.25–3.0) and offset X/Y (−1..1) via
+  sliders + spin boxes, persisted through `Marking.SetScale/SetOffset`.
+- Leg Style selector (`Plantigrade`/`Digitigrade`) raises `OnLegStyleChanged`; the profile editor
+  stores it with `HumanoidCharacterAppearance.WithLegs` and re-renders the preview.
+- Color selectors skip states present in `colorLinks` (they inherit a parent's color).
+- `HumanoidProfileEditor` wires `OnMarkingColorChange`, `OnMarkingRankChange`, `OnLegStyleChanged`.
+
+## Species integration
+
+To make markings work for a species:
+
+1. `kind` list on the species prototype.
+2. `Genital`/`TailBehind`/other layers in `speciesBaseSprites` (value `MobHumanoidAnyMarking`).
+3. Sprite layer maps in the mob's `Sprite` (shared base covers most species; custom sprite species
+   need the maps added).
+4. `Genital` marking points entry (avoids missing-key surprises in `MarkingsByCategoryAndSpecies`).
+5. `altSprites` on `humanoidBaseSprite` entries for digitigrade variants (optional).
+
+Rodentia/Anthromorph/Tajaran were adapted this way; see `.ai/guides/adding-species.md`.
+
+## Genital content
+
+- Core library: `Resources/Prototypes/Entities/Mobs/Customization/Markings/genitals.yml` (379),
+  `butts_and_bellies.yml` (19); Palmtree breasts `_PS/.../genitals.yml` (18).
+- All are `bodyPart: Genital`, `markingCategory: Genital`, use `kindAllowance` and `layering`
+  (`Genital`/`TailBehind`) + `colorLinks`.
+- Sprites: `Resources/Textures/Mobs/Customization/Markings/Genital/{balls,belly,breasts,butt,cocks,vagina}.rsi`
+  and `Resources/Textures/_PS/Mobs/Customization/Markings/Genital/breasts.rsi`.
+- `RenderOverClothing` was **not** ported (no prototypes use it); genital sprites are clamped below
+  jumpsuit/outer clothing.
+
+## Dependencies
+
+Species/marking prototypes, `MarkingManager` IoC singleton, profile/preferences, client sprite
+system, `DoAfter`, actions/verbs (ModifyUndies), `MarkingColoring`.
+
+## Tests
+
+- `Content.Tests/Shared/Humanoid/MarkingSerializationTest.cs` — DB string round-trip (defaults,
+  transform, legacy format, clamping).
+- `Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs` — kind-shared marking survives
+  `EnsureSpecies`.
+- `EntityTest`/`CharacterCreationTest` cover spawning and profile application broadly.
+
+## Unknowns
+
+- Whether `RenderOverClothing`/directional marking offsets should be ported for future content.
+- Whether marking visibility should persist across sessions (currently session-only).
