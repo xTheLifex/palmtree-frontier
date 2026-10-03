@@ -30,3 +30,11 @@ Entries:
   id: 90001
   time: '2026-10-03T19:00:00.0000000+00:00'
   url: https://github.com/xTheLifex/palmtree-frontier
+- author: TheLife
+  changes:
+    - type: Add
+      message: Added a Palmtree changelog tab and automatic changelog entries.
+  id: 90002
+  time: '2026-10-03T22:28:19.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/d892a877e8e5359d0b6afb6625fdd1b5dd2a2ebd
