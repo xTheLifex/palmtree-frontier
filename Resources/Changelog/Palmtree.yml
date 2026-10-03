@@ -38,3 +38,17 @@ Entries:
   time: '2026-10-03T22:28:19.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/d892a877e8e5359d0b6afb6625fdd1b5dd2a2ebd
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Added subtle chat (/subtle, /subtlelooc) that only nearby players can
+        see and ghosts cannot.
+    - type: Add
+      message: >-
+        Added Subtle and Subtle LOOC chat channels and prefixes, with a
+        notification sound option.
+  id: 90003
+  time: '2026-10-03T23:06:38.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/f90903f2337f259310c876dc9228411ef96bde2f
