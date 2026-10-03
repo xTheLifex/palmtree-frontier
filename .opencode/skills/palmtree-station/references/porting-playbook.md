@@ -1,8 +1,7 @@
 # Porting playbook (Coyote/Floof → Palmtree Frontier)
 
 Source checkout: `/home/thelife/Desktop/Things/Development/SS14/coyote-frontier` (branch `palm3`,
-frozen). Target: this repository. The previous full-merge attempt lives on the `port`/`port-wip`
-branches — reference only.
+frozen). Target: this repository (`master`). The previous full-merge attempt was discarded.
 
 ## 0. Scope discipline
 
@@ -84,7 +83,7 @@ headless client typecheck.
 
 - One commit per coherent feature; list adaptations in the message and add a `:cl:` block when the
   port is player-visible (the commit workflow appends it to `Resources/Changelog/Palmtree.yml`).
-- Never `git add -A` while `PORTING/` exists; add specific paths.
+- Stage specific paths rather than `git add -A`; the tree can contain untracked artifacts.
 - Update `.ai/PORTING.md` (ported/excluded), `.ai/HAZARDS.md` (new pitfalls) and the relevant
   `.ai/systems/*` or `.ai/guides/*` document in the same change.
 - Do not commit unless the user asks (the maintainer tests in-game first).

@@ -40,7 +40,7 @@ species roster in this repo.
 | Rodentia | `_DV` (ported) | 999-point tail/ears defaults, digileg support, rat speech |
 | Anthromorph | `_CS` (ported) | BasicHumanlike + BasicFurry, custom body sprites |
 | Tajaran | `_EE` (ported) | body/markings/sprites/damage/names, Felinid component |
-| Synth | `_PS` (new) | IPC replacement: 2× speed, 3× durability, marking-based appearance, IPC-like resistances |
+| Synth | `_PS` (new) | IPC replacement: 1.5× speed, 3× durability, marking-based appearance, IPC-like resistances |
 | IPC | — | **not present**; replaced by Synth (see `.ai/systems/ps-systems.md`) |
 
 All playable species carry `kind` lists so Floof/Coyote markings apply via `kindAllowance`.
@@ -71,4 +71,4 @@ All playable species carry `kind` lists so Floof/Coyote markings apply via `kind
 ## Unknowns
 
 - Which jobs use which loadout groups on the live server.
-- IPC direction; see `.ai/PORTING.md`.
+- Whether the Synth ever gets the full IPC silicon stack (battery/radio/EMP); see `.ai/PORTING.md`.

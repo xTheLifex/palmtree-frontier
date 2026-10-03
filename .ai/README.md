@@ -185,7 +185,8 @@ Fork modules are folder/namespace prefixes:
 ## 9. Poorly understood areas (verify before relying)
 
 - Production config/topology (presets, auth mode, DB, multi-server list).
-- IPC species (deliberately deferred; see `.ai/PORTING.md`).
+- IPC silicon stack (IPC is replaced by the Synth species; battery/radio/EMP behavior is not
+  implemented — see `.ai/PORTING.md`).
 - Un-ported Coyote systems (consent, traits, scent, size, vore, RPI) — see `.ai/PORTING.md`.
 - Deep engine internals (PVS budgets, physics solver, handshake, sandbox whitelist coverage).
 - See `.ai/UNKNOWN.md` for the full list.

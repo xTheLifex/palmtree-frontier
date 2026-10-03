@@ -88,5 +88,5 @@ they reset). Regression test in `MarkingKindAllowanceTest`.
 
 ### Process
 - Do not commit unless asked; leave changes for the maintainer's in-game test.
-- Never `git add -A` while `PORTING/` exists; add specific paths.
+- Stage specific paths rather than `git add -A`; the tree can contain untracked artifacts.
 - Update `.ai/` in the same change when architecture/behavior shifts.

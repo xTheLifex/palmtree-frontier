@@ -1,9 +1,8 @@
 # PORTING — Coyote/Floof → Palmtree (Frontier)
 
 > This document records what was ported from the old `coyote-frontier` checkout into this repository,
-> what was deliberately left out, why, and how to port more. The earlier full-merge attempt left
-> audit logs that were removed from the working tree; its decision history is preserved in this
-> document and on the `port`/`port-wip` branches (which still track a few `PORTING/*.md` files).
+> what was deliberately left out, why, and how to port more. The earlier full-merge attempt and its
+> audit folder were deleted by the maintainer; this document is the surviving decision history.
 
 ## 1. Background
 
@@ -12,8 +11,7 @@
 - New base: this repo, Frontier Station @ 2026-10-03 (`df24c19f08`) + Palmtree branch `ps-erp`
   (merged into `master`, branch deleted).
 - An earlier attempt merged the **entire** Coyote tree into Frontier (11,722 changed files, 1,347
-  conflicts). It lived on the `port`/`port-wip` branches, which have since been deleted; treat the
-  current `master` history as the only maintained line. The old approach is reference material only.
+  conflicts). It was discarded; the current `master` history is the only maintained line.
 - The current approach is **targeted**: only the requested features are ported, using additive
   changes to Frontier code where possible, and adapting old content to 2026 APIs.
 
@@ -67,6 +65,8 @@
   `ContractorClothingBackpackSatchelLeather`, `LoadoutFootProtectors` (+ `ClothingShoesFootProtectors`).
 - **Palmtree `_PS`**: lobby backgrounds + `PSLobbyMusic` (CVar default), concealable backpack implant
   (systems/components/action/implanter/loadout), battery guns/launchers/grenades/hitscan, audio.
+- **Digitigrade leg displacement** (`_CS/LegDisplacement.yml` + `LegDisplacements`), wired into
+  `ClientClothingSystem` for jumpsuit/shoes/outerclothing (partial coverage, same maps as Coyote).
 
 ## 4. What was deliberately NOT ported
 
@@ -81,7 +81,6 @@
 | IPC species | Replaced by the Palmtree **Synth** species (`_PS`) — see `systems/ps-systems.md`. Old IPC content (Einstein Engines silicon stack, battery/radio/EMP) remains unported. |
 | Kitsune species | **Does not exist in the old codebase.** It only appears inside marking allowlists. Nothing to port. |
 | Turrets, RCD, strobe lighting, shipyard cauterizer, `_PS` emotes/interaction sounds | Not requested / possibly stale systems. |
-| Digitigrade leg displacement maps | The old `LegDisplacements` field is documented as "currently unused because it crashes" in the source; not ported. `altSprites` cover the visuals. |
 
 ## 5. Bugs found and fixed during the port
 

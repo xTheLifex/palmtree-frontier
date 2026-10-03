@@ -75,7 +75,7 @@ sound collections, custom emotes. See `.ai/PORTING.md`.
 
 ## Synth species (IPC replacement)
 
-`Synth` is Palmtree's replacement for the deferred IPC species. It is a humanoid species that uses the
+`Synth` is Palmtree's replacement for the IPC species. It is a humanoid species that uses the
 marking system to look like anything and approximates IPC traits without the Einstein Engines silicon
 stack.
 

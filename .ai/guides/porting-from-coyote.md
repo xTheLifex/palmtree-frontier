@@ -99,7 +99,6 @@ dotnet run --project Content.Client -c Debug --no-build -- --headless
 - One commit per coherent feature; message lists adaptations.
 - Update `.ai/PORTING.md` (what was ported/excluded) and `.ai/HAZARDS.md` if you learned a new
   pitfall.
-- Never commit the untracked `PORTING/` audit folder by accident (`git add` specific paths).
 
 ## 7. Character-save compatibility
 

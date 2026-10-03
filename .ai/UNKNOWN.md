@@ -11,72 +11,68 @@ Questions that could not be answered confidently from the working tree. Treat th
    in-repo.
 3. **Postgres in production?** SQLite is the code default; no evidence either way in-repo.
 4. **`identifier.sqlite`** (0 bytes, tracked): origin and intended use unknown; referenced nowhere.
-5. **`PORTING/`** was the audit folder of the abandoned full-port attempt. Most of it was removed
-   from the working tree; only a few `PORTING/*.md` files are tracked on the `port`/`port-wip`
-   branches. Whether the maintainer wants anything else preserved is unknown; `.ai/PORTING.md`
-   captures the decisions.
 
 ## Ported-content behavior
 
-6. **IPC direction.** IPC is replaced by the Palmtree **Synth** species (`_PS`), which reuses the
+5. **IPC direction.** IPC is replaced by the Palmtree **Synth** species (`_PS`), which reuses the
    marking system and approximates IPC stats without the Einstein Engines silicon stack. Whether a
    full silicon implementation (battery/radio/EMP) is ever wanted is unknown. See
    `.ai/systems/ps-systems.md` and `.ai/PORTING.md` §6.
-7. **Consent.** Whether/when the Floof consent system will be ported is undecided. Until then
+6. **Consent.** Whether/when the Floof consent system will be ported is undecided. Until then
    `ModifyUndies` relies on the per-marking `otherCanToggleVisible` opt-in and no consent-gated
    systems exist.
-8. **Traits.** 46 BodyType/Horny/Scent trait ids from character exports are not ported and are
+7. **Traits.** 46 BodyType/Horny/Scent trait ids from character exports are not ported and are
    silently dropped on import. Whether they will be added later is unknown.
-9. **Size system.** Character `height`/`width` are ignored. Whether the size manipulation system
+8. **Size system.** Character `height`/`width` are ignored. Whether the size manipulation system
    will be ported is unknown.
-10. **Marking visibility persistence.** `Marking.Visible` is session-only; genital markings reset to
+9. **Marking visibility persistence.** `Marking.Visible` is session-only; genital markings reset to
     hidden after respawn/relog. Whether this should persist is undecided.
-11. **`RenderOverClothing` and directional marking offsets** exist in the old Floof system but were
+10. **`RenderOverClothing` and directional marking offsets** exist in the old Floof system but were
     not ported (no current content uses them). Whether future content needs them is unknown.
-12. **Digitigrade displacement maps.** The old `LegDisplacements` field was documented as crashing
-    and was not ported; whether clothing/leg displacement is needed for a good digileg look is
-    untested in-game.
+11. **Digitigrade displacement coverage.** Leg displacement was ported (`LegDisplacementPrototype` +
+    `HumanoidAppearanceComponent.LegDisplacements`), but clothing coverage is partial (same maps as
+    Coyote); whether every outfit looks right on digitigrade legs is untested in-game.
 
 ## Runtime behavior hidden in the engine
 
-13. **Engine internals not line-traced**: handshake/encryption, PVS budget algorithms, physics
+12. **Engine internals not line-traced**: handshake/encryption, PVS budget algorithms, physics
     solver details, map chunk serialization, UI layout/rendering.
-14. **Sandbox whitelist coverage**: `RobustToolbox/Robust.Shared/ContentPack/Sandbox.yml` is large;
+13. **Sandbox whitelist coverage**: `RobustToolbox/Robust.Shared/ContentPack/Sandbox.yml` is large;
     whether a specific BCL API is allowed was only checked for the APIs used by this port
     (`string.Create` is blocked; `float.ToString(IFormatProvider)` and `CultureInfo` are allowed).
-15. **Engine upgrade risk**: which content code depends on undocumented engine behavior is not fully
+14. **Engine upgrade risk**: which content code depends on undocumented engine behavior is not fully
     enumerable without an upgrade attempt.
 
 ## Content/gameplay reachability
 
-16. **Which upstream content is reachable under live NF presets.** Upstream presets have no rules,
+15. **Which upstream content is reachable under live NF presets.** Upstream presets have no rules,
     but individual systems/events can still be attached by admins.
-17. **`_PS` weapon balance/reachability.** Ported weapons are defined but not audited for spawn
+16. **`_PS` weapon balance/reachability.** Ported weapons are defined but not audited for spawn
     placement/vendors; whether they should be obtainable and how is undecided.
-18. **Bayou clothing reachability.** The `CoyoteJumpsuit` subgroup was wired into the same job
+17. **Bayou clothing reachability.** The `CoyoteJumpsuit` subgroup was wired into the same job
     groups as the old repo; whether all of them are used on the live server is unknown.
-19. **`CoyoteShoes` group**: the old repo had a separate shoes group for `LoadoutFootProtectors`;
+18. **`CoyoteShoes` group**: the old repo had a separate shoes group for `LoadoutFootProtectors`;
     this port instead added the loadout to `ContractorShoes`. Behavior should match, but the group
     layout differs from the old server.
-20. **`_Starlight` vs `_StarLight` casing**: two prototype directories exist; whether one is legacy
+19. **`_Starlight` vs `_StarLight` casing**: two prototype directories exist; whether one is legacy
     is unknown.
 
 ## Moderation / ERP
 
-21. **Data protection posture.** No consent freetext is stored; character flavor text exposure
+20. **Data protection posture.** No consent freetext is stored; character flavor text exposure
     behavior (if any) is upstream and unaudited.
-22. **Censor implementation** (`SimpleCensor`, `RegexCensor`) exists upstream but is not wired to
+21. **Censor implementation** (`SimpleCensor`, `RegexCensor`) exists upstream but is not wired to
     live chat paths.
 
 ## Repo/tooling
 
-23. **CI gating**: which GitHub workflows run on this branch and whether they match local commands
+22. **CI gating**: which GitHub workflows run on this branch and whether they match local commands
     is unverified.
-24. **`Content.Docfx`** is not in the solution; its output/docs coverage was not assessed.
-25. **Map renderer viewer JSON consumers** are external tooling not in this repo.
+23. **`Content.Docfx`** is not in the solution; its output/docs coverage was not assessed.
+24. **Map renderer viewer JSON consumers** are external tooling not in this repo.
 
 ## Documentation gaps
 
-26. `.ai/` docs prefer symbol names; line numbers will drift. Update docs when architecture shifts.
-27. The generic Frontier system docs (`systems/*.md`) are summaries; deep NF internals should be
+25. `.ai/` docs prefer symbol names; line numbers will drift. Update docs when architecture shifts.
+26. The generic Frontier system docs (`systems/*.md`) are summaries; deep NF internals should be
     verified against `_NF` source when relied upon.

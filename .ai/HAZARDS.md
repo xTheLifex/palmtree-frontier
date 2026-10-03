@@ -61,7 +61,7 @@ Notable in-place patches added by this port:
   pulled entities (`// Palmtree`).
 - `Content.Server/Body/Systems/RespiratorSystem.cs` — skips entities with `SynthComponent`.
 - `Content.Client/Clothing/ClientClothingSystem.cs` — leg-style displacement override.
-- All species-restricted markings — `kindAllowance` added (914 markings across 39 files), so
+- All species-restricted markings — `kindAllowance` added (915 markings across 39 files), so
   markings are shared across species kinds like Coyote did.
 
 ## 5. Deliberate namespace collisions for partial classes
@@ -185,7 +185,4 @@ added to `markings-picker.ftl`; the duplicate was removed).
 ## 17. Stray repository artifacts
 
 - `identifier.sqlite` — 0-byte tracked file at repo root, referenced nowhere.
-- `PORTING/` — remnant of the abandoned full-port audit. Most of it was removed from the working
-  tree; the decision history is in `.ai/PORTING.md` and the `port`/`port-wip` branches. Do not add it
-  to commits accidentally if it reappears.
 - `Resources/manifest.yml` window title/logo may not match Palmtree branding.
