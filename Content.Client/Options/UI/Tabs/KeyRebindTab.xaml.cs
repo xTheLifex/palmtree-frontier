@@ -36,6 +36,8 @@ namespace Content.Client.Options.UI.Tabs
 
         private readonly List<Action> _deferCommands = new();
 
+        private string _searchText = string.Empty;
+
         private void HandleToggleUSQWERTYCheckbox(BaseButton.ButtonToggledEventArgs args)
         {
             _cfg.SetCVar(CVars.DisplayUSQWERTYHotkeys, args.Pressed);
@@ -117,38 +119,124 @@ namespace Content.Client.Options.UI.Tabs
                 });
             };
 
+            SearchInput.OnTextChanged += args =>
+            {
+                _searchText = args.Text.Trim();
+                UpdateSearchClearButton();
+                PopulateOptions();
+            };
+
+            SearchClearButton.OnPressed += _ =>
+            {
+                _searchText = string.Empty;
+                SearchInput.Clear();
+                UpdateSearchClearButton();
+                PopulateOptions();
+            };
+
+            PopulateOptions();
+        }
+
+        private void UpdateSearchClearButton()
+        {
+            SearchClearButton.Visible = _searchText.Length > 0;
+        }
+
+        private bool MatchesSearch(string optionText)
+        {
+            return _searchText.Length == 0
+                || optionText.Contains(_searchText, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void PopulateOptions()
+        {
+            KeybindsContainer.RemoveAllChildren();
+            _keyControls.Clear();
+
             var first = true;
+            var visibleCount = 0;
+            var currentHeader = string.Empty;
+            var headerCount = new Dictionary<string, int>();
+            var headerSpacers = new Dictionary<string, Control>();
 
             void AddHeader(string headerContents)
             {
+                Control? spacer = null;
+
                 if (!first)
                 {
-                    KeybindsContainer.AddChild(new Control { MinSize = new Vector2(0, 8) });
+                    spacer = new Control { MinSize = new Vector2(0, 8) };
+                    KeybindsContainer.AddChild(spacer);
                 }
 
                 first = false;
+
+                var text = Loc.GetString(headerContents);
                 KeybindsContainer.AddChild(new Label
                 {
-                    Text = Loc.GetString(headerContents),
+                    Text = text,
                     FontColorOverride = StyleNano.NanoGold,
                     StyleClasses = { StyleNano.StyleClassLabelKeyText }
                 });
+
+                headerCount[text] = 0;
+                currentHeader = text;
+                if (spacer != null)
+                    headerSpacers[text] = spacer;
             }
 
             void AddButton(BoundKeyFunction function)
             {
+                var optionText = Loc.GetString($"ui-options-function-{CaseConversion.PascalToKebab(function.FunctionName)}");
+                if (!MatchesSearch(optionText))
+                    return;
+
                 var control = new KeyControl(this, function);
                 KeybindsContainer.AddChild(control);
                 _keyControls.Add(function, control);
+                visibleCount++;
+                if (headerCount.TryGetValue(currentHeader, out var count))
+                    headerCount[currentHeader] = count + 1;
             }
 
             void AddCheckBox(string checkBoxName, bool currentState, Action<BaseButton.ButtonToggledEventArgs>? callBackOnClick)
             {
-                CheckBox newCheckBox = new CheckBox() { Text = Loc.GetString(checkBoxName) };
+                var optionText = Loc.GetString(checkBoxName);
+                if (!MatchesSearch(optionText))
+                    return;
+
+                var newCheckBox = new CheckBox { Text = optionText };
                 newCheckBox.Pressed = currentState;
                 newCheckBox.OnToggled += callBackOnClick;
 
                 KeybindsContainer.AddChild(newCheckBox);
+                visibleCount++;
+                if (headerCount.TryGetValue(currentHeader, out var count))
+                    headerCount[currentHeader] = count + 1;
+            }
+
+            void CleanupHeaders()
+            {
+                var toRemove = new List<Control>();
+                foreach (var child in KeybindsContainer.Children)
+                {
+                    // Only remove headers that ended up without any visible entries.
+                    if (child is not Label { Text: { } headerText }
+                        || !headerCount.TryGetValue(headerText, out var count)
+                        || count > 0)
+                    {
+                        continue;
+                    }
+
+                    toRemove.Add(child);
+                    if (headerSpacers.TryGetValue(headerText, out var spacer))
+                        toRemove.Add(spacer);
+                }
+
+                foreach (var child in toRemove)
+                {
+                    KeybindsContainer.RemoveChild(child);
+                }
             }
 
             AddHeader("ui-options-header-general");
@@ -313,6 +401,18 @@ namespace Content.Client.Options.UI.Tabs
             AddButton(EngineKeyFunctions.TextTabComplete);
             AddButton(EngineKeyFunctions.TextCompleteNext);
             AddButton(EngineKeyFunctions.TextCompletePrev);
+
+            CleanupHeaders();
+
+            if (visibleCount == 0 && _searchText.Length > 0)
+            {
+                KeybindsContainer.AddChild(new Label
+                {
+                    Text = Loc.GetString("ui-options-binds-search-no-results"),
+                    HorizontalAlignment = HAlignment.Center,
+                    StyleClasses = { "LabelSubText" },
+                });
+            }
 
             foreach (var control in _keyControls.Values)
             {

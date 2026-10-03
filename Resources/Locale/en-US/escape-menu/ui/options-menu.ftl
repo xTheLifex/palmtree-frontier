@@ -114,6 +114,10 @@ ui-options-hud-layout = HUD layout:
 
 ui-options-binds-reset-all = Reset ALL keybinds
 ui-options-binds-explanation = Click to change binding, right-click to clear
+ui-options-binds-search = Search:
+ui-options-binds-search-placeholder = Search keybinds...
+ui-options-binds-search-clear = Clear
+ui-options-binds-search-no-results = No keybinds match your search.
 ui-options-unbound = Unbound
 ui-options-bind-reset = Reset
 ui-options-key-prompt = Press a key...
