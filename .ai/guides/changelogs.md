@@ -2,6 +2,11 @@
 
 > How changes reach the in-game changelog in this repository.
 
+> **AI agents: use this format to document every player-visible change.** Add a `:cl:` block to the
+> commit message (the commit-changelog workflow appends it to `Palmtree.yml` automatically), or add
+> the entry to `Resources/Changelog/Palmtree.yml` by hand when committing is not possible. Never use
+> another format and never write entries into the upstream changelog files.
+
 ## TL;DR
 
 The in-game changelog is **client-side YAML only** — `Content.Client/Changelog/ChangelogManager.cs`
@@ -22,6 +27,29 @@ Existing files in this repo:
 Palmtree entries go in `Resources/Changelog/Palmtree.yml`. It uses high ids (90000+) so the "new
 changes" badge stays meaningful across the other files' id ranges. Tab title locale key:
 `changelog-tab-title-Palmtree` in `Resources/Locale/en-US/_NF/changelog/changelog-window.ftl`.
+
+## AI agent instructions
+
+1. Decide whether the change is player-visible (new content, balance, UI, or a fix players notice).
+   Internal refactors, documentation and CI changes do not need an entry.
+2. If it is, put a `:cl:` block at the end of the commit message:
+
+   ```
+   Add a thing
+
+   :cl:
+   - add: Added a thing.
+   - fix: Fixed another thing.
+   ```
+
+3. Use one `- add|remove|tweak|fix: message` line per player-facing change, written for players (no
+   class names, no internal jargon). Put `:cl:` on its own line; optionally `:cl: AuthorName` to
+   credit someone else.
+4. The commit workflow appends the entry to `Resources/Changelog/Palmtree.yml` after the push. If you
+   cannot commit, or the automation did not run, append the entry manually with the next free `id`
+   (the Palmtree range starts at 90001) and an ISO `time` in the format
+   `2026-10-03T19:00:00.0000000+00:00`.
+5. Never add entries to `Changelog.yml`, `Frontier.yml`, `Maps.yml` or `Admin.yml`.
 
 ## Entry format
 

@@ -82,7 +82,8 @@ headless client typecheck.
 
 ## 7. Commit and document
 
-- One commit per coherent feature; list adaptations in the message.
+- One commit per coherent feature; list adaptations in the message and add a `:cl:` block when the
+  port is player-visible (the commit workflow appends it to `Resources/Changelog/Palmtree.yml`).
 - Never `git add -A` while `PORTING/` exists; add specific paths.
 - Update `.ai/PORTING.md` (ported/excluded), `.ai/HAZARDS.md` (new pitfalls) and the relevant
   `.ai/systems/*` or `.ai/guides/*` document in the same change.

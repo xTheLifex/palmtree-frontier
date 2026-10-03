@@ -62,7 +62,8 @@ then run with `--no-build`, otherwise the linter uses stale content assemblies (
 
 ## Changelogs
 
-See `.ai/guides/changelogs.md`.
+Player-visible changes carry a `:cl:` block in the commit message; the commit/PR workflows append
+those to `Resources/Changelog/Palmtree.yml`. Full format and fallbacks: `.ai/guides/changelogs.md`.
 
 ## Unknowns
 

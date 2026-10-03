@@ -21,11 +21,15 @@ targeted port of Coyote/Floof ERP + marking systems. The old base lives in a sep
    when architecture shifts.
 5. Preserve upstream/fork patch markers (`// Frontier`, `// Coyote`, `// Palmtree`, `// Floof`) and
    keep core-file patches minimal.
+6. **Changelogs**: player-visible changes carry a `:cl:` block in the commit message
+   (`:cl:` on its own line, then `- add|remove|tweak|fix: message` lines). The commit workflow
+   appends it to `Resources/Changelog/Palmtree.yml`; never write entries into the upstream changelog
+   files. Details: `.ai/guides/changelogs.md`.
 
 ## Start here
 
-1. `git status` + `git branch --show-current`. Expect branch `ps-erp`; many port changes may be
-   uncommitted. The untracked `PORTING/` folder may reappear — never `git add` it blindly.
+1. `git status` + `git branch --show-current`. Work happens on `master` (the `ps-erp` port branch was
+   merged and deleted). The untracked `PORTING/` folder may reappear — never `git add` it blindly.
 2. Read `.ai/README.md` (navigation) and the relevant `.ai/systems/*.md` or `.ai/guides/*.md`.
 3. For a port task, read `references/porting-playbook.md` in this skill.
 4. For marking/ERP/species work, read `references/marking-and-erp.md` and

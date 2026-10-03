@@ -6,6 +6,11 @@ Palmtree-specific (`_PS`) content and a ported ERP/marking layer from Coyote/Flo
 
 Read this file first, then the document that matches your task.
 
+> **Changelog rule for agents:** document every player-visible change with a `:cl:` block in the
+> commit message (`:cl:` on its own line, then `- add|remove|tweak|fix: message` lines). The commit
+> workflow appends it to `Resources/Changelog/Palmtree.yml`; details and fallbacks in
+> `.ai/guides/changelogs.md`. Never write entries into the upstream changelog files.
+
 ## 1. What this project is
 
 - Round-based multiplayer space game: C# ECS gameplay on RobustToolbox (git submodule, v267.3.0)
@@ -23,8 +28,9 @@ Read this file first, then the document that matches your task.
   antagonists (`rules: []` upstream presets). ERP is explicitly allowed by the maintainer.
 - Maintainer constraints (see `.ai/HUMAN_CONTEXT.md`): engine must not be modified; new code goes
   under `_PS` folders; content ported from other forks keeps its original prefix for merge sanity.
-- Current work branch: **`ps-erp`** on top of `master` (`df24c19f08`, Frontier @ 2026-10-03).
-  The port history and decisions are in `.ai/PORTING.md`.
+- Current branch: **`master`** (the `ps-erp` port branch was merged and deleted; Frontier base
+  `df24c19f08`, kept current with upstream merges). The port history and decisions are in
+  `.ai/PORTING.md`.
 
 ## 2. Major architectural layers
 
@@ -95,7 +101,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/guides/adding-markings.md` | Adding markings (normal, genital, kind-shared, layered, digitigrade) |
 | `.ai/guides/adding-species.md` | Adding/porting a species with body, layers, markings, speech |
 | `.ai/guides/adding-loadouts.md` | Adding loadouts, their items, and group wiring |
-| `.ai/guides/changelogs.md` | Changelog YAML authoring for this fork |
+| `.ai/guides/changelogs.md` | Changelog YAML authoring + `:cl:` automation for this fork |
 
 ### Procedural guides
 
@@ -217,14 +223,15 @@ Fork modules are folder/namespace prefixes:
    config defaults, both DB migrations, prototype migration entries, sandbox API whitelist.
 7. Only then propose a change. For content changes prefer new prototypes + `_PS` code;
    for core changes preserve upstream patch markers and update `.ai/` docs if architecture shifts.
+   When committing a player-visible change, include a `:cl:` block (see `guides/changelogs.md`).
 ```
 
 ## Maintenance of this documentation
 
 When making architectural changes, update the affected `.ai/` document in the same change. Prefer
 symbol names over line numbers as anchors; line numbers drift. Facts in these docs were gathered
-from the working tree on branch `ps-erp` (Frontier `df24c19f08` + the port commits listed in
-`.ai/PORTING.md`).
+from the working tree on `master` (Frontier `df24c19f08` + the port commits listed in
+`.ai/PORTING.md`, plus later upstream merges).
 
 A project-local OpenCode skill with the same knowledge as an operational playbook lives at
 `.opencode/skills/palmtree-station/SKILL.md` (porting, markings/ERP, species/Synth, validation,

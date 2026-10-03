@@ -9,15 +9,15 @@
 
 - Old base: `coyote-frontier` (branch `palm3`), fork chain Wizden → Frontier → Coyote (`_CS`) →
   Palmtree (`_PS`). Frozen since Coyote was abandoned in 2026.
-- New base: this repo, Frontier Station @ 2026-10-03 (`df24c19f08`) + Palmtree branch `ps-erp`.
+- New base: this repo, Frontier Station @ 2026-10-03 (`df24c19f08`) + Palmtree branch `ps-erp`
+  (merged into `master`, branch deleted).
 - An earlier attempt merged the **entire** Coyote tree into Frontier (11,722 changed files, 1,347
-  conflicts). It is preserved on the `port`/`port-wip` branches (a few `PORTING/*.md` audit files are
-  tracked there; most of the audit folder was removed from the working tree). It is reference
-  material only.
+  conflicts). It lived on the `port`/`port-wip` branches, which have since been deleted; treat the
+  current `master` history as the only maintained line. The old approach is reference material only.
 - The current approach is **targeted**: only the requested features are ported, using additive
   changes to Frontier code where possible, and adapting old content to 2026 APIs.
 
-## 2. Port commits on `ps-erp`
+## 2. Port commits (originally on `ps-erp`)
 
 | Commit | Contents |
 |---|---|

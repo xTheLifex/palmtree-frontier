@@ -1,7 +1,7 @@
 # REPOSITORY — Inventory
 
 > Source of truth is the code. Paths are relative to the repository root unless prefixed with `RobustToolbox/`.
-> Facts gathered from the working tree on branch `ps-erp` (Frontier master `df24c19f08` + port commits),
+> Facts gathered from the working tree on `master` (Frontier master `df24c19f08` + port commits),
 > engine submodule `RobustToolbox` @ v267.3.0.
 
 ## What this repository is
@@ -12,7 +12,7 @@ content and a ported Coyote/Floof ERP marking layer:
 ```
 Space Station 14 (Wizden / space-wizards)
     └── Frontier Station (new-frontiers-14, prefix _NF)
-            └── Palmtree Station (prefix _PS; branch ps-erp)
+            └── Palmtree Station (prefix _PS; branch master)
                     └── ported: _Floof (markings/undies), _CS (anthro, bayou, undergarments),
                                 _DEN (clicker/foot protectors/ovinia), _EE (tajaran),
                                 _White (eastern dragon), _Starlight (resomi)
@@ -35,7 +35,7 @@ It runs on the **RobustToolbox** engine, vendored as a git submodule. The engine
 | Tests | ~457 `[Test]` methods |
 | Fork prototype prefixes | `_AS`, `_CD`, `_CS`, `_DEN`, `_DV`, `_EE`, `_EstacaoPirata`, `_Floof`, `_Goobstation`, `_Impstation`, `_NF`, `_PS`, `_RMC14`, `_Starlight`, `_StarLight`, `_White` |
 | Fork code prefixes | `_Corvax`, `_DV`, `_Emberfall`, `_EstacaoPirata`, `_Goobstation`, `_Harmony`, `_NC`, `_NF`, `_RMC14`, `_PS`, `_Floof`, `_EE`, `_CD` |
-| Working branch | `ps-erp` (port commits listed in `.ai/PORTING.md`) |
+| Working branch | `master` (port commits listed in `.ai/PORTING.md`; `ps-erp` merged and deleted) |
 
 ## Top-level layout
 
@@ -148,7 +148,7 @@ linter and it may report errors for categories that actually exist (or miss new 
 | `Content.Tests` | Unit tests (chemistry, atmos, wires, chat censor, localization, IPIntel, preferences, marking serialization) |
 | `Content.YAMLLinter` | Loads all prototypes on server+client, `ValidateStaticFields`; CI `::error` annotations |
 | Migration system | `Resources/migration.yml` + `nf_migration.yml` applied on map load |
-| Changelog | `Resources/Changelog/Frontier.yml` (Frontier history) |
+| Changelog | `Resources/Changelog/Palmtree.yml` (this fork, auto-generated from `:cl:` blocks) + upstream history |
 | Packaging | `Content.Packaging` zips per RID |
 
 ## Related documentation

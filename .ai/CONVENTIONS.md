@@ -49,6 +49,15 @@
 - `PORTING/` (if present) is untracked and must not be committed accidentally; its decisions are
   captured in `.ai/PORTING.md`.
 
+## Commits and changelogs
+
+- Player-visible changes (content, balance, UI, fixes) carry a `:cl:` block at the end of the commit
+  message: `:cl:` on its own line, then one `- add|remove|tweak|fix: message` line per change.
+- The commit-changelog workflow appends those entries to `Resources/Changelog/Palmtree.yml`; do not
+  write entries into the upstream `Changelog.yml`/`Frontier.yml`/`Maps.yml`/`Admin.yml` files.
+- Internal refactors, documentation and CI changes do not need a changelog entry.
+- Commit subjects are short and imperative; rationale and porting notes go in the body.
+
 ## Formatting/tooling
 
 - C# formatting is enforced by `.editorconfig`; nullable warnings are errors in some projects.

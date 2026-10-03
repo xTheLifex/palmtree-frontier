@@ -63,7 +63,9 @@ markingId@#rrggbb,...@m3@cCustom Name               # Palmtree: + toggle flags (
 
 ## File-based persistence
 
-- Changelogs: `Resources/Changelog/Frontier.yml` (history; the client shows the Frontier tab).
+- Changelogs: `Resources/Changelog/Palmtree.yml` (this fork's entries, first tab; auto-generated
+  from `:cl:` blocks) plus the upstream `Changelog.yml`/`Frontier.yml` history; see
+  `.ai/guides/changelogs.md`.
 - Map migrations: `Resources/migration.yml` + `Resources/nf_migration.yml` applied on map load.
 - Prototype ignore list: `Resources/IgnoredPrototypes/ignoredPrototypes.yml`.
 
