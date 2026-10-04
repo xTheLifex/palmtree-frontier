@@ -52,3 +52,13 @@ Entries:
   time: '2026-10-03T23:06:38.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/f90903f2337f259310c876dc9228411ef96bde2f
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Added a Voice Bark option to character creation, with a preview button;
+        pick any species or creature speech sound or keep your species default.
+  id: 90004
+  time: '2026-10-04T01:29:31.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/e3b318af8fe9957ff18dabefc53e145ca8495f40
