@@ -1,0 +1,65 @@
+# Hilbert's Hotel room archetypes.
+#
+# Each entry in this list is selectable at a check-in terminal when a new room is
+# created. To add a room:
+#   1. Save a map to Resources/Maps/_PS/HilbertHotel/ with `savemap` (format 7).
+#      The map should contain a HilbertHotelLandingMarker where guests arrive.
+#      A HilbertHotelExit and HilbertHotelRoomController are spawned automatically
+#      if the map does not already include them.
+#   2. Add a `hilbertHotelRoom` prototype below with a unique id, a localized
+#      `name` key (add it to Resources/Locale/en-US/_PS/hilbert-hotel.ftl) and the
+#      path to the map.
+# See .ai/guides/adding-hotel-rooms.md for the full walkthrough.
+#
+# The SPLURT rooms below were converted from SPLURT-tg's condo maps
+# (modular_zubbers/code/modules/condos/_maps) with Tools/convert_dmm_room.py.
+# Only tiles, walls, windows, doors and props that already exist in SS14 were
+# ported; unsupported props (flora, decals, lights) were skipped.
+- type: hilbertHotelRoom
+  id: CozyHotelRoom
+  name: hilbert-hotel-room-cozy
+  mapPath: /Maps/_PS/HilbertHotel/room_cozy.yml
+  order: 0
+
+- type: hilbertHotelRoom
+  id: HotelSuiteRoom
+  name: hilbert-hotel-room-hotel-suite
+  mapPath: /Maps/_PS/HilbertHotel/room_hotel.yml
+  order: 10
+
+- type: hilbertHotelRoom
+  id: PoolsideSuiteRoom
+  name: hilbert-hotel-room-poolside
+  mapPath: /Maps/_PS/HilbertHotel/room_suite.yml
+  order: 20
+
+- type: hilbertHotelRoom
+  id: CabinRoom
+  name: hilbert-hotel-room-cabin
+  mapPath: /Maps/_PS/HilbertHotel/room_cabin.yml
+  order: 30
+
+- type: hilbertHotelRoom
+  id: BeachCondoRoom
+  name: hilbert-hotel-room-beach
+  mapPath: /Maps/_PS/HilbertHotel/room_beach.yml
+  order: 40
+
+- type: hilbertHotelRoom
+  id: LibraryRoom
+  name: hilbert-hotel-room-library
+  mapPath: /Maps/_PS/HilbertHotel/room_library.yml
+  order: 50
+
+- type: hilbertHotelRoom
+  id: ApartmentRoom
+  name: hilbert-hotel-room-apartment
+  mapPath: /Maps/_PS/HilbertHotel/room_apartment.yml
+  order: 60
+
+# A large test map, handy for verifying runtime loading but not much of a hotel.
+- type: hilbertHotelRoom
+  id: DebugStationHotelRoom
+  name: hilbert-hotel-room-debug
+  mapPath: /Maps/Test/dev_map.yml
+  order: 100

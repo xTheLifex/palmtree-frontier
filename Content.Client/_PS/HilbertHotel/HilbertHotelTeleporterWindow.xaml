@@ -1,0 +1,26 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               Title="{Loc 'hilbert-hotel-teleporter-title'}"
+               MinSize="480 560"
+               SetSize="480 560">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+        <Label Text="{Loc 'hilbert-hotel-teleporter-description'}" />
+        <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+            <Label Text="{Loc 'hilbert-hotel-teleporter-code-label'}" VerticalAlignment="Center" />
+            <LineEdit Name="CodeEdit"
+                      HorizontalExpand="True"
+                      PlaceHolder="{Loc 'hilbert-hotel-teleporter-code-placeholder'}" />
+            <Button Name="RandomButton" Text="{Loc 'hilbert-hotel-teleporter-random'}" />
+        </BoxContainer>
+        <Button Name="CheckInButton" Text="{Loc 'hilbert-hotel-teleporter-check-in'}" />
+        <Label Name="RoomCountLabel" />
+        <Label Text="{Loc 'hilbert-hotel-teleporter-templates-label'}" />
+        <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False" MinSize="0 130">
+            <BoxContainer Name="TemplateContainer" Orientation="Vertical" SeparationOverride="2" />
+        </ScrollContainer>
+        <Label Text="{Loc 'hilbert-hotel-teleporter-rooms-label'}" />
+        <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False" MinSize="0 130">
+            <BoxContainer Name="RoomContainer" Orientation="Vertical" SeparationOverride="2" />
+        </ScrollContainer>
+        <Button Name="RefreshButton" Text="{Loc 'hilbert-hotel-teleporter-refresh'}" />
+    </BoxContainer>
+</DefaultWindow>

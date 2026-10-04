@@ -92,6 +92,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/systems/marking-and-appearance.md` | Marking system, genital markings, digitigrade, base layers, kindAllowance, ModifyUndies |
 | `.ai/systems/ps-systems.md` | Lobby screens/music/crossfade, concealable clothing implant, weapons |
 | `.ai/systems/frontier-nf-systems.md` | Bank/market/shipyard/cargo/sectors/cryo/pirates |
+| `.ai/systems/hilbert-hotel.md` | Hilbert's Hotel: runtime room maps, room codes, locking, guest lists |
 | `.ai/systems/player-character-and-jobs.md` | Sessions, minds, profiles, species, jobs/loadouts, ghosts, antags |
 | `.ai/systems/consent-and-erp.md` | Consent status (not ported), ERP feature set, how to add consent later |
 | `.ai/systems/game-ticker.md` | Round state machine, presets, rules, maps, spawn |
@@ -101,6 +102,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/guides/adding-markings.md` | Adding markings (normal, genital, kind-shared, layered, digitigrade) |
 | `.ai/guides/adding-species.md` | Adding/porting a species with body, layers, markings, speech |
 | `.ai/guides/adding-loadouts.md` | Adding loadouts, their items, and group wiring |
+| `.ai/guides/adding-hotel-rooms.md` | Adding Hilbert's Hotel room maps + archetype prototypes |
 | `.ai/guides/changelogs.md` | Changelog YAML authoring + `:cl:` automation for this fork |
 
 ### Procedural guides

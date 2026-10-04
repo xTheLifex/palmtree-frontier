@@ -62,3 +62,37 @@ Entries:
   time: '2026-10-04T01:29:31.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/e3b318af8fe9957ff18dabefc53e145ca8495f40
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Added Hilbert's Hotel: check-in terminals teleport you into a private
+        room loaded from its own map, identified by a shareable room code.
+    - type: Add
+      message: >-
+        Added room controllers that let the owner lock a room, hide it from the
+        public room list, manage trusted guests and ownership, and delete the
+        room (ejecting everyone inside).
+    - type: Add
+      message: >-
+        Added several room styles ported from SPLURT, including a hotel suite,
+        poolside suite, cabin, beach condo, library and apartment.
+    - type: Tweak
+      message: Players may only own one hotel room at a time.
+    - type: Fix
+      message: Hotel rooms now have gravity, self-powered machines and anchored furniture.
+    - type: Fix
+      message: The hotel room controller no longer blocks doorways or traps players who arrive on its tile.
+    - type: Fix
+      message: Returning to your body after ghosting no longer leaves you in a frozen hotel room.
+    - type: Add
+      message: Added light fixtures to every hotel room.
+    - type: Tweak
+      message: Empty hotel rooms now auto-delete after 5 minutes instead of 10.
+    - type: Fix
+      message: Hotel rooms can no longer be deleted while a player or pet is still inside.
+    - type: Fix
+      message: Fixed furniture overlapping in some converted hotel rooms.
+  id: 90005
+  time: '2026-10-04T02:37:33.0000000+00:00'
+  url: https://github.com/xTheLifex/palmtree-frontier

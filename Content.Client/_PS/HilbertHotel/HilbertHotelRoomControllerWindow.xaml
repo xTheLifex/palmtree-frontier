@@ -1,0 +1,25 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+               Title="{Loc 'hilbert-hotel-controller-title'}"
+               MinSize="420 520"
+               SetSize="420 520">
+    <BoxContainer Orientation="Vertical" Margin="8" SeparationOverride="6">
+        <Label Name="CodeLabel" />
+        <Label Name="OwnerLabel" />
+        <Label Name="NotOwnerLabel" Visible="False" Text="{Loc 'hilbert-hotel-controller-not-owner'}" />
+        <Button Name="StatusButton" />
+        <CheckBox Name="VisibilityCheckBox" Text="{Loc 'hilbert-hotel-controller-visible'}" />
+        <Label Text="{Loc 'hilbert-hotel-controller-guests-label'}" />
+        <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False" MinSize="0 100">
+            <BoxContainer Name="GuestContainer" Orientation="Vertical" SeparationOverride="2" />
+        </ScrollContainer>
+        <Button Name="ClearGuestsButton" Text="{Loc 'hilbert-hotel-controller-clear-guests'}" />
+        <controls:ConfirmButton Name="DeleteButton"
+                                Text="{Loc 'hilbert-hotel-controller-delete'}"
+                                ConfirmationText="{Loc 'hilbert-hotel-controller-delete-confirm'}" />
+        <Label Text="{Loc 'hilbert-hotel-controller-occupants-label'}" />
+        <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False" MinSize="0 100">
+            <BoxContainer Name="OccupantContainer" Orientation="Vertical" SeparationOverride="2" />
+        </ScrollContainer>
+    </BoxContainer>
+</DefaultWindow>

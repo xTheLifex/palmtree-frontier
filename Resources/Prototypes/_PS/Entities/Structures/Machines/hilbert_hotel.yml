@@ -1,0 +1,84 @@
+- type: entity
+  id: HilbertHotelTeleporter
+  parent: BaseMachine
+  name: Hilbert's Hotel check-in terminal
+  description: A bluespace terminal connected to an infinite lattice of private rooms. Enter a room code to check in.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: teleport
+      shader: unshaded
+    - map: ["computerLayerKeys"]
+      state: teleport_key
+  - type: HilbertHotelTeleporter
+  - type: UserInterface
+    interfaces:
+      enum.HilbertHotelTeleporterUiKey.Key:
+        type: HilbertHotelTeleporterBoundUserInterface
+  - type: ActivatableUI
+    key: enum.HilbertHotelTeleporterUiKey.Key
+    requiresComplex: false
+
+- type: entity
+  id: HilbertHotelRoomController
+  parent: BaseMachine
+  name: Hilbert's Hotel room controller
+  description: Configures the privacy of a Hilbert's Hotel room. The owner can lock the room and manage trusted guests.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: telesci
+      shader: unshaded
+    - map: ["computerLayerKeys"]
+      state: telesci_key
+  # The console is thin: it must never block a doorway or trap a player who
+  # lands on its tile, so it has no collision. It is anchored so it cannot drift.
+  - type: Transform
+    anchored: true
+  - type: Physics
+    canCollide: false
+  - type: Fixtures
+    fixtures: {}
+  - type: HilbertHotelRoomController
+  - type: UserInterface
+    interfaces:
+      enum.HilbertHotelRoomControllerUiKey.Key:
+        type: HilbertHotelRoomControllerBoundUserInterface
+  - type: ActivatableUI
+    key: enum.HilbertHotelRoomControllerUiKey.Key
+    requiresComplex: false
+
+- type: entity
+  id: HilbertHotelExit
+  parent: BaseStructure
+  name: hotel room door
+  description: A fake door that leads back to wherever you checked in from. Only the concierge knows where the hinges went.
+  components:
+  - type: Sprite
+    sprite: Structures/Doors/MineralDoors/wood_door.rsi
+    state: closed
+  - type: HilbertHotelExit
+  # Seal the wall gap the door sits in, otherwise the room leaks its air into space.
+  - type: Airtight
+    noAirWhenFullyAirBlocked: false
+
+- type: entity
+  id: HilbertHotelLandingMarker
+  parent: MarkerBase
+  name: hotel room landing marker
+  suffix: Hilbert Hotel
+  description: Arriving guests are placed here.
+  components:
+  - type: HilbertHotelLandingMarker

@@ -1,0 +1,1116 @@
+meta:
+  format: 7
+  category: Map
+  engineVersion: 266.0.0
+  forkId: ""
+  forkVersion: ""
+  time: 10/04/2026 00:00:00
+  entityCount: 156
+maps:
+- 1
+grids:
+- 2
+orphans: []
+nullspace: []
+tilemap:
+  0: Space
+  1: FloorAsteroidSand
+  2: FloorGrass
+  3: FloorHull
+  4: FloorShowroom
+  5: FloorWood
+  6: FloorWoodLarge
+  7: Plating
+entities:
+- proto: ""
+  entities:
+  - uid: 2
+    components:
+    - type: MetaData
+      name: gm_condo.dmm
+    - type: Transform
+      parent: 1
+    - type: MapGrid
+      chunks:
+        0,0:
+          ind: 0,0
+          tiles: BwAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAACAAAAAAAAAgAAAAAAAAIAAAAAAAACAAAAAAAAAgAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAgAAAAAAAAIAAAAAAAACAAAAAAAAAgAAAAAAAAIAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAIAAAAAAAACAAAAAAAAAgAAAAAAAAIAAAAAAAACAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAGAAAAAAAABgAAAAAAAAYAAAAAAAAGAAAAAAAABgAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAABgAAAAAAAAYAAAAAAAAGAAAAAAAABgAAAAAAAAYAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAABgAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAABAAAAAAAABwAAAAAAAAUAAAAAAAAFAAAAAAAABQAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAAAQAAAAAAAAcAAAAAAAAFAAAAAAAABQAAAAAAAAUAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAEAAAAAAAAHAAAAAAAABQAAAAAAAAUAAAAAAAAFAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAMAAAAAAAADAAAAAAAAAwAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAABQAAAAAAAAUAAAAAAAAFAAAAAAAAAwAAAAAAAAMAAAAAAAAFAAAAAAAABQAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAUAAAAAAAAFAAAAAAAABQAAAAAAAAMAAAAAAAADAAAAAAAABQAAAAAAAAUAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAFAAAAAAAABQAAAAAAAAUAAAAAAAADAAAAAAAAAwAAAAAAAAUAAAAAAAAFAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAwAAAAAAAAMAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwAAAAAAAAQAAAAAAAAEAAAAAAAABwAAAAAAAAMAAAAAAAADAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+          version: 7
+        0,1:
+          ind: 0,1
+          tiles: BwAAAAAAAAQAAAAAAAAEAAAAAAAABAAAAAAAAAMAAAAAAAADAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAABAAAAAAAAAQAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAHAAAAAAAABwAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+          version: 7
+    - type: Broadphase
+    - type: Physics
+      bodyStatus: InAir
+      angularDamping: 0.05
+      linearDamping: 0.05
+      fixedRotation: False
+      bodyType: Dynamic
+    - type: Fixtures
+      fixtures: {}
+    - type: OccluderTree
+    - type: GridPathfinding
+    - type: Gravity
+      gravityShakeSound: !type:SoundPathSpecifier
+        path: /Audio/Effects/alert.ogg
+      enabled: True
+      inherent: True
+    - type: DecalGrid
+      chunkCollection:
+        version: 2
+        nodes: []
+    - type: SpreaderGrid
+    - type: ImplicitRoof
+    - type: GridAtmosphere
+      version: 2
+      data:
+        tiles:
+          0,0:
+            0: 65535
+          0,1:
+            0: 65535
+          0,2:
+            0: 65535
+          0,3:
+            0: 65535
+          0,4:
+            0: 4095
+          1,0:
+            0: 65535
+          1,1:
+            0: 65535
+          1,2:
+            0: 65535
+          1,3:
+            0: 65535
+          1,4:
+            0: 4095
+          2,0:
+            0: 4369
+          2,1:
+            0: 4369
+          2,2:
+            0: 4369
+          2,3:
+            0: 4369
+          2,4:
+            0: 273
+        uniqueMixes:
+        - volume: 2500
+          temperature: 293.15
+          moles:
+          - 21.824879
+          - 82.10312
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+        chunkSize: 4
+  - uid: 1
+    components:
+    - type: MetaData
+      name: Hilbert Hotel Room
+    - type: Transform
+    - type: Map
+      mapPaused: True
+    - type: GridTree
+    - type: Broadphase
+    - type: OccluderTree
+    - type: MapLight
+      ambientLightColor: '#D8B059FF'
+- proto: WallWood
+  entities:
+  - uid: 3
+    components:
+    - type: Transform
+      pos: 0.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 4
+    components:
+    - type: Transform
+      pos: 0.5,1.5
+      parent: 2
+      anchored: True
+  - uid: 5
+    components:
+    - type: Transform
+      pos: 0.5,2.5
+      parent: 2
+      anchored: True
+  - uid: 6
+    components:
+    - type: Transform
+      pos: 0.5,3.5
+      parent: 2
+      anchored: True
+  - uid: 7
+    components:
+    - type: Transform
+      pos: 0.5,4.5
+      parent: 2
+      anchored: True
+  - uid: 8
+    components:
+    - type: Transform
+      pos: 0.5,5.5
+      parent: 2
+      anchored: True
+  - uid: 9
+    components:
+    - type: Transform
+      pos: 0.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 10
+    components:
+    - type: Transform
+      pos: 0.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 11
+    components:
+    - type: Transform
+      pos: 0.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 12
+    components:
+    - type: Transform
+      pos: 0.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 13
+    components:
+    - type: Transform
+      pos: 0.5,10.5
+      parent: 2
+      anchored: True
+  - uid: 17
+    components:
+    - type: Transform
+      pos: 0.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 18
+    components:
+    - type: Transform
+      pos: 0.5,15.5
+      parent: 2
+      anchored: True
+  - uid: 19
+    components:
+    - type: Transform
+      pos: 0.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 20
+    components:
+    - type: Transform
+      pos: 0.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 21
+    components:
+    - type: Transform
+      pos: 0.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 22
+    components:
+    - type: Transform
+      pos: 1.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 25
+    components:
+    - type: Transform
+      pos: 1.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 26
+    components:
+    - type: Transform
+      pos: 1.5,10.5
+      parent: 2
+      anchored: True
+  - uid: 30
+    components:
+    - type: Transform
+      pos: 1.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 35
+    components:
+    - type: Transform
+      pos: 1.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 36
+    components:
+    - type: Transform
+      pos: 2.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 38
+    components:
+    - type: Transform
+      pos: 2.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 42
+    components:
+    - type: Transform
+      pos: 2.5,10.5
+      parent: 2
+      anchored: True
+  - uid: 46
+    components:
+    - type: Transform
+      pos: 2.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 51
+    components:
+    - type: Transform
+      pos: 2.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 52
+    components:
+    - type: Transform
+      pos: 3.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 61
+    components:
+    - type: Transform
+      pos: 3.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 62
+    components:
+    - type: Transform
+      pos: 3.5,15.5
+      parent: 2
+      anchored: True
+  - uid: 64
+    components:
+    - type: Transform
+      pos: 3.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 65
+    components:
+    - type: Transform
+      pos: 3.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 66
+    components:
+    - type: Transform
+      pos: 4.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 78
+    components:
+    - type: Transform
+      pos: 5.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 92
+    components:
+    - type: Transform
+      pos: 5.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 94
+    components:
+    - type: Transform
+      pos: 6.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 95
+    components:
+    - type: Transform
+      pos: 6.5,1.5
+      parent: 2
+      anchored: True
+  - uid: 96
+    components:
+    - type: Transform
+      pos: 6.5,2.5
+      parent: 2
+      anchored: True
+  - uid: 97
+    components:
+    - type: Transform
+      pos: 6.5,3.5
+      parent: 2
+      anchored: True
+  - uid: 98
+    components:
+    - type: Transform
+      pos: 6.5,4.5
+      parent: 2
+      anchored: True
+  - uid: 99
+    components:
+    - type: Transform
+      pos: 6.5,5.5
+      parent: 2
+      anchored: True
+  - uid: 100
+    components:
+    - type: Transform
+      pos: 6.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 101
+    components:
+    - type: Transform
+      pos: 6.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 102
+    components:
+    - type: Transform
+      pos: 6.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 103
+    components:
+    - type: Transform
+      pos: 6.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 104
+    components:
+    - type: Transform
+      pos: 6.5,10.5
+      parent: 2
+      anchored: True
+  - uid: 110
+    components:
+    - type: Transform
+      pos: 6.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 111
+    components:
+    - type: Transform
+      pos: 6.5,15.5
+      parent: 2
+      anchored: True
+  - uid: 112
+    components:
+    - type: Transform
+      pos: 6.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 113
+    components:
+    - type: Transform
+      pos: 6.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 125
+    components:
+    - type: Transform
+      pos: 7.5,10.5
+      parent: 2
+      anchored: True
+  - uid: 133
+    components:
+    - type: Transform
+      pos: 7.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 148
+    components:
+    - type: Transform
+      pos: 8.5,10.5
+      parent: 2
+      anchored: True
+  - uid: 149
+    components:
+    - type: Transform
+      pos: 8.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 150
+    components:
+    - type: Transform
+      pos: 8.5,12.5
+      parent: 2
+      anchored: True
+  - uid: 151
+    components:
+    - type: Transform
+      pos: 8.5,13.5
+      parent: 2
+      anchored: True
+  - uid: 152
+    components:
+    - type: Transform
+      pos: 8.5,14.5
+      parent: 2
+      anchored: True
+- proto: WallSandstone
+  entities:
+  - uid: 14
+    components:
+    - type: Transform
+      pos: 0.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 15
+    components:
+    - type: Transform
+      pos: 0.5,12.5
+      parent: 2
+      anchored: True
+  - uid: 16
+    components:
+    - type: Transform
+      pos: 0.5,13.5
+      parent: 2
+      anchored: True
+- proto: Chair
+  entities:
+  - uid: 23
+    components:
+    - type: Transform
+      rot: 1.5707963267948966
+      pos: 1.5,4.5
+      parent: 2
+      anchored: True
+- proto: ClosetSteelBase
+  entities:
+  - uid: 24
+    components:
+    - type: Transform
+      pos: 1.5,5.5
+      parent: 2
+      anchored: True
+  - uid: 29
+    components:
+    - type: Transform
+      pos: 1.5,13.5
+      parent: 2
+      anchored: True
+- proto: KitchenMicrowave
+  entities:
+  - uid: 27
+    components:
+    - type: Transform
+      pos: 1.5,11.5
+      parent: 2
+      anchored: True
+    - type: ApcPowerReceiver
+      needsPower: false
+- proto: TableReinforcedGlass
+  entities:
+  - uid: 28
+    components:
+    - type: Transform
+      pos: 1.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 44
+    components:
+    - type: Transform
+      pos: 2.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 59
+    components:
+    - type: Transform
+      pos: 3.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 60
+    components:
+    - type: Transform
+      pos: 3.5,12.5
+      parent: 2
+      anchored: True
+- proto: ToiletEmpty
+  entities:
+  - uid: 31
+    components:
+    - type: Transform
+      pos: 1.5,15.5
+      parent: 2
+      anchored: True
+    - type: ApcPowerReceiver
+      needsPower: false
+- proto: Window
+  entities:
+  - uid: 32
+    components:
+    - type: Transform
+      pos: 1.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 39
+    components:
+    - type: Transform
+      pos: 2.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 40
+    components:
+    - type: Transform
+      pos: 2.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 41
+    components:
+    - type: Transform
+      pos: 2.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 49
+    components:
+    - type: Transform
+      pos: 2.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 69
+    components:
+    - type: Transform
+      pos: 4.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 82
+    components:
+    - type: Transform
+      pos: 5.5,6.5
+      parent: 2
+      anchored: True
+- proto: AlwaysPoweredWallLight
+  entities:
+  - uid: 33
+    components:
+    - type: Transform
+      pos: 1.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 43
+    components:
+    - type: Transform
+      pos: 2.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 74
+    components:
+    - type: Transform
+      pos: 4.5,14.5
+      parent: 2
+      anchored: True
+  - uid: 85
+    components:
+    - type: Transform
+      pos: 5.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 128
+    components:
+    - type: Transform
+      pos: 7.5,12.5
+      parent: 2
+      anchored: True
+- proto: FloorWaterEntity
+  entities:
+  - uid: 34
+    components:
+    - type: Transform
+      pos: 1.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 50
+    components:
+    - type: Transform
+      pos: 2.5,17.5
+      parent: 2
+      anchored: True
+- proto: Railing
+  entities:
+  - uid: 37
+    components:
+    - type: Transform
+      rot: -1.5707963267948966
+      pos: 2.5,4.5
+      parent: 2
+      anchored: True
+  - uid: 67
+    components:
+    - type: Transform
+      rot: 1.5707963267948966
+      pos: 4.5,4.5
+      parent: 2
+      anchored: True
+- proto: Sink
+  entities:
+  - uid: 45
+    components:
+    - type: Transform
+      pos: 2.5,12.5
+      parent: 2
+      anchored: True
+  - uid: 48
+    components:
+    - type: Transform
+      pos: 2.5,15.5
+      parent: 2
+      anchored: True
+- proto: Mirror
+  entities:
+  - uid: 47
+    components:
+    - type: Transform
+      pos: 2.5,15.5
+      parent: 2
+      anchored: True
+- proto: WoodDoor
+  entities:
+  - uid: 53
+    components:
+    - type: Transform
+      pos: 3.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 63
+    components:
+    - type: Transform
+      pos: 3.5,16.5
+      parent: 2
+      anchored: True
+- proto: CurtainsWhite
+  entities:
+  - uid: 54
+    components:
+    - type: Transform
+      pos: 3.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 68
+    components:
+    - type: Transform
+      pos: 4.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 81
+    components:
+    - type: Transform
+      pos: 5.5,6.5
+      parent: 2
+      anchored: True
+- proto: Carpet
+  entities:
+  - uid: 55
+    components:
+    - type: Transform
+      pos: 3.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 56
+    components:
+    - type: Transform
+      pos: 3.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 57
+    components:
+    - type: Transform
+      pos: 3.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 70
+    components:
+    - type: Transform
+      pos: 4.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 71
+    components:
+    - type: Transform
+      pos: 4.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 73
+    components:
+    - type: Transform
+      pos: 4.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 83
+    components:
+    - type: Transform
+      pos: 5.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 86
+    components:
+    - type: Transform
+      pos: 5.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 88
+    components:
+    - type: Transform
+      pos: 5.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 105
+    components:
+    - type: Transform
+      pos: 6.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 107
+    components:
+    - type: Transform
+      pos: 6.5,12.5
+      parent: 2
+      anchored: True
+  - uid: 108
+    components:
+    - type: Transform
+      pos: 6.5,13.5
+      parent: 2
+      anchored: True
+  - uid: 126
+    components:
+    - type: Transform
+      pos: 7.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 129
+    components:
+    - type: Transform
+      pos: 7.5,12.5
+      parent: 2
+      anchored: True
+  - uid: 131
+    components:
+    - type: Transform
+      pos: 7.5,13.5
+      parent: 2
+      anchored: True
+- proto: PottedPlant0
+  entities:
+  - uid: 58
+    components:
+    - type: Transform
+      pos: 3.5,10.5
+      parent: 2
+      anchored: True
+- proto: ChairWood
+  entities:
+  - uid: 72
+    components:
+    - type: Transform
+      rot: 1.5707963267948966
+      pos: 4.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 84
+    components:
+    - type: Transform
+      pos: 5.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 89
+    components:
+    - type: Transform
+      rot: 3.141592653589793
+      pos: 5.5,9.5
+      parent: 2
+      anchored: True
+- proto: HilbertHotelLandingMarker
+  entities:
+  - uid: 75
+    components:
+    - type: Transform
+      pos: 4.5,16.5
+      parent: 2
+      anchored: True
+- proto: HilbertHotelExit
+  entities:
+  - uid: 76
+    components:
+    - type: Transform
+      pos: 4.5,17.5
+      parent: 2
+      anchored: True
+- proto: WallSolid
+  entities:
+  - uid: 77
+    components:
+    - type: Transform
+      pos: 4.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 93
+    components:
+    - type: Transform
+      pos: 5.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 114
+    components:
+    - type: Transform
+      pos: 6.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 115
+    components:
+    - type: Transform
+      pos: 7.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 116
+    components:
+    - type: Transform
+      pos: 7.5,1.5
+      parent: 2
+      anchored: True
+  - uid: 117
+    components:
+    - type: Transform
+      pos: 7.5,2.5
+      parent: 2
+      anchored: True
+  - uid: 118
+    components:
+    - type: Transform
+      pos: 7.5,3.5
+      parent: 2
+      anchored: True
+  - uid: 119
+    components:
+    - type: Transform
+      pos: 7.5,4.5
+      parent: 2
+      anchored: True
+  - uid: 120
+    components:
+    - type: Transform
+      pos: 7.5,5.5
+      parent: 2
+      anchored: True
+  - uid: 121
+    components:
+    - type: Transform
+      pos: 7.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 122
+    components:
+    - type: Transform
+      pos: 7.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 123
+    components:
+    - type: Transform
+      pos: 7.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 124
+    components:
+    - type: Transform
+      pos: 7.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 134
+    components:
+    - type: Transform
+      pos: 7.5,15.5
+      parent: 2
+      anchored: True
+  - uid: 135
+    components:
+    - type: Transform
+      pos: 7.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 136
+    components:
+    - type: Transform
+      pos: 7.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 137
+    components:
+    - type: Transform
+      pos: 7.5,18.5
+      parent: 2
+      anchored: True
+  - uid: 138
+    components:
+    - type: Transform
+      pos: 8.5,0.5
+      parent: 2
+      anchored: True
+  - uid: 139
+    components:
+    - type: Transform
+      pos: 8.5,1.5
+      parent: 2
+      anchored: True
+  - uid: 140
+    components:
+    - type: Transform
+      pos: 8.5,2.5
+      parent: 2
+      anchored: True
+  - uid: 141
+    components:
+    - type: Transform
+      pos: 8.5,3.5
+      parent: 2
+      anchored: True
+  - uid: 142
+    components:
+    - type: Transform
+      pos: 8.5,4.5
+      parent: 2
+      anchored: True
+  - uid: 143
+    components:
+    - type: Transform
+      pos: 8.5,5.5
+      parent: 2
+      anchored: True
+  - uid: 144
+    components:
+    - type: Transform
+      pos: 8.5,6.5
+      parent: 2
+      anchored: True
+  - uid: 145
+    components:
+    - type: Transform
+      pos: 8.5,7.5
+      parent: 2
+      anchored: True
+  - uid: 146
+    components:
+    - type: Transform
+      pos: 8.5,8.5
+      parent: 2
+      anchored: True
+  - uid: 147
+    components:
+    - type: Transform
+      pos: 8.5,9.5
+      parent: 2
+      anchored: True
+  - uid: 153
+    components:
+    - type: Transform
+      pos: 8.5,15.5
+      parent: 2
+      anchored: True
+  - uid: 154
+    components:
+    - type: Transform
+      pos: 8.5,16.5
+      parent: 2
+      anchored: True
+  - uid: 155
+    components:
+    - type: Transform
+      pos: 8.5,17.5
+      parent: 2
+      anchored: True
+  - uid: 156
+    components:
+    - type: Transform
+      pos: 8.5,18.5
+      parent: 2
+      anchored: True
+- proto: TableGlass
+  entities:
+  - uid: 79
+    components:
+    - type: Transform
+      pos: 5.5,4.5
+      parent: 2
+      anchored: True
+  - uid: 80
+    components:
+    - type: Transform
+      pos: 5.5,5.5
+      parent: 2
+      anchored: True
+- proto: TableWood
+  entities:
+  - uid: 87
+    components:
+    - type: Transform
+      pos: 5.5,8.5
+      parent: 2
+      anchored: True
+- proto: HilbertHotelRoomController
+  entities:
+  - uid: 90
+    components:
+    - type: Transform
+      pos: 5.5,16.5
+      parent: 2
+      anchored: True
+- proto: Rack
+  entities:
+  - uid: 91
+    components:
+    - type: Transform
+      pos: 5.5,16.5
+      parent: 2
+      anchored: True
+- proto: BenchComfy
+  entities:
+  - uid: 106
+    components:
+    - type: Transform
+      pos: 6.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 109
+    components:
+    - type: Transform
+      rot: 3.141592653589793
+      pos: 6.5,13.5
+      parent: 2
+      anchored: True
+  - uid: 127
+    components:
+    - type: Transform
+      pos: 7.5,11.5
+      parent: 2
+      anchored: True
+  - uid: 130
+    components:
+    - type: Transform
+      rot: -1.5707963267948966
+      pos: 7.5,12.5
+      parent: 2
+      anchored: True
+  - uid: 132
+    components:
+    - type: Transform
+      rot: -1.5707963267948966
+      pos: 7.5,13.5
+      parent: 2
+      anchored: True
+...
