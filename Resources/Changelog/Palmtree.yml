@@ -96,3 +96,11 @@ Entries:
   id: 90005
   time: '2026-10-04T02:37:33.0000000+00:00'
   url: https://github.com/xTheLifex/palmtree-frontier
+- author: TheLife
+  changes:
+    - type: Add
+      message: Ported showers from Coyote, with toggleable water and construction.
+  id: 90006
+  time: '2026-10-04T11:27:15.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/2df50cc28f2bdad3e87c9437b4c71c8158b70d29
