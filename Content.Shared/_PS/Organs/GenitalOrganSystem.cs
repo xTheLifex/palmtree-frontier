@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Numerics;
 using Content.Shared._PS.Interactions;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Events;
@@ -171,8 +172,10 @@ public sealed class GenitalOrganSystem : EntitySystem
                 organ.Comp.Visibility = data.Visibility;
                 organ.Comp.Color = data.Color;
                 organ.Comp.DetailColor = data.DetailColor;
+                organ.Comp.Offset = data.Offset;
+                organ.Comp.Scale = data.Scale;
 
-                if (changed)
+                if (changed || !catalog.CanArouse)
                     organ.Comp.Aroused = false;
 
                 if (type == GenitalType.Penis)
@@ -183,8 +186,15 @@ public sealed class GenitalOrganSystem : EntitySystem
             }
 
             var slot = GetOrganSlot(type);
-            if (!_body.TryCreateOrganSlot(torso.Id, slot, out _, torso.Component))
+
+            // Removing an organ leaves its slot dictionary entry behind, so TryCreateOrganSlot
+            // returns false on re-enable. It still ensures the container exists, so fall back to
+            // reusing the existing slot instead of skipping the organ forever.
+            if (!_body.TryCreateOrganSlot(torso.Id, slot, out _, torso.Component) &&
+                !_body.CanInsertOrgan(torso.Id, slot, torso.Component))
+            {
                 continue;
+            }
 
             var spawned = Spawn(GetOrganEntity(type), Transform(torso.Id).Coordinates);
             var comp = EnsureComp<GenitalOrganComponent>(spawned);
@@ -195,6 +205,8 @@ public sealed class GenitalOrganSystem : EntitySystem
             comp.Visibility = data.Visibility;
             comp.Color = data.Color;
             comp.DetailColor = data.DetailColor;
+            comp.Offset = data.Offset;
+            comp.Scale = data.Scale;
             comp.SemenVolume = settings.SemenVolume;
             Dirty(spawned, comp);
 
@@ -244,6 +256,12 @@ public sealed class GenitalOrganSystem : EntitySystem
                 OtherCanToggleVisible = false,
                 RenderOverClothing = organ.Visibility == GenitalVisibility.NeverHidden,
             };
+
+            if (organ.Offset != Vector2.Zero)
+                marking.SetOffset(organ.Offset.X, organ.Offset.Y);
+
+            if (organ.Scale != 1f)
+                marking.SetScale(organ.Scale);
 
             humanoid.MarkingSet.AddBack(MarkingCategories.Genital, marking);
         }
@@ -364,6 +382,18 @@ public sealed class GenitalOrganSystem : EntitySystem
     {
         if (!TryGetOrgan(mob, type, out var organUid, out var organ))
             return false;
+
+        // Flaccid-only organs (balls, breasts) never arouse; clear any stale state.
+        if (!_prototype.TryIndex<GenitalOrganPrototype>(organ.OrganPrototype, out var catalog) || !catalog.CanArouse)
+        {
+            if (!organ.Aroused)
+                return false;
+
+            organ.Aroused = false;
+            Dirty(organUid, organ);
+            SyncRender(mob);
+            return false;
+        }
 
         if (organ.Aroused == aroused)
             return false;

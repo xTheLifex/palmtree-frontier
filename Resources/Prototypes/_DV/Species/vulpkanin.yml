@@ -55,39 +55,83 @@
       points: 35
       required: false
     Hair:
-      points: 1
+      points: 35
       required: false
     FacialHair:
-      points: 1
+      points: 35
       required: false
+    # Coyote: Allow unlimited markings
     Tail:
-      points: 1
+      points: 999 # Coyote: Allow unlimited markings
       required: true
       defaultMarkings: [ VulpTail ]
     Head:
-      points: 3
+      points: 35
       required: false
     Legs:
-      points: 1
+      points: 35
       required: false
     Arms:
-      points: 1
+      points: 35
       required: false
     Snout:
-      points: 1
+      points: 35
+      required: false
+    NeckFluff:
+      points: 35
       required: false
     # Frontier: apparently these don't exist on Delta
     UndergarmentTop:
-      points: 1
+      points: 35
       required: false
     UndergarmentBottom:
-      points: 1
+      points: 35
       required: false
     # End Frontier
     HeadTop:
-      points: 1
+      points: 999 # Coyote: Allow unlimited markings
       required: true
       defaultMarkings: [ VulpEar ]
+    # Copypaste these into every species I HATE THIS CODE
+    BaseChest:
+      points: 35
+      required: false
+    BaseHead:
+      points: 35
+      required: false
+    BaseLArm:
+      points: 35
+      required: false
+    BaseLFoot:
+      points: 35
+      required: false
+    BaseLHand:
+      points: 35
+      required: false
+    BaseLLeg:
+      points: 35
+      required: false
+    BaseRArm:
+      points: 35
+      required: false
+    BaseRFoot:
+      points: 35
+      required: false
+    BaseRHand:
+      points: 35
+      required: false
+    BaseRLeg:
+      points: 35
+      required: false
+    Chest:
+      points: 35
+      required: false
+    Overlay:
+      points: 35
+      required: false
+    Special:
+      points: 35
+      required: false
 
 - type: humanoidBaseSprite
   id: MobVulpkaninHead

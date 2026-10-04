@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared._PS.Interactions;
 using Robust.Shared.GameStates;
 
@@ -36,6 +37,14 @@ public sealed partial class GenitalOrganComponent : Component
     /// <summary>Secondary/detail sprite color (e.g. nipples); null falls back to <see cref="Color"/>.</summary>
     [DataField, AutoNetworkedField]
     public Color? DetailColor;
+
+    /// <summary>Sprite offset applied on top of the organ's render marking (like marking offsets).</summary>
+    [DataField, AutoNetworkedField]
+    public Vector2 Offset;
+
+    /// <summary>Sprite scale multiplier applied to the organ's render marking (like marking scale).</summary>
+    [DataField, AutoNetworkedField]
+    public float Scale = 1f;
 
     /// <summary>Semen output per climax for a penis organ, copied from the profile.</summary>
     [DataField, AutoNetworkedField]

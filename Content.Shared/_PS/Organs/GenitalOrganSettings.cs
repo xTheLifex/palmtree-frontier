@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using Content.Shared._PS.Interactions;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -19,7 +21,10 @@ public sealed partial class GenitalOrganSettings
 {
     public const int DefaultSemenVolume = 30;
     public const int MinSemenVolume = 1;
-    public const int MaxSemenVolume = 200;
+    public const int MaxSemenVolume = 300;
+
+    public const float MinScale = 0.25f;
+    public const float MaxScale = 3f;
 
     [DataField("organs")]
     public List<GenitalOrganData> Organs = new();
@@ -105,10 +110,41 @@ public sealed partial class GenitalOrganSettings
             if (!Enum.IsDefined(organ.Visibility))
                 organ.Visibility = GenitalVisibility.HiddenByJumpsuit;
 
+            organ.Offset = new Vector2(Math.Clamp(organ.Offset.X, -2f, 2f), Math.Clamp(organ.Offset.Y, -2f, 2f));
+            organ.Scale = Math.Clamp(organ.Scale, MinScale, MaxScale);
+
             valid.Add(organ);
         }
 
         Organs = valid;
+    }
+
+    /// <summary>
+    /// Best-effort conversion of a legacy genital marking into an organ entry. Matches the marking
+    /// against every catalog size's flaccid/aroused render marking; the first match wins, and an
+    /// organ that is already configured for that type is never overwritten.
+    /// </summary>
+    public static void TryConvertMarking(GenitalOrganSettings settings, string markingId, IPrototypeManager prototypes)
+    {
+        foreach (var catalog in prototypes.EnumeratePrototypes<GenitalOrganPrototype>())
+        {
+            if (settings.Get(catalog.GenitalType) != null)
+                continue;
+
+            for (var i = 0; i < catalog.Sizes.Count; i++)
+            {
+                var size = catalog.Sizes[i];
+                if (size.Flaccid?.Id != markingId && size.Aroused?.Id != markingId)
+                    continue;
+
+                settings.Set(catalog.GenitalType, new GenitalOrganData
+                {
+                    Prototype = catalog.ID,
+                    Size = i + 1,
+                });
+                return;
+            }
+        }
     }
 
     public string ToDbString()
@@ -117,9 +153,29 @@ public sealed partial class GenitalOrganSettings
         foreach (var organ in Organs)
         {
             var part = $"{organ.Type}:{organ.Prototype}:{organ.Size}:{organ.Visibility}";
-            if (organ.Color != null || organ.DetailColor != null)
+
+            // Colors, offset and scale share the optional tail of the string; null colors become
+            // '-' placeholders so later segments can still be written.
+            if (organ.Color != null || organ.DetailColor != null || organ.Offset != Vector2.Zero || organ.Scale != 1f)
             {
                 part += $":{organ.Color?.ToHex() ?? "-"}:{organ.DetailColor?.ToHex() ?? "-"}";
+
+                if (organ.Offset != Vector2.Zero || organ.Scale != 1f)
+                {
+                    part += ":";
+                    if (organ.Offset != Vector2.Zero)
+                    {
+                        part += organ.Offset.X.ToString(CultureInfo.InvariantCulture) + ","
+                            + organ.Offset.Y.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        part += "-";
+                    }
+
+                    if (organ.Scale != 1f)
+                        part += ":" + organ.Scale.ToString(CultureInfo.InvariantCulture);
+                }
             }
 
             parts.Add(part);
@@ -146,7 +202,7 @@ public sealed partial class GenitalOrganSettings
             }
 
             var halves = part.Split(':');
-            if (halves.Length is < 3 or > 6)
+            if (halves.Length is < 3 or > 8)
                 continue;
 
             if (!Enum.TryParse<GenitalType>(halves[0], ignoreCase: true, out var type))
@@ -169,6 +225,25 @@ public sealed partial class GenitalOrganSettings
             if (halves.Length >= 6)
                 detailColor = ParseColor(halves[5]);
 
+            var offset = Vector2.Zero;
+            if (halves.Length >= 7 && halves[6] != "-")
+            {
+                var offsetParts = halves[6].Split(',');
+                if (offsetParts.Length == 2 &&
+                    float.TryParse(offsetParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetX) &&
+                    float.TryParse(offsetParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var offsetY))
+                {
+                    offset = new Vector2(offsetX, offsetY);
+                }
+            }
+
+            var scale = 1f;
+            if (halves.Length >= 8 &&
+                float.TryParse(halves[7], NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedScale))
+            {
+                scale = parsedScale;
+            }
+
             settings.Set(type, new GenitalOrganData
             {
                 Type = type,
@@ -177,6 +252,8 @@ public sealed partial class GenitalOrganSettings
                 Visibility = visibility,
                 Color = color,
                 DetailColor = detailColor,
+                Offset = offset,
+                Scale = scale,
             });
         }
 
@@ -238,6 +315,14 @@ public sealed partial class GenitalOrganData
     [DataField("detailColor")]
     public Color? DetailColor;
 
+    /// <summary>Sprite offset applied on top of the organ's render marking (like marking offsets).</summary>
+    [DataField("offset")]
+    public Vector2 Offset;
+
+    /// <summary>Sprite scale multiplier applied to the organ's render marking (like marking scale).</summary>
+    [DataField("scale")]
+    public float Scale = 1f;
+
     public GenitalOrganData Clone()
     {
         return new GenitalOrganData
@@ -248,6 +333,8 @@ public sealed partial class GenitalOrganData
             Visibility = Visibility,
             Color = Color,
             DetailColor = DetailColor,
+            Offset = Offset,
+            Scale = Scale,
         };
     }
 
@@ -259,6 +346,8 @@ public sealed partial class GenitalOrganData
                Size == other.Size &&
                Visibility == other.Visibility &&
                Nullable.Equals(Color, other.Color) &&
-               Nullable.Equals(DetailColor, other.DetailColor);
+               Nullable.Equals(DetailColor, other.DetailColor) &&
+               Offset.Equals(other.Offset) &&
+               Scale.Equals(other.Scale);
     }
 }

@@ -67,12 +67,11 @@ def main():
                 "  genitalType: Balls", "  sizes:"]
         for size in range(1, max_size + 1):
             flaccid = f"Genital-Balls-{tid}{size}"
-            aroused = f"Genital-Balls-{tid}{size}Alt"
             if flaccid not in ids:
                 continue
+            # Palmtree: balls are flaccid-only (the *Alt sprites are not drawn for arousal),
+            # matching breasts. Do not emit an aroused marking for them.
             out += [f"    - name: genital-size-{size}", f"      flaccid: {flaccid}"]
-            if aroused in ids:
-                out.append(f"      aroused: {aroused}")
         out.append("")
     loc += ["# Balls types", "genital-organ-balls-single = Single",
             "genital-organ-balls-sheath = Sheathed", "genital-organ-balls-small = Small"]

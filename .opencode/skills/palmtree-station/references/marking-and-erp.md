@@ -93,9 +93,22 @@ sanitized to `_`). Old strings remain valid and default to self-toggleable. Chan
 - Per-organ visibility rules (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never
   hidden) are changeable in the panel and editor and persist in the profile; exposure and rendering
   both follow them (`Never hidden` draws over clothing, covered organs are not drawn at all).
-- Organ colors (primary + detail) are picked per organ in the editor; a manual **Climax** action
-  exists alongside **Cum on them**. Receiver-side acts (`Ride`, `TakeAnal`) let a vagina/anus owner
-  take the target's penis and route the target's climax into themselves.
+- Organ colors (primary + detail) and transforms (offset + scale) are picked per organ in the editor
+  (sliders mirror the marking picker); they persist in the DB string and apply via
+  `Marking.SetOffset`/`SetScale`. The editor also has a **Preview aroused organs** toggle and
+  per-organ `HSeparator`s. Balls and breasts are **flaccid-only** (no aroused sprite, `CanArouse`
+  false) — their arousal toggle is disabled and arousal is rejected. A manual **Climax** action
+  exists alongside **Cum on them**. Old genital
+  markings are converted to organs on load/import (`GenitalOrganSettings.TryConvertMarking`), so
+  Coyote exports keep their genitals. Human/Vulpkanin/Reptilian marking-point limits match Coyote
+  (35 per category, 999 tails/head-top on Vulpkanin) so cross-species exports keep every marking.
+- Character **Height/Width** sliders (Appearance tab) scale the whole sprite; range 0.5-2 (max
+  double the standard), persisted in the `height`/`width` DB columns.
+- Climaxes are multi-pulse: `SemenVolume` is split into 30u pulses (max 10, so 300u = 10). Each
+  pulse places a decal/drip, sends the cum text and moans; while pulsing the actor cannot start
+  another climax and gains no lust from interactions.
+- Receiver-side acts (`Ride`, `TakeAnal`) let a vagina/anus owner take the target's penis and route
+  the target's climax into themselves.
 - Lust decays 1/s, random tolerance/potency per mob, moans use a bezier chance and climax plays
   `final_*`; lust gain is doubled from Sandstorm (default 20/action). `cumTarget` on the prototype
   drives where the fluid goes: drips only place small droplet decals, actual ejaculation places the

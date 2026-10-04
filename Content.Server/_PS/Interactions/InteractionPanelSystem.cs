@@ -5,6 +5,7 @@ using Content.Server.Chat.Systems;
 using Content.Shared._PS.Interactions;
 using Content.Shared._PS.Organs;
 using Content.Shared.Chat;
+using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
 using Content.Shared.Humanoid;
 using Content.Shared.IdentityManagement;
@@ -160,6 +161,10 @@ public sealed partial class InteractionPanelSystem : EntitySystem
     public bool CanPerform(InteractionPrototype proto, EntityUid user, EntityUid target, bool popup)
     {
         var flags = GetFlags(proto);
+
+        // A mid-climax actor cannot start another climax.
+        if (proto.ForceClimax && EnsureState(user).ClimaxPulsesLeft > 0)
+            return false;
 
         // Sandstorm self/other semantics: self-only interactions need USER_IS_TARGET,
         // interactions without it cannot target yourself. SelfOrOther bypasses both rules.
@@ -324,6 +329,10 @@ public sealed partial class InteractionPanelSystem : EntitySystem
     {
         var state = EnsureState(user);
 
+        // Fail-safe: a mid-climax actor cannot start another climax even if the UI is stale.
+        if (proto.ForceClimax && state.ClimaxPulsesLeft > 0)
+            return false;
+
         if (!CanPerform(proto, user, target, popup: !applyCooldown))
             return false;
 
@@ -406,20 +415,26 @@ public sealed partial class InteractionPanelSystem : EntitySystem
 
         var userState = EnsureState(user);
 
+        // Mid-climax participants do not gain lust (fail-safe: no auto-climax re-trigger while pulsing).
+        var userClimaxing = userState.ClimaxPulsesLeft > 0;
+
         // Involved organs become aroused.
         _organs.SetAroused(user, GenitalType.Penis, true);
         _organs.SetAroused(user, GenitalType.Vagina, true);
 
         if (user == target)
         {
-            if (proto.MinLust > 0)
+            if (!userClimaxing)
             {
-                if (GetLust(user, userState) < proto.MinLust)
-                    SetLust(user, userState, proto.MinLust);
-            }
-            else if (proto.Lust > 0)
-            {
-                AddLust(user, userState, proto.Lust, userState.UseArousalMultiplier, userState.ArousalMultiplier);
+                if (proto.MinLust > 0)
+                {
+                    if (GetLust(user, userState) < proto.MinLust)
+                        SetLust(user, userState, proto.MinLust);
+                }
+                else if (proto.Lust > 0)
+                {
+                    AddLust(user, userState, proto.Lust, userState.UseArousalMultiplier, userState.ArousalMultiplier);
+                }
             }
 
             TryMoan(user, userState);
@@ -433,25 +448,31 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             _organs.SetAroused(target, GenitalType.Vagina, true);
         }
 
-        if (proto.MinLust > 0)
-        {
-            if (GetLust(user, userState) < proto.MinLust)
-                SetLust(user, userState, proto.MinLust);
+        var targetState = HasComp<HumanoidAppearanceComponent>(target) ? EnsureState(target) : null;
+        var targetClimaxing = targetState is { ClimaxPulsesLeft: > 0 };
 
-            if (HasComp<HumanoidAppearanceComponent>(target))
+        if (!userClimaxing)
+        {
+            if (proto.MinLust > 0)
             {
-                var targetState = EnsureState(target);
+                if (GetLust(user, userState) < proto.MinLust)
+                    SetLust(user, userState, proto.MinLust);
+            }
+            else if (proto.Lust > 0)
+            {
+                AddLust(user, userState, proto.Lust, userState.UseArousalMultiplier, userState.ArousalMultiplier);
+            }
+        }
+
+        if (targetState != null && !targetClimaxing)
+        {
+            if (proto.MinLust > 0)
+            {
                 if (GetLust(target, targetState) < proto.MinLust)
                     SetLust(target, targetState, proto.MinLust);
             }
-        }
-        else if (proto.Lust > 0)
-        {
-            AddLust(user, userState, proto.Lust, userState.UseArousalMultiplier, userState.ArousalMultiplier);
-
-            if (HasComp<HumanoidAppearanceComponent>(target))
+            else if (proto.Lust > 0)
             {
-                var targetState = EnsureState(target);
                 AddLust(target, targetState, proto.Lust,
                     targetState.UseArousalMultiplier, targetState.ArousalMultiplier);
             }
@@ -460,13 +481,13 @@ public sealed partial class InteractionPanelSystem : EntitySystem
         TryMoan(user, userState);
         TryClimax(user, userState, target, proto, isActor: true);
 
-        if (HasComp<HumanoidAppearanceComponent>(target) && TryComp<InteractionStateComponent>(target, out var otherState))
+        if (targetState != null)
         {
-            TryMoan(target, otherState);
+            TryMoan(target, targetState);
 
             // Receiver-side acts (riding, taking it) reuse the interaction's cum target for the
             // target's climax, so the penetrator's semen lands in the actor when they finish.
-            TryClimax(target, otherState, user, proto, isActor: true);
+            TryClimax(target, targetState, user, proto, isActor: true);
         }
     }
 
@@ -501,6 +522,10 @@ public sealed partial class InteractionPanelSystem : EntitySystem
                 continue;
 
             if (TryComp<InteractionStateComponent>(listener, out var listenerState) && !listenerState.LewdSounds)
+                continue;
+
+            // Ghosts do not get to snoop on ERP sounds.
+            if (HasComp<GhostComponent>(listener))
                 continue;
 
             var listenerPos = Transform(listener).MapPosition;
@@ -557,6 +582,37 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             }
 
             state.NextAutoInteraction = now + TimeSpan.FromSeconds(MathF.Max(state.AutoPace, 0.5f));
+        }
+
+        // Climax pulse sequences: keep emitting pulses until the stored volume or the 10-pulse
+        // cap is reached. Each pulse places a decal/drip, sends the cum text and moans.
+        var pulseQuery = EntityQueryEnumerator<InteractionStateComponent>();
+        while (pulseQuery.MoveNext(out var uid, out var state))
+        {
+            if (state.ClimaxPulsesLeft <= 0 || now < state.NextClimaxPulse)
+                continue;
+
+            InteractionPrototype? proto = null;
+            if (state.ClimaxPulseProto != null)
+                _prototype.TryIndex<InteractionPrototype>(state.ClimaxPulseProto, out proto);
+
+            if (EmitClimaxPulse(uid, state, proto))
+                state.ClimaxPulsesLeft--;
+            else
+                state.ClimaxPulsesLeft = 0;
+
+            state.NextClimaxPulse = now + ClimaxPulseInterval;
+
+            if (state.ClimaxPulsesLeft <= 0)
+            {
+                state.ClimaxPulseRemaining = 0;
+                state.ClimaxPulseTarget = null;
+                state.ClimaxPulseProto = null;
+                state.ClimaxPulseFirst = false;
+            }
+
+            if (IsPanelOpen(uid, state))
+                UpdatePanelUi(uid, state);
         }
 
         // Panels previously only refreshed on interaction, so lust bars, "free mouth"/exposure
@@ -659,6 +715,10 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             ("message", colored));
 
         var filter = Filter.Empty().AddPlayersByPvs(source, 2f, EntityManager, _player);
+
+        // Ghosts do not get to snoop on ERP emotes.
+        filter.RemoveWhere(session => session.AttachedEntity is { } attached && HasComp<GhostComponent>(attached));
+
         _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Emotes, message, wrapped, source, false, false, null);
     }
 

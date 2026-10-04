@@ -190,11 +190,26 @@ To make markings work for a species:
 
 Rodentia/Anthromorph/Tajaran were adapted this way; see `.ai/guides/adding-species.md`.
 
+Marking-point limits decide which markings survive `EnsureValid` on import/load (over-limit entries
+are dropped, in list order). Human, Vulpkanin and Reptilian use Coyote's 35-per-category limits
+(Tail/HeadTop 999 on Vulpkanin) so Coyote character exports keep their tails and cross-species
+markings; Anthromorph is already 999 everywhere.
+
+## Height / width
+
+`HumanoidCharacterProfile.Height`/`Width` are visual multipliers (standard `1`, clamped to
+`0.5`-`2` — the sliders max out at double the standard size). They are set by the **Height**/
+**Width** sliders in the editor's Appearance tab (`CHeightSlider`/`CWidthSlider`), copied to
+`HumanoidAppearanceComponent.Height`/`Width` (networked) by `LoadProfile`, and applied on the client
+as `SpriteComponent.Scale = (Width, Height)` in `HumanoidAppearanceSystem.UpdateSprite`. Persisted
+in the `height`/`width` profile DB columns (`HeightWidth` migration, default 1).
+
 ## Genital content
 
 - **Superseded by organs (2026-10).** The genital marking library is now a render backend for
   player-configured genital organs: the MarkingPicker ignores the `Genital` category, profiles with
-  genital markings have them stripped in `HumanoidCharacterProfile.EnsureValid`, and
+  genital markings have them converted to organs and stripped in `HumanoidCharacterProfile.EnsureValid`
+  (`GenitalOrganSettings.TryConvertMarking` matches the marking against the organ catalog), and
   `GenitalOrganSystem` adds forced, non-toggleable render markings on the `Genital` layer from the
   organ catalog. See `systems/genital-organs.md`.
 - Core library: `Resources/Prototypes/Entities/Mobs/Customization/Markings/genitals.yml` (379),

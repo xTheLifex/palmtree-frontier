@@ -88,8 +88,13 @@ content are intentionally not ported.
    breasts"); the generic per-target text is the fallback. The **Cum on them** action is a
    `forceClimax` exterior action with no orgasm gate; the **Climax** action (`forceClimax`) has no
    range or orgasm requirement, is usable on self or others, and reuses the last interaction's cum
-   target when it has none of its own. Both go through the same `TriggerClimax`/`EmitClimax` code,
-   so they always place decals. See `systems/genital-organs.md`.
+   target when it has none of its own. Both go through the same `TriggerClimax`/`EmitClimax` code.
+   **Multi-pulse climax:** a climax splits `SemenVolume` into 30u pulses (max 10, so 300u = 10
+   pulses). The first pulse fires immediately; the rest follow every 0.6s from the server `Update`
+   loop, each placing a decal/drip, sending the cum message and moaning. While
+   `InteractionStateComponent.ClimaxPulsesLeft > 0` the actor cannot start another climax
+   (`CanPerform`/`TryPerform` reject `ForceClimax`) and climaxing participants gain no lust from
+   interactions (fail-safe against re-triggering). See `systems/genital-organs.md`.
 8. **Auto-repeat.** The server `Update` loop repeats the active interaction every `AutoPace`
    (Sandstorm's `interaction_speeds`: 4/2/1/0.8/0.5 s) without the 0.5 s cooldown, stopping on any
    requirement failure, target deletion or range loss. The same loop also pushes a fresh panel state
@@ -132,7 +137,9 @@ in the same system. Full details: `systems/genital-organs.md`.
   `InteractionFlags`.
 - Exposure is now the jumpsuit rule on organs; the `Genital` marking flags no longer drive
   requirements. Do not reintroduce marking-based checks in requirement code.
-- Lewd emotes must go through `SendErpEmote` (purple); the standard chat path strips markup.
+- Lewd emotes must go through `SendErpEmote` (purple); the standard chat path strips markup. Both
+  `SendErpEmote` and the lewd sound filter drop sessions attached to a `GhostComponent`, so
+  observers (including admin ghosts) never receive ERP text or sounds.
 - The entity event bus allows **one subscription per (component, event) pair across all systems**.
   `MarkingVisibilityChangedEvent` is owned by `GenitalOrganSystem`; the client
   `HumanoidAppearanceSystem` must not subscribe to it. Local preview refreshes go through

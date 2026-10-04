@@ -116,6 +116,19 @@ namespace Content.Shared.Preferences
         [DataField]
         public GenitalOrganSettings Genitals { get; set; } = new();
 
+        /// <summary>Palmtree: visual height multiplier (1 = standard, clamped to 0.5-2).</summary>
+        [DataField]
+        public float Height { get; set; } = 1f;
+
+        /// <summary>Palmtree: visual width multiplier (1 = standard, clamped to 0.5-2).</summary>
+        [DataField]
+        public float Width { get; set; } = 1f;
+
+        public const float MinHeight = 0.5f;
+        public const float MaxHeight = 2f;
+        public const float MinWidth = 0.5f;
+        public const float MaxWidth = 2f;
+
         /// <summary>
         /// When spawning into a round what's the preferred spot to spawn.
         /// </summary>
@@ -189,6 +202,8 @@ namespace Content.Shared.Preferences
                 jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.VoiceBark)
         {
             Genitals = other.Genitals.Clone(); // Palmtree
+            Height = other.Height; // Palmtree
+            Width = other.Width; // Palmtree
         }
 
         /// <summary>Copy constructor</summary>
@@ -210,6 +225,8 @@ namespace Content.Shared.Preferences
                 other.VoiceBark) // Palmtree
         {
             Genitals = other.Genitals.Clone(); // Palmtree
+            Height = other.Height; // Palmtree
+            Width = other.Width; // Palmtree
         }
 
         /// <summary>
@@ -337,6 +354,18 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithGenitals(GenitalOrganSettings genitals)
         {
             return new(this) { Genitals = genitals };
+        }
+
+        /// <summary>Palmtree: sets the visual height multiplier (clamped to 0.5-2).</summary>
+        public HumanoidCharacterProfile WithHeight(float height)
+        {
+            return new(this) { Height = Math.Clamp(height, MinHeight, MaxHeight) };
+        }
+
+        /// <summary>Palmtree: sets the visual width multiplier (clamped to 0.5-2).</summary>
+        public HumanoidCharacterProfile WithWidth(float width)
+        {
+            return new(this) { Width = Math.Clamp(width, MinWidth, MaxWidth) };
         }
 
 
@@ -513,6 +542,8 @@ namespace Content.Shared.Preferences
             if (Gender != other.Gender) return false;
             if (Species != other.Species) return false;
             if (VoiceBark != other.VoiceBark) return false; // Palmtree
+            if (Height != other.Height) return false; // Palmtree
+            if (Width != other.Width) return false; // Palmtree
             if (BankBalance != other.BankBalance) return false; // Frontier
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
@@ -553,6 +584,10 @@ namespace Content.Shared.Preferences
                 sex = speciesPrototype.Sexes[0];
 
             var age = Math.Clamp(Age, speciesPrototype.MinAge, speciesPrototype.MaxAge);
+
+            // Palmtree: visual size multipliers (max double the standard).
+            Height = Math.Clamp(Height, MinHeight, MaxHeight);
+            Width = Math.Clamp(Width, MinWidth, MaxWidth);
 
             var gender = Gender switch
             {
@@ -626,13 +661,15 @@ namespace Content.Shared.Preferences
 
             var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex);
 
-            // Palmtree: genital markings were replaced by organs; drop any left over from old saves.
+            // Palmtree: genital markings were replaced by organs; convert any left over from old
+            // saves/exports into organ settings, then drop the marking.
             var strippedMarkings = new List<Marking>();
             foreach (var marking in appearance.Markings)
             {
                 if (prototypeManager.TryIndex<MarkingPrototype>(marking.MarkingId, out var markingProto) &&
                     markingProto.MarkingCategory == MarkingCategories.Genital)
                 {
+                    GenitalOrganSettings.TryConvertMarking(Genitals, marking.MarkingId, prototypeManager);
                     continue;
                 }
 
@@ -815,6 +852,8 @@ namespace Content.Shared.Preferences
             hashCode.Add((int)Gender);
             hashCode.Add(Appearance);
             hashCode.Add(Genitals); // Palmtree
+            hashCode.Add(Height); // Palmtree
+            hashCode.Add(Width); // Palmtree
             hashCode.Add(BankBalance); // Frontier
             hashCode.Add((int)SpawnPriority);
             hashCode.Add((int)PreferenceUnavailable);

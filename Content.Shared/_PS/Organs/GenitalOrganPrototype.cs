@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Shared._PS.Interactions;
 using Content.Shared.Humanoid.Markings;
 using Robust.Shared.Prototypes;
@@ -32,6 +33,12 @@ public sealed partial class GenitalOrganPrototype : IPrototype
     /// <summary>Selectable sizes, index 0 is size 1 in the profile.</summary>
     [DataField("sizes", required: true)]
     public List<GenitalOrganSize> Sizes { get; private set; } = new();
+
+    /// <summary>
+    /// Whether this organ has any aroused render marking. Organs without one (balls, breasts) are
+    /// flaccid-only: arousal is rejected and the in-game toggle is disabled.
+    /// </summary>
+    public bool CanArouse => Sizes.Any(size => size.Aroused != null);
 }
 
 /// <summary>One selectable size of a genital organ type.</summary>

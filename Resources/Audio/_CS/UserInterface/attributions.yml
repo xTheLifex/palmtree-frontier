@@ -1,0 +1,4 @@
+- files: ["subtle_sound.ogg"]
+  license: "AGPL-3.0"
+  copyright: "Ported from Coyote Station 13 (Resources/Audio/_CS/UserInterface/subtle_sound.ogg)"
+  source: "https://github.com/xTheLifex/coyote-frontier"

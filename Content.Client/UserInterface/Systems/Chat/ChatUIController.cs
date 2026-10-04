@@ -890,7 +890,9 @@ public sealed partial class ChatUIController : UIController
 
             if (!isOwnMessage)
             {
-                if (currentTime - _lastSubtleSoundTime >= SubtleSoundCooldown)
+                // Always play the first notification; afterwards rate-limit so a conversation
+                // doesn't get spammed with the sound.
+                if (_lastSubtleSoundTime == default || currentTime - _lastSubtleSoundTime >= SubtleSoundCooldown)
                     _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_CS/UserInterface/subtle_sound.ogg"), Filter.Local(), false);
 
                 // Reset the cooldown on each message so it doesn't interrupt a conversation.

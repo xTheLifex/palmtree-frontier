@@ -33,6 +33,14 @@ public sealed partial class HumanoidAppearanceComponent : Component
     [DataField, AutoNetworkedField]
     public int Age = 18;
 
+    /// <summary>Palmtree: visual height multiplier (1 = standard, 0.5-2).</summary>
+    [DataField, AutoNetworkedField]
+    public float Height = 1f;
+
+    /// <summary>Palmtree: visual width multiplier (1 = standard, 0.5-2).</summary>
+    [DataField, AutoNetworkedField]
+    public float Width = 1f;
+
     /// <summary>
     ///     Any custom base layers this humanoid might have. See:
     ///     limb transplants (potentially), robotic arms, etc.

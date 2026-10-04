@@ -39,7 +39,8 @@ markingId@#rrggbb,...@m3@cCustom Name               # Palmtree: + toggle flags (
   generates both, but verify.
 - Migrations added by the port: `VoiceBark` (`voice_bark` text column) and `GenitalOrgans`
   (`genitals` text column; compact `Type:Prototype:Size;...;semen=N` string from
-  `GenitalOrganSettings.ToDbString`).
+  `GenitalOrganSettings.ToDbString`), and `HeightWidth` (`height`/`width` real columns, default 1 —
+  the generated migration was patched from default 0 so existing characters do not shrink).
 - Migration IDs/order matter; don't renumber or hand-edit old migrations.
 - A drift test compares the model to migrations; keep it green.
 

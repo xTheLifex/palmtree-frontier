@@ -9,7 +9,13 @@ genital-editor-primary-color = Color
 genital-editor-detail-color = Detail color
 genital-editor-nipple-color = Nipple color
 genital-editor-use-skin = Use skin color
+genital-editor-transform = Transform
+genital-editor-scale = Scale:
+genital-editor-offset-x = Offset X
+genital-editor-offset-y = Offset Y
+genital-editor-offset-reset = Reset transform
 humanoid-profile-editor-show-undergarments = Show undergarments in preview
+humanoid-profile-editor-preview-aroused = Preview aroused organs
 
 genital-visibility-always-hidden = Always hidden
 genital-visibility-hidden-by-underwear = Hidden by underwear

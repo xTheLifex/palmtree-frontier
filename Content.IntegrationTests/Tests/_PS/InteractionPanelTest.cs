@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using Content.Server._PS.Interactions;
 using Content.Server._PS.Organs;
 using Content.Server.Decals;
@@ -297,6 +298,266 @@ public sealed class InteractionPanelTest
     }
 
     [Test]
+    public async Task LegacyGenitalMarkingsConvertToOrgans()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+
+        await server.WaitAssertion(() =>
+        {
+            var appearance = server.System<SharedHumanoidAppearanceSystem>();
+
+            // Coyote-style export: old genital markings plus cross-species markings.
+            const string yaml = """
+forkId: ps14
+version: 1
+profile:
+  species: Human
+  appearance:
+    markings:
+    - markingId: PSGenitalBreasts7
+      markingColor: ['#FFFFFFFF', '#FFFFFFFF', '#FFFFFFFF', '#FFFFFFFF']
+    - markingId: GenitalVaginaHuman
+      markingColor: ['#FFFFFFFF']
+    - markingId: GenitalButt1
+      markingColor: ['#FFFFFFFF', '#FFFFFFFF']
+    - markingId: TailBats
+      markingColor: ['#FFFFFFFF', '#FFFFFFFF', '#FFFFFFFF', '#FFFFFFFF']
+    - markingId: VulpEar
+      markingColor: ['#FFFFFFFF', '#FFFFFFFF']
+""";
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(yaml));
+            var profile = appearance.FromStream(stream, null!);
+
+            // Genital markings become organs.
+            Assert.That(profile.Genitals.Get(GenitalType.Breasts)?.Prototype, Is.EqualTo("BreastsSplurt"));
+            Assert.That(profile.Genitals.Get(GenitalType.Breasts)?.Size, Is.EqualTo(8));
+            Assert.That(profile.Genitals.Get(GenitalType.Vagina)?.Prototype, Is.EqualTo("VaginaHuman"));
+            Assert.That(profile.Genitals.Get(GenitalType.Butt)?.Prototype, Is.EqualTo("ButtStandard"));
+
+            // Non-genital markings (including cross-species tails/ears) survive validation.
+            Assert.That(profile.Appearance.Markings.Any(m => m.MarkingId == "TailBats"), Is.True,
+                "Tail markings should survive import with the raised Human marking limits.");
+            Assert.That(profile.Appearance.Markings.Any(m => m.MarkingId == "VulpEar"), Is.True);
+
+            // The old genital markings are gone from the appearance.
+            Assert.That(profile.Appearance.Markings.Any(m =>
+                m.MarkingId.StartsWith("Genital") || m.MarkingId.StartsWith("PSGenital")), Is.False);
+
+            // Offset/scale round-trip through the DB string (colors omitted).
+            var dbSettings = new GenitalOrganSettings();
+            dbSettings.Set(GenitalType.Penis, new GenitalOrganData
+            {
+                Prototype = "PenisHuman",
+                Size = 3,
+                Offset = new Vector2(0.25f, -0.5f),
+                Scale = 1.5f,
+            });
+            var parsed = GenitalOrganSettings.FromDbString(dbSettings.ToDbString());
+            Assert.That(parsed.Get(GenitalType.Penis)?.Offset, Is.EqualTo(new Vector2(0.25f, -0.5f)));
+            Assert.That(parsed.Get(GenitalType.Penis)?.Scale, Is.EqualTo(1.5f));
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task TogglingOrgansOffAndOnRecreatesThem()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var appearance = server.System<SharedHumanoidAppearanceSystem>();
+            var organSystem = server.System<GenitalOrganSystem>();
+
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var baseProfile = HumanoidCharacterProfile.DefaultWithSpecies("Human");
+
+            var enabled = new GenitalOrganSettings();
+            enabled.Set(GenitalType.Balls, new GenitalOrganData { Prototype = "BallsSheath", Size = 1 });
+
+            // Enable, disable, re-enable: the organ must come back each time.
+            appearance.LoadProfile(mob, baseProfile.WithGenitals(enabled));
+            Assert.That(organSystem.TryGetOrgan(mob, GenitalType.Balls, out _, out _), Is.True);
+            var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
+            Assert.That(HasGenitalRenderMarking(humanoid), Is.True, "Balls should render when enabled.");
+
+            appearance.LoadProfile(mob, baseProfile.WithGenitals(new GenitalOrganSettings()));
+            Assert.That(organSystem.TryGetOrgan(mob, GenitalType.Balls, out _, out _), Is.False);
+            Assert.That(HasGenitalRenderMarking(humanoid), Is.False, "Balls should stop rendering when disabled.");
+
+            appearance.LoadProfile(mob, baseProfile.WithGenitals(enabled));
+            Assert.That(organSystem.TryGetOrgan(mob, GenitalType.Balls, out _, out _), Is.True,
+                "Re-enabling an organ should recreate it (slot reuse).");
+            Assert.That(HasGenitalRenderMarking(humanoid), Is.True, "Balls should render again when re-enabled.");
+
+            // Switching size must update the render marking.
+            var resized = new GenitalOrganSettings();
+            resized.Set(GenitalType.Balls, new GenitalOrganData { Prototype = "BallsSheath", Size = 3 });
+            appearance.LoadProfile(mob, baseProfile.WithGenitals(resized));
+            Assert.That(organSystem.TryGetOrgan(mob, GenitalType.Balls, out _, out var comp), Is.True);
+            Assert.That(comp.Size, Is.EqualTo(3));
+            Assert.That(HasGenitalRenderMarking(humanoid), Is.True);
+
+            entMan.DeleteEntity(mob);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task BallsAreFlaccidOnly()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var appearance = server.System<SharedHumanoidAppearanceSystem>();
+            var organSystem = server.System<GenitalOrganSystem>();
+            var genitals = server.System<GenitalSystem>();
+
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var settings = new GenitalOrganSettings();
+            settings.Set(GenitalType.Balls, new GenitalOrganData { Prototype = "BallsSheath", Size = 1 });
+            settings.Set(GenitalType.Penis, new GenitalOrganData { Prototype = "PenisHuman", Size = 3 });
+            appearance.LoadProfile(mob, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
+
+            var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
+
+            // Balls have no aroused sprite: arousal is rejected and the marking stays flaccid.
+            var ballsBefore = humanoid.MarkingSet.Markings[MarkingCategories.Genital]
+                .First(m => m.MarkingId.Contains("Balls")).MarkingId;
+            Assert.That(organSystem.SetAroused(mob, GenitalType.Balls, true), Is.False);
+            var ballsAfter = humanoid.MarkingSet.Markings[MarkingCategories.Genital]
+                .First(m => m.MarkingId.Contains("Balls")).MarkingId;
+            Assert.That(ballsAfter, Is.EqualTo(ballsBefore));
+            Assert.That(ballsAfter, Does.Not.EndWith("Alt"));
+
+            // Penis still arouses normally.
+            Assert.That(organSystem.SetAroused(mob, GenitalType.Penis, true), Is.True);
+            var penis = humanoid.MarkingSet.Markings[MarkingCategories.Genital]
+                .First(m => m.MarkingId.Contains("Penis")).MarkingId;
+            Assert.That(penis, Does.EndWith("-1"));
+
+            // The in-game panel disables the arousal toggle for balls but not for the penis.
+            var entries = genitals.GetGenitalEntries(mob, true);
+            Assert.That(entries.First(e => e.Type == GenitalType.Balls).CanToggleArousal, Is.False);
+            Assert.That(entries.First(e => e.Type == GenitalType.Penis).CanToggleArousal, Is.True);
+
+            entMan.DeleteEntity(mob);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task HeightWidthClampsAndApplies()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var appearance = server.System<SharedHumanoidAppearanceSystem>();
+
+            // Sliders max out at double the standard size and clamp below at half.
+            var profile = HumanoidCharacterProfile.DefaultWithSpecies("Human")
+                .WithHeight(3f)
+                .WithWidth(0.1f);
+
+            Assert.That(profile.Height, Is.EqualTo(HumanoidCharacterProfile.MaxHeight));
+            Assert.That(profile.Width, Is.EqualTo(HumanoidCharacterProfile.MinWidth));
+
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            appearance.LoadProfile(mob, profile);
+            var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
+
+            Assert.That(humanoid.Height, Is.EqualTo(HumanoidCharacterProfile.MaxHeight));
+            Assert.That(humanoid.Width, Is.EqualTo(HumanoidCharacterProfile.MinWidth));
+
+            entMan.DeleteEntity(mob);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MultiPulseClimax()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        EntityUid male = default;
+
+        await server.WaitAssertion(() =>
+        {
+            var proto = server.ResolveDependency<IPrototypeManager>();
+            var appearance = server.System<SharedHumanoidAppearanceSystem>();
+            var interactions = server.System<InteractionPanelSystem>();
+
+            male = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+
+            var settings = new GenitalOrganSettings { SemenVolume = 300 };
+            settings.Set(GenitalType.Penis, new GenitalOrganData { Prototype = "PenisHuman", Size = 3 });
+            appearance.LoadProfile(male, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
+
+            var climax = proto.Index<InteractionPrototype>("Climax");
+            var state = interactions.EnsureState(male);
+            interactions.SetLust(male, state, 0);
+            state.LastInteractionTime = TimeSpan.MinValue;
+
+            // 300u = 10 pulses of 30u; the first fires immediately.
+            Assert.That(interactions.TryPerform(male, male, climax), Is.True);
+            Assert.That(state.ClimaxPulsesLeft, Is.EqualTo(9));
+
+            // Mid-climax the actor cannot start another climax...
+            Assert.That(interactions.CanPerform(climax, male, male, false), Is.False);
+            Assert.That(interactions.TryPerform(male, male, climax), Is.False);
+
+            // ...and interactions do not add lust.
+            var masturbate = proto.Index<InteractionPrototype>("MasturbatePenis");
+            state.LastInteractionTime = TimeSpan.MinValue;
+            var lustBefore = interactions.GetLust(male, state);
+            Assert.That(interactions.TryPerform(male, male, masturbate), Is.True);
+            Assert.That(interactions.GetLust(male, state), Is.EqualTo(lustBefore).Within(0.001));
+        });
+
+        // Let the remaining 9 pulses fire (0.6s apart).
+        await server.WaitRunTicks(200);
+
+        await server.WaitAssertion(() =>
+        {
+            var interactions = server.System<InteractionPanelSystem>();
+            var state = interactions.EnsureState(male);
+            Assert.That(state.ClimaxPulsesLeft, Is.EqualTo(0), "The pulse sequence should finish.");
+
+            var xform = entMan.GetComponent<TransformComponent>(male);
+            var query = xform.LocalPosition + new Vector2(0.5f, 0.5f);
+            var decals = server.System<DecalSystem>()
+                .GetDecalsInRange(xform.GridUid!.Value, query, 1f)
+                .ToList();
+
+            Assert.That(decals.Count(d => d.Decal.Id.StartsWith("SemenPuddle")), Is.GreaterThanOrEqualTo(10),
+                "A 300u climax should leave ten pulses worth of decals.");
+
+            entMan.DeleteEntity(male);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
     public async Task StalePendingProfileDoesNotWipeGenitals()
     {
         await using var pair = await PoolManager.GetServerClient();
@@ -427,12 +688,21 @@ public sealed class InteractionPanelTest
                 Prototype = "BreastsCoyote",
                 Size = 1,
                 Visibility = GenitalVisibility.HiddenByJumpsuit,
+                Offset = new Vector2(0.25f, -0.5f),
+                Scale = 1.5f,
             });
 
             appearance.LoadProfile(mob, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
             var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
 
             Assert.That(HasGenitalRenderMarking(humanoid), Is.True, "Breasts should render while naked.");
+
+            // Organ transforms flow into the render marking (like marking offsets/scale).
+            var renderMarking = humanoid.MarkingSet.Markings[MarkingCategories.Genital].First();
+            Assert.That(renderMarking.MarkingOffset, Is.EqualTo(new Vector2(0.25f, -0.5f)),
+                "Organ offsets should reach the render marking.");
+            Assert.That(renderMarking.MarkingScale, Is.EqualTo(1.5f),
+                "Organ scale should reach the render marking.");
 
             // HiddenByUnderwear + toggling the undergarment marking exercises the visibility event
             // and must not crash the render rebuild (dictionary mutation regression).

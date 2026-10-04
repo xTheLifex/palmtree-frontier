@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Content.Client.Administration.UI.CustomControls; // Palmtree: HSeparator
 using Content.Client.Humanoid;
 using Content.Client.Lobby.UI.Loadouts;
 using Content.Client.Lobby.UI.Roles;
@@ -112,7 +113,9 @@ namespace Content.Client.Lobby.UI
         private BoxContainer? _genitalsTab;
         private SpinBox? _semenVolumeSpin;
         private CheckBox? _showUndergarmentsCheck;
+        private CheckBox? _showArousedCheck;
         private bool _showUndergarments = true;
+        private bool _showAroused;
         private bool _updatingGenitals;
         private readonly Dictionary<GenitalType, GenitalControls> _genitalControls = new();
 
@@ -125,6 +128,12 @@ namespace Content.Client.Lobby.UI
             public Label DetailColorLabel = default!;
             public ColorSelectorSliders PrimaryColor = default!;
             public ColorSelectorSliders DetailColor = default!;
+            public Slider OffsetXSlider = default!;
+            public Slider OffsetYSlider = default!;
+            public SpinBox OffsetXBox = default!;
+            public SpinBox OffsetYBox = default!;
+            public Slider ScaleSlider = default!;
+            public SpinBox ScaleBox = default!;
             public bool ColorsCustomized;
             public List<GenitalOrganPrototype> Catalogs = new();
         }
@@ -243,6 +252,25 @@ namespace Content.Client.Lobby.UI
             };
 
             #endregion Age
+
+            #region Size (Palmtree)
+
+            CHeightSlider.OnValueChanged += _ => OnHeightChanged();
+            CWidthSlider.OnValueChanged += _ => OnWidthChanged();
+
+            CHeightReset.OnPressed += _ =>
+            {
+                CHeightSlider.SetValueWithoutEvent(1f);
+                OnHeightChanged();
+            };
+
+            CWidthReset.OnPressed += _ =>
+            {
+                CWidthSlider.SetValueWithoutEvent(1f);
+                OnWidthChanged();
+            };
+
+            #endregion Size
 
             #region Gender
 
@@ -597,6 +625,21 @@ namespace Content.Client.Lobby.UI
             };
             _genitalsTab.AddChild(_showUndergarmentsCheck);
 
+            // Preview helper: shows the aroused render marking for every configured organ.
+            _showArousedCheck = new CheckBox
+            {
+                Text = Loc.GetString("humanoid-profile-editor-preview-aroused"),
+                Pressed = _showAroused,
+                Margin = new Thickness(0, 0, 0, 6),
+            };
+            _showArousedCheck.OnToggled += args =>
+            {
+                _showAroused = args.Pressed;
+                ApplyPreviewArousal();
+            };
+            _genitalsTab.AddChild(_showArousedCheck);
+
+            var firstOrgan = true;
             foreach (var type in Enum.GetValues<GenitalType>())
             {
                 var typeCatalogs = catalogs
@@ -606,6 +649,11 @@ namespace Content.Client.Lobby.UI
 
                 if (typeCatalogs.Count == 0)
                     continue;
+
+                // One separator per organ so the sections read as distinct blocks.
+                if (!firstOrgan)
+                    _genitalsTab.AddChild(new HSeparator { Margin = new Thickness(0, 8) });
+                firstOrgan = false;
 
                 var row = new BoxContainer
                 {
@@ -711,6 +759,207 @@ namespace Content.Client.Lobby.UI
                     Margin = new Thickness(0, 2, 0, 4),
                 };
 
+                // Position section: offset sliders mirroring the marking picker's transform controls.
+                var offsetXSlider = new Slider
+                {
+                    HorizontalExpand = true,
+                    MinValue = -1.0f,
+                    MaxValue = 1.0f,
+                    Rounded = false,
+                };
+                var offsetYSlider = new Slider
+                {
+                    HorizontalExpand = true,
+                    MinValue = -1.0f,
+                    MaxValue = 1.0f,
+                    Rounded = false,
+                };
+                var offsetXBox = new SpinBox
+                {
+                    MinWidth = 70,
+                    IsValid = value => value is >= -100 and <= 100,
+                };
+                var offsetYBox = new SpinBox
+                {
+                    MinWidth = 70,
+                    IsValid = value => value is >= -100 and <= 100,
+                };
+                offsetXBox.InitDefaultButtons();
+                offsetYBox.InitDefaultButtons();
+
+                var scaleSlider = new Slider
+                {
+                    HorizontalExpand = true,
+                    MinValue = GenitalOrganSettings.MinScale,
+                    MaxValue = GenitalOrganSettings.MaxScale,
+                    Rounded = false,
+                };
+                var scaleBox = new SpinBox
+                {
+                    MinWidth = 70,
+                    IsValid = value => value is >= 25 and <= 300,
+                };
+                scaleBox.InitDefaultButtons();
+
+                controls.OffsetXSlider = offsetXSlider;
+                controls.OffsetYSlider = offsetYSlider;
+                controls.OffsetXBox = offsetXBox;
+                controls.OffsetYBox = offsetYBox;
+                controls.ScaleSlider = scaleSlider;
+                controls.ScaleBox = scaleBox;
+
+                var settingScaleFromInput = false;
+                var settingScaleFromSlider = false;
+                var settingOffsetFromInput = false;
+                var settingOffsetFromSlider = false;
+
+                scaleSlider.OnValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingScaleFromInput)
+                        return;
+
+                    settingScaleFromSlider = true;
+                    scaleBox.Value = (int) MathF.Round(Math.Clamp(scaleSlider.Value,
+                        GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale) * 100f);
+                    settingScaleFromSlider = false;
+                    OnGenitalControlsChanged();
+                };
+
+                scaleBox.ValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingScaleFromSlider)
+                        return;
+
+                    settingScaleFromInput = true;
+                    scaleSlider.SetValueWithoutEvent(Math.Clamp(scaleBox.Value, 25, 300) / 100f);
+                    settingScaleFromInput = false;
+                    OnGenitalControlsChanged();
+                };
+
+                offsetXSlider.OnValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingOffsetFromInput)
+                        return;
+
+                    settingOffsetFromSlider = true;
+                    offsetXBox.Value = (int) MathF.Round(Math.Clamp(offsetXSlider.Value, -1f, 1f) * 100f);
+                    settingOffsetFromSlider = false;
+                    OnGenitalControlsChanged();
+                };
+
+                offsetYSlider.OnValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingOffsetFromInput)
+                        return;
+
+                    settingOffsetFromSlider = true;
+                    offsetYBox.Value = (int) MathF.Round(Math.Clamp(offsetYSlider.Value, -1f, 1f) * 100f);
+                    settingOffsetFromSlider = false;
+                    OnGenitalControlsChanged();
+                };
+
+                offsetXBox.ValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingOffsetFromSlider)
+                        return;
+
+                    settingOffsetFromInput = true;
+                    offsetXSlider.SetValueWithoutEvent(Math.Clamp(offsetXBox.Value, -100, 100) / 100f);
+                    settingOffsetFromInput = false;
+                    OnGenitalControlsChanged();
+                };
+
+                offsetYBox.ValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingOffsetFromSlider)
+                        return;
+
+                    settingOffsetFromInput = true;
+                    offsetYSlider.SetValueWithoutEvent(Math.Clamp(offsetYBox.Value, -100, 100) / 100f);
+                    settingOffsetFromInput = false;
+                    OnGenitalControlsChanged();
+                };
+
+                var resetOffsetButton = new Button
+                {
+                    Text = Loc.GetString("genital-editor-offset-reset"),
+                    HorizontalAlignment = HAlignment.Left,
+                };
+                resetOffsetButton.OnPressed += _ =>
+                {
+                    if (_updatingGenitals)
+                        return;
+
+                    offsetXSlider.SetValueWithoutEvent(0f);
+                    offsetYSlider.SetValueWithoutEvent(0f);
+                    offsetXBox.Value = 0;
+                    offsetYBox.Value = 0;
+                    scaleSlider.SetValueWithoutEvent(1f);
+                    scaleBox.Value = 100;
+                    OnGenitalControlsChanged();
+                };
+
+                var positionContainer = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Vertical,
+                    SeparationOverride = 4,
+                };
+
+                var offsetXRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                    SeparationOverride = 6,
+                };
+                offsetXRow.AddChild(new Label
+                {
+                    Text = Loc.GetString("genital-editor-offset-x"),
+                    MinWidth = 60,
+                    VerticalAlignment = VAlignment.Center,
+                });
+                offsetXRow.AddChild(offsetXSlider);
+                offsetXRow.AddChild(offsetXBox);
+
+                var offsetYRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                    SeparationOverride = 6,
+                };
+                offsetYRow.AddChild(new Label
+                {
+                    Text = Loc.GetString("genital-editor-offset-y"),
+                    MinWidth = 60,
+                    VerticalAlignment = VAlignment.Center,
+                });
+                offsetYRow.AddChild(offsetYSlider);
+                offsetYRow.AddChild(offsetYBox);
+
+                var scaleRow = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                    SeparationOverride = 6,
+                };
+                scaleRow.AddChild(new Label
+                {
+                    Text = Loc.GetString("genital-editor-scale"),
+                    MinWidth = 60,
+                    VerticalAlignment = VAlignment.Center,
+                });
+                scaleRow.AddChild(scaleSlider);
+                scaleRow.AddChild(scaleBox);
+
+                positionContainer.AddChild(scaleRow);
+                positionContainer.AddChild(offsetXRow);
+                positionContainer.AddChild(offsetYRow);
+                positionContainer.AddChild(resetOffsetButton);
+
+                var positionBody = new CollapsibleBody();
+                positionBody.AddChild(positionContainer);
+
+                var positionSection = new Collapsible(Loc.GetString("genital-editor-transform"), positionBody)
+                {
+                    Margin = new Thickness(0, 2, 0, 4),
+                };
+
                 _genitalControls[type] = controls;
 
                 enabled.OnToggled += _ =>
@@ -756,6 +1005,7 @@ namespace Content.Client.Lobby.UI
                 };
                 organContainer.AddChild(row);
                 organContainer.AddChild(colorSection);
+                organContainer.AddChild(positionSection);
                 _genitalsTab.AddChild(organContainer);
             }
 
@@ -765,6 +1015,8 @@ namespace Content.Client.Lobby.UI
                 SeparationOverride = 6,
                 Margin = new Thickness(0, 8, 0, 0),
             };
+
+            _genitalsTab.AddChild(new HSeparator { Margin = new Thickness(0, 8) });
 
             semenRow.AddChild(new Label
             {
@@ -850,6 +1102,29 @@ namespace Content.Client.Lobby.UI
             humanoidSystem.RefreshSprite(PreviewDummy, humanoid);
         }
 
+        /// <summary>
+        /// Switches every configured organ on the preview dummy to its aroused render marking.
+        /// Preview-only, not saved to the profile.
+        /// </summary>
+        private void ApplyPreviewArousal()
+        {
+            if (Profile == null || !_entManager.EntityExists(PreviewDummy))
+                return;
+
+            if (!_entManager.TryGetComponent<HumanoidAppearanceComponent>(PreviewDummy, out var humanoid))
+                return;
+
+            var organSystem = _entManager.System<GenitalOrganSystem>();
+            foreach (var type in _genitalControls.Keys)
+            {
+                organSystem.SetAroused(PreviewDummy, type, _showAroused);
+            }
+
+            // SyncRender only updates the marking set; local preview entities need an explicit
+            // sprite rebuild or the aroused/flaccid switch never shows.
+            _entManager.System<HumanoidAppearanceSystem>().RefreshSprite(PreviewDummy, humanoid);
+        }
+
         private void RebuildGenitalSizes(GenitalType type)
         {            if (!_genitalControls.TryGetValue(type, out var controls) || controls.Catalogs.Count == 0)
                 return;
@@ -914,6 +1189,16 @@ namespace Content.Client.Lobby.UI
                 controls.PrimaryColor.Color = data?.Color ?? skin;
                 controls.DetailColor.Color = data?.DetailColor ?? data?.Color ?? skin;
 
+                var offset = data?.Offset ?? Vector2.Zero;
+                controls.OffsetXSlider.SetValueWithoutEvent(Math.Clamp(offset.X, -1f, 1f));
+                controls.OffsetYSlider.SetValueWithoutEvent(Math.Clamp(offset.Y, -1f, 1f));
+                controls.OffsetXBox.Value = (int) MathF.Round(Math.Clamp(offset.X, -1f, 1f) * 100f);
+                controls.OffsetYBox.Value = (int) MathF.Round(Math.Clamp(offset.Y, -1f, 1f) * 100f);
+
+                var scale = Math.Clamp(data?.Scale ?? 1f, GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale);
+                controls.ScaleSlider.SetValueWithoutEvent(scale);
+                controls.ScaleBox.Value = (int) MathF.Round(scale * 100f);
+
                 RefreshGenitalDetailVisibility(type);
             }
 
@@ -950,6 +1235,11 @@ namespace Content.Client.Lobby.UI
                     Visibility = (GenitalVisibility) controls.VisibilityButton.SelectedId,
                     Color = controls.ColorsCustomized ? controls.PrimaryColor.Color : null,
                     DetailColor = controls.ColorsCustomized ? controls.DetailColor.Color : null,
+                    Offset = new Vector2(
+                        Math.Clamp(controls.OffsetXSlider.Value, -1f, 1f),
+                        Math.Clamp(controls.OffsetYSlider.Value, -1f, 1f)),
+                    Scale = Math.Clamp(controls.ScaleSlider.Value,
+                        GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale),
                 });
             }
 
@@ -1237,6 +1527,7 @@ namespace Content.Client.Lobby.UI
             SpriteView.SetEntity(PreviewDummy);
             _entManager.System<MetaDataSystem>().SetEntityName(PreviewDummy, Profile.Name);
             ApplyPreviewUndergarmentVisibility();
+            ApplyPreviewArousal();
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();
@@ -1270,6 +1561,7 @@ namespace Content.Client.Lobby.UI
             UpdateSpawnPriorityControls();
             UpdateVoiceBarkControls(); // Palmtree
             UpdateAgeEdit();
+            UpdateHeightWidthControls(); // Palmtree
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();
@@ -1303,6 +1595,7 @@ namespace Content.Client.Lobby.UI
 
             _entManager.System<HumanoidAppearanceSystem>().LoadProfile(PreviewDummy, Profile);
             ApplyPreviewUndergarmentVisibility();
+            ApplyPreviewArousal();
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();
@@ -1857,6 +2150,56 @@ namespace Content.Client.Lobby.UI
         private void UpdateAgeEdit()
         {
             AgeEdit.Text = Profile?.Age.ToString() ?? "";
+        }
+
+        // Palmtree: height/width sliders (max double the standard size).
+        private void UpdateHeightWidthControls()
+        {
+            var height = Math.Clamp(Profile?.Height ?? 1f, HumanoidCharacterProfile.MinHeight, HumanoidCharacterProfile.MaxHeight);
+            var width = Math.Clamp(Profile?.Width ?? 1f, HumanoidCharacterProfile.MinWidth, HumanoidCharacterProfile.MaxWidth);
+
+            CHeightSlider.SetValueWithoutEvent(height);
+            CWidthSlider.SetValueWithoutEvent(width);
+            UpdateHeightLabel(height);
+            UpdateWidthLabel(width);
+        }
+
+        private void UpdateHeightLabel(float value)
+        {
+            CHeightLabel.Text = Loc.GetString("humanoid-profile-editor-height-label",
+                ("height", $"{value * 100f:F0}%"));
+        }
+
+        private void UpdateWidthLabel(float value)
+        {
+            CWidthLabel.Text = Loc.GetString("humanoid-profile-editor-width-label",
+                ("width", $"{value * 100f:F0}%"));
+        }
+
+        private void OnHeightChanged()
+        {
+            if (Profile == null)
+                return;
+
+            var value = Math.Clamp(CHeightSlider.Value, HumanoidCharacterProfile.MinHeight, HumanoidCharacterProfile.MaxHeight);
+            CHeightSlider.SetValueWithoutEvent(value);
+            UpdateHeightLabel(value);
+            Profile = Profile.WithHeight(value);
+            SetDirty();
+            ReloadProfilePreview();
+        }
+
+        private void OnWidthChanged()
+        {
+            if (Profile == null)
+                return;
+
+            var value = Math.Clamp(CWidthSlider.Value, HumanoidCharacterProfile.MinWidth, HumanoidCharacterProfile.MaxWidth);
+            CWidthSlider.SetValueWithoutEvent(value);
+            UpdateWidthLabel(value);
+            Profile = Profile.WithWidth(value);
+            SetDirty();
+            ReloadProfilePreview();
         }
 
         /// <summary>

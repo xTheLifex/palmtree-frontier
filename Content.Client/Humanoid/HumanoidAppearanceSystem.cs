@@ -70,6 +70,9 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         var sprite = entity.Comp2;
 
         sprite[_sprite.LayerMapReserve((entity.Owner, sprite), HumanoidVisualLayers.Eyes)].Color = humanoidAppearance.EyeColor;
+
+        // Palmtree: character height/width sliders scale the whole sprite.
+        sprite.Scale = new Vector2(humanoidAppearance.Width, humanoidAppearance.Height);
     }
 
     private static bool IsHidden(HumanoidAppearanceComponent humanoid, HumanoidVisualLayers layer)
@@ -291,6 +294,8 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         humanoid.Species = profile.Species;
         humanoid.SkinColor = profile.Appearance.SkinColor;
         humanoid.EyeColor = profile.Appearance.EyeColor;
+        humanoid.Height = profile.Height; // Palmtree
+        humanoid.Width = profile.Width; // Palmtree
 
         // Palmtree: profile-driven genital organs (lobby preview). The server path uses
         // HumanoidProfileAppliedEvent; this override does not call the shared LoadProfile.

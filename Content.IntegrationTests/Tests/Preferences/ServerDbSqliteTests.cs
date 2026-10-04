@@ -48,6 +48,8 @@ namespace Content.IntegrationTests.Tests.Preferences
                 Species = "Human",
                 VoiceBark = "Alto", // Palmtree: voice bark round-trip
                 Age = 21,
+                Height = 1.75f, // Palmtree: height/width round-trip
+                Width = 0.8f, // Palmtree
                 Appearance = new(
                     "Afro",
                     Color.Aqua,
@@ -64,6 +66,7 @@ namespace Content.IntegrationTests.Tests.Preferences
                 Prototype = "PenisHuman",
                 Size = 3,
                 Visibility = GenitalVisibility.NeverHidden,
+                Offset = new System.Numerics.Vector2(0.25f, -0.5f),
             });
             profile.Genitals.Set(GenitalType.Vagina, new GenitalOrganData
             {

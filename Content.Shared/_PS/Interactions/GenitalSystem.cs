@@ -70,7 +70,7 @@ public sealed class GenitalSystem : EntitySystem
                 SizeName = sizeName,
                 Aroused = organ.Aroused,
                 Visibility = organ.Visibility,
-                CanToggleArousal = isSelf,
+                CanToggleArousal = isSelf && catalog.CanArouse,
             });
         }
 

@@ -76,6 +76,18 @@
                                     <Control HorizontalExpand="True"/>
                                     <LineEdit Name="AgeEdit" MinSize="50 0" HorizontalAlignment="Right" /> <!-- Frontier: "40 0" < "50 0" -->
                                 </BoxContainer>
+                                <!-- Height (Palmtree) -->
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Name="CHeightLabel" MinWidth="110" />
+                                    <Slider Name="CHeightSlider" HorizontalExpand="True" MinValue="0.5" MaxValue="2" Value="1" Rounded="False" />
+                                    <Button Name="CHeightReset" Text="{Loc 'ui-options-bind-reset'}" Margin="4 0 0 0" />
+                                </BoxContainer>
+                                <!-- Width (Palmtree) -->
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Name="CWidthLabel" MinWidth="110" />
+                                    <Slider Name="CWidthSlider" HorizontalExpand="True" MinValue="0.5" MaxValue="2" Value="1" Rounded="False" />
+                                    <Button Name="CWidthReset" Text="{Loc 'ui-options-bind-reset'}" Margin="4 0 0 0" />
+                                </BoxContainer>
                                 <!-- Sex -->
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-sex-label'}" />

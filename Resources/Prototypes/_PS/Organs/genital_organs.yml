@@ -221,15 +221,12 @@
       flaccid: Genital-Balls-Single1
     - name: genital-size-2
       flaccid: Genital-Balls-Single2
-      aroused: Genital-Balls-Single2Alt
     - name: genital-size-3
       flaccid: Genital-Balls-Single3
     - name: genital-size-4
       flaccid: Genital-Balls-Single4
-      aroused: Genital-Balls-Single4Alt
     - name: genital-size-5
       flaccid: Genital-Balls-Single5
-      aroused: Genital-Balls-Single5Alt
 
 - type: genitalOrgan
   id: BallsSheath
@@ -238,19 +235,14 @@
   sizes:
     - name: genital-size-1
       flaccid: Genital-Balls-Sheath1
-      aroused: Genital-Balls-Sheath1Alt
     - name: genital-size-2
       flaccid: Genital-Balls-Sheath2
-      aroused: Genital-Balls-Sheath2Alt
     - name: genital-size-3
       flaccid: Genital-Balls-Sheath3
-      aroused: Genital-Balls-Sheath3Alt
     - name: genital-size-4
       flaccid: Genital-Balls-Sheath4
-      aroused: Genital-Balls-Sheath4Alt
     - name: genital-size-5
       flaccid: Genital-Balls-Sheath5
-      aroused: Genital-Balls-Sheath5Alt
 
 - type: genitalOrgan
   id: BallsSmall

@@ -21,6 +21,7 @@ public sealed partial class ChannelFilterPopup : Popup
         ChatChannel.Radio,
         ChatChannel.Notifications,
         ChatChannel.LOOC,
+        ChatChannel.SubtleLOOC, // Palmtree/Floof
         ChatChannel.OOC,
         ChatChannel.Dead,
         ChatChannel.Admin,

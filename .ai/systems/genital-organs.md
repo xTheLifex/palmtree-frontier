@@ -31,14 +31,21 @@
 ## Data model
 
 `GenitalOrganSettings` (profile + network): one `GenitalOrganData { GenitalType Type; string
-Prototype; int Size; GenitalVisibility Visibility; Color? Color; Color? DetailColor }` per organ (at
-most one per type) plus `SemenVolume` (1-200, default 30). Persisted as a compact string via
-`ToDbString`/`FromDbString` in a plain text column, e.g.
-`Penis:PenisHuman:3:NeverHidden:#f2c9a0:-;Vagina:VaginaHuman:1:HiddenByJumpsuit;semen=42` (older
-3/4-part entries parse as `HiddenByJumpsuit`/skin colors; `-` means "follow skin").
+Prototype; int Size; GenitalVisibility Visibility; Color? Color; Color? DetailColor; Vector2 Offset;
+float Scale }` per organ (at most one per type) plus `SemenVolume` (1-300, default 30). Persisted as
+a compact string via `ToDbString`/`FromDbString` in a plain text column, e.g.
+`Penis:PenisHuman:3:NeverHidden:#f2c9a0:-:0.25,-0.5:1.5;Vagina:VaginaHuman:1:HiddenByJumpsuit;semen=42`
+(older 3/4-part entries parse as `HiddenByJumpsuit`/skin colors; `-` means "follow skin"; the 7th
+segment is the optional `offsetX,offsetY` and the 8th the optional `scale`). Offset and scale are
+applied to the organ's render marking via `Marking.SetOffset`/`SetScale`, so organs can be nudged
+and scaled like markings.
 
 `GenitalOrganPrototype` (catalog): `genitalType`, localized `name`, and an ordered `sizes` list.
-Each size maps to a `flaccid` render marking and an optional `aroused` one. The catalog is
+Each size maps to a `flaccid` render marking and an optional `aroused` one. `CanArouse` is false
+when no size defines an aroused marking; such organs (balls, breasts) are flaccid-only —
+`SetAroused` rejects/clears the state, the in-game arousal toggle is disabled and the editor's
+aroused preview skips them. The generator deliberately does not emit `aroused` for balls (the
+`*Alt` sprites are not drawn for arousal). The catalog is
 generated from existing marking ids by `Tools/gen_genital_organ_catalog.py`, e.g. `PenisHuman`
 sizes 1-5 map to `Genital-Penis-Human-N-0` / `-N-1`, `BreastsCoyote` maps to
 `GenitalBreastsRoundA..Impossible`, `BreastsSplurt` to `PSGenitalBreasts0..17`.
@@ -102,6 +109,12 @@ queries).
   ever place the small droplet decals (`SemenDrip1..5`); the full cum decals are reserved for actual
   ejaculation. The receiver gets a private popup ("trickle" or "pool, held back by your clothes"
   while a jumpsuit is worn).
+- **Multi-pulse climax:** `EmitClimax` splits the stored volume into 30u pulses, capped at 10 per
+  climax (`InteractionPanelSystem.ClimaxPulseVolume`/`MaxClimaxPulses`), so 30u = one pulse and the
+  300u maximum = ten. The first pulse fires immediately; the rest run every 0.6s from the server
+  `Update` loop (`EmitClimaxPulse`). Each pulse emits its share of the fluid, its decal/drip, the
+  interaction's cum message and a moan. While a sequence is active the actor cannot start another
+  climax and climaxing participants gain no lust (fail-safe).
 - Receiver-side acts (`Ride`, `TakeAnal`) route the **target's** climax through the same cum target,
   so the penis owner finishing fills the actor.
 - Exterior climaxes (handjob, breastfuck, frotting, **Cum on them**, manual Climax with no recent
@@ -125,21 +138,37 @@ Dynamic `Genitals` tab (like Flavor Text, so upstream tab indices do not change)
 enable checkbox, Type dropdown (catalog prototypes), Size dropdown (catalog sizes), Visibility
 dropdown (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never hidden), a collapsible
 **Colors** section with primary + detail `ColorSelectorSliders` and a "Use skin color" reset (null
-colors follow the skin), plus a `Semen per climax` SpinBox. Changing anything calls `WithGenitals`,
-marks the profile dirty and reloads the preview.
+colors follow the skin), a collapsible **Transform** section with Scale and Offset X/Y sliders +
+spin boxes (scale 0.25-3, offset ±1, mirroring the marking picker's transform controls) and a reset
+button, plus a `Semen per climax` SpinBox. Changing anything calls `WithGenitals`, marks the profile
+dirty and reloads the preview.
 
-The MarkingPicker ignores the `Genital` category; profiles with old genital markings are stripped in
+The MarkingPicker ignores the `Genital` category; profiles with old genital markings are converted
+to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
 `HumanoidCharacterProfile.EnsureValid`.
 
 - Colors: each organ stores `Color`/`DetailColor` (null = skin). The detail color maps to the second
   independent color group, which is the nipple layer for the Splurt breast set; the editor only
   shows the detail picker when the selected marking actually has a second group (Coyote breasts
   don't). `GenitalOrganSystem.CountColorGroups` resolves `colorLinks`.
+- Transform: each organ stores a `Vector2 Offset` (applied via `Marking.SetOffset`, clamped ±2) and
+  a `float Scale` (applied via `Marking.SetScale`, 0.25-3 in the editor), so organs can be nudged
+  and scaled exactly like markings. The DB string keeps them in optional 7th/8th segments
+  (`type:proto:size:visibility:color:detail:ox,oy:scale`, `-` for null colors/zero offset); old
+  4/5/6-segment strings still parse.
+- Legacy conversion: `TryConvertMarking` walks the organ catalog and matches the marking id against
+  each size's flaccid/aroused render marking (e.g. `PSGenitalBreasts7` -> `BreastsSplurt` size 8,
+  `GenitalVaginaHuman` -> `VaginaHuman`, `GenitalButt1` -> `ButtStandard` size 1). An organ type that
+  is already configured is never overwritten.
 - Preview: the Genitals tab has a **Show undergarments in preview** checkbox that toggles
   undergarment marking visibility on the preview dummy only (not saved), so organs can be inspected.
-  The tab is wrapped in a `ScrollContainer` (the six organ sections overflow the window). Local
-  visibility toggles call `HumanoidAppearanceSystem.RefreshSprite` because the event bus only allows
-  one `MarkingVisibilityChangedEvent` subscriber (owned by `GenitalOrganSystem`).
+  A **Preview aroused organs** checkbox switches every configured organ on the dummy to its aroused
+  render marking (also preview-only, re-applied after profile reloads). Both preview toggles must
+  call `HumanoidAppearanceSystem.RefreshSprite` afterwards — `SyncRender` only updates the local
+  marking set, which does not rebuild sprite layers by itself. Organ sections are split by
+  `HSeparator`s. The tab is wrapped in a `ScrollContainer` (the six organ sections overflow the
+  window). Local visibility toggles call `HumanoidAppearanceSystem.RefreshSprite` because the event
+  bus only allows one `MarkingVisibilityChangedEvent` subscriber (owned by `GenitalOrganSystem`).
 
 ## Hazards
 
@@ -150,6 +179,14 @@ The MarkingPicker ignores the `Genital` category; profiles with old genital mark
   without genitals and never recovers. A successful sync must remove the pending entry — the mob
   receives a default genital-less profile during `ComponentInit`, and a stale pending entry would
   otherwise re-sync over the real profile on the next tick and erase the organs.
+- Legacy genital markings are converted to organs in `HumanoidCharacterProfile.EnsureValid` **before**
+  `Genitals.Validate`; conversion never overwrites an organ type that is already configured. The
+  conversion is what makes old saves/Coyote exports keep their genitals.
+- Removing an organ leaves its slot entry in `BodyPartComponent.Organs`, so `TryCreateOrganSlot`
+  (which uses `TryAdd`) returns false when an organ is re-enabled. `SyncFromProfile` must fall back
+  to `CanInsertOrgan` and reuse the existing slot, or toggling an organ off and on in the editor
+  silently stops it from ever rendering again (regression test:
+  `TogglingOrgansOffAndOnRecreatesThem`).
 - `GenitalOrganSystem.SyncRender` must set `CanToggleVisible = false` on render markings or
   ModifyUndies will expose them as toggle verbs.
 - The client `HumanoidAppearanceSystem.LoadProfile` override does not call the shared method; any
@@ -157,6 +194,9 @@ The MarkingPicker ignores the `Genital` category; profiles with old genital mark
 - Editing the catalog by hand will be overwritten; run the generator instead.
 - Migration drift: `ServerDbSqliteTests.TestNoPendingDatabaseChanges` must stay green for both
   providers after model changes.
+- The DB string tail (colors + offset + scale) must stay backward compatible: old 4/5/6-segment
+  entries keep parsing, null colors and zero offsets write `-` placeholders, and scale is only
+  written when it differs from 1.
 
 ## Not ported / future
 

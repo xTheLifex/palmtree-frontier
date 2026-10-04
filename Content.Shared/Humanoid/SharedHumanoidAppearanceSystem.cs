@@ -484,6 +484,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         humanoid.Age = profile.Age;
         humanoid.LegStyle = profile.Appearance.LegStyle; // Palmtree/Coyote
+        humanoid.Height = profile.Height; // Palmtree
+        humanoid.Width = profile.Width; // Palmtree
 
         // Palmtree: apply the character's selected voice bark. A null voice keeps the
         // species/default speech sounds from the entity prototype, and removing the override
