@@ -71,6 +71,12 @@
   see (Coyote port; `ChatTransmitRange.NoGhosts`). Also ported: `-`/`=` chat prefixes, selectable
   Subtle/Subtle LOOC channels, `FocusSubtle`/`FocusSubtleLOOCWindow` keybinds and the subtle
   notification sound option.
+- **Shower** (`_HL` prefix, from Coyote's HardLight content): `Shower`/`ShowerUnfinished`, the
+  `Shower` construction graph/recipe, sprite (`_HL/Structures/Furniture/shower.rsi`) and toggle
+  audio (`_HL/Ambience/Shower/*`). Adaptations: the unfinished prototype inlines the `_HL` sink
+  base (no sink port needed) and the plumbing construction node was dropped (this fork has no
+  plumbing assembly). `Tools/convert_dmm_room.py` maps `/obj/machinery/shower` to `Shower`, so the
+  converted hotel rooms include working showers.
 
 ## 4. What was deliberately NOT ported
 

@@ -126,9 +126,10 @@ The SPLURT rooms were converted from BYOND `.dmm` maps with
 `Tools/convert_dmm_room.py`. It maps tiles, walls, windows, doors, the hotel
 exit/controller and a curated set of props that already exist in SS14 (beds,
 tables, chairs, closets, toilets, sinks, mirrors, bookshelves, dressers,
-railings, fireplaces, carpets, water). Unsupported props (flora, decals,
-lights, BYOND-only machines) are skipped and reported. No SPLURT sprites were
-ported; the rooms use SS14-native art.
+railings, fireplaces, showers, carpets, water). Unsupported props (flora,
+decals, lights, BYOND-only machines) are skipped and reported. The shower is
+the one ported `_HL` prop (prototype + sprite + audio); everything else uses
+SS14-native art.
 
 ## Traps
 

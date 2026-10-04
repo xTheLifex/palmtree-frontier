@@ -231,6 +231,7 @@ OBJECT_PROTOS = {
     "/obj/machinery/vending/dorms": "VendingMachineBooze",
     "/obj/machinery/vending": "VendingMachineBooze",
     "/obj/machinery/light": "AlwaysPoweredWallLight",
+    "/obj/machinery/shower": "Shower",
     "/obj/item/kirbyplants": "PottedPlant0",
 }
 
@@ -240,6 +241,10 @@ SKIP_OBJECT_PREFIXES = ("/obj/machinery/light_switch",)
 
 # BYOND directional suffix -> BYOND dir number, used for wall-mounted fixtures.
 DIR_NAME_TO_BYOND = {"north": "1", "south": "2", "east": "4", "west": "8"}
+
+# Prototypes that should receive a rotation from a BYOND /directional suffix.
+# (Anything with Transform noRot must not be rotated, e.g. the room controller.)
+DIRECTIONAL_PROTOS = {"AlwaysPoweredWallLight", "Shower"}
 
 # Furniture props: only one of these may occupy a tile. Structural entities
 # (walls, windows, doors, controllers, exits, decor) are never culled.
@@ -434,7 +439,9 @@ def convert(src: Path, dst: Path, name: str, concrete_ids: set, powered_ids: set
                 proto_key = longest_prefix(path, OBJECT_PROTOS)
                 if proto_key:
                     direction = variables.get("dir")
-                    if proto_key == "AlwaysPoweredWallLight":
+                    # BYOND directional atoms (lights, showers, ...) carry their
+                    # facing in the path rather than a dir variable.
+                    if OBJECT_PROTOS[proto_key] in DIRECTIONAL_PROTOS:
                         for name, byond_dir in DIR_NAME_TO_BYOND.items():
                             if f"/directional/{name}" in path:
                                 direction = byond_dir

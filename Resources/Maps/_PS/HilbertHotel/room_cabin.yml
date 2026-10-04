@@ -5,7 +5,7 @@ meta:
   forkId: ""
   forkVersion: ""
   time: 10/04/2026 00:00:00
-  entityCount: 164
+  entityCount: 165
 maps:
 - 1
 grids:
@@ -115,7 +115,7 @@ entities:
   - uid: 1
     components:
     - type: MetaData
-      name: Hilbert Hotel Room
+      name: north
     - type: Transform
     - type: Map
       mapPaused: True
@@ -384,157 +384,157 @@ entities:
       pos: 11.5,9.5
       parent: 2
       anchored: True
-  - uid: 126
+  - uid: 127
     components:
     - type: Transform
       pos: 11.5,14.5
       parent: 2
       anchored: True
-  - uid: 127
+  - uid: 128
     components:
     - type: Transform
       pos: 12.5,0.5
       parent: 2
       anchored: True
-  - uid: 128
+  - uid: 129
     components:
     - type: Transform
       pos: 12.5,8.5
       parent: 2
       anchored: True
-  - uid: 129
+  - uid: 130
     components:
     - type: Transform
       pos: 12.5,9.5
       parent: 2
       anchored: True
-  - uid: 135
+  - uid: 136
     components:
     - type: Transform
       pos: 12.5,14.5
       parent: 2
       anchored: True
-  - uid: 136
+  - uid: 137
     components:
     - type: Transform
       pos: 13.5,0.5
       parent: 2
       anchored: True
-  - uid: 137
+  - uid: 138
     components:
     - type: Transform
       pos: 13.5,9.5
       parent: 2
       anchored: True
-  - uid: 142
+  - uid: 143
     components:
     - type: Transform
       pos: 13.5,14.5
       parent: 2
       anchored: True
-  - uid: 143
+  - uid: 144
     components:
     - type: Transform
       pos: 14.5,0.5
       parent: 2
       anchored: True
-  - uid: 144
+  - uid: 145
     components:
     - type: Transform
       pos: 14.5,9.5
       parent: 2
       anchored: True
-  - uid: 149
+  - uid: 150
     components:
     - type: Transform
       pos: 14.5,14.5
       parent: 2
       anchored: True
-  - uid: 150
+  - uid: 151
     components:
     - type: Transform
       pos: 15.5,0.5
       parent: 2
       anchored: True
-  - uid: 151
+  - uid: 152
     components:
     - type: Transform
       pos: 15.5,1.5
       parent: 2
       anchored: True
-  - uid: 152
+  - uid: 153
     components:
     - type: Transform
       pos: 15.5,2.5
       parent: 2
       anchored: True
-  - uid: 153
+  - uid: 154
     components:
     - type: Transform
       pos: 15.5,3.5
       parent: 2
       anchored: True
-  - uid: 154
+  - uid: 155
     components:
     - type: Transform
       pos: 15.5,4.5
       parent: 2
       anchored: True
-  - uid: 155
+  - uid: 156
     components:
     - type: Transform
       pos: 15.5,5.5
       parent: 2
       anchored: True
-  - uid: 156
+  - uid: 157
     components:
     - type: Transform
       pos: 15.5,6.5
       parent: 2
       anchored: True
-  - uid: 157
+  - uid: 158
     components:
     - type: Transform
       pos: 15.5,7.5
       parent: 2
       anchored: True
-  - uid: 158
+  - uid: 159
     components:
     - type: Transform
       pos: 15.5,8.5
       parent: 2
       anchored: True
-  - uid: 159
+  - uid: 160
     components:
     - type: Transform
       pos: 15.5,9.5
       parent: 2
       anchored: True
-  - uid: 160
+  - uid: 161
     components:
     - type: Transform
       pos: 15.5,10.5
       parent: 2
       anchored: True
-  - uid: 161
+  - uid: 162
     components:
     - type: Transform
       pos: 15.5,11.5
       parent: 2
       anchored: True
-  - uid: 162
+  - uid: 163
     components:
     - type: Transform
       pos: 15.5,12.5
       parent: 2
       anchored: True
-  - uid: 163
+  - uid: 164
     components:
     - type: Transform
       pos: 15.5,13.5
       parent: 2
       anchored: True
-  - uid: 164
+  - uid: 165
     components:
     - type: Transform
       pos: 15.5,14.5
@@ -710,55 +710,55 @@ entities:
       pos: 11.5,10.5
       parent: 2
       anchored: True
-  - uid: 125
+  - uid: 126
     components:
     - type: Transform
       pos: 11.5,13.5
       parent: 2
       anchored: True
-  - uid: 130
+  - uid: 131
     components:
     - type: Transform
       pos: 12.5,10.5
       parent: 2
       anchored: True
-  - uid: 134
+  - uid: 135
     components:
     - type: Transform
       pos: 12.5,13.5
       parent: 2
       anchored: True
-  - uid: 138
+  - uid: 139
     components:
     - type: Transform
       pos: 13.5,10.5
       parent: 2
       anchored: True
-  - uid: 141
+  - uid: 142
     components:
     - type: Transform
       pos: 13.5,13.5
       parent: 2
       anchored: True
-  - uid: 145
+  - uid: 146
     components:
     - type: Transform
       pos: 14.5,10.5
       parent: 2
       anchored: True
-  - uid: 146
+  - uid: 147
     components:
     - type: Transform
       pos: 14.5,11.5
       parent: 2
       anchored: True
-  - uid: 147
+  - uid: 148
     components:
     - type: Transform
       pos: 14.5,12.5
       parent: 2
       anchored: True
-  - uid: 148
+  - uid: 149
     components:
     - type: Transform
       pos: 14.5,13.5
@@ -907,7 +907,7 @@ entities:
       pos: 8.5,8.5
       parent: 2
       anchored: True
-  - uid: 124
+  - uid: 125
     components:
     - type: Transform
       pos: 11.5,11.5
@@ -952,30 +952,35 @@ entities:
   - uid: 43
     components:
     - type: Transform
+      rot: 3.141592653589793
       pos: 3.5,12.5
       parent: 2
       anchored: True
   - uid: 62
     components:
     - type: Transform
+      rot: 1.5707963267948966
       pos: 5.5,8.5
       parent: 2
       anchored: True
   - uid: 97
     components:
     - type: Transform
+      rot: 0.0
       pos: 8.5,12.5
       parent: 2
       anchored: True
   - uid: 105
     components:
     - type: Transform
+      rot: 1.5707963267948966
       pos: 9.5,11.5
       parent: 2
       anchored: True
-  - uid: 131
+  - uid: 132
     components:
     - type: Transform
+      rot: 3.141592653589793
       pos: 12.5,11.5
       parent: 2
       anchored: True
@@ -1115,9 +1120,18 @@ entities:
       pos: 9.5,10.5
       parent: 2
       anchored: True
+- proto: Shower
+  entities:
+  - uid: 124
+    components:
+    - type: Transform
+      rot: 0.0
+      pos: 11.5,11.5
+      parent: 2
+      anchored: True
 - proto: ToiletEmpty
   entities:
-  - uid: 132
+  - uid: 133
     components:
     - type: Transform
       pos: 12.5,11.5
@@ -1127,7 +1141,7 @@ entities:
       needsPower: false
 - proto: Mirror
   entities:
-  - uid: 133
+  - uid: 134
     components:
     - type: Transform
       pos: 12.5,12.5
@@ -1135,13 +1149,13 @@ entities:
       anchored: True
 - proto: FloorWaterEntity
   entities:
-  - uid: 139
+  - uid: 140
     components:
     - type: Transform
       pos: 13.5,11.5
       parent: 2
       anchored: True
-  - uid: 140
+  - uid: 141
     components:
     - type: Transform
       pos: 13.5,12.5

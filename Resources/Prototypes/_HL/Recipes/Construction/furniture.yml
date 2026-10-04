@@ -1,0 +1,14 @@
+# Ported from coyote-frontier (Resources/Prototypes/_HL/Recipes/Construction/furniture.yml).
+# The source leaves icon/description unset for this recipe, so we match it.
+- type: construction
+  id: Shower
+  graph: Shower
+  startNode: start
+  targetNode: shower
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked
