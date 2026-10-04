@@ -7,6 +7,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
+using Content.Shared.Speech; // Palmtree
 using Content.Shared.Traits;
 using Robust.Shared.Collections;
 using Robust.Shared.Configuration;
@@ -77,6 +78,13 @@ namespace Content.Shared.Preferences
         [DataField]
         public ProtoId<SpeciesPrototype> Species { get; set; } = SharedHumanoidAppearanceSystem.DefaultSpecies;
 
+        /// <summary>
+        /// Palmtree: optional voice bark (speech sounds) overriding the species default.
+        /// Null keeps whatever speech sounds the species/entity prototype provides.
+        /// </summary>
+        [DataField]
+        public ProtoId<SpeechSoundsPrototype>? VoiceBark { get; set; }
+
         [DataField]
         public int Age { get; set; } = 18;
 
@@ -142,11 +150,13 @@ namespace Content.Shared.Preferences
             PreferenceUnavailableMode preferenceUnavailable,
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
-            Dictionary<string, RoleLoadout> loadouts)
+            Dictionary<string, RoleLoadout> loadouts,
+            ProtoId<SpeechSoundsPrototype>? voice = null) // Palmtree
         {
             Name = name;
             FlavorText = flavortext;
             Species = species;
+            VoiceBark = voice; // Palmtree
             Age = age;
             Sex = sex;
             Gender = gender;
@@ -168,7 +178,7 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts)
             : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
-                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts)
+                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.VoiceBark)
         {
         }
 
@@ -187,7 +197,8 @@ namespace Content.Shared.Preferences
                 other.PreferenceUnavailable,
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
-                new Dictionary<string, RoleLoadout>(other.Loadouts))
+                new Dictionary<string, RoleLoadout>(other.Loadouts),
+                other.VoiceBark) // Palmtree
         {
         }
 
@@ -304,6 +315,12 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithSpecies(string species)
         {
             return new(this) { Species = species };
+        }
+
+        // Palmtree: null keeps the species voice.
+        public HumanoidCharacterProfile WithVoiceBark(ProtoId<SpeechSoundsPrototype>? voice)
+        {
+            return new(this) { VoiceBark = voice };
         }
 
 
@@ -479,6 +496,7 @@ namespace Content.Shared.Preferences
             if (Sex != other.Sex) return false;
             if (Gender != other.Gender) return false;
             if (Species != other.Species) return false;
+            if (VoiceBark != other.VoiceBark) return false; // Palmtree
             if (BankBalance != other.BankBalance) return false; // Frontier
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
@@ -500,6 +518,10 @@ namespace Content.Shared.Preferences
                 Species = SharedHumanoidAppearanceSystem.DefaultSpecies;
                 speciesPrototype = prototypeManager.Index(Species);
             }
+
+            // Palmtree: drop voice barks that no longer exist.
+            if (VoiceBark is { } voice && !prototypeManager.HasIndex(voice))
+                VoiceBark = null;
 
             var sex = Sex switch
             {
@@ -751,6 +773,7 @@ namespace Content.Shared.Preferences
             hashCode.Add(Name);
             hashCode.Add(FlavorText);
             hashCode.Add(Species);
+            hashCode.Add(VoiceBark); // Palmtree
             hashCode.Add(Age);
             hashCode.Add((int)Sex);
             hashCode.Add((int)Gender);

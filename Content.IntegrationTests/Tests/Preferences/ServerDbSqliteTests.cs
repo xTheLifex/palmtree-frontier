@@ -44,6 +44,7 @@ namespace Content.IntegrationTests.Tests.Preferences
                 Name = "Charlie Charlieson",
                 FlavorText = "The biggest boy around.",
                 Species = "Human",
+                VoiceBark = "Alto", // Palmtree: voice bark round-trip
                 Age = 21,
                 Appearance = new(
                     "Afro",

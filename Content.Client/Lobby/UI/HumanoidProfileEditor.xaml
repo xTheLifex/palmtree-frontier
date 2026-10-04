@@ -61,6 +61,15 @@
                                                    ToolTip="{Loc 'humanoid-profile-editor-guidebook-button-tooltip'}"/>
                                     <OptionButton Name="SpeciesButton" HorizontalAlignment="Right" />
                                 </BoxContainer>
+                                <!-- Voice Bark -->
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Text="{Loc 'humanoid-profile-editor-voice-bark-label'}" />
+                                    <Control HorizontalExpand="True"/>
+                                    <Button Name="VoiceBarkPreviewButton" Text="▶"
+                                            ToolTip="{Loc 'humanoid-profile-editor-voice-bark-preview-tooltip'}"
+                                            HorizontalAlignment="Right" Margin="0 0 4 0" />
+                                    <OptionButton Name="VoiceBarkButton" HorizontalAlignment="Right" />
+                                </BoxContainer>
                                 <!-- Age -->
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-age-label'}" />

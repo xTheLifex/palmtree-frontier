@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Content.Shared._PS.Speech; // Palmtree
 using Content.Shared.CCVar;
 using Content.Shared.Decals;
 using Content.Shared.Examine;
@@ -482,6 +483,20 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         humanoid.Age = profile.Age;
         humanoid.LegStyle = profile.Appearance.LegStyle; // Palmtree/Coyote
+
+        // Palmtree: apply the character's selected voice bark. A null voice keeps the
+        // species/default speech sounds from the entity prototype, and removing the override
+        // restores them for profiles loaded onto an existing mob (e.g. DNA scramble).
+        if (profile.VoiceBark is { } voice)
+        {
+            var voiceBark = EnsureComp<VoiceBarkOverrideComponent>(uid);
+            voiceBark.SpeechSounds = voice;
+            Dirty(uid, voiceBark);
+        }
+        else
+        {
+            RemComp<VoiceBarkOverrideComponent>(uid);
+        }
 
         Dirty(uid, humanoid);
     }

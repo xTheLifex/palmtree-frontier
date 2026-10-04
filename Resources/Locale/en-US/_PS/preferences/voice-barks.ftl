@@ -1,0 +1,32 @@
+humanoid-profile-editor-voice-bark-label = Voice Bark:
+humanoid-profile-editor-voice-bark-default = Default (species)
+humanoid-profile-editor-voice-bark-preview-tooltip = Play a preview of the selected voice bark
+
+# Display names for the selectable speechSounds prototypes. A missing key falls back to the prototype id.
+voice-bark-alto = Alto
+voice-bark-arachnid = Arachnid
+voice-bark-baritone = Baritone
+voice-bark-bass = Bass
+voice-bark-borg = Cyborg
+voice-bark-cat = Cat
+voice-bark-cluck = Chicken
+voice-bark-dog = Dog
+voice-bark-fox = Fox
+voice-bark-goat = Goat
+voice-bark-harpy = Harpy
+voice-bark-lizard = Lizard
+voice-bark-monkey = Monkey
+voice-bark-moth = Moth
+voice-bark-nfsdcat = NFSD Cat
+voice-bark-pai = Personal AI
+voice-bark-parrot = Parrot
+voice-bark-sheleg = Sheleg
+voice-bark-slime = Slime
+voice-bark-squeak = Squeak
+voice-bark-syndieborg = Syndicate Cyborg
+voice-bark-tenor = Tenor
+voice-bark-vending = Vending Machine
+voice-bark-vox = Vox
+voice-bark-vulpkanin = Vulpkanin
+voice-bark-wawa = Wawa
+voice-bark-xenoborg = Xenoborg

@@ -62,6 +62,27 @@ All playable species carry `kind` lists so Floof/Coyote markings apply via `kind
 - Traits exist upstream but the 46 Coyote trait ids are not ported; unknown traits are filtered on
   import.
 
+## Voice barks
+
+- `HumanoidCharacterProfile.VoiceBark` (`ProtoId<SpeechSoundsPrototype>?`) is a Palmtree addition.
+  `null` ("Default (species)") keeps the speech sounds baked into the mob prototype.
+- `SharedHumanoidAppearanceSystem.LoadProfile` applies the choice as a
+  `Content.Shared/_PS/Speech/VoiceBarkOverrideComponent` (server side) and removes it when the
+  profile has no voice, so reloading a default profile (DNA scramble, admin spawn) restores the
+  species voice. `SpeechComponent.SpeechSounds` itself is never modified.
+- `SpeechSoundSystem.GetSpeechSound` (server) checks the override before the component's speech
+  sounds; surveillance camera speakers go through the same path.
+- The character editor lists every `speechSounds` prototype (Default first, then alphabetically by
+  localized name). Names come from `voice-bark-<lowercase-id>` keys in
+  `Resources/Locale/en-US/_PS/preferences/voice-barks.ftl`; missing keys fall back to the id, and
+  new `speechSounds` prototypes appear automatically.
+- The `▶` preview button plays the selected bark (or the species default, resolved from the species
+  mob prototype's `SpeechComponent`) locally with `Filter.Local()`; the previous preview stream is
+  stopped before a new one starts.
+- Persisted as the nullable `Profile.VoiceBark` (`voice_bark`) column; see `.ai/PERSISTENCE.md`.
+- Export/import carries `VoiceBark` through `HumanoidCharacterProfile` serialization; `EnsureValid`
+  drops ids that no longer exist.
+
 ## Ghosts / antags
 
 - Ghost/observer systems are upstream; upstream antag presets are inert (`rules: []`).

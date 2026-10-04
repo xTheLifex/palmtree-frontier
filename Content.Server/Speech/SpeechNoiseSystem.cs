@@ -1,6 +1,7 @@
 using Robust.Shared.Audio;
 using Content.Server.Chat;
 using Content.Server.Chat.Systems;
+using Content.Shared._PS.Speech; // Palmtree
 using Content.Shared.Speech;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player;
@@ -26,12 +27,14 @@ namespace Content.Server.Speech
 
         public SoundSpecifier? GetSpeechSound(Entity<SpeechComponent> ent, string message)
         {
-            if (ent.Comp.SpeechSounds == null)
+            // Palmtree: a character's selected voice bark overrides the species speech sounds.
+            var speechSounds = GetSpeechSounds(ent.Owner, ent.Comp);
+            if (speechSounds == null)
                 return null;
 
             // Play speech sound
             SoundSpecifier? contextSound;
-            var prototype = _protoManager.Index<SpeechSoundsPrototype>(ent.Comp.SpeechSounds);
+            var prototype = _protoManager.Index<SpeechSoundsPrototype>(speechSounds);
 
             // Different sounds for ask/exclaim based on last character
             contextSound = message[^1] switch
@@ -58,9 +61,21 @@ namespace Content.Server.Speech
             return contextSound;
         }
 
+        /// <summary>
+        /// Palmtree: returns the voice bark to use, preferring the character's selected voice bark
+        /// over the species speech sounds.
+        /// </summary>
+        private ProtoId<SpeechSoundsPrototype>? GetSpeechSounds(EntityUid uid, SpeechComponent component)
+        {
+            if (TryComp<VoiceBarkOverrideComponent>(uid, out var voiceBark) && voiceBark.SpeechSounds != null)
+                return voiceBark.SpeechSounds;
+
+            return component.SpeechSounds;
+        }
+
         private void OnEntitySpoke(EntityUid uid, SpeechComponent component, EntitySpokeEvent args)
         {
-            if (component.SpeechSounds == null)
+            if (GetSpeechSounds(uid, component) == null)
                 return;
 
             var currentTime = _gameTiming.CurTime;

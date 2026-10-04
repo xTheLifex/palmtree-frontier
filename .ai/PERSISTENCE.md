@@ -7,7 +7,7 @@
 
 | Area | Tables/columns | Notes |
 |---|---|---|
-| Preferences | `Preference` + `Profile` | Profile includes `Markings` (jsonb), `CharacterConsentFreetext` is **absent here** |
+| Preferences | `Preference` + `Profile` | Profile includes `Markings` (jsonb) and nullable `VoiceBark` (Palmtree voice bark, `voice_bark` column); `CharacterConsentFreetext` is **absent here** |
 | Admin | `Admin`, `AdminRank`, notes, bans, role bans | `LogType` numeric values are load-bearing |
 | Playtime | playtime/role time tracking | Frontier/job requirements |
 | Whitelist / Patreon | whitelist, patreon tiers | server config dependent |
