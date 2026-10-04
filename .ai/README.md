@@ -96,6 +96,8 @@ Fork modules are folder/namespace prefixes:
 | `.ai/systems/hilbert-hotel.md` | Hilbert's Hotel: runtime room maps, room codes, locking, guest lists |
 | `.ai/systems/player-character-and-jobs.md` | Sessions, minds, profiles, species, jobs/loadouts, ghosts, antags |
 | `.ai/systems/consent-and-erp.md` | Consent status (not ported), ERP feature set, how to add consent later |
+| `.ai/systems/interaction-panel.md` | Sandstorm interaction panel port: prototypes, marking-based genitals, session consent, lust/moans, UI, keybind |
+| `.ai/systems/genital-organs.md` | Organ-based genitals replacing genital markings: catalog, profile/DB, editor tab, cum overlay and semen drip |
 | `.ai/systems/game-ticker.md` | Round state machine, presets, rules, maps, spawn |
 | `.ai/systems/core-gameplay.md` | Interactions, body/damage, atmos, power, chemistry, construction, NPC, shuttles |
 | `.ai/systems/content-pipeline-and-tooling.md` | Prototypes, localization, maps, tests, CI, packaging |

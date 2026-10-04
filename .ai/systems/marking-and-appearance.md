@@ -59,8 +59,8 @@ show/hide verbs.
 
 `Marking` (runtime instance) fields: `markingId`, colors, `visible`, `forced`, plus Palmtree
 extensions `scale`, `offsetX/offsetY`, `glowLevels` (per-color 0..1, legacy `glow` scalar) and the
-per-marking toggle settings `customName`, `canToggleVisible` (default true), `otherCanToggleVisible`
-(default false). `Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
+per-marking toggle settings `customName`, `canToggleVisible` (default false; undergarments default
+true), `otherCanToggleVisible` (default false). `Marking.ToString()` / `Marking.ParseFromDbString()` define the DB format:
 
 ```
 markingId@#rrggbb,#rrggbb,...[@scale,offsetX,offsetY][@g0.5,1,...][@m3][@cCustom Name]
@@ -148,8 +148,10 @@ undershirts) so hiding a parent hides its sublayers.
 - `ModifyUndiesComponent` (server) is attached to `BaseMobSpeciesOrganic` and `BaseSpeciesDummy`.
   It is a marker component only; there is no body-part allowlist anymore.
 - `ModifyUndiesSystem` adds a verb for **every marking** whose `CanToggleVisible` (owner) or
-  `OtherCanToggleVisible` (other players) is set. Defaults are on for the owner and off for others,
-  so any marking can be hidden in-game out of the box; players opt in/out per marking in the editor.
+  `OtherCanToggleVisible` (other players) is set. Defaults are off for the owner except
+  undergarments (which default on), and off for others; players opt in/out per marking in the
+  editor. New markings get the default from `MarkingPrototype.AsMarking()`, and
+  `MarkingsSet.EnsureValid`/`EnsureSpecies` normalize old saves (`ApplyDefaultTogglePermission`).
 - The per-marking opt-in doubles as consent for other players (no consent system exists).
 - The verb starts a 1s do-after (`ModifyUndiesDoAfterEvent`), then calls
   `SharedHumanoidAppearanceSystem.SetMarkingVisibility`, which flips `Marking.Visible` and dirties
@@ -190,14 +192,17 @@ Rodentia/Anthromorph/Tajaran were adapted this way; see `.ai/guides/adding-speci
 
 ## Genital content
 
+- **Superseded by organs (2026-10).** The genital marking library is now a render backend for
+  player-configured genital organs: the MarkingPicker ignores the `Genital` category, profiles with
+  genital markings have them stripped in `HumanoidCharacterProfile.EnsureValid`, and
+  `GenitalOrganSystem` adds forced, non-toggleable render markings on the `Genital` layer from the
+  organ catalog. See `systems/genital-organs.md`.
 - Core library: `Resources/Prototypes/Entities/Mobs/Customization/Markings/genitals.yml` (379),
   `butts_and_bellies.yml` (19); Palmtree breasts `_PS/.../genitals.yml` (18).
-- All are `bodyPart: Genital`, `markingCategory: Genital`, use `kindAllowance` and `layering`
-  (`Genital`/`TailBehind`) + `colorLinks`.
 - Sprites: `Resources/Textures/Mobs/Customization/Markings/Genital/{balls,belly,breasts,butt,cocks,vagina}.rsi`
   and `Resources/Textures/_PS/Mobs/Customization/Markings/Genital/breasts.rsi`.
 - `RenderOverClothing` was **not** ported (no prototypes use it); genital sprites are clamped below
-  jumpsuit/outer clothing.
+  jumpsuit/outer clothing, which is also the organ exposure rule (no jumpsuit = exposed).
 
 ## Dependencies
 

@@ -2,6 +2,7 @@
   id: PSGenitalBreasts0
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -26,6 +27,7 @@
   id: PSGenitalBreasts1
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -51,6 +53,7 @@
   id: PSGenitalBreasts2
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -76,6 +79,7 @@
   id: PSGenitalBreasts3
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -101,6 +105,7 @@
   id: PSGenitalBreasts4
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -126,6 +131,7 @@
   id: PSGenitalBreasts5
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -151,6 +157,7 @@
   id: PSGenitalBreasts6
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -176,6 +183,7 @@
   id: PSGenitalBreasts7
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -201,6 +209,7 @@
   id: PSGenitalBreasts8
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -226,6 +235,7 @@
   id: PSGenitalBreasts9
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -251,6 +261,7 @@
   id: PSGenitalBreasts10
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -276,6 +287,7 @@
   id: PSGenitalBreasts11
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -301,6 +313,7 @@
   id: PSGenitalBreasts12
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -326,6 +339,7 @@
   id: PSGenitalBreasts13
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -351,6 +365,7 @@
   id: PSGenitalBreasts14
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -376,6 +391,7 @@
   id: PSGenitalBreasts15
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -401,6 +417,7 @@
   id: PSGenitalBreasts16
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:
@@ -426,6 +443,7 @@
   id: PSGenitalBreasts17
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, Resomi, VoxLike]
   layering:

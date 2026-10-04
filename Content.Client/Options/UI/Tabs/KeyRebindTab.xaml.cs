@@ -269,6 +269,7 @@ namespace Content.Client.Options.UI.Tabs
             AddButton(ContentKeyFunctions.AltActivateItemInWorld);
             AddButton(ContentKeyFunctions.Drop);
             AddButton(ContentKeyFunctions.ExamineEntity);
+            AddButton(ContentKeyFunctions.InteractWithEntity); // Palmtree
             AddButton(ContentKeyFunctions.SwapHands);
             AddButton(ContentKeyFunctions.SwapHandsReverse);
             AddButton(ContentKeyFunctions.MoveStoredItem);

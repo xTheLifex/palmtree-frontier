@@ -1,0 +1,41 @@
+# Palmtree: runtime-spawned genital organ entities. The profile picks a catalog type/size
+# (Resources/Prototypes/_PS/Organs/genital_organs.yml) and GenitalOrganSystem inserts the
+# matching entity into a custom organ slot on the torso.
+
+- type: entity
+  id: OrganGenitalBase
+  abstract: true
+  parent: BaseItem
+  components:
+  - type: Organ
+  - type: GenitalOrgan
+
+- type: entity
+  id: OrganGenitalPenis
+  parent: OrganGenitalBase
+  name: penis
+
+- type: entity
+  id: OrganGenitalVagina
+  parent: OrganGenitalBase
+  name: vagina
+
+- type: entity
+  id: OrganGenitalBalls
+  parent: OrganGenitalBase
+  name: testicles
+
+- type: entity
+  id: OrganGenitalBreasts
+  parent: OrganGenitalBase
+  name: breasts
+
+- type: entity
+  id: OrganGenitalButt
+  parent: OrganGenitalBase
+  name: butt
+
+- type: entity
+  id: OrganGenitalBelly
+  parent: OrganGenitalBase
+  name: belly

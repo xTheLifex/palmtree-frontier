@@ -3,6 +3,7 @@
   id: GenitalBellyObese1
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -12,6 +13,7 @@
   id: GenitalBellyObese2
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -21,6 +23,7 @@
   id: GenitalBellyObese3
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -30,6 +33,7 @@
   id: GenitalBellyObese4
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -39,6 +43,7 @@
   id: GenitalBellyObese5
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -127,6 +132,7 @@
   id: GenitalBellyTummy1
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -136,6 +142,7 @@
   id: GenitalBellyTummy2
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -145,6 +152,7 @@
   id: GenitalBellyTummy3
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -154,6 +162,7 @@
   id: GenitalBellyTummy4
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -163,6 +172,7 @@
   id: GenitalBellyTummy5
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -251,6 +261,7 @@
   id: GenitalBellyUdders1
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   sprites:
   - sprite: Mobs/Customization/Markings/Genital/belly.rsi
@@ -393,6 +404,7 @@
   id: GenitalButt1
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -410,6 +422,7 @@
   id: GenitalButt2
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -427,6 +440,7 @@
   id: GenitalButt3
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -444,6 +458,7 @@
   id: GenitalButt4
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -513,6 +528,7 @@
   id: GenitalButtSkintoned1
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -530,6 +546,7 @@
   id: GenitalButtSkintoned2
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -547,6 +564,7 @@
   id: GenitalButtSkintoned3
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:
@@ -564,6 +582,7 @@
   id: GenitalButtSkintoned4
   bodyPart: Genital
   markingCategory: Genital
+  hidden: true # Palmtree: render-only organ sprite
   speciesRestriction: [Vulpkanin, Rodentia, SlimePerson, Human, Harpy, IPC, Arachne, Felinid, Oni, Kitsune]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Coyote: Allow all markings
   layering:

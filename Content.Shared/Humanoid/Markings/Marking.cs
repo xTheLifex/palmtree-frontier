@@ -139,8 +139,12 @@ namespace Content.Shared.Humanoid.Markings
         /// <summary>
         ///     Whether the owner of the mob can toggle this marking on/off in-game.
         /// </summary>
+        /// <remarks>
+        ///     Palmtree: defaults to false; only undergarment markings default to true
+        ///     (applied from the prototype when a marking is first added, and normalized on load).
+        /// </remarks>
         [DataField("canToggleVisible")]
-        public bool CanToggleVisible = true;
+        public bool CanToggleVisible;
 
         /// <summary>
         ///     Whether other players can toggle this marking on/off in-game.
@@ -154,6 +158,13 @@ namespace Content.Shared.Humanoid.Markings
         /// </summary>
         [ViewVariables]
         public bool Forced;
+
+        /// <summary>
+        ///     Palmtree: render this marking above outer clothing. Used by organs with the
+        ///     "Never hidden" visibility rule; leave false for normal markings.
+        /// </summary>
+        [DataField("renderOverClothing")]
+        public bool RenderOverClothing;
 
         public void SetColor(int colorIndex, Color color) =>
             _markingColors[colorIndex] = color;
@@ -273,10 +284,10 @@ namespace Content.Shared.Humanoid.Markings
             }
 
             // Palmtree/Coyote: per-marking visibility settings. The defaults are
-            // CanToggleVisible = true, OtherCanToggleVisible = false, so the segment is only
-            // written when the marking differs from them.
+            // CanToggleVisible = false, OtherCanToggleVisible = false, so the segment is only
+            // written when the marking differs from them (e.g. undergarments default to self-toggleable).
             var toggleFlags = (CanToggleVisible ? 1 : 0) | (OtherCanToggleVisible ? 2 : 0);
-            if (toggleFlags != 1)
+            if (toggleFlags != 0)
                 result += "@m" + toggleFlags.ToString(CultureInfo.InvariantCulture);
 
             if (!string.IsNullOrEmpty(CustomName))

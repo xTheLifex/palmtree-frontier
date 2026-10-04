@@ -1,0 +1,19 @@
+# Palmtree: ERP fluid. White, mildly nutritious, mostly flavor/reagent plumbing.
+
+- type: reagent
+  id: Semen
+  name: reagent-name-semen
+  group: Biological
+  desc: reagent-desc-semen
+  flavor: salty
+  color: "#f5f5f5"
+  physicalDesc: reagent-physical-desc-viscous
+  metabolisms:
+    Drink:
+      effects:
+      - !type:SatiateThirst
+        factor: 0.5
+    Food:
+      effects:
+      - !type:SatiateHunger
+        factor: 0.25

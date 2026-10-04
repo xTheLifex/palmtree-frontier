@@ -164,6 +164,8 @@ public sealed partial class MarkingSet
                     continue;
                 }
 
+                ApplyDefaultTogglePermission(marking, prototype); // Palmtree
+
                 if (onlyWhitelisted && prototype.SpeciesRestrictions == null && prototype.KindAllowance == null)
                 {
                     toRemove.Add((category, marking.MarkingId));
@@ -237,6 +239,19 @@ public sealed partial class MarkingSet
     }
 
     /// <summary>
+    /// Palmtree: in-game toggle permission defaults to off for every marking; undergarments are the
+    /// exception. Applied on load so old saves (which predate the default change) behave correctly.
+    /// </summary>
+    private static void ApplyDefaultTogglePermission(Marking marking, MarkingPrototype prototype)
+    {
+        if (marking.CanToggleVisible || marking.OtherCanToggleVisible)
+            return;
+
+        if (prototype.MarkingCategory is MarkingCategories.UndergarmentTop or MarkingCategories.UndergarmentBottom)
+            marking.CanToggleVisible = true;
+    }
+
+    /// <summary>
     ///     Ensures that all markings in this set are valid.
     /// </summary>
     /// <param name="markingManager">Marking manager.</param>
@@ -254,6 +269,8 @@ public sealed partial class MarkingSet
                     toRemove.Add(i);
                     continue;
                 }
+
+                ApplyDefaultTogglePermission(list[i], marking); // Palmtree
 
                 if (marking.Sprites.Count != list[i].MarkingColors.Count)
                 {

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "license": "AGPL-3.0",
+  "copyright": "Ported from S.P.L.U.R.T-Station-13 (icons/obj/genitals/effects.dmi and modular_sand/icons/obj/genitals/effects.dmi)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "drip1"
+    },
+    {
+      "name": "drip2"
+    },
+    {
+      "name": "drip3"
+    },
+    {
+      "name": "drip4"
+    },
+    {
+      "name": "drip5"
+    },
+    {
+      "name": "semen1"
+    },
+    {
+      "name": "semen2"
+    },
+    {
+      "name": "semen3"
+    },
+    {
+      "name": "semen4"
+    }
+  ]
+}

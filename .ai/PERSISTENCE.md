@@ -7,7 +7,7 @@
 
 | Area | Tables/columns | Notes |
 |---|---|---|
-| Preferences | `Preference` + `Profile` | Profile includes `Markings` (jsonb) and nullable `VoiceBark` (Palmtree voice bark, `voice_bark` column); `CharacterConsentFreetext` is **absent here** |
+| Preferences | `Preference` + `Profile` | Profile includes `Markings` (jsonb), nullable `VoiceBark` (Palmtree voice bark, `voice_bark` column) and nullable `Genitals` (Palmtree genital organ selection string, `genitals` column, migration `GenitalOrgans`); `CharacterConsentFreetext` is **absent here** |
 | Admin | `Admin`, `AdminRank`, notes, bans, role bans | `LogType` numeric values are load-bearing |
 | Playtime | playtime/role time tracking | Frontier/job requirements |
 | Whitelist / Patreon | whitelist, patreon tiers | server config dependent |
@@ -27,7 +27,8 @@ markingId@#rrggbb,...@m3@cCustom Name               # Palmtree: + toggle flags (
 - `Marking.ParseFromDbString` accepts all forms and clamps values.
 - The transform segment is omitted when scale/offset are defaults; the glow segment (prefixed `g`)
   is omitted when all glows are zero; the visibility segment (prefixed `m`) is omitted at the
-  defaults (`CanToggleVisible=true`, `OtherCanToggleVisible=false`); the custom-name segment
+  defaults (`CanToggleVisible=false`, `OtherCanToggleVisible=false`; undergarments write `@m1`);
+  the custom-name segment
   (prefixed `c`) is omitted when empty. Old data stays valid and defaults to self-toggleable.
 - Changing the format requires updating `ToString` and `ParseFromDbString` together.
 
@@ -36,7 +37,9 @@ markingId@#rrggbb,...@m3@cCustom Name               # Palmtree: + toggle flags (
 - Two providers: `Content.Server.Database/Migrations/Sqlite` and `.../Postgres`.
 - Adding a model change requires migrations for **both**; the repo's tooling (`add-migration.sh`)
   generates both, but verify.
-- No migrations were added by the port (no schema changes were needed).
+- Migrations added by the port: `VoiceBark` (`voice_bark` text column) and `GenitalOrgans`
+  (`genitals` text column; compact `Type:Prototype:Size;...;semen=N` string from
+  `GenitalOrganSettings.ToDbString`).
 - Migration IDs/order matter; don't renumber or hand-edit old migrations.
 - A drift test compares the model to migrations; keep it green.
 

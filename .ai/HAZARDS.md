@@ -132,7 +132,9 @@ added to `markings-picker.ftl`; the duplicate was removed).
 - Character markings are stored in `Profile.Markings` (jsonb) as strings:
   `markingId@#rrggbb,...` with optional `@scale,offsetX,offsetY`, `@g...`, `@m<flags>` and
   `@c<name>` suffixes. The parser tolerates every older format and defaults to
-  `CanToggleVisible=true`, `OtherCanToggleVisible=false` when the flags segment is absent. Changing
+  `CanToggleVisible=false`, `OtherCanToggleVisible=false` when the flags segment is absent (old saves
+  have no flags segment, so non-undergarment markings become non-toggleable; undergarments are
+  re-enabled by `MarkingsSet.ApplyDefaultTogglePermission`). Changing
   this format requires updating `Marking.ToString` **and** `Marking.ParseFromDbString`.
 - No consent tables exist; no migrations were added by the port.
 
@@ -153,6 +155,59 @@ added to `markings-picker.ftl`; the duplicate was removed).
   values, in-game they are defaults). Regression test:
   `Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs`
   (`ProfileLoadPreservesMarkingTransformAndGlow`).
+- Interaction panel (`systems/interaction-panel.md`):
+  - The panel BUI is opened on the **actor**, not the target: this engine has one BUI state per
+    `(entity, key)`, so binding it to the target would share state between different users.
+  - `InteractionPrototype` requirement/flag lists are **strings** parsed with `Enum.TryParse`; a typo
+    silently drops the requirement (no linter check).
+  - Genital exposure follows the per-organ visibility rule (Always hidden / Hidden by underwear /
+    Hidden by jumpsuit / Never hidden); the `Genital` marking flags are only used for rendering.
+    Missing `InteractionStateComponent` means "consent on / hears lewd sounds" (defaults are the
+    absence of state).
+  - "Never hidden" sets `Marking.RenderOverClothing`, which the client uses to place the genital
+    layer above `outerClothing`; "Always hidden" skips the render marking entirely. The `Genital`
+    sprite layer must stay below `UndergarmentBottom` in species sprite maps or bottom underwear
+    will not occlude organs.
+  - `SharedPopupSystem.PopupCursor` broadcasts on the server; requirement failures use
+    `PopupEntity(message, subject, actor)` so only the actor sees them.
+  - Normal interaction sounds use PVS but lewd sounds are hand-filtered to sessions with
+    `LewdSounds` enabled; do not route normal sounds through the lewd filter.
+- Genital organs (`systems/genital-organs.md`):
+  - `GenitalOrganSystem.SyncFromProfile` runs from a profile event that also fires during
+    `ComponentInit`; guard on `BodyComponent.RootContainer != null` or it NREs before MapInit.
+  - The client `HumanoidAppearanceSystem.LoadProfile` override does not call the shared method, so
+    the lobby preview needs its own `SyncFromProfile` + `UpdateSprite` call; remote players get
+    networked organ entities and the server-side render markings.
+  - Organ render markings are added with `CanToggleVisible = false`; otherwise ModifyUndies exposes
+    them as toggle verbs. The catalog is generated (`Tools/gen_genital_organ_catalog.py`), do not
+    hand-edit `genital_organs.yml`.
+  - Visibility gates rendering, not just layer overlap: covered organs are removed from the
+    `Genital` marking category. Keep the `DidEquipEvent`/`DidUnequipEvent` (jumpsuit) and
+    `MarkingVisibilityChangedEvent` (undies) subscriptions in `GenitalOrganSystem` or the sprite
+    desyncs from clothing.
+  - `Profile.Genitals` is a text column; changing `GenitalOrganSettings.ToDbString` requires updating
+    `FromDbString`, `ServerDbBase.ConvertProfiles` and both providers' data (no schema change needed
+    for format tweaks, but migration drift tests must stay green).
+  - The semen drip uses `DecalPrototype`s (`SemenDrip*`/`SemenPuddle*`) via `DecalSystem`, not
+    reagent puddles. It needs a grid with `DecalGridComponent` (no decals in space) and the decals
+    are only removable while `Cleanable` (space cleaner's `CleanDecalsReaction`). Drips only place
+    `SemenDrip*`; `SpawnCumDecals` places `SemenPuddle*`. Decals are placed at the mob's position
+    with scatter and each drop is a **new** decal (no upgrading/replacing); scattered positions that
+    land on space fall back to the mob's exact position. `GetDecalsInRange` compares against
+    `coordinate + (0.5, 0.5)`, so queries must account for that offset.
+  - Never raise `MarkingVisibilityChangedEvent` (or call `SyncRender`) while enumerating
+    `MarkingSet.Markings`: the handler rebuilds the `Genital` category and mutates the dictionary.
+    `SetMarkingVisibility` raises after its loop; the editor snapshots undergarment markings before
+    toggling them.
+  - The event bus allows only one subscription per (component, event) pair across all systems.
+    `GenitalOrganSystem` owns `MarkingVisibilityChangedEvent`; the client `HumanoidAppearanceSystem`
+    must use its `RefreshSprite` method for local preview toggles instead of subscribing too.
+  - `GenitalOrganSystem` retries profiles applied before the body parts exist (admin respawns,
+    deferred MapInit) via `_pendingProfiles`; dropping the retry makes characters spawn genital-less.
+    A successful `OnProfileApplied` must **clear the pending entry**: mobs get a default
+    genital-less profile event during `ComponentInit` before the real profile arrives, and a stale
+    pending entry re-syncs on the next tick and wipes the configured organs (regression test:
+    `StalePendingProfileDoesNotWipeGenitals`).
 
 ## 14. Configuration defaults differ from upstream
 

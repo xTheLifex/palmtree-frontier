@@ -1,0 +1,569 @@
+# Palmtree: interaction panel definitions, ported from Sandstorm's
+# modular_sand/code/datums/interactions. Only the "core tame" set is ported;
+# see .ai/systems/interaction-panel.md for the excluded entries.
+
+# region Normal interactions
+
+- type: interaction
+  id: Handshake
+  name: interaction-handshake-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - Hands
+  messages:
+    - interaction-handshake-message
+
+- type: interaction
+  id: Pat
+  name: interaction-pat-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  messages:
+    - interaction-pat-message
+
+- type: interaction
+  id: Cheer
+  name: interaction-cheer-name
+  flags: []
+  maxDistance: 25
+  userRequirements:
+    - Mouth
+  messages:
+    - interaction-cheer-message
+
+- type: interaction
+  id: HighFive
+  name: interaction-highfive-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - Hands
+  sound:
+    collection: Slap
+  messages:
+    - interaction-highfive-message
+
+- type: interaction
+  id: Headpat
+  name: interaction-headpat-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  messages:
+    - interaction-headpat-message
+
+- type: interaction
+  id: Salute
+  name: interaction-salute-name
+  flags: []
+  maxDistance: 25
+  userRequirements:
+    - Hands
+  messages:
+    - interaction-salute-message
+
+- type: interaction
+  id: Fistbump
+  name: interaction-fistbump-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - Hands
+  messages:
+    - interaction-fistbump-message
+
+- type: interaction
+  id: PinkyPromise
+  name: interaction-pinky-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - Hands
+  messages:
+    - interaction-pinky-message
+
+- type: interaction
+  id: Bird
+  name: interaction-bird-name
+  flags: []
+  maxDistance: 25
+  userRequirements:
+    - Hands
+  messages:
+    - interaction-bird-message
+
+- type: interaction
+  id: HoldHand
+  name: interaction-holdhand-name
+  flags:
+    - Adjacent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - Hands
+  messages:
+    - interaction-holdhand-message
+
+- type: interaction
+  id: Hug
+  name: interaction-hug-name
+  flags:
+    - Adjacent
+  sound:
+    collection: Hug
+  messages:
+    - interaction-hug-message
+    - interaction-hug-message-two
+
+# endregion
+
+# region Lewd interactions
+
+- type: interaction
+  id: Kiss
+  name: interaction-kiss-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Mouth
+  targetRequirements:
+    - Mouth
+  lust: 0
+  minLust: 10
+  cumMessages:
+    - interaction-cum-kiss
+  sound:
+    collection: LewdKiss
+  messages:
+    - interaction-kiss-message
+    - interaction-kiss-message-two
+  continueMessages:
+    - interaction-kiss-continue
+
+- type: interaction
+  id: TitGrope
+  name: interaction-titgrope-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - AnyBreasts
+  cumMessages:
+    - interaction-cum-titgrope
+  messages:
+    - interaction-titgrope-message
+    - interaction-titgrope-message-two
+    - interaction-titgrope-message-three
+
+- type: interaction
+  id: Blowjob
+  name: interaction-blowjob-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Mouth
+  targetRequirements:
+    - PenisExposed
+  cumTarget: mouth
+  cumMessages:
+    - interaction-cum-blowjob
+  sound:
+    collection: LewdBj
+  messages:
+    - interaction-blowjob-message
+    - interaction-blowjob-message-two
+  continueMessages:
+    - interaction-blowjob-continue
+    - interaction-blowjob-continue-two
+
+- type: interaction
+  id: Oral
+  name: interaction-oral-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Mouth
+  targetRequirements:
+    - VaginaExposed
+  cumMessages:
+    - interaction-cum-oral
+  sound:
+    collection: LewdBj
+  messages:
+    - interaction-oral-message
+    - interaction-oral-message-two
+  continueMessages:
+    - interaction-oral-continue
+    - interaction-oral-continue-two
+
+- type: interaction
+  id: Handjob
+  name: interaction-handjob-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - PenisExposed
+  cumTarget: exterior
+  cumMessages:
+    - interaction-cum-handjob
+  sound:
+    collection: LewdBang
+  messages:
+    - interaction-handjob-message
+    - interaction-handjob-message-two
+  continueMessages:
+    - interaction-handjob-continue
+
+- type: interaction
+  id: Finger
+  name: interaction-finger-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - VaginaExposed
+  cumMessages:
+    - interaction-cum-finger
+  sound:
+    collection: LewdFinger
+  messages:
+    - interaction-finger-message
+    - interaction-finger-message-two
+
+- type: interaction
+  id: FingerAss
+  name: interaction-fingerass-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Hands
+  targetRequirements:
+    - AnusExposed
+  cumMessages:
+    - interaction-cum-fingerass
+  sound:
+    collection: LewdFinger
+  messages:
+    - interaction-fingerass-message
+    - interaction-fingerass-message-two
+
+- type: interaction
+  id: Fuck
+  name: interaction-fuck-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - PenisExposed
+  targetRequirements:
+    - VaginaExposed
+  cumTarget: vagina
+  cumMessages:
+    - interaction-cum-fuck
+  sound:
+    collection: LewdFuck
+  messages:
+    - interaction-fuck-message
+  continueMessages:
+    - interaction-fuck-continue
+    - interaction-fuck-continue-two
+
+- type: interaction
+  id: FuckAnal
+  name: interaction-fuckanal-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - PenisExposed
+  targetRequirements:
+    - AnusExposed
+  cumTarget: anus
+  cumMessages:
+    - interaction-cum-fuckanal
+  sound:
+    collection: LewdBang
+  messages:
+    - interaction-fuckanal-message
+  continueMessages:
+    - interaction-fuckanal-continue
+    - interaction-fuckanal-continue-two
+
+- type: interaction
+  id: Breastfuck
+  name: interaction-breastfuck-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - PenisExposed
+  targetRequirements:
+    - BreastsExposed
+  cumTarget: exterior
+  cumMessages:
+    - interaction-cum-breastfuck
+  sound:
+    collection: LewdBang
+  messages:
+    - interaction-breastfuck-message
+  continueMessages:
+    - interaction-breastfuck-continue
+    - interaction-breastfuck-continue-two
+
+- type: interaction
+  id: Frotting
+  name: interaction-frotting-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - PenisExposed
+  targetRequirements:
+    - PenisExposed
+  cumTarget: exterior
+  cumMessages:
+    - interaction-cum-frotting
+  messages:
+    - interaction-frotting-message
+    - interaction-frotting-message-two
+  continueMessages:
+    - interaction-frotting-continue
+
+- type: interaction
+  id: Tribadism
+  name: interaction-tribadism-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - VaginaExposed
+  targetRequirements:
+    - VaginaExposed
+  cumMessages:
+    - interaction-cum-tribadism
+  sound:
+    collection: LewdSquelch
+  messages:
+    - interaction-tribadism-message
+    - interaction-tribadism-message-two
+  continueMessages:
+    - interaction-tribadism-continue
+
+- type: interaction
+  id: NipSuck
+  name: interaction-nipsuck-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Mouth
+  targetRequirements:
+    - BreastsExposed
+  cumMessages:
+    - interaction-cum-nipsuck
+  sound:
+    collection: LewdOral
+  messages:
+    - interaction-nipsuck-message
+    - interaction-nipsuck-message-two
+    - interaction-nipsuck-message-three
+
+- type: interaction
+  id: AssSlap
+  name: interaction-assslap-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - Hands
+  lust: 10
+  cumMessages:
+    - interaction-cum-assslap
+  sound:
+    collection: Slap
+  messages:
+    - interaction-assslap-message
+
+- type: interaction
+  id: CumOnThem
+  name: interaction-cumonthem-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - PenisExposed
+  cumTarget: exterior
+  forceClimax: true
+  cumMessages:
+    - interaction-cum-cumonthem
+  lust: 0
+  messages:
+    - interaction-cumonthem-message
+
+# Receiver-side penetration: the user offers their vagina/anus to the target's penis.
+# The target's climax uses the same cum target, so a "vagina" act fills the user.
+- type: interaction
+  id: Ride
+  name: interaction-ride-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - VaginaExposed
+  targetRequirements:
+    - PenisExposed
+  cumTarget: vagina
+  cumMessages:
+    - interaction-cum-ride
+  sound:
+    collection: LewdFuck
+  messages:
+    - interaction-ride-message
+  continueMessages:
+    - interaction-ride-continue
+    - interaction-ride-continue-two
+
+- type: interaction
+  id: TakeAnal
+  name: interaction-takeanal-name
+  interactionType: Lewd
+  flags:
+    - Adjacent
+    - OocConsent
+  userRequirements:
+    - AnusExposed
+  targetRequirements:
+    - PenisExposed
+  cumTarget: anus
+  cumMessages:
+    - interaction-cum-takeanal
+  sound:
+    collection: LewdBang
+  messages:
+    - interaction-takeanal-message
+  continueMessages:
+    - interaction-takeanal-continue
+    - interaction-takeanal-continue-two
+
+# Self interactions (masturbation). Opened by using the interaction key on empty space.
+- type: interaction
+  id: MasturbatePenis
+  name: interaction-masturbate-penis-name
+  interactionType: Lewd
+  flags:
+    - UserIsTarget
+    - OocConsent
+  userRequirements:
+    - Hands
+    - PenisExposed
+  cumTarget: exterior
+  cumMessages:
+    - interaction-cum-masturbate-penis
+  lust: 30
+  messages:
+    - interaction-masturbate-penis-message
+  continueMessages:
+    - interaction-masturbate-penis-continue
+    - interaction-masturbate-penis-continue-two
+
+- type: interaction
+  id: MasturbateVagina
+  name: interaction-masturbate-vagina-name
+  interactionType: Lewd
+  flags:
+    - UserIsTarget
+    - OocConsent
+  userRequirements:
+    - Hands
+    - VaginaExposed
+  cumTarget: exterior
+  lust: 30
+  messages:
+    - interaction-masturbate-vagina-message
+  continueMessages:
+    - interaction-masturbate-vagina-continue
+
+- type: interaction
+  id: MasturbateAnus
+  name: interaction-masturbate-anus-name
+  interactionType: Lewd
+  flags:
+    - UserIsTarget
+    - OocConsent
+  userRequirements:
+    - Hands
+    - AnusExposed
+  lust: 30
+  messages:
+    - interaction-masturbate-anus-message
+  continueMessages:
+    - interaction-masturbate-anus-continue
+
+- type: interaction
+  id: MasturbateBreasts
+  name: interaction-masturbate-breasts-name
+  interactionType: Lewd
+  flags:
+    - UserIsTarget
+    - OocConsent
+  userRequirements:
+    - Hands
+    - AnyBreasts
+  lust: 20
+  messages:
+    - interaction-masturbate-breasts-message
+  continueMessages:
+    - interaction-masturbate-breasts-continue
+
+- type: interaction
+  id: Climax
+  name: interaction-climax-action-name
+  interactionType: Lewd
+  flags:
+    - OocConsent
+    - SelfOrOther
+  forceClimax: true
+  lust: 0
+  messages:
+    - interaction-climax-action-message
+
+# endregion

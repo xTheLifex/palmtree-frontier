@@ -39,8 +39,8 @@ Deep dive: `.ai/systems/marking-and-appearance.md`; ERP status: `.ai/systems/con
 ## Runtime instance data & persistence
 
 `Marking` carries colors, `visible`, `forced`, `scale`, `offsetX/offsetY`, `glowLevels` (+ legacy
-`glow`) and the toggle settings `customName`, `canToggleVisible` (default true),
-`otherCanToggleVisible` (default false). DB string format
+`glow`) and the toggle settings `customName`, `canToggleVisible` (default false; undergarments
+default true), `otherCanToggleVisible` (default false). DB string format
 (`Marking.ToString`/`ParseFromDbString`):
 
 ```
@@ -74,11 +74,36 @@ sanitized to `_`). Old strings remain valid and default to self-toggleable. Chan
 - Genital markings: `bodyPart: Genital`, `markingCategory: Genital`, start hidden
   (`AddMarking` sets `Visible = false` for the category), toggled by `ModifyUndies`.
 - `ModifyUndiesSystem` adds verbs for **any** marking whose `CanToggleVisible` (owner) or
-  `OtherCanToggleVisible` (others) is set. Defaults: owner on, others off. The per-marking opt-in is
-  the consent gate for others (no consent system). It starts a 1s do-after, then
-  `SharedHumanoidAppearanceSystem.SetMarkingVisibility` flips `Marking.Visible` and dirties. Verb
-  and popup text uses `CustomName` when set.
+  `OtherCanToggleVisible` (others) is set. Defaults: owner off except undergarments (on), others off.
+  The per-marking opt-in is the consent gate for others (no consent system). It starts a 1s do-after,
+  then `SharedHumanoidAppearanceSystem.SetMarkingVisibility` flips `Marking.Visible` and dirties.
+  Verb and popup text uses `CustomName` when set.
 - Visibility is session state, not persisted; toggle settings are persisted in the DB string.
+
+## Interaction panel (Sandstorm port)
+
+- `Content.{Shared,Server,Client}/_PS/Interactions/*`; prototypes `type: interaction` in
+  `Resources/Prototypes/_PS/Interactions/interactions.yml`; sounds in `Resources/Audio/_PS/Interactions/`.
+- Genital requirements read **organs** (`Content.Shared/_PS/Organs/*`); exposure is the jumpsuit rule.
+  See `.ai/systems/genital-organs.md`.
+- Lewd interactions need both parties' session `InteractionStateComponent.Consent` (default on); the
+  actor opens the panel with the right-click verb or Ctrl+Shift-click. Ctrl+Shift-clicking **empty
+  space** opens the self panel for masturbation actions; the manual **Climax** works on self or
+  others at any time.
+- Per-organ visibility rules (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never
+  hidden) are changeable in the panel and editor and persist in the profile; exposure and rendering
+  both follow them (`Never hidden` draws over clothing, covered organs are not drawn at all).
+- Organ colors (primary + detail) are picked per organ in the editor; a manual **Climax** action
+  exists alongside **Cum on them**. Receiver-side acts (`Ride`, `TakeAnal`) let a vagina/anus owner
+  take the target's penis and route the target's climax into themselves.
+- Lust decays 1/s, random tolerance/potency per mob, moans use a bezier chance and climax plays
+  `final_*`; lust gain is doubled from Sandstorm (default 20/action). `cumTarget` on the prototype
+  drives where the fluid goes: drips only place small droplet decals, actual ejaculation places the
+  full `SemenPuddle*` decals (each drop a new decal, scattered where the mob stands). Interactions
+  can define `cumMessages` for context-sensitive finish lines. **Cum on them** and **Climax** have
+  no orgasm/range gate and share the same climax code. Open panels refresh once per second. Purple
+  ERP emotes go through `SendErpEmote`. Full doc: `.ai/systems/interaction-panel.md`; hazards:
+  `.ai/HAZARDS.md` §13.
 
 ## Digitigrade legs & clothing
 

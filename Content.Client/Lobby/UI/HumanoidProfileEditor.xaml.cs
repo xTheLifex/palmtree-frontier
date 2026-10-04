@@ -10,6 +10,8 @@ using Content.Client.Sprite;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Systems.Guidebook;
 using Content.Shared.CCVar;
+using Content.Shared._PS.Interactions; // Palmtree
+using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Clothing;
 using Content.Shared.GameTicking;
 using Content.Shared.Guidebook;
@@ -105,6 +107,27 @@ namespace Content.Client.Lobby.UI
 
         // Palmtree: selectable voice barks, indexed by option id - 1 (0 is "Default").
         private readonly List<ProtoId<SpeechSoundsPrototype>> _voiceBarks = new();
+
+        // Palmtree: genital organ editor tab.
+        private BoxContainer? _genitalsTab;
+        private SpinBox? _semenVolumeSpin;
+        private CheckBox? _showUndergarmentsCheck;
+        private bool _showUndergarments = true;
+        private bool _updatingGenitals;
+        private readonly Dictionary<GenitalType, GenitalControls> _genitalControls = new();
+
+        private sealed class GenitalControls
+        {
+            public CheckBox Enabled = default!;
+            public OptionButton TypeButton = default!;
+            public OptionButton SizeButton = default!;
+            public OptionButton VisibilityButton = default!;
+            public Label DetailColorLabel = default!;
+            public ColorSelectorSliders PrimaryColor = default!;
+            public ColorSelectorSliders DetailColor = default!;
+            public bool ColorsCustomized;
+            public List<GenitalOrganPrototype> Catalogs = new();
+        }
 
         private List<(string, RequirementsSelector)> _jobPriorities = new();
 
@@ -461,6 +484,7 @@ namespace Content.Client.Lobby.UI
             #endregion Markings
 
             RefreshFlavorText();
+            RefreshGenitals(); // Palmtree
 
             #region Dummy
 
@@ -519,6 +543,419 @@ namespace Content.Client.Lobby.UI
                 _flavorTextEdit = null;
                 _flavorText = null;
             }
+        }
+
+        /// <summary>
+        /// Palmtree: builds (once) and refreshes the genital organ tab.
+        /// </summary>
+        public void RefreshGenitals()
+        {
+            if (_genitalsTab == null)
+            {
+                _genitalsTab = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Vertical,
+                    Margin = new Thickness(10),
+                };
+
+                // The tab has six organ sections plus color pickers; wrap it so it can scroll
+                // like the other editor tabs.
+                var scroll = new ScrollContainer
+                {
+                    VerticalExpand = true,
+                    HScrollEnabled = false,
+                    ReserveScrollbarSpace = false,
+                };
+                scroll.AddChild(_genitalsTab);
+
+                TabContainer.AddChild(scroll);
+                TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("humanoid-profile-editor-genitals-tab"));
+                BuildGenitalControls();
+            }
+
+            UpdateGenitalControls();
+        }
+
+        private void BuildGenitalControls()
+        {
+            if (_genitalsTab == null)
+                return;
+
+            var catalogs = _prototypeManager.EnumeratePrototypes<GenitalOrganPrototype>().ToList();
+
+            // Preview helper: hides undergarment markings on the dummy so genitals are visible.
+            _showUndergarmentsCheck = new CheckBox
+            {
+                Text = Loc.GetString("humanoid-profile-editor-show-undergarments"),
+                Pressed = _showUndergarments,
+                Margin = new Thickness(0, 0, 0, 6),
+            };
+            _showUndergarmentsCheck.OnToggled += args =>
+            {
+                _showUndergarments = args.Pressed;
+                ApplyPreviewUndergarmentVisibility();
+            };
+            _genitalsTab.AddChild(_showUndergarmentsCheck);
+
+            foreach (var type in Enum.GetValues<GenitalType>())
+            {
+                var typeCatalogs = catalogs
+                    .Where(c => c.GenitalType == type)
+                    .OrderBy(c => Loc.GetString(c.Name))
+                    .ToList();
+
+                if (typeCatalogs.Count == 0)
+                    continue;
+
+                var row = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                    SeparationOverride = 6,
+                    Margin = new Thickness(0, 2),
+                };
+
+                var enabled = new CheckBox
+                {
+                    Text = Loc.GetString($"genital-editor-{type.ToString().ToLowerInvariant()}"),
+                    MinWidth = 130,
+                };
+
+                var typeButton = new OptionButton { MinWidth = 140 };
+                for (var i = 0; i < typeCatalogs.Count; i++)
+                {
+                    typeButton.AddItem(Loc.GetString(typeCatalogs[i].Name), i);
+                }
+
+                var sizeButton = new OptionButton { MinWidth = 120 };
+
+                var visibilityButton = new OptionButton { MinWidth = 150 };
+                visibilityButton.AddItem(Loc.GetString("genital-visibility-always-hidden"), (int) GenitalVisibility.AlwaysHidden);
+                visibilityButton.AddItem(Loc.GetString("genital-visibility-hidden-by-underwear"), (int) GenitalVisibility.HiddenByUnderwear);
+                visibilityButton.AddItem(Loc.GetString("genital-visibility-hidden-by-jumpsuit"), (int) GenitalVisibility.HiddenByJumpsuit);
+                visibilityButton.AddItem(Loc.GetString("genital-visibility-never-hidden"), (int) GenitalVisibility.NeverHidden);
+
+                var controls = new GenitalControls
+                {
+                    Enabled = enabled,
+                    TypeButton = typeButton,
+                    SizeButton = sizeButton,
+                    VisibilityButton = visibilityButton,
+                    Catalogs = typeCatalogs,
+                };
+
+                var primaryColor = new ColorSelectorSliders
+                {
+                    SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
+                };
+                var detailColor = new ColorSelectorSliders
+                {
+                    SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
+                };
+                controls.PrimaryColor = primaryColor;
+                controls.DetailColor = detailColor;
+
+                primaryColor.OnColorChanged += _ =>
+                {
+                    if (_updatingGenitals)
+                        return;
+
+                    controls.ColorsCustomized = true;
+                    OnGenitalControlsChanged();
+                };
+
+                detailColor.OnColorChanged += _ =>
+                {
+                    if (_updatingGenitals)
+                        return;
+
+                    controls.ColorsCustomized = true;
+                    OnGenitalControlsChanged();
+                };
+
+                var useSkinButton = new Button
+                {
+                    Text = Loc.GetString("genital-editor-use-skin"),
+                };
+                useSkinButton.OnPressed += _ =>
+                {
+                    if (_updatingGenitals)
+                        return;
+
+                    controls.ColorsCustomized = false;
+                    OnGenitalControlsChanged();
+                };
+
+                var detailColorLabel = new Label
+                {
+                    Text = Loc.GetString("genital-editor-detail-color"),
+                };
+                controls.DetailColorLabel = detailColorLabel;
+
+                // CollapsibleBody stretches its direct children to fill; wrap everything in a box.
+                var colorsContainer = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Vertical,
+                    SeparationOverride = 4,
+                };
+                colorsContainer.AddChild(new Label { Text = Loc.GetString("genital-editor-primary-color") });
+                colorsContainer.AddChild(primaryColor);
+                colorsContainer.AddChild(detailColorLabel);
+                colorsContainer.AddChild(detailColor);
+                colorsContainer.AddChild(useSkinButton);
+
+                var colorsBody = new CollapsibleBody();
+                colorsBody.AddChild(colorsContainer);
+
+                var colorSection = new Collapsible(Loc.GetString("genital-editor-colors"), colorsBody)
+                {
+                    Margin = new Thickness(0, 2, 0, 4),
+                };
+
+                _genitalControls[type] = controls;
+
+                enabled.OnToggled += _ =>
+                {
+                    typeButton.Disabled = !enabled.Pressed;
+                    sizeButton.Disabled = !enabled.Pressed;
+                    visibilityButton.Disabled = !enabled.Pressed;
+                    OnGenitalControlsChanged();
+                };
+
+                typeButton.OnItemSelected += args =>
+                {
+                    typeButton.SelectId(args.Id);
+                    RebuildGenitalSizes(type);
+                    RefreshGenitalDetailVisibility(type);
+                    OnGenitalControlsChanged();
+                };
+
+                sizeButton.OnItemSelected += args =>
+                {
+                    sizeButton.SelectId(args.Id);
+                    RefreshGenitalDetailVisibility(type);
+                    OnGenitalControlsChanged();
+                };
+
+                visibilityButton.OnItemSelected += args =>
+                {
+                    visibilityButton.SelectId(args.Id);
+                    OnGenitalControlsChanged();
+                };
+
+                row.AddChild(enabled);
+                row.AddChild(new Label { Text = Loc.GetString("genital-editor-type"), VerticalAlignment = VAlignment.Center });
+                row.AddChild(typeButton);
+                row.AddChild(new Label { Text = Loc.GetString("genital-editor-size"), VerticalAlignment = VAlignment.Center });
+                row.AddChild(sizeButton);
+                row.AddChild(new Label { Text = Loc.GetString("genital-editor-visibility"), VerticalAlignment = VAlignment.Center });
+                row.AddChild(visibilityButton);
+
+                var organContainer = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Vertical,
+                };
+                organContainer.AddChild(row);
+                organContainer.AddChild(colorSection);
+                _genitalsTab.AddChild(organContainer);
+            }
+
+            var semenRow = new BoxContainer
+            {
+                Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                SeparationOverride = 6,
+                Margin = new Thickness(0, 8, 0, 0),
+            };
+
+            semenRow.AddChild(new Label
+            {
+                Text = Loc.GetString("genital-editor-semen"),
+                VerticalAlignment = VAlignment.Center,
+            });
+
+            _semenVolumeSpin = new SpinBox
+            {
+                MinWidth = 100,
+                IsValid = value => value is >= GenitalOrganSettings.MinSemenVolume and <= GenitalOrganSettings.MaxSemenVolume,
+            };
+            _semenVolumeSpin.ValueChanged += _ => OnGenitalControlsChanged();
+            semenRow.AddChild(_semenVolumeSpin);
+            _genitalsTab.AddChild(semenRow);
+        }
+
+        /// <summary>
+        /// Shows the detail color picker only when the selected marking actually has a second color
+        /// group (e.g. Splurt breasts have separate nipples; Coyote breasts do not).
+        /// </summary>
+        private void RefreshGenitalDetailVisibility(GenitalType type)
+        {
+            if (!_genitalControls.TryGetValue(type, out var controls) || controls.Catalogs.Count == 0)
+                return;
+
+            var detailVisible = false;
+            var typeIndex = Math.Clamp(controls.TypeButton.SelectedId, 0, controls.Catalogs.Count - 1);
+            var catalog = controls.Catalogs[typeIndex];
+
+            if (catalog.Sizes.Count > 0)
+            {
+                var sizeIndex = Math.Clamp(controls.SizeButton.SelectedId, 0, catalog.Sizes.Count - 1);
+                if (catalog.Sizes[sizeIndex].Flaccid is { } flaccidId &&
+                    _prototypeManager.TryIndex<MarkingPrototype>(flaccidId, out var markingProto))
+                {
+                    detailVisible = GenitalOrganSystem.CountColorGroups(markingProto) > 1;
+                }
+            }
+
+            controls.DetailColorLabel.Visible = detailVisible;
+            controls.DetailColor.Visible = detailVisible;
+            controls.DetailColorLabel.Text = Loc.GetString(type == GenitalType.Breasts
+                ? "genital-editor-nipple-color"
+                : "genital-editor-detail-color");
+        }
+
+        /// <summary>
+        /// Toggles undergarment markings on the preview dummy only (not saved), so genitals can be
+        /// inspected while editing.
+        /// </summary>
+        private void ApplyPreviewUndergarmentVisibility()
+        {
+            if (Profile == null || !_entManager.EntityExists(PreviewDummy))
+                return;
+
+            if (!_entManager.TryGetComponent<HumanoidAppearanceComponent>(PreviewDummy, out var humanoid))
+                return;
+
+            var humanoidSystem = _entManager.System<HumanoidAppearanceSystem>();
+
+            // Snapshot first: setting visibility raises an event that rebuilds the genital render
+            // markings, which mutates the marking dictionary we would otherwise be iterating.
+            var targets = new List<(string MarkingId, bool Visible)>();
+            foreach (var (category, markings) in humanoid.MarkingSet.Markings)
+            {
+                if (category is not (MarkingCategories.UndergarmentTop or MarkingCategories.UndergarmentBottom))
+                    continue;
+
+                foreach (var marking in markings)
+                {
+                    targets.Add((marking.MarkingId, _showUndergarments));
+                }
+            }
+
+            foreach (var (markingId, visible) in targets)
+            {
+                humanoidSystem.SetMarkingVisibility(PreviewDummy, humanoid, markingId, visible);
+            }
+
+            // Local visibility changes do not come back through component state, so rebuild the
+            // preview sprite directly or the toggle only shows after the next profile reload.
+            humanoidSystem.RefreshSprite(PreviewDummy, humanoid);
+        }
+
+        private void RebuildGenitalSizes(GenitalType type)
+        {            if (!_genitalControls.TryGetValue(type, out var controls) || controls.Catalogs.Count == 0)
+                return;
+
+            var typeIndex = Math.Clamp(controls.TypeButton.SelectedId, 0, controls.Catalogs.Count - 1);
+            var catalog = controls.Catalogs[typeIndex];
+
+            controls.SizeButton.Clear();
+            for (var i = 0; i < catalog.Sizes.Count; i++)
+            {
+                controls.SizeButton.AddItem(Loc.GetString(catalog.Sizes[i].Name), i);
+            }
+
+            controls.SizeButton.SelectId(0);
+        }
+
+        private void UpdateGenitalControls()
+        {
+            if (Profile == null)
+                return;
+
+            _updatingGenitals = true;
+
+            var settings = Profile.Genitals;
+            foreach (var (type, controls) in _genitalControls)
+            {
+                if (controls.Catalogs.Count == 0)
+                    continue;
+
+                var data = settings.Get(type);
+                var enabled = data != null;
+
+                controls.Enabled.Pressed = enabled;
+                controls.TypeButton.Disabled = !enabled;
+                controls.SizeButton.Disabled = !enabled;
+                controls.VisibilityButton.Disabled = !enabled;
+
+                var typeIndex = 0;
+                if (data != null)
+                {
+                    var found = controls.Catalogs.FindIndex(c => c.ID == data.Prototype);
+                    if (found >= 0)
+                        typeIndex = found;
+                }
+
+                controls.TypeButton.SelectId(typeIndex);
+                controls.SizeButton.Clear();
+
+                var catalog = controls.Catalogs[typeIndex];
+                for (var i = 0; i < catalog.Sizes.Count; i++)
+                {
+                    controls.SizeButton.AddItem(Loc.GetString(catalog.Sizes[i].Name), i);
+                }
+
+                var sizeIndex = data != null ? Math.Clamp(data.Size - 1, 0, catalog.Sizes.Count - 1) : 0;
+                controls.SizeButton.SelectId(sizeIndex);
+                controls.VisibilityButton.SelectId((int) (data?.Visibility ?? GenitalVisibility.HiddenByJumpsuit));
+
+                // Palmtree: null colors follow the skin; track whether this organ uses custom colors.
+                var skin = Profile.Appearance.SkinColor;
+                controls.ColorsCustomized = data != null && (data.Color != null || data.DetailColor != null);
+                controls.PrimaryColor.Color = data?.Color ?? skin;
+                controls.DetailColor.Color = data?.DetailColor ?? data?.Color ?? skin;
+
+                RefreshGenitalDetailVisibility(type);
+            }
+
+            _semenVolumeSpin?.OverrideValue(settings.SemenVolume);
+            _updatingGenitals = false;
+        }
+
+        private void OnGenitalControlsChanged()
+        {
+            if (_updatingGenitals || Profile == null)
+                return;
+
+            var settings = new GenitalOrganSettings
+            {
+                SemenVolume = Math.Clamp(
+                    _semenVolumeSpin?.Value ?? GenitalOrganSettings.DefaultSemenVolume,
+                    GenitalOrganSettings.MinSemenVolume,
+                    GenitalOrganSettings.MaxSemenVolume),
+            };
+
+            foreach (var (type, controls) in _genitalControls)
+            {
+                if (!controls.Enabled.Pressed || controls.Catalogs.Count == 0)
+                    continue;
+
+                var typeIndex = Math.Clamp(controls.TypeButton.SelectedId, 0, controls.Catalogs.Count - 1);
+                var catalog = controls.Catalogs[typeIndex];
+                var size = Math.Clamp(controls.SizeButton.SelectedId + 1, 1, catalog.Sizes.Count);
+
+                settings.Set(type, new GenitalOrganData
+                {
+                    Prototype = catalog.ID,
+                    Size = size,
+                    Visibility = (GenitalVisibility) controls.VisibilityButton.SelectedId,
+                    Color = controls.ColorsCustomized ? controls.PrimaryColor.Color : null,
+                    DetailColor = controls.ColorsCustomized ? controls.DetailColor.Color : null,
+                });
+            }
+
+            Profile = Profile.WithGenitals(settings);
+            SetDirty();
+            ReloadProfilePreview();
         }
 
         /// <summary>
@@ -799,6 +1236,7 @@ namespace Content.Client.Lobby.UI
             PreviewDummy = _controller.LoadProfileEntity(Profile, JobOverride, ShowClothes.Pressed);
             SpriteView.SetEntity(PreviewDummy);
             _entManager.System<MetaDataSystem>().SetEntityName(PreviewDummy, Profile.Name);
+            ApplyPreviewUndergarmentVisibility();
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();
@@ -845,6 +1283,7 @@ namespace Content.Client.Lobby.UI
             RefreshSpecies();
             RefreshTraits();
             RefreshFlavorText();
+            RefreshGenitals(); // Palmtree
             ReloadPreview();
 
             if (Profile != null)
@@ -863,6 +1302,7 @@ namespace Content.Client.Lobby.UI
                 return;
 
             _entManager.System<HumanoidAppearanceSystem>().LoadProfile(PreviewDummy, Profile);
+            ApplyPreviewUndergarmentVisibility();
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();

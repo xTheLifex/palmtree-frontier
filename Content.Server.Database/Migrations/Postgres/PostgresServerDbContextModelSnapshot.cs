@@ -865,6 +865,10 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("gender");
 
+                    b.Property<string>("Genitals")
+                        .HasColumnType("text")
+                        .HasColumnName("genitals");
+
                     b.Property<string>("HairColor")
                         .IsRequired()
                         .HasColumnType("text")

@@ -1,0 +1,61 @@
+<controls:FancyWindow xmlns="https://spacestation14.io"
+                      xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                      Title="{Loc 'interaction-window-title'}"
+                      MinSize="440 620"
+                      SetSize="440 620">
+    <BoxContainer Orientation="Vertical" SeparationOverride="6" Margin="8">
+        <BoxContainer Orientation="Vertical" SeparationOverride="2">
+            <Label Name="TargetLabel" StyleClasses="LabelKeyText" />
+            <BoxContainer Orientation="Horizontal" SeparationOverride="8">
+                <RichTextLabel Name="SelfAttributes" HorizontalExpand="True" />
+                <RichTextLabel Name="TargetAttributes" HorizontalExpand="True" />
+            </BoxContainer>
+            <BoxContainer Orientation="Horizontal" SeparationOverride="6">
+                <ProgressBar Name="LustBar" HorizontalExpand="True" MinHeight="14" />
+                <ProgressBar Name="TargetLustBar" HorizontalExpand="True" MinHeight="14" />
+            </BoxContainer>
+        </BoxContainer>
+
+        <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+            <LineEdit Name="SearchBar" HorizontalExpand="True"
+                      PlaceHolder="{Loc 'interaction-search-placeholder'}" />
+            <TextureButton Name="FavoritesFilterButton" ToggleMode="True" MinSize="16 16" Scale="0.25 0.25"
+                           TexturePath="/Textures/Interface/examine-star.png"
+                           ToolTip="{Loc 'interaction-favorites-filter'}" />
+        </BoxContainer>
+
+        <TabContainer Name="Tabs" VerticalExpand="True">
+            <BoxContainer Name="InteractionsTab" Orientation="Vertical">
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False" ReserveScrollbarSpace="False">
+                    <BoxContainer Name="InteractionsList" Orientation="Vertical" SeparationOverride="1" />
+                </ScrollContainer>
+            </BoxContainer>
+            <BoxContainer Name="GenitalsTab" Orientation="Vertical">
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False" ReserveScrollbarSpace="False">
+                    <BoxContainer Name="GenitalsList" Orientation="Vertical" SeparationOverride="2" />
+                </ScrollContainer>
+            </BoxContainer>
+            <BoxContainer Name="PreferencesTab" Orientation="Vertical" SeparationOverride="6">
+                <CheckBox Name="ConsentCheck" />
+                <CheckBox Name="SoundsCheck" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                    <CheckBox Name="ArousalMultiplierCheck" />
+                    <Slider Name="ArousalMultiplierSlider" MinValue="0" MaxValue="300"
+                            HorizontalExpand="True" />
+                </BoxContainer>
+                <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+                    <CheckBox Name="MoaningMultiplierCheck" />
+                    <Slider Name="MoaningMultiplierSlider" MinValue="0" MaxValue="100"
+                            HorizontalExpand="True" />
+                </BoxContainer>
+            </BoxContainer>
+        </TabContainer>
+
+        <BoxContainer Name="AutoBar" Orientation="Horizontal" SeparationOverride="4">
+            <Button Name="StopAutoButton" MinWidth="32" Text="■"
+                    ToolTip="{Loc 'interaction-auto-stop'}" />
+            <Slider Name="PaceSlider" MinValue="1" MaxValue="5" HorizontalExpand="True"
+                    ToolTip="{Loc 'interaction-auto-pace'}" />
+        </BoxContainer>
+    </BoxContainer>
+</controls:FancyWindow>

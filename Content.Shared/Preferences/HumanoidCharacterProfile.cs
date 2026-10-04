@@ -1,9 +1,11 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Content.Shared._NF.Bank;
+using Content.Shared._PS.Organs; // Palmtree: genital organs
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
+using Content.Shared.Humanoid.Markings; // Palmtree: strip replaced genital markings
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Roles;
@@ -109,6 +111,12 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterAppearance Appearance { get; set; } = new();
 
         /// <summary>
+        /// Palmtree: player-selected genital organs, replacing the old genital markings.
+        /// </summary>
+        [DataField]
+        public GenitalOrganSettings Genitals { get; set; } = new();
+
+        /// <summary>
         /// When spawning into a round what's the preferred spot to spawn.
         /// </summary>
         [DataField]
@@ -180,6 +188,7 @@ namespace Content.Shared.Preferences
             : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
                 jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.VoiceBark)
         {
+            Genitals = other.Genitals.Clone(); // Palmtree
         }
 
         /// <summary>Copy constructor</summary>
@@ -200,6 +209,7 @@ namespace Content.Shared.Preferences
                 new Dictionary<string, RoleLoadout>(other.Loadouts),
                 other.VoiceBark) // Palmtree
         {
+            Genitals = other.Genitals.Clone(); // Palmtree
         }
 
         /// <summary>
@@ -321,6 +331,12 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithVoiceBark(ProtoId<SpeechSoundsPrototype>? voice)
         {
             return new(this) { VoiceBark = voice };
+        }
+
+        // Palmtree: player-selected genital organs.
+        public HumanoidCharacterProfile WithGenitals(GenitalOrganSettings genitals)
+        {
+            return new(this) { Genitals = genitals };
         }
 
 
@@ -505,6 +521,7 @@ namespace Content.Shared.Preferences
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
+            if (!Genitals.MemberwiseEquals(other.Genitals)) return false; // Palmtree
             return Appearance.MemberwiseEquals(other.Appearance);
         }
 
@@ -608,6 +625,25 @@ namespace Content.Shared.Preferences
             // End Frontier
 
             var appearance = HumanoidCharacterAppearance.EnsureValid(Appearance, Species, Sex);
+
+            // Palmtree: genital markings were replaced by organs; drop any left over from old saves.
+            var strippedMarkings = new List<Marking>();
+            foreach (var marking in appearance.Markings)
+            {
+                if (prototypeManager.TryIndex<MarkingPrototype>(marking.MarkingId, out var markingProto) &&
+                    markingProto.MarkingCategory == MarkingCategories.Genital)
+                {
+                    continue;
+                }
+
+                strippedMarkings.Add(marking);
+            }
+
+            if (strippedMarkings.Count != appearance.Markings.Count)
+                appearance = appearance.WithMarkings(strippedMarkings);
+
+            // Palmtree: validate persisted organ selections.
+            Genitals.Validate(prototypeManager);
 
             var prefsUnavailableMode = PreferenceUnavailable switch
             {
@@ -778,6 +814,7 @@ namespace Content.Shared.Preferences
             hashCode.Add((int)Sex);
             hashCode.Add((int)Gender);
             hashCode.Add(Appearance);
+            hashCode.Add(Genitals); // Palmtree
             hashCode.Add(BankBalance); // Frontier
             hashCode.Add((int)SpawnPriority);
             hashCode.Add((int)PreferenceUnavailable);

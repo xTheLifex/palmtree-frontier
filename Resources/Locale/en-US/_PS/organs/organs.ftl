@@ -1,0 +1,33 @@
+# Penis types
+genital-organ-penis-human = Human
+genital-organ-penis-knotted = Knotted
+genital-organ-penis-flared = Flared
+genital-organ-penis-tapered = Tapered
+genital-organ-penis-barbknot = Barbknot
+genital-organ-penis-hemi = Hemi
+genital-organ-penis-hemiknot = Hemiknot
+genital-organ-penis-tipknotted = Tipknotted
+genital-organ-penis-tentacle = Tentacle
+genital-organ-penis-nondescript = Nondescript
+# Balls types
+genital-organ-balls-single = Single
+genital-organ-balls-sheath = Sheathed
+genital-organ-balls-small = Small
+# Vagina types
+genital-organ-vagina-human = Human
+genital-organ-vagina-gaping = Gaping
+genital-organ-vagina-tentacle = Tentacle
+genital-organ-vagina-dentata = Dentata
+genital-organ-vagina-hairy = Hairy
+genital-organ-vagina-furred = Furred
+genital-organ-vagina-spade = Spade
+# Breasts types
+genital-organ-breasts-coyote = Coyote (round pair)
+genital-organ-breasts-splurt = Splurt (round pair)
+# Butt types
+genital-organ-butt-standard = Standard
+genital-organ-butt-skintoned = Skintoned
+# Belly types
+genital-organ-belly-tummy = Tummy
+genital-organ-belly-obese = Round
+genital-organ-belly-udders = Udders

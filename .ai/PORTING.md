@@ -44,7 +44,7 @@
 - Client renderer: layering routing, color links, scale/offset, genital-under-clothing ordering,
   `altSprites` swapping for base layers and markings, `HiddenBaseLayers` hiding.
 - `ModifyUndies` (`Content.Server/_Floof`, `Content.Shared/_Floof`): per-marking show/hide verbs
-  (`canToggleVisible` default on, `otherCanToggleVisible` default off).
+  (`canToggleVisible` default off except undergarments, `otherCanToggleVisible` default off).
 
 ### 3.2 Content
 
@@ -78,6 +78,23 @@
   plumbing assembly). `Tools/convert_dmm_room.py` maps `/obj/machinery/shower` to `Shower`, so the
   converted hotel rooms include working showers.
 
+### 3.3 Sandstorm interaction panel (2026-10, `_PS`)
+
+- Data-driven `interaction` prototypes, organ-based genital capability detection, session consent,
+  lust/moans/climax, a 3-tab XAML window (Interactions / Genital Options / Preferences),
+  search/favorites/auto-repeat, Ctrl+Shift-click + verb opening, purple ERP emotes and 47 Sandstorm
+  ogg sounds.
+- **Genital organs**: player-configured penis/vagina/balls/breasts/butt/belly with type + size and a
+  semen-per-climax amount, persisted in `Profile.Genitals` (new `genitals` column + migrations).
+  Replaces genital markings; the marking library is reused as the render backend.
+- **Cum**: SPLURT cum overlay (converted `cumoverlay.dmi` RSI, washable with water/space cleaner),
+  `Semen` reagent, Sandstorm-style drip puddles from internal climaxes, and an `AutoCumExterior`
+  preference. No pregnancy, womb, other fluids or refractory period.
+- Ported from `Sandstorm-Station-13` and `S.P.L.U.R.T-Station-13` (BYOND), not Coyote; see
+  `.ai/systems/interaction-panel.md` and `.ai/systems/genital-organs.md`. Tests:
+  `Content.IntegrationTests/Tests/_PS/InteractionPanelTest.cs` and the `ServerDbSqliteTests`
+  round-trip.
+
 ## 4. What was deliberately NOT ported
 
 | Feature | Reason / status |
@@ -90,7 +107,7 @@
 | RPI economy, Needs, Healing bank, Space janitor, etc. (`_CS`) | Not ported; not requested. |
 | IPC species | Replaced by the Palmtree **Synth** species (`_PS`) — see `systems/ps-systems.md`. Old IPC content (Einstein Engines silicon stack, battery/radio/EMP) remains unported. |
 | Kitsune species | **Does not exist in the old codebase.** It only appears inside marking allowlists. Nothing to port. |
-| Turrets, RCD, strobe lighting, shipyard cauterizer, `_PS` emotes/interaction sounds | Not requested / possibly stale systems. |
+| Turrets, RCD, strobe lighting, shipyard cauterizer | Not requested / possibly stale systems. (Sandstorm interaction sounds/panel were later ported — see `systems/interaction-panel.md`.) |
 
 ## 5. Bugs found and fixed during the port
 

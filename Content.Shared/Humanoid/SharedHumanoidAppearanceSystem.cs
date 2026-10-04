@@ -16,6 +16,7 @@ using Robust.Shared.Enums;
 using Robust.Shared.GameObjects.Components.Localization;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
+using Content.Shared._PS.Organs; // Palmtree
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown;
@@ -499,6 +500,9 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         }
 
         Dirty(uid, humanoid);
+
+        // Palmtree: profile-driven systems (genital organs) react after appearance is applied.
+        RaiseLocalEvent(uid, new HumanoidProfileAppliedEvent(uid, profile));
     }
 
     /// <summary>
@@ -641,6 +645,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         if (!Resolve(uid, ref humanoid))
             return;
 
+        var changed = false;
+
         foreach (var markingList in humanoid.MarkingSet.Markings.Values)
         {
             foreach (var marking in markingList)
@@ -652,9 +658,21 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
                     return;
 
                 marking.Visible = visible;
-                Dirty(uid, humanoid);
-                return;
+                changed = true;
+                break;
             }
+
+            if (changed)
+                break;
         }
+
+        if (!changed)
+            return;
+
+        Dirty(uid, humanoid);
+
+        // Raise after the enumeration: handlers (genital organs) rebuild the marking set, which
+        // would otherwise mutate the dictionary we are iterating.
+        RaiseLocalEvent(uid, new MarkingVisibilityChangedEvent(markingId));
     }
 }

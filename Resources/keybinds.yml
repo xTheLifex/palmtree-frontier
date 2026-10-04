@@ -213,6 +213,12 @@ binds:
   key: MouseLeft
   canFocus: true
   mod1: Shift
+- function: InteractWithEntity # Palmtree: open the interaction panel on another character
+  type: State
+  key: MouseLeft
+  canFocus: true
+  mod1: Control
+  mod2: Shift
 - function: ActivateItemInWorld
   type: State
   key: E

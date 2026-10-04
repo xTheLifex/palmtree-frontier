@@ -6,6 +6,7 @@ using Content.Shared.DisplacementMap; // Palmtree/Coyote: leg displacement
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
+using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Inventory;
 using Content.Shared.Preferences;
 using Robust.Client.GameObjects;
@@ -35,6 +36,19 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
     private void OnHandleState(EntityUid uid, HumanoidAppearanceComponent component, ref AfterAutoHandleStateEvent args)
     {
         UpdateSprite((uid, component, Comp<SpriteComponent>(uid)));
+    }
+
+    /// <summary>
+    /// Palmtree: rebuilds the sprite layers from the current marking set. Local visibility toggles
+    /// (lobby preview undergarments) do not go through component state, so the editor calls this
+    /// after changing <c>Marking.Visible</c>.
+    /// </summary>
+    public void RefreshSprite(EntityUid uid, HumanoidAppearanceComponent? component = null)
+    {
+        if (!Resolve(uid, ref component) || !TryComp<SpriteComponent>(uid, out var sprite))
+            return;
+
+        UpdateSprite((uid, component, sprite));
     }
 
     private void OnCvarChanged(bool value)
@@ -278,6 +292,10 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         humanoid.SkinColor = profile.Appearance.SkinColor;
         humanoid.EyeColor = profile.Appearance.EyeColor;
 
+        // Palmtree: profile-driven genital organs (lobby preview). The server path uses
+        // HumanoidProfileAppliedEvent; this override does not call the shared LoadProfile.
+        EntityManager.System<GenitalOrganSystem>().SyncFromProfile(uid, profile);
+
         UpdateSprite((uid, humanoid, Comp<SpriteComponent>(uid)));
     }
 
@@ -304,7 +322,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
                 {
                     // Palmtree/Coyote: swap the marking for its alternate-leg-style version if one exists.
                     markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow);
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing);
                     if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
                         applyUndergarmentTop = false;
                     else if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentBottom)
@@ -408,7 +426,8 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         // Palmtree/Coyote Start: advanced marking editor
         float scale = 1.0f,
         Vector2? offset = null,
-        IReadOnlyList<float>? glowLevels = null)
+        IReadOnlyList<float>? glowLevels = null,
+        bool renderOverClothing = false)
         // Palmtree/Coyote End
     {
         var humanoid = entity.Comp1;
@@ -507,17 +526,26 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
 
             var targLayerAdj = targetLayer + layerDict[layerSlot.ToString()] + 1;
 
-            // Palmtree: keep genital markings beneath clothing while they sit on the genital layer.
+            // Palmtree: keep genital markings beneath clothing while they sit on the genital layer,
+            // unless the organ uses the "Never hidden" visibility rule.
             if (layerSlot == HumanoidVisualLayers.Genital)
             {
-                if (_sprite.LayerMapTryGet((entity.Owner, sprite), "jumpsuit", out var jumpsuitLayer, false))
-                    targLayerAdj = Math.Min(targLayerAdj, jumpsuitLayer - 1);
+                if (renderOverClothing)
+                {
+                    if (_sprite.LayerMapTryGet((entity.Owner, sprite), "outerClothing", out var overLayer, false))
+                        targLayerAdj = Math.Max(targLayerAdj, overLayer + 1);
+                }
+                else
+                {
+                    if (_sprite.LayerMapTryGet((entity.Owner, sprite), "jumpsuit", out var jumpsuitLayer, false))
+                        targLayerAdj = Math.Min(targLayerAdj, jumpsuitLayer - 1);
 
-                if (_sprite.LayerMapTryGet((entity.Owner, sprite), "outerClothing", out var outerClothingLayer, false))
-                    targLayerAdj = Math.Min(targLayerAdj, outerClothingLayer - 1);
+                    if (_sprite.LayerMapTryGet((entity.Owner, sprite), "outerClothing", out var outerClothingLayer, false))
+                        targLayerAdj = Math.Min(targLayerAdj, outerClothingLayer - 1);
 
-                if (targLayerAdj < 0)
-                    targLayerAdj = 0;
+                    if (targLayerAdj < 0)
+                        targLayerAdj = 0;
+                }
             }
 
             if (!_sprite.LayerMapTryGet((entity.Owner, sprite), layerId, out _, false))
@@ -682,7 +710,7 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
             foreach (var marking in markingList)
             {
                 if (_markingManager.TryGetMarking(marking, out var markingPrototype) && markingPrototype.BodyPart == layer)
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow);
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing);
             }
         }
     }

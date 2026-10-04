@@ -89,7 +89,13 @@ namespace Content.Shared.Humanoid.Markings
         // end impstation edit
         public Marking AsMarking()
         {
-            return new Marking(ID, Sprites.Count);
+            var marking = new Marking(ID, Sprites.Count);
+
+            // Palmtree: only undergarments are toggleable in-game by default.
+            if (MarkingCategory is MarkingCategories.UndergarmentTop or MarkingCategories.UndergarmentBottom)
+                marking.CanToggleVisible = true;
+
+            return marking;
         }
     }
 }

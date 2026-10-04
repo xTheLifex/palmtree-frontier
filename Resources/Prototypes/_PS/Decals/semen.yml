@@ -1,0 +1,73 @@
+# Palmtree: SPLURT semen decals used by the semen drip. Cleanable with space cleaner.
+
+- type: decal
+  id: SemenDrip1
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: drip1
+
+- type: decal
+  id: SemenDrip2
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: drip2
+
+- type: decal
+  id: SemenDrip3
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: drip3
+
+- type: decal
+  id: SemenDrip4
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: drip4
+
+- type: decal
+  id: SemenDrip5
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: drip5
+
+- type: decal
+  id: SemenPuddle1
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: semen1
+
+- type: decal
+  id: SemenPuddle2
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: semen2
+
+- type: decal
+  id: SemenPuddle3
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: semen3
+
+- type: decal
+  id: SemenPuddle4
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: semen4

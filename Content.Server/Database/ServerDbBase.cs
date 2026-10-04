@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
+using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Administration.Logs;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Database;
@@ -288,7 +289,10 @@ namespace Content.Server.Database
                 traits.ToHashSet(),
                 loadouts,
                 profile.VoiceBark == null ? (ProtoId<SpeechSoundsPrototype>?) null : new ProtoId<SpeechSoundsPrototype>(profile.VoiceBark) // Palmtree
-            );
+            )
+            {
+                Genitals = GenitalOrganSettings.FromDbString(profile.Genitals), // Palmtree
+            };
         }
 
         private static Profile ConvertProfiles(HumanoidCharacterProfile humanoid, int slot, Profile? profile = null)
@@ -306,6 +310,7 @@ namespace Content.Server.Database
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
             profile.VoiceBark = humanoid.VoiceBark?.Id; // Palmtree
+            profile.Genitals = humanoid.Genitals.ToDbString(); // Palmtree
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();

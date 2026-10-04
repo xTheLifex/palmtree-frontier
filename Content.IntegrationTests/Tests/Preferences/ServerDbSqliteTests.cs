@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Content.Server.Database;
+using Content.Shared._PS.Interactions; // Palmtree
+using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
 using Content.Shared.Preferences;
@@ -39,7 +41,7 @@ namespace Content.IntegrationTests.Tests.Preferences
 
         private static HumanoidCharacterProfile CharlieCharlieson()
         {
-            return new HumanoidCharacterProfile() // Frontier - added HumanoidCharacterProfile
+            var profile = new HumanoidCharacterProfile() // Frontier - added HumanoidCharacterProfile
             {
                 Name = "Charlie Charlieson",
                 FlavorText = "The biggest boy around.",
@@ -54,7 +56,23 @@ namespace Content.IntegrationTests.Tests.Preferences
                     Color.Azure,
                     Color.Beige,
                     new ())
-            }.WithBankBalance(27000); // Frontier - accessor issue
+            };
+
+            // Palmtree: genital organ + semen volume round-trip.
+            profile.Genitals.Set(GenitalType.Penis, new GenitalOrganData
+            {
+                Prototype = "PenisHuman",
+                Size = 3,
+                Visibility = GenitalVisibility.NeverHidden,
+            });
+            profile.Genitals.Set(GenitalType.Vagina, new GenitalOrganData
+            {
+                Prototype = "VaginaHuman",
+                Size = 1,
+            });
+            profile.Genitals.SemenVolume = 42;
+
+            return profile.WithBankBalance(27000); // Frontier - accessor issue
         }
 
         private static ServerDbSqlite GetDb(RobustIntegrationTest.ServerIntegrationInstance server)

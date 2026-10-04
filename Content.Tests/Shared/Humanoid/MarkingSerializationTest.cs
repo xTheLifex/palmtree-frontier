@@ -117,7 +117,7 @@ public sealed class MarkingSerializationTest
         var parsed = Marking.ParseFromDbString("GenitalVaginaHuman@#ffffff@1.5,0.25,-0.5");
 
         Assert.That(parsed, Is.Not.Null);
-        Assert.That(parsed!.CanToggleVisible, Is.True);
+        Assert.That(parsed!.CanToggleVisible, Is.False);
         Assert.That(parsed.OtherCanToggleVisible, Is.False);
         Assert.That(parsed.CustomName, Is.Null);
     }
@@ -132,7 +132,7 @@ public sealed class MarkingSerializationTest
 
         Assert.That(parsed, Is.Not.Null);
         Assert.That(parsed!.CustomName, Is.EqualTo("Bad_Name"));
-        Assert.That(parsed.CanToggleVisible, Is.True);
+        Assert.That(parsed.CanToggleVisible, Is.False);
     }
 
     [Test]
