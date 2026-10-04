@@ -104,3 +104,38 @@ Entries:
   time: '2026-10-04T11:27:15.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/2df50cc28f2bdad3e87c9437b4c71c8158b70d29
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Added an interaction panel with social and lewd interactions, consent,
+        favorites, auto-repeat and a manual Climax action.
+    - type: Add
+      message: >-
+        Added self-interactions (masturbation) and receiver-side acts like
+        riding.
+    - type: Add
+      message: >-
+        Added genital organs to character creation (type, size, visibility,
+        colors, nipple color and semen volume); they replace the old genital
+        markings.
+    - type: Add
+      message: >-
+        Added cum decals: drips leave droplets and ejaculations leave puddles
+        that build up on the floor.
+    - type: Tweak
+      message: >-
+        Interactions now grant lust faster and the panel keeps updating while it
+        is open.
+    - type: Tweak
+      message: Genital visibility rules can be changed in the editor and in-game.
+    - type: Fix
+      message: >-
+        Fixed genitals sometimes not appearing after respawning or for other
+        players joining the round.
+    - type: Fix
+      message: Fixed the interaction panel buttons and icons being oversized.
+  id: 90007
+  time: '2026-10-04T20:06:25.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/989cbd7e1e5b0b21a18ed20a431388386739f14e
