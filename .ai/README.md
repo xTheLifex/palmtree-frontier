@@ -50,6 +50,7 @@ Fork modules are folder/namespace prefixes:
 | `_PS` | Palmtree (this repo) | Lobby screens/music, concealable clothing backpack implant, weapons/grenades, genital breasts |
 | `_Floof` | Floofstation | Marking system extensions, `ModifyUndies` (ERP toggle verbs) |
 | `_CS` | Coyote Sector | Anthromorph species, undergarments, Coyote Bayou clothes (incl. latex), undies locale |
+| `_HL` | HardLight (via Coyote) | Ported shower (prototype, construction, sprite, audio) |
 | `_DEN` | TheDen | Clicker, foot protectors, Ovinia markings/sprites |
 | `_EE` | Einstein Engines | Tajaran species (ported), carrying |
 | `_DV` | Delta-V | Vulpkanin/Harpy/Rodentia species, abilities, markings |
@@ -99,6 +100,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/systems/core-gameplay.md` | Interactions, body/damage, atmos, power, chemistry, construction, NPC, shuttles |
 | `.ai/systems/content-pipeline-and-tooling.md` | Prototypes, localization, maps, tests, CI, packaging |
 | `.ai/guides/porting-from-coyote.md` | Repeatable method for porting Coyote/Floof content into this repo |
+| `.ai/guides/porting-from-ss13.md` | Porting BYOND SS13 features, `.dmm` maps and sprites into this repo |
 | `.ai/guides/adding-markings.md` | Adding markings (normal, genital, kind-shared, layered, digitigrade) |
 | `.ai/guides/adding-species.md` | Adding/porting a species with body, layers, markings, speech |
 | `.ai/guides/adding-loadouts.md` | Adding loadouts, their items, and group wiring |
@@ -110,6 +112,7 @@ Fork modules are folder/namespace prefixes:
 | Guide | Answers |
 |---|---|
 | `.ai/guides/porting-from-coyote.md` | How to port content from `coyote-frontier` and other forks, field adaptations, asset copying, lint gates |
+| `.ai/guides/porting-from-ss13.md` | BYOND SS13 sources, TGM `.dmm` parsing, format-7 map generation, sprite limits, SS13→SS14 concept mapping, hazards |
 | `.ai/guides/adding-markings.md` | `MarkingPrototype` fields, categories, `kindAllowance`, `layering`/`colorLinks`, `altSprites`, sprites/locale, genital rules |
 | `.ai/guides/adding-species.md` | Species + mob + body + layers + `altSprites` + damage + speech + names recipe |
 | `.ai/guides/adding-loadouts.md` | Loadout + item + group wiring + locale + verification |
@@ -201,6 +204,7 @@ Fork modules are folder/namespace prefixes:
 | Frontier Station upstream (`new-frontiers-14/frontier-station-14`) | `_NF` merge semantics/upstream fixes |
 | Wizden SS14 (`space-wizards/space-station-14`) | Upstream content origins and benchmarks |
 | `coyote-frontier` checkout (outside this repo) | Source of ported `_Floof`/`_CS`/ERP content |
+| SS13/BYOND checkouts (`S.P.L.U.R.T-tg`, `S.P.L.U.R.T-Station-13`, `Sandstorm-Station-13`) | Source of SS13 features, `.dmm` room maps and art (see `guides/porting-from-ss13.md`) |
 | EF Core docs | Migrations/model changes (two providers) |
 | Fluent docs | `.ftl` syntax and functions |
 | NetCord docs | Discord integration changes |

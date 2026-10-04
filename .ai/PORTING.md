@@ -167,3 +167,8 @@ See `.ai/guides/porting-from-coyote.md` for the full method. In short:
 5. Rebuild the solution, rebuild `Content.YAMLLinter`, run it; then run relevant tests.
 6. Commit with a note about adaptations; update `.ai/PORTING.md` and `.ai/HAZARDS.md` if you learn
    something new.
+
+For **SS13 (BYOND) content** — features from `S.P.L.U.R.T-tg`/`S.P.L.U.R.T-Station-13`/Sandstorm,
+`.dmm` room maps and `.dmi` art — use `.ai/guides/porting-from-ss13.md` instead. It covers the TGM
+`.dmm` format, the `Tools/convert_dmm_room.py` generator, format-7 map requirements (air, gravity,
+power, anchoring), SS13→SS14 concept mapping and the related hazards.

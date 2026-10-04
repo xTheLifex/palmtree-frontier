@@ -1,6 +1,6 @@
 ---
 name: Palmtree Station (Frontier fork)
-description: Work on the Palmtree Station Frontier fork — porting Coyote/Floof content, the marking/ERP systems, species (Synth, Rodentia, Anthromorph, Tajaran), loadouts, and the build/lint/test/typecheck pipeline. Use for any change in this Space Station 14 repository.
+description: Work on the Palmtree Station Frontier fork — porting Coyote/Floof and SS13 (BYOND) content, the marking/ERP systems, species (Synth, Rodentia, Anthromorph, Tajaran), loadouts, Hilbert's Hotel, and the build/lint/test/typecheck pipeline. Use for any change in this Space Station 14 repository.
 ---
 
 # Palmtree Station development
@@ -32,7 +32,9 @@ targeted port of Coyote/Floof ERP + marking systems. The old base lives in a sep
    merged and deleted).
 2. Read `.ai/README.md` (navigation) and the relevant `.ai/systems/*.md` or `.ai/guides/*.md`.
 3. For a port task, read `references/porting-playbook.md` in this skill.
-4. For marking/ERP/species work, read `references/marking-and-erp.md` and
+4. For SS13/BYOND content or `.dmm` map ports, read `references/porting-from-ss13.md` and
+   `.ai/guides/porting-from-ss13.md`.
+5. For marking/ERP/species work, read `references/marking-and-erp.md` and
    `references/species-and-loadouts.md`.
 
 ## Workflows
@@ -43,6 +45,16 @@ targeted port of Coyote/Floof ERP + marking systems. The old base lives in a sep
   copy prototypes + `.rsi` + audio + locale, then wire groups/layers.
 - Full method, adaptation table and pitfalls: `references/porting-playbook.md`.
 - Useful scripts: `scripts/check_character_refs.py`, `scripts/copy_referenced_assets.py`.
+
+### Porting SS13 (BYOND) content and `.dmm` maps
+
+- Sources: `.../BYOND/S.P.L.U.R.T-tg` (newest, condo Hilbert's Hotel), `.../BYOND/S.P.L.U.R.T-Station-13`
+  (old), `.../BYOND/Sandstorm-Station-13`. Fork additions live in `modular_*` folders.
+- Convert rooms with `Tools/convert_dmm_room.py <in.dmm> <out.yml> --name "..."`; it emits SS14
+  format-7 maps with air, gravity, anchoring and self-powered machines.
+- Translation table, map-format details, sprite caveats and hazards:
+  `references/porting-from-ss13.md` (full: `.ai/guides/porting-from-ss13.md`).
+- Worked example: Hilbert's Hotel (`_PS/HilbertHotel`, `.ai/systems/hilbert-hotel.md`).
 
 ### Markings, ERP, appearance
 
@@ -95,6 +107,13 @@ dotnet run --project Content.Client -c Debug --no-build -- --headless
 - **Body speed** comes from leg `MovementBodyPart` values, not only the mob's
   `MovementSpeedModifier`.
 - **Locale duplicates** are load errors; unknown prototype fields are lint errors.
+- **Server popups**: `SharedPopupSystem.PopupClient` is a no-op on the server (it exists for client
+  prediction). Server code must use `PopupEntity(message, entity, recipient)` or popups silently
+  never appear.
+- **Runtime-loaded maps**: never pause a map with a player body on it (`EntityPaused` freezes the
+  body, e.g. after admin ghosting). Generated rooms need `Gravity: enabled/inherent` (defaults to
+  false), `needsPower: false` machines, `anchored: true` props and a serialized `GridAtmosphere`.
+  See `references/porting-from-ss13.md`.
 - **In-place core patches** exist for: base `ClothingBackpack` concealment, lobby rotation/crossfade,
   respiration skip (`SynthComponent`), mass-based pull slowdown, leg displacement in
   `ClientClothingSystem`, and species/marking YAML.
@@ -107,5 +126,6 @@ dotnet run --project Content.Client -c Debug --no-build -- --headless
 - `.ai/systems/consent-and-erp.md` — what ERP exists and what does not (no consent system)
 - `.ai/PORTING.md` — what was ported, what was excluded, and why
 - `.ai/HAZARDS.md`, `.ai/UNKNOWN.md` — traps and open questions
-- This skill: `references/porting-playbook.md`, `references/marking-and-erp.md`,
-  `references/species-and-loadouts.md`, `references/validation-and-hazards.md`
+- This skill: `references/porting-playbook.md`, `references/porting-from-ss13.md`,
+  `references/marking-and-erp.md`, `references/species-and-loadouts.md`,
+  `references/validation-and-hazards.md`

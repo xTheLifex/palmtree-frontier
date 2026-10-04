@@ -3,6 +3,9 @@
 Source checkout: `/home/thelife/Desktop/Things/Development/SS14/coyote-frontier` (branch `palm3`,
 frozen). Target: this repository (`master`). The previous full-merge attempt was discarded.
 
+> Porting **SS13 (BYOND)** content or `.dmm` maps instead? Use `references/porting-from-ss13.md`
+> (full: `.ai/guides/porting-from-ss13.md`).
+
 ## 0. Scope discipline
 
 Port only what was asked. `.ai/PORTING.md` lists what was deliberately excluded (consent, traits,

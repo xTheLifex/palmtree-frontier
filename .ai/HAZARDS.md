@@ -186,3 +186,29 @@ added to `markings-picker.ftl`; the duplicate was removed).
 
 - `identifier.sqlite` — 0-byte tracked file at repo root, referenced nowhere.
 - `Resources/manifest.yml` window title/logo may not match Palmtree branding.
+
+## 18. Runtime-loaded maps and server popups (Hilbert's Hotel / SS13 port findings)
+
+- **`SharedPopupSystem.PopupClient` is a no-op on the server** — it exists for client-side
+  prediction. Server code must use `PopupEntity(message, entity, recipient)` or the popup silently
+  never appears (all hotel popups were invisible until this was fixed).
+- **Never pause a runtime-loaded map with a player body on it.** `SetPaused(map, true)` also sets
+  `EntityPaused` on the body; an admin ghost returning to a paused room froze the player. Keep maps
+  live and delete them after a grace period instead.
+- **`GravityComponent.Enabled` defaults to `false`.** Generated maps must set
+  `Gravity: enabled: true, inherent: true` or players float.
+- **Machines default to requiring APC power.** Runtime rooms have no power grid; emit
+  `ApcPowerReceiver: needsPower: false` (resolve inheritance through prototype parents) or use
+  `AlwaysPowered*` prototypes.
+- **Props are unanchored unless their prototype is a structure.** Map generators should emit
+  `anchored: True` on every placed prop.
+- **`MapLoaderSystem.TryLoadMap` returns a paused, uninitialized map.** Call
+  `SharedMapSystem.InitializeMap` yourself; do not pass `InitializeMaps = true` and then call it
+  again (it throws).
+- **YAMLLinter does not validate map files.** Missing or abstract prototypes only fail at load
+  ("Missing prototype for map: X"); integration tests that load every map are the gate.
+- **`savemap` writes to the server user-data dir** (`bin/Content.Server/data`) and map loading
+  prefers user data over `Resources` ("Reading map user data instead of content"). Copy saved files
+  back and delete stale user-data copies.
+- **Rotating a `noRot` entity in a map file** triggers a load-time `DebugAssertException`.
+- Full method and SS13 concept mapping: `.ai/guides/porting-from-ss13.md`.
