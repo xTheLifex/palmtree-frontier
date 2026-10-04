@@ -30,16 +30,16 @@ public sealed class DrippingCumSystem : EntitySystem
 
     /// <summary>Droplet decal ladder. Drips never escalate to the full puddle decals.</summary>
     private static readonly string[] DripDecals =
-    {
+    [
         "SemenDrip1",
         "SemenDrip2",
         "SemenDrip3",
         "SemenDrip4",
         "SemenDrip5",
-    };
+    ];
 
     /// <summary>How far a drop can scatter from the mob's exact position.</summary>
-    private const float Scatter = 0.35f;
+    private const float Scatter = 0.05f;
 
     public override void Update(float frameTime)
     {
