@@ -139,3 +139,39 @@ Entries:
   time: '2026-10-04T20:06:25.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/989cbd7e1e5b0b21a18ed20a431388386739f14e
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Added height and width sliders to character creation, up to double the
+        standard size.
+    - type: Add
+      message: Genital organs can now be scaled and offset like markings.
+    - type: Add
+      message: >-
+        High semen volumes now climax in several pulses, each with decals, text
+        and moans.
+    - type: Add
+      message: >-
+        Added a Preview aroused organs toggle and a cleaner Genitals tab to the
+        character editor.
+    - type: Add
+      message: >-
+        Coyote character exports now import with all their markings and convert
+        old genital markings into organs.
+    - type: Tweak
+      message: Balls and breasts no longer have an aroused state.
+    - type: Fix
+      message: >-
+        Subtle LOOC now shows up in chat and the subtle notification sound
+        plays.
+    - type: Fix
+      message: Ghosts no longer receive ERP interaction text or sounds.
+    - type: Fix
+      message: >-
+        Toggling a genital organ off and on in the editor no longer makes it
+        disappear.
+  id: 90008
+  time: '2026-10-04T23:20:58.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/ed5b2fc511394a4fe3fe98fdfecaa8485aefa3aa
