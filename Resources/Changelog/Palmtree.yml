@@ -199,3 +199,43 @@ Entries:
   time: '2026-10-05T01:26:24.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/3d868327c2098f45dee68740e17c6553984ce6fb
+- author: TheLife
+  changes:
+    - type: Add
+      message: Feroxi species, who can breathe water vapor from water vapor tanks.
+    - type: Add
+      message: >-
+        Coyote/SPLURT emotes (yap, yip, eyebrow, gekker, moo, baa, gurgle,
+        species screams and more).
+    - type: Add
+      message: >-
+        character editor emote category picker to choose what shows in the emote
+        wheel.
+    - type: Add
+      message: custom species names in the character editor.
+    - type: Add
+      message: glass gas mask that doesn't hide your face.
+    - type: Add
+      message: '"exportcharacters" command to export every saved character to YAML.'
+    - type: Add
+      message: Palmtree Station splash logo.
+    - type: Add
+      message: admins now bypass job and loadout restrictions.
+    - type: Tweak
+      message: currency is now called "space roubles" instead of "spesos".
+    - type: Tweak
+      message: >-
+        fuels last much longer (generators and AME jars are tuned for week-long
+        rounds).
+    - type: Tweak
+      message: welders use much less fuel and forensic swabs take 0.5 seconds.
+    - type: Tweak
+      message: SSD bodies no longer take air damage.
+    - type: Remove
+      message: pest critter and power shut-off random events.
+    - type: Remove
+      message: non-Palmtree lobby backgrounds and lobby music.
+  id: 90010
+  time: '2026-10-05T14:09:20.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/59e3fde3afc849676e495335e4473e6629a5d8d4
