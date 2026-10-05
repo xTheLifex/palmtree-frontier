@@ -277,3 +277,17 @@ Entries:
   time: '2026-10-05T22:12:50.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/347e2b30cf125453744c90b0d9259df1172d5ae9
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: job whitelists are now disabled; playtime requirements still apply.
+    - type: Add
+      message: slimepeople can now drink and breathe plasma.
+    - type: Tweak
+      message: >-
+        synths are immune to reagent effects and to heat below 4000K, so only
+        extreme plasma fires can hurt them.
+  id: 90015
+  time: '2026-10-05T22:37:06.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/bf2624e5b77cb74e70563e4a52a8bccb5d03fa53
