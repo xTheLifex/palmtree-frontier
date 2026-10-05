@@ -301,3 +301,26 @@ Entries:
   time: '2026-10-05T23:01:09.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/677174c669ab066d12dee40d2c50a8749e575d9d
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Ported the remaining Coyote markings: cybernetic limbs, robot antennae
+        and screen faces, kemono and digitigrade vulp tails, draconic and fairy
+        wings, 91 extra hairstyles, and the Avali/Resomi/Chitinid sets.
+    - type: Fix
+      message: >-
+        Digitigrade legs now work on Anthromorphs and Reptilians, and vulpkanin
+        tails swap to their digitigrade variants.
+    - type: Tweak
+      message: >-
+        Slimepeople and their slime form are now very weak to water - thrown
+        water, fire extinguishers and puddle slips deal heavy damage.
+    - type: Tweak
+      message: >-
+        The slime transformation no longer asks for an "irreversible action"
+        confirmation.
+  id: 90017
+  time: '2026-10-05T23:45:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/312fe657ca84084060ad1fd102eb97807be0d4a4
