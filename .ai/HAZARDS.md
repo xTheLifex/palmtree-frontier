@@ -29,8 +29,7 @@ There are several places that filter markings by species; all must use
 - `MarkingsSet.EnsureSpecies`
 
 Using `SpeciesRestrictions.Contains(species)` directly silently strips markings shared through
-`kindAllowance` (e.g. `FeroxiTorsoCountershadingF` on a Vulpkanin). Regression test:
-`Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs`.
+`kindAllowance` (e.g. `FeroxiTorsoCountershadingF` on a Vulpkanin).
 
 Also remember `onlyWhitelisted` logic: a marking counts as whitelisted if it has
 `speciesRestriction` **or** `kindAllowance`.
@@ -152,9 +151,7 @@ added to `markings-picker.ftl`; the duplicate was removed).
 - Profile application: `SharedHumanoidAppearanceSystem.LoadProfile` must use the
   `AddMarking(uid, Marking marking, colors, ...)` overload. The `(string, colors)` overload creates a
   fresh marking and silently drops `scale`, `offset` and `glow` (symptom: editor preview shows the
-  values, in-game they are defaults). Regression test:
-  `Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs`
-  (`ProfileLoadPreservesMarkingTransformAndGlow`).
+  values, in-game they are defaults).
 - Interaction panel (`systems/interaction-panel.md`):
   - The panel BUI is opened on the **actor**, not the target: this engine has one BUI state per
     `(entity, key)`, so binding it to the target would share state between different users.

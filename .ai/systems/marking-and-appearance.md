@@ -237,8 +237,6 @@ system, `DoAfter`, actions/verbs (ModifyUndies), `MarkingColoring`.
 
 - `Content.Tests/Shared/Humanoid/MarkingSerializationTest.cs` — DB string round-trip (defaults,
   transform, legacy format, clamping).
-- `Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs` — kind-shared marking survives
-  `EnsureSpecies`.
 - `EntityTest`/`CharacterCreationTest` cover spawning and profile application broadly.
 
 ## Unknowns

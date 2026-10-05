@@ -83,7 +83,7 @@ dotnet build Content.YAMLLinter/Content.YAMLLinter.csproj   # REQUIRED after C# 
 dotnet run --project Content.YAMLLinter -c Debug --no-build # expect "No errors found"
 dotnet test Content.Tests/Content.Tests.csproj              # unit tests
 dotnet test Content.IntegrationTests/Content.IntegrationTests.csproj \
-  --filter "FullyQualifiedName~EntityTest|FullyQualifiedName~CharacterCreationTest|FullyQualifiedName~MarkingKindAllowanceTest|FullyQualifiedName~SynthSpeciesTest|FullyQualifiedName~ConcealableClothingTest|FullyQualifiedName~LobbyBackgroundTest"
+  --filter "FullyQualifiedName~EntityTest|FullyQualifiedName~CharacterCreationTest|FullyQualifiedName~_PS"
 # client sandbox typecheck (no display needed):
 dotnet run --project Content.Client -c Debug --no-build -- --headless
 # expect: Content.Shared / Content.Client "Verified IL", then an expected OpenGL error (exit 134)

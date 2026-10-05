@@ -143,7 +143,7 @@ linter and it may report errors for categories that actually exist (or miss new 
 
 | Tool | Purpose |
 |---|---|
-| `Content.IntegrationTests` | `PoolManager` pairs a server+client; `TestMap = "Empty"`; tests incl. `_NF/ShipyardTests`, `_PS/ConcealableClothingTest`, `_PS/LobbyBackgroundTest`, `_PS/MarkingKindAllowanceTest` |
+| `Content.IntegrationTests` | `PoolManager` pairs a server+client; `TestMap = "Empty"`; fork tests in `_NF/*`, `_PS/HilbertHotelTest`, `_PS/InteractionPanelTest` |
 | `Content.Tests` | Unit tests (chemistry, atmos, wires, chat censor, localization, IPIntel, preferences, marking serialization) |
 | `Content.YAMLLinter` | Loads all prototypes on server+client, `ValidateStaticFields`; CI `::error` annotations |
 | Migration system | `Resources/migration.yml` + `nf_migration.yml` applied on map load |

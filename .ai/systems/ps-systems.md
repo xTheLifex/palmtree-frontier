@@ -25,7 +25,6 @@ implant, and the server-specific weapon/grenade set ported from the old codebase
 | Effects | `Resources/Prototypes/_PS/Entities/effects.yml` (`BlueFlashEffect`) |
 | Loadout | `Resources/Prototypes/_PS/Loadouts/Jobs/Contractor/implanter.yml` |
 | Locale | `Resources/Locale/en-US/_PS/actions/clothing.ftl` |
-| Integration test | `Content.IntegrationTests/Tests/_PS/ConcealableClothingTest.cs` |
 
 How it works:
 
@@ -89,7 +88,6 @@ stack.
 | Damage container + modifier set | `Resources/Prototypes/_PS/Damage/{containers,modifier_sets}.yml` |
 | Coolant reagent | `Resources/Prototypes/_PS/Reagents/oxidant.yml`, locale `_PS/reagents/oxidant.ftl` |
 | Species locale | `Resources/Locale/en-US/_PS/species/synth.ftl` |
-| Test | `Content.IntegrationTests/Tests/_PS/SynthSpeciesTest.cs` |
 
 Properties:
 
@@ -135,8 +133,9 @@ Upstream actions/implants/inventory/equipment visuals, `ContentAudioSystem`/lobb
 
 ## Tests
 
-`ConcealableClothingTest` covers action grant/remove and loadout spawning.
-`LobbyBackgroundTest` covers the 30-second rotation server-side.
+`HilbertHotelTest` covers room-map loading and the hotel lifecycle; `InteractionPanelTest` covers
+the interaction/organ plumbing. Everything else is validated by the build, the YAMLLinter and
+in-game checks — do not add a new test file per feature.
 
 ## Character customization (2026-10)
 

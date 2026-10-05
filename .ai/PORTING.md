@@ -131,8 +131,7 @@ These are important because they are easy to reintroduce:
 5. **Kind-shared markings stripped** — `MarkingsSet.EnsureSpecies` filtered with
    `SpeciesRestrictions.Contains(species)` only, removing markings allowed through `kindAllowance`
    (e.g. `FeroxiTorsoCountershadingF` on a Vulpkanin). Fixed to use
-   `MarkingManager.IsAllowedBySpeciesOrKindAllowance`. Regression test:
-   `Content.IntegrationTests/Tests/_PS/MarkingKindAllowanceTest.cs`.
+   `MarkingManager.IsAllowedBySpeciesOrKindAllowance`.
 6. **Stale YAMLLinter assemblies** — running `Content.YAMLLinter --no-build` after C# changes used
    old `Content.Shared.dll` copies, producing bogus "value not found" enum errors. Always rebuild
    before linting.

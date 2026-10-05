@@ -18,7 +18,7 @@ dotnet test Content.Tests/Content.Tests.csproj
 
 # 4. Integration tests (targeted; EntityTest spawns every entity)
 dotnet test Content.IntegrationTests/Content.IntegrationTests.csproj \
-  --filter "FullyQualifiedName~EntityTest|FullyQualifiedName~CharacterCreationTest|FullyQualifiedName~MarkingKindAllowanceTest|FullyQualifiedName~SynthSpeciesTest|FullyQualifiedName~ConcealableClothingTest|FullyQualifiedName~LobbyBackgroundTest"
+  --filter "FullyQualifiedName~EntityTest|FullyQualifiedName~CharacterCreationTest|FullyQualifiedName~_PS"
 
 # 5. Client sandbox typecheck without a display
 dotnet run --project Content.Client -c Debug --no-build -- --headless
@@ -56,7 +56,7 @@ and skip categories that already have markings. `||` overruns `DefaultMarkings` 
 ### Profile load / glow
 `LoadProfile` must use `AddMarking(uid, Marking marking, colors, ...)`; the `(string, colors)`
 overload creates a fresh marking and drops scale/offset/glow (editor preview shows values, in-game
-they reset). Regression test in `MarkingKindAllowanceTest`.
+they reset).
 
 ### Body speed
 `SharedBodySystem.UpdateMovementSpeed` averages `MovementBodyPart` values from leg entities and calls

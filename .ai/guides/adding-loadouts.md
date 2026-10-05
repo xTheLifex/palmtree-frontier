@@ -75,8 +75,8 @@ dotnet run --project Content.YAMLLinter -c Debug --no-build
 ```
 
 Then verify in-game or via an integration test that spawning with the loadout grants the item.
-`Content.IntegrationTests/Tests/_PS/ConcealableClothingTest.cs` has a template for spawning a job
-with a selected loadout (`StationSpawningSystem.SpawnPlayerMob` + `RoleLoadout`).
+Any `Content.IntegrationTests/Tests/_PS` test shows the `PoolManager` server/client template
+(`StationSpawningSystem.SpawnPlayerMob` + `RoleLoadout`).
 
 ## 6. Pitfalls
 

@@ -35,7 +35,6 @@ Files:
 - `_PS/Reagents/oxidant.yml` — coolant blood; locale in `_PS/reagents/oxidant.ftl`.
 - `Content.Shared/_PS/Synth/SynthComponent.cs` — marker; `RespiratorSystem.Update` skips synths
   (no lungs, no gasping).
-- `Content.IntegrationTests/Tests/_PS/SynthSpeciesTest.cs`.
 
 Properties: 1.5× speed (body parts drive it), 3× durability (`MobThresholds` 300/600), IPC-like
 damage/resistances, `ZombieImmune`, `CanHostGuardian`, robot typing, insulated temperature, heavy
@@ -71,5 +70,5 @@ longer exists to `Synth` (if present) else the default species. This is how old 
   Coyote Bayou clothing incl. latex (`_CS/CoyoteBayouClothes`).
 - A loadout that is not in any group is unreachable.
 - Locale: `loadout-name-<id>`, `loadout-group-*`; item names are usually inline.
-- Spawn test template: `Content.IntegrationTests/Tests/_PS/ConcealableClothingTest.cs`
+- Spawn test template: any `Content.IntegrationTests/Tests/_PS` test
   (`StationSpawningSystem.SpawnPlayerMob` + `RoleLoadout`).
