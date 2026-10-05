@@ -33,6 +33,12 @@ public sealed partial class HumanoidAppearanceComponent : Component
     [DataField, AutoNetworkedField]
     public int Age = 18;
 
+    /// <summary>
+    /// Palmtree/Coyote: player-typed custom species name (shown in examine/records when set).
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public string CustomSpecieName = "";
+
     /// <summary>Palmtree: visual height multiplier (1 = standard, 0.5-2).</summary>
     [DataField, AutoNetworkedField]
     public float Height = 1f;

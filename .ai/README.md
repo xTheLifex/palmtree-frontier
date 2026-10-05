@@ -205,11 +205,15 @@ Fork modules are folder/namespace prefixes:
 | `RobustToolbox/` source (pinned commit) | Any engine API behavior, serialization, networking, UI, map format |
 | Frontier Station upstream (`new-frontiers-14/frontier-station-14`) | `_NF` merge semantics/upstream fixes |
 | Wizden SS14 (`space-wizards/space-station-14`) | Upstream content origins and benchmarks |
-| `coyote-frontier` checkout (outside this repo) | Source of ported `_Floof`/`_CS`/ERP content |
-| SS13/BYOND checkouts (`S.P.L.U.R.T-tg`, `S.P.L.U.R.T-Station-13`, `Sandstorm-Station-13`) | Source of SS13 features, `.dmm` room maps and art (see `guides/porting-from-ss13.md`) |
+| Coyote checkout (`COYOTE`, see `.ai/file_paths.md`) | Source of ported `_Floof`/`_CS`/ERP content |
+| SS13/BYOND checkouts (see `.ai/file_paths.md`) | Source of SS13 features, `.dmm` room maps and art (see `guides/porting-from-ss13.md`) |
 | EF Core docs | Migrations/model changes (two providers) |
 | Fluent docs | `.ftl` syntax and functions |
 | NetCord docs | Discord integration changes |
+
+Machine-specific checkout paths are **not** stored in this directory. They live in
+`.ai/file_paths.md` (gitignored); the names above (`COYOTE`, `BYOND`, ...) resolve there. On a new
+machine, create that file using its header template.
 
 ## "How to Investigate This Repository"
 

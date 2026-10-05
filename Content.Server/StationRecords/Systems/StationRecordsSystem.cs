@@ -102,7 +102,10 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         TryComp<FingerprintComponent>(player, out var fingerprintComponent);
         TryComp<DnaComponent>(player, out var dnaComponent);
 
-        CreateGeneralRecord(station, idUid.Value, profile.Name, profile.Age, profile.Species, profile.Gender, jobId, fingerprintComponent?.Fingerprint, dnaComponent?.DNA, profile, records);
+        // Palmtree/Coyote: prefer the custom species name on records when set.
+        var recordSpecies = string.IsNullOrEmpty(profile.Customspeciesname) ? profile.Species.Id : profile.Customspeciesname;
+
+        CreateGeneralRecord(station, idUid.Value, profile.Name, profile.Age, recordSpecies, profile.Gender, jobId, fingerprintComponent?.Fingerprint, dnaComponent?.DNA, profile, records);
 
         /// Frontier: generate sector-wide station record
         if (TryComp<SpecialSectorStationRecordComponent>(player, out var specialRecord) && specialRecord.RecordGeneration == RecordGenerationType.NoRecord)
@@ -124,7 +127,7 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
                 dna = _forensics.GenerateDNA();
             }
 
-            CreateGeneralRecord(serviceEnt, idUid.Value, profile.Name, profile.Age, profile.Species, profile.Gender, playerJob, fingerprint, dna, profile, stationRecords);
+            CreateGeneralRecord(serviceEnt, idUid.Value, profile.Name, profile.Age, recordSpecies, profile.Gender, playerJob, fingerprint, dna, profile, stationRecords);
         }
         /// End Frontier
     }

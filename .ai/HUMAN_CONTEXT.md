@@ -22,7 +22,7 @@ This repository is based on **Frontier Station** (New Frontier), a Space Station
 actively maintained, unlike our previous base, **Coyote Sector** (`_CS`), which was abandoned in 2026.
 
 We are in the middle of a migration: the old codebase lives in a separate checkout
-(`coyote-frontier`, branch `palm3`) and only specific things are being ported here:
+(the `COYOTE` checkout, see `.ai/file_paths.md`; branch `palm3`) and only specific things are being ported here:
 
 * Palmtree Station specific content (loading screens, the concealable backpack implant, weapons, etc.)
 * Coyote's genital markings and marking system, plus the Floof marking infrastructure those depend on

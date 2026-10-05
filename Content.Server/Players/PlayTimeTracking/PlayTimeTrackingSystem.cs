@@ -189,6 +189,10 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
 
     public bool IsAllowed(ICommonSession player, string role)
     {
+        // Palmtree: admins bypass job playtime requirements.
+        if (_adminManager.IsAdmin(player))
+            return true;
+
         if (!_prototypes.TryIndex<JobPrototype>(role, out var job) ||
             !_cfg.GetCVar(CCVars.GameRoleTimers))
             return true;
@@ -205,6 +209,11 @@ public sealed class PlayTimeTrackingSystem : EntitySystem
     public HashSet<ProtoId<JobPrototype>> GetDisallowedJobs(ICommonSession player)
     {
         var roles = new HashSet<ProtoId<JobPrototype>>();
+
+        // Palmtree: admins bypass job restrictions entirely.
+        if (_adminManager.IsAdmin(player))
+            return roles;
+
         if (!_cfg.GetCVar(CCVars.GameRoleTimers))
             return roles;
 

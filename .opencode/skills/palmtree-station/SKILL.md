@@ -7,7 +7,7 @@ description: Work on the Palmtree Station Frontier fork — porting Coyote/Floof
 
 This repository is a **Frontier Station** (New Frontier) fork with Palmtree-specific content and a
 targeted port of Coyote/Floof ERP + marking systems. The old base lives in a separate checkout
-(`coyote-frontier`) and is the source for ported content.
+(the `COYOTE` checkout — see `.ai/file_paths.md`) and is the source for ported content.
 
 ## Ground rules
 
@@ -39,7 +39,7 @@ targeted port of Coyote/Floof ERP + marking systems. The old base lives in a sep
 
 ## Workflows
 
-### Porting content from `coyote-frontier`
+### Porting content from the Coyote checkout (`COYOTE`)
 
 - Find the source by prototype id / symbol, classify every field against this repo, adapt renames,
   copy prototypes + `.rsi` + audio + locale, then wire groups/layers.

@@ -162,7 +162,7 @@
       targetPower: 20000 # Frontier: 15000<20000
       optimalPower: 20000 # Frontier: 15000<20000
       # 45 minutes at max output
-      optimalBurnRate: 0.011111
+      optimalBurnRate: 0.0002
       # a decent curve
       fuelEfficiencyConstant: 0.95
     - type: SolidFuelGeneratorAdapter
@@ -242,7 +242,7 @@
       targetPower: 30000
       optimalPower: 30000
       # 45 minutes at full power
-      optimalBurnRate: 0.0111111
+      optimalBurnRate: 0.0002
       # still decent power curve
       fuelEfficiencyConstant: 0.75
     - type: SolidFuelGeneratorAdapter
@@ -334,7 +334,7 @@
       optimalPower: 6000 # Frontier: 2000<6000
       maxTargetPower: 15000
       # 30~ minutes at full tank.
-      optimalBurnRate: 0.11111111
+      optimalBurnRate: 0.0017
       # Shallow curve
       fuelEfficiencyConstant: 0.5
     - type: ChemicalFuelGeneratorAdapter

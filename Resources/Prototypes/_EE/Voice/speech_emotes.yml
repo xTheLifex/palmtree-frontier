@@ -1,0 +1,23 @@
+- type: emote
+  id: SiliconDeathgasp
+  name: chat-emote-name-deathgasp
+  icon: Interface/Emotes/deathgasp.png
+  chatMessages: ["chat-emote-msg-deathgasp-silicon"]
+  chatTriggers:
+  - sdeathgasp
+
+- type: emote
+  id: Boop
+  name: chat-emote-name-boop
+  category: Borg
+  chatMessages: [ boops ]
+  chatTriggers:
+    - boops
+
+- type: emote
+  id: Whirr # uncategorized as it is generic
+  name: chat-emote-name-whirr
+  category: Borg
+  chatMessages: [ whirrs ]
+  chatTriggers:
+    - whirrs

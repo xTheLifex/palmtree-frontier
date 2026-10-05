@@ -1,0 +1,19 @@
+# Ported from SS13 SPLURT/Skyrat `/obj/item/clothing/mask/gas/glass`.
+# The mask connects to internals but does not hide the wearer's face
+# (no IdentityBlocker / HideLayerClothing).
+- type: entity
+  parent: ClothingMaskPullableBase
+  id: ClothingMaskGasGlass
+  name: glass gas mask
+  description: A face-covering mask that can be connected to an air supply. This one doesn't obscure your face, however.
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Mask/glass_gas_mask.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Mask/glass_gas_mask.rsi
+  - type: BreathMask
+  - type: IngestionBlocker
+  - type: Tag
+    tags:
+    - HamsterWearable
+    - WhitelistChameleon

@@ -840,6 +840,11 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("text")
                         .HasColumnName("char_name");
 
+                    b.Property<string>("Customspeciesname")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("customspeciesname");
+
                     b.Property<string>("EyeColor")
                         .IsRequired()
                         .HasColumnType("text")
@@ -882,6 +887,11 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Property<float>("Height")
                         .HasColumnType("real")
                         .HasColumnName("height");
+
+                    b.Property<string>("HiddenEmoteCategories")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("hidden_emote_categories");
 
                     b.Property<JsonDocument>("Markings")
                         .HasColumnType("jsonb")

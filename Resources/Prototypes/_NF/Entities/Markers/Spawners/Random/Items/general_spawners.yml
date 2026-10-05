@@ -551,7 +551,7 @@
 - type: entity
   parent: MarkerBasePlaceFree
   id: SpawnDungeonLootSpesos
-  name: random spesos
+  name: random space roubles
   suffix: Loot (Frontier)
   components:
   - type: Sprite

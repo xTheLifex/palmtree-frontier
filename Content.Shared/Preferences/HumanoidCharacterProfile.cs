@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Content.Shared._NF.Bank;
 using Content.Shared._PS.Organs; // Palmtree: genital organs
 using Content.Shared.CCVar;
+using Content.Shared.Chat.Prototypes; // Palmtree/Coyote: emote category picker
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings; // Palmtree: strip replaced genital markings
@@ -65,6 +66,17 @@ namespace Content.Shared.Preferences
         [DataField]
         private Dictionary<string, RoleLoadout> _loadouts = new();
 
+        /// <summary>
+        /// Palmtree/Coyote: hidden emote categories for the radial emote wheel.
+        /// </summary>
+        [DataField]
+        private HashSet<EmoteCategory> _hiddenEmoteCategories = new();
+
+        /// <summary>
+        /// <see cref="_hiddenEmoteCategories"/>
+        /// </summary>
+        public IReadOnlySet<EmoteCategory> HiddenEmoteCategories => _hiddenEmoteCategories;
+
         [DataField]
         public string Name { get; set; } = "John Doe";
 
@@ -79,6 +91,13 @@ namespace Content.Shared.Preferences
         /// </summary>
         [DataField]
         public ProtoId<SpeciesPrototype> Species { get; set; } = SharedHumanoidAppearanceSystem.DefaultSpecies;
+
+        /// <summary>
+        /// Palmtree/Coyote: player-typed custom species name. Empty means "use the species name".
+        /// Only kept when the species prototype allows <see cref="SpeciesPrototype.CustomName"/>.
+        /// </summary>
+        [DataField]
+        public string Customspeciesname { get; set; } = string.Empty;
 
         /// <summary>
         /// Palmtree: optional voice bark (speech sounds) overriding the species default.
@@ -161,6 +180,7 @@ namespace Content.Shared.Preferences
             string name,
             string flavortext,
             string species,
+            string customspeciesname,
             int age,
             Sex sex,
             Gender gender,
@@ -171,12 +191,14 @@ namespace Content.Shared.Preferences
             PreferenceUnavailableMode preferenceUnavailable,
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
+            HashSet<EmoteCategory> hiddenEmoteCategories, // Palmtree/Coyote
             Dictionary<string, RoleLoadout> loadouts,
             ProtoId<SpeechSoundsPrototype>? voice = null) // Palmtree
         {
             Name = name;
             FlavorText = flavortext;
             Species = species;
+            Customspeciesname = customspeciesname; // Palmtree/Coyote
             VoiceBark = voice; // Palmtree
             Age = age;
             Sex = sex;
@@ -188,6 +210,7 @@ namespace Content.Shared.Preferences
             PreferenceUnavailable = preferenceUnavailable;
             _antagPreferences = antagPreferences;
             _traitPreferences = traitPreferences;
+            _hiddenEmoteCategories = hiddenEmoteCategories; // Palmtree/Coyote
             _loadouts = loadouts;
         }
 
@@ -198,8 +221,8 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts)
-            : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
-                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.VoiceBark)
+            : this(other.Name, other.FlavorText, other.Species, other.Customspeciesname, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
+                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, new HashSet<EmoteCategory>(other.HiddenEmoteCategories), loadouts, other.VoiceBark)
         {
             Genitals = other.Genitals.Clone(); // Palmtree
             Height = other.Height; // Palmtree
@@ -211,6 +234,7 @@ namespace Content.Shared.Preferences
             : this(other.Name,
                 other.FlavorText,
                 other.Species,
+                other.Customspeciesname, // Palmtree/Coyote
                 other.Age,
                 other.Sex,
                 other.Gender,
@@ -221,6 +245,7 @@ namespace Content.Shared.Preferences
                 other.PreferenceUnavailable,
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
+                new HashSet<EmoteCategory>(other.HiddenEmoteCategories), // Palmtree/Coyote
                 new Dictionary<string, RoleLoadout>(other.Loadouts),
                 other.VoiceBark) // Palmtree
         {
@@ -366,6 +391,47 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithWidth(float width)
         {
             return new(this) { Width = Math.Clamp(width, MinWidth, MaxWidth) };
+        }
+
+        // Palmtree/Coyote: custom species name
+        public HumanoidCharacterProfile WithCustomSpeciesName(string customspeciesname)
+        {
+            return new(this) { Customspeciesname = customspeciesname };
+        }
+
+        // Palmtree/Coyote: emote category picker
+        public HumanoidCharacterProfile WithHiddenEmoteCategories(IEnumerable<EmoteCategory> hiddenEmoteCategories)
+        {
+            var categories = new HashSet<EmoteCategory>(hiddenEmoteCategories)
+            {
+                EmoteCategory.Invalid,
+            };
+
+            categories.Remove(EmoteCategory.Sex);
+            categories.Remove(EmoteCategory.Vocal);
+            categories.Remove(EmoteCategory.Invalid);
+
+            return new(this)
+            {
+                _hiddenEmoteCategories = categories,
+            };
+        }
+
+        public HumanoidCharacterProfile WithHiddenEmoteCategory(EmoteCategory category, bool hidden)
+        {
+            if (category is EmoteCategory.Sex or EmoteCategory.Vocal or EmoteCategory.Invalid)
+                return new(this);
+
+            var categories = new HashSet<EmoteCategory>(_hiddenEmoteCategories);
+            if (hidden)
+                categories.Add(category);
+            else
+                categories.Remove(category);
+
+            return new(this)
+            {
+                _hiddenEmoteCategories = categories,
+            };
         }
 
 
@@ -541,6 +607,7 @@ namespace Content.Shared.Preferences
             if (Sex != other.Sex) return false;
             if (Gender != other.Gender) return false;
             if (Species != other.Species) return false;
+            if (Customspeciesname != other.Customspeciesname) return false; // Palmtree/Coyote
             if (VoiceBark != other.VoiceBark) return false; // Palmtree
             if (Height != other.Height) return false; // Palmtree
             if (Width != other.Width) return false; // Palmtree
@@ -550,13 +617,14 @@ namespace Content.Shared.Preferences
             if (!_jobPriorities.SequenceEqual(other._jobPriorities)) return false;
             if (!_antagPreferences.SequenceEqual(other._antagPreferences)) return false;
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
+            if (!_hiddenEmoteCategories.SequenceEqual(other._hiddenEmoteCategories)) return false; // Palmtree/Coyote
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
             if (!Genitals.MemberwiseEquals(other.Genitals)) return false; // Palmtree
             return Appearance.MemberwiseEquals(other.Appearance);
         }
 
-        public void EnsureValid(ICommonSession session, IDependencyCollection collection)
+        public void EnsureValid(ICommonSession session, IDependencyCollection collection, bool isAdmin = false)
         {
             var configManager = collection.Resolve<IConfigurationManager>();
             var prototypeManager = collection.Resolve<IPrototypeManager>();
@@ -570,6 +638,11 @@ namespace Content.Shared.Preferences
             // Palmtree: drop voice barks that no longer exist.
             if (VoiceBark is { } voice && !prototypeManager.HasIndex(voice))
                 VoiceBark = null;
+
+            // Palmtree/Coyote: always-visible emote categories can never be hidden.
+            _hiddenEmoteCategories.Remove(EmoteCategory.Sex);
+            _hiddenEmoteCategories.Remove(EmoteCategory.Vocal);
+            _hiddenEmoteCategories.Remove(EmoteCategory.Invalid);
 
             var sex = Sex switch
             {
@@ -614,6 +687,13 @@ namespace Content.Shared.Preferences
             }
 
             name = name.Trim();
+
+            // Palmtree/Coyote: custom species name (only kept when the species allows it).
+            var customSpeciesName = speciesPrototype.CustomName
+                ? FormattedMessage.RemoveMarkup(Customspeciesname ?? "")
+                : "";
+            if (customSpeciesName.Length > maxNameLength)
+                customSpeciesName = customSpeciesName[..maxNameLength];
 
             if (configManager.GetCVar(CCVars.RestrictedNames))
             {
@@ -728,6 +808,7 @@ namespace Content.Shared.Preferences
 
             Name = name;
             FlavorText = flavortext;
+            Customspeciesname = customSpeciesName; // Palmtree/Coyote
             Age = age;
             Sex = sex;
             Gender = gender;
@@ -761,7 +842,7 @@ namespace Content.Shared.Preferences
                     continue;
                 }
 
-                loadouts.EnsureValid(this, session, collection);
+                loadouts.EnsureValid(this, session, collection, isAdmin);
             }
 
             foreach (var value in toRemove)

@@ -1,6 +1,6 @@
 # Porting playbook (Coyote/Floof → Palmtree Frontier)
 
-Source checkout: `/home/thelife/Desktop/Things/Development/SS14/coyote-frontier` (branch `palm3`,
+Source checkout: the `COYOTE` checkout (path in `.ai/file_paths.md`; branch `palm3`,
 frozen). Target: this repository (`master`). The previous full-merge attempt was discarded.
 
 > Porting **SS13 (BYOND)** content or `.dmm` maps instead? Use `references/porting-from-ss13.md`
@@ -15,9 +15,10 @@ and DB work; confirm first.
 ## 1. Locate the source
 
 ```bash
-grep -rn "id: SomeProto" coyote-frontier/Resources/Prototypes --include='*.yml'
-grep -rn "class SomeSystem" coyote-frontier/Content.* --include='*.cs'
-grep -rn "marking-SomeMarking" coyote-frontier/Resources/Locale/en-US --include='*.ftl'
+COYOTE=/path/to/coyote-frontier  # see .ai/file_paths.md
+grep -rn "id: SomeProto" "$COYOTE"/Resources/Prototypes --include='*.yml'
+grep -rn "class SomeSystem" "$COYOTE"/Content.* --include='*.cs'
+grep -rn "marking-SomeMarking" "$COYOTE"/Resources/Locale/en-US --include='*.ftl'
 ```
 
 ## 2. Classify every field/type

@@ -791,6 +791,11 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("char_name");
 
+                    b.Property<string>("Customspeciesname")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("customspeciesname");
+
                     b.Property<string>("EyeColor")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -833,6 +838,11 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Property<float>("Height")
                         .HasColumnType("REAL")
                         .HasColumnName("height");
+
+                    b.Property<string>("HiddenEmoteCategories")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("hidden_emote_categories");
 
                     b.Property<byte[]>("Markings")
                         .HasColumnType("jsonb")

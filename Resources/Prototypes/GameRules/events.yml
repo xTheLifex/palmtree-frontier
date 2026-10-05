@@ -7,7 +7,8 @@
     - id: AnomalySpawn
     - id: BluespaceArtifact
     - id: BluespaceLocker
-    - id: BreakerFlip
+    # Palmtree: power shut-off events disabled.
+    #- id: BreakerFlip
     - id: BureaucraticError
     - id: ClericalError
     - id: CockroachMigration
@@ -18,7 +19,7 @@
     - id: MassHallucinations
     - id: MimicVendorRule
     - id: MouseMigration
-    - id: PowerGridCheck
+    #- id: PowerGridCheck
     - id: RandomSentience
     - id: SlimesSpawn
     - id: SolarFlare

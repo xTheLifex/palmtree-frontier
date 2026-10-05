@@ -79,12 +79,12 @@ stack-dried-shrooms = dried shrooms
 stack-fungal-whiff-tobacco = fungal whiff tobacco
 stack-sweet-dreams-tobacco = sweet dreams tobacco
 stack-nf-credit = {$amount ->
-    [1] speso
-    *[other] spesos
+    [1] space rouble
+    *[other] space roubles
 }
 stack-counterfeit-credit = {$amount ->
-    [1] spesso
-    *[other] spessos
+    [1] counterfeit space rouble
+    *[other] counterfeit space roubles
 }
 stack-frontier-uplink-coin = frontier uplink {$amount ->
     [1] coin

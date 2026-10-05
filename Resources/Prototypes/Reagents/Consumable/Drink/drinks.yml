@@ -510,6 +510,23 @@
         damage:
           types:
             Heat: 3
+      # DeltaV: Feroxi breathe water vapor too, and convert it into CO2.
+      - !type:Oxygenate
+        conditions:
+        - !type:OrganType
+          type: Feroxi
+      - !type:SatiateThirst
+        conditions:
+        - !type:OrganType
+          type: Feroxi
+        factor: 2
+      - !type:ModifyLungGas
+        conditions:
+        - !type:OrganType
+          type: Feroxi
+        ratios:
+          CarbonDioxide: 0.5
+          WaterVapor: -1.0
 
 - type: reagent
   id: Ice

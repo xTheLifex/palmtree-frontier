@@ -1,4 +1,5 @@
 using Content.Server.Access.Systems;
+using Content.Server.Administration.Managers;
 using Content.Server.Humanoid;
 using Content.Server.IdentityManagement;
 using Content.Server.Mind;
@@ -48,6 +49,7 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
     [Dependency] private readonly ActorSystem _actors = default!;
     [Dependency] private readonly IdCardSystem _cardSystem = default!;
     [Dependency] private readonly IConfigurationManager _configurationManager = default!;
+    [Dependency] private readonly IAdminManager _adminManager = default!; // Palmtree
     [Dependency] private readonly HumanoidAppearanceSystem _humanoidSystem = default!;
     [Dependency] private readonly IdentitySystem _identity = default!;
     [Dependency] private readonly MetaDataSystem _metaSystem = default!;
@@ -241,7 +243,9 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
                         }
 
                         // Validate effects against the current character.
-                        if (!loadout.IsValid(profile!, _actors.GetSession(entity!), fallback, _dependencyCollection, out var _))
+                        var loadoutSession = _actors.GetSession(entity!); // Palmtree: admins bypass restrictions
+                        var loadoutAdmin = loadoutSession != null && _adminManager.IsAdmin(loadoutSession);
+                        if (!loadout.IsValid(profile!, loadoutSession, fallback, _dependencyCollection, out var _, loadoutAdmin))
                         {
                             continue;
                         }

@@ -33,6 +33,17 @@
     back:
     - ClothingMaskGas
 
+# Palmtree: SS13 glass gas mask (doesn't hide the face).
+- type: loadout
+  id: ContractorClothingMaskGasGlass
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: ContractorT1
+  price: 300
+  storage:
+    back:
+    - ClothingMaskGasGlass
+
 - type: loadout
   id: ContractorClothingMaskPunkHalf
   name: punk halfmask (random)

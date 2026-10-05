@@ -22,9 +22,10 @@
   # id: Doomed
   # background: /Textures/LobbyScreens/doomed.webp
 
-- type: lobbyBackground
-  id: Blueprint
-  background: /Textures/LobbyScreens/blueprint.webp
+# Palmtree: only _PS lobby backgrounds are used.
+# - type: lobbyBackground
+#   id: Blueprint
+#   background: /Textures/LobbyScreens/blueprint.webp
 
 # - type: lobbyBackground
   # id: Behonker

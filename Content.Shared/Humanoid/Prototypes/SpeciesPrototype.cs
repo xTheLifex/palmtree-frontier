@@ -98,6 +98,13 @@ public sealed partial class SpeciesPrototype : IPrototype
     public bool AllowDigilegDisplacement = true;
 
     /// <summary>
+    /// Palmtree/Coyote: can players type a custom species name in the character editor?
+    /// Coyote left this off by default; Palmtree enables it so characters can rename their species.
+    /// </summary>
+    [DataField]
+    public bool CustomName = true;
+
+    /// <summary>
     /// Method of skin coloration used by the species.
     /// </summary>
     [DataField(required: true)]

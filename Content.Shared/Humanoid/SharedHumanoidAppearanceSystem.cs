@@ -120,7 +120,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     private void OnExamined(EntityUid uid, HumanoidAppearanceComponent component, ExaminedEvent args)
     {
         var identity = Identity.Entity(uid, EntityManager);
-        var species = GetSpeciesRepresentation(component.Species).ToLower();
+        var species = GetSpeciesRepresentation(component.Species, component.CustomSpecieName).ToLower(); // Palmtree/Coyote: custom species name
         var age = GetAgeRepresentation(component.Species, component.Age);
 
         args.PushText(Loc.GetString("humanoid-appearance-component-examine", ("user", identity), ("age", age), ("species", species)));
@@ -483,6 +483,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         }
 
         humanoid.Age = profile.Age;
+        humanoid.CustomSpecieName = profile.Customspeciesname; // Palmtree/Coyote: custom species name
         humanoid.LegStyle = profile.Appearance.LegStyle; // Palmtree/Coyote
         humanoid.Height = profile.Height; // Palmtree
         humanoid.Width = profile.Width; // Palmtree
@@ -605,8 +606,11 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     /// <summary>
     /// Takes ID of the species prototype, returns UI-friendly name of the species.
     /// </summary>
-    public string GetSpeciesRepresentation(string speciesId)
+    public string GetSpeciesRepresentation(string speciesId, string customSpeciesName = "") // Palmtree/Coyote: custom species name
     {
+        if (!string.IsNullOrWhiteSpace(customSpeciesName))
+            return customSpeciesName;
+
         if (_proto.TryIndex<SpeciesPrototype>(speciesId, out var species))
         {
             return Loc.GetString(species.Name);

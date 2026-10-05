@@ -1,0 +1,36 @@
+# Vulpkanin
+- type: emote
+  id: Yap
+  name: chat-emote-name-yap
+  category: Vulp # Coyote
+  available: false
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [yaps.] # Coyote added period
+  chatTriggers:
+  - yap
+  - yaps
+  - yapped
+  - yapping
+
+- type: emote
+  id: Gekker
+  name: chat-emote-name-gekker
+  category: Vulp # Coyote
+  available: false
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [gekkers.] # Coyote added period
+  chatTriggers:
+  - gekker
+  - gekkers
+  - gekkering
+  - gekkered

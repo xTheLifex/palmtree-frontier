@@ -31,7 +31,7 @@
 - type: entity
   id: BriefcaseSyndieLobbyingBundleFilled
   parent: BriefcaseSyndie
-  suffix: Syndicate, Spesos
+  suffix: Syndicate, Space Roubles
   components:
   - type: StorageFill
     contents:
@@ -50,7 +50,7 @@
 - type: entity
   id: BriefcaseThiefBribingBundleFilled
   parent: BriefcaseSyndie
-  suffix: Thief, Spesos
+  suffix: Thief, Space Roubles
   components:
   - type: StorageFill
     contents:

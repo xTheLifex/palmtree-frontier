@@ -49,6 +49,8 @@ namespace Content.Server.Database
         // Single method for two operations for transaction.
         Task DeleteSlotAndSetSelectedIndex(NetUserId userId, int deleteSlot, int newSlot);
         Task<PlayerPreferences?> GetPlayerPreferencesAsync(NetUserId userId, CancellationToken cancel);
+        // Palmtree: bulk export of every saved character, grouped by player.
+        Task<List<(string UserName, int Slot, HumanoidCharacterProfile Profile)>> GetAllCharacterProfiles(CancellationToken cancel = default);
         #endregion
 
         #region User Ids
@@ -506,6 +508,13 @@ namespace Content.Server.Database
         {
             DbReadOpsMetric.Inc();
             return RunDbCommand(() => _db.GetPlayerPreferencesAsync(userId, cancel));
+        }
+
+        // Palmtree: bulk export of every saved character, grouped by player.
+        public Task<List<(string UserName, int Slot, HumanoidCharacterProfile Profile)>> GetAllCharacterProfiles(CancellationToken cancel = default)
+        {
+            DbReadOpsMetric.Inc();
+            return RunDbCommand(() => _db.GetAllCharacterProfiles(cancel));
         }
 
         public Task AssignUserIdAsync(string name, NetUserId userId)

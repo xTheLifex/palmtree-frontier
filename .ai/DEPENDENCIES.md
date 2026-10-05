@@ -87,4 +87,4 @@ GameTicker.StartRound ──► GamePreset prototype ──► GameRules ──�
 | Fluent | Locale files |
 | NUnit | Tests |
 | Nix (optional) | Dev shell |
-| `coyote-frontier` checkout | Source of ported content (outside this repo) |
+| Coyote checkout (`COYOTE`, see `.ai/file_paths.md`) | Source of ported content (outside this repo) |

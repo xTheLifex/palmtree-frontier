@@ -3,11 +3,7 @@
 
 - type: entityTable
   id: NFCalmPestEventsTable
-  table: !type:AllSelector # we need to pass a list of rules, since rules have further restrictions to consider via StationEventComp
-    children:
-    - id: NFSnailMigrationLowPop
-    - id: NFCockroachMigration
-    - id: NFMouseMigration
+  table: !type:NoneSelector # Palmtree: pest events disabled.
 
 # events
 

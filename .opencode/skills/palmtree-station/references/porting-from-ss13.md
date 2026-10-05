@@ -3,9 +3,10 @@
 Full details: `.ai/guides/porting-from-ss13.md`. Use this when a task says "port X from
 S.P.L.U.R.T / Sandstorm / an SS13 codebase" or when converting `.dmm` maps.
 
-## Sources (on this machine, paths contain spaces)
+## Sources
 
-Base: `/media/thelife/EC7443D97443A564/Documents and Settings/TheLife/Desktop/TheLife/Development/BYOND/`
+Paths are machine-specific: see `.ai/file_paths.md` (the `BYOND` directory). It contains spaces,
+so quote it in shell commands.
 
 - `S.P.L.U.R.T-tg` — newest SPLURT (modern /tg/). Newer Hilbert's Hotel "condo" system
   lives in `modular_zubbers/code/modules/condos/`; SPLURT extensions in

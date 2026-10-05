@@ -1,13 +1,13 @@
 # Guide: Porting SS13 (BYOND) Content to SS14
 
-> How to take features, maps and art from the BYOND SS13 forks on this machine and turn them into
-> SS14 content. This is a different process from `porting-from-coyote.md` (SS14 → SS14). The
+> How to take features, maps and art from the BYOND SS13 forks (paths in `.ai/file_paths.md`) and turn
+> them into SS14 content. This is a different process from `porting-from-coyote.md` (SS14 → SS14). The
 > Hilbert's Hotel port is the worked example; see `.ai/systems/hilbert-hotel.md`.
 
 ## 1. Source checkouts
 
-Base directory: `/media/thelife/EC7443D97443A564/Documents and Settings/TheLife/Desktop/TheLife/Development/BYOND/`
-(paths contain spaces; quote them in shell commands).
+Checkouts: the `BYOND` directory (see `.ai/file_paths.md` for the machine-specific path; it contains
+spaces, so quote it in shell commands).
 
 | Checkout | What it is |
 |---|---|
@@ -107,7 +107,7 @@ What it does and why:
 
 - BYOND `.dmi` is a PNG with a `zTXt` metadata chunk (frame grid, states, directions, delays).
   SS14 `.rsi` is a directory with `meta.json` plus one PNG per state.
-- RSIEdit (`/home/thelife/Desktop/Things/Development/SS14/RSIEdit`) is a **compiled GUI-only**
+- RSIEdit (see `.ai/file_paths.md`) is a **compiled GUI-only**
   binary (no CLI, no source), so it cannot be scripted. Automated `.dmi` → `.rsi` would need a
   custom script (read the zTXt JSON, slice frames, write `meta.json`); this has not been done.
   Prefer SS14-native art for converted maps.

@@ -1,0 +1,18 @@
+- type: emote
+  id: Gurgle
+  name: chat-emote-name-gurgle
+  category: Lizard #Changed from Vocal to Lizard for Coyote emote wheel purposes
+  available: true
+#  whitelist:
+#    tags:
+#    - LizardEmotes
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: [chat-emote-msg-gurgle]
+  chatTriggers:
+  - gurgle
+  - gurgles
+  - gurgled
+  - gurgling
+

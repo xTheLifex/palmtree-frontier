@@ -147,6 +147,8 @@ namespace Content.Client.Lobby.UI
 
         private readonly Dictionary<string, BoxContainer> _jobCategories;
 
+        private readonly Dictionary<string, EmoteCategoryWindow> _openEmoteWindows = new(); // Palmtree/Coyote: emote category picker
+
         private Direction _previewRotation = Direction.North;
 
         private ColorSelectorSliders _rgbSkinColorSelector;
@@ -228,6 +230,11 @@ namespace Content.Client.Lobby.UI
             NameEdit.IsValid = args => args.Length <= _maxNameLength;
             NameRandomize.OnPressed += args => RandomizeName();
             RandomizeEverythingButton.OnPressed += args => { RandomizeEverything(); };
+
+            #region Custom Species Name
+            CCustomSpecieNameEdit.OnTextChanged += args => { SetCustomSpecieName(args.Text); };
+            CCustomSpecieNameEdit.IsValid = args => args.Length <= _maxNameLength;
+            #endregion Custom Species Name
             WarningLabel.SetMarkup($"[color=red]{Loc.GetString("humanoid-profile-editor-naming-rules-warning")}[/color]");
 
             #endregion Name
@@ -1469,6 +1476,63 @@ namespace Content.Client.Lobby.UI
                     TraitsList.AddChild(selector);
                 }
             }
+
+            // Palmtree/Coyote: emote category picker lives at the bottom of the traits tab.
+            TraitsList.AddChild(new Label
+            {
+                Text = Loc.GetString("emote-window-category-title"),
+                Margin = new Thickness(0, 10, 0, 0),
+                StyleClasses = { StyleBase.StyleClassLabelHeading },
+            });
+
+            CreateNestedEmoteCategoryButton();
+        }
+
+        private void CreateNestedEmoteCategoryButton()
+        {
+            var hiddenCount = Profile?.HiddenEmoteCategories.Count ?? 0;
+            var visibleCount = Math.Max(0, EmoteCategoryWindow.ConfigurableCategoryCount - hiddenCount);
+
+            var buttonText = hiddenCount > 0
+                ? Loc.GetString("emote-window-button-with-count", ("count", visibleCount))
+                : Loc.GetString("trait-window-button");
+
+            var button = new Button
+            {
+                Text = buttonText,
+                HorizontalAlignment = Control.HAlignment.Left,
+                MinWidth = 200,
+            };
+
+            button.OnPressed += _ => OpenEmoteCategoryWindow();
+            TraitsList.AddChild(button);
+        }
+
+        private void OpenEmoteCategoryWindow()
+        {
+            const string windowKey = "Emotes";
+            if (_openEmoteWindows.TryGetValue(windowKey, out var existingWindow))
+            {
+                existingWindow.MoveToFront();
+                return;
+            }
+
+            var window = new EmoteCategoryWindow(Profile);
+
+            window.OnSave += updatedProfile =>
+            {
+                Profile = updatedProfile;
+                SetDirty();
+                RefreshTraits();
+            };
+
+            window.OnClose += () =>
+            {
+                _openEmoteWindows.Remove(windowKey);
+            };
+
+            _openEmoteWindows[windowKey] = window;
+            window.OpenCentered();
         }
 
         /// <summary>
@@ -1668,6 +1732,7 @@ namespace Content.Client.Lobby.UI
             JobOverride = null;
 
             UpdateNameEdit();
+            UpdateCustomSpeciesEdit(); // Palmtree/Coyote
             UpdateFlavorTextEdit();
             UpdateSexControls();
             UpdateGenderControls();
@@ -2254,6 +2319,34 @@ namespace Content.Client.Lobby.UI
         private void UpdateNameEdit()
         {
             NameEdit.Text = Profile?.Name ?? "";
+        }
+
+        // Palmtree/Coyote: custom species name
+        private void SetCustomSpecieName(string customName)
+        {
+            Profile = Profile?.WithCustomSpeciesName(customName);
+            IsDirty = true;
+        }
+
+        private void UpdateCustomSpeciesEdit()
+        {
+            if (Profile is null)
+            {
+                CCustomSpecieNameEdit.Text = "";
+                return;
+            }
+
+            var namespec = Profile.Customspeciesname;
+            if (string.IsNullOrEmpty(namespec))
+            {
+                // If the custom species name is empty, use the species name.
+                _prototypeManager.TryIndex<SpeciesPrototype>(Profile.Species, out var speciesProto);
+                namespec = speciesProto?.Name ?? "";
+                if (!string.IsNullOrEmpty(namespec))
+                    namespec = Loc.GetString(namespec);
+            }
+
+            CCustomSpecieNameEdit.Text = namespec;
         }
 
         private void UpdateFlavorTextEdit()

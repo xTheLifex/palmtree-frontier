@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Content.Server.Administration.Managers;
 using Content.Server.Database;
 using Content.Shared._NF.CCVar;
 using Content.Shared.CCVar;
@@ -31,6 +32,7 @@ namespace Content.Server.Preferences.Managers
         [Dependency] private readonly UserDbDataManager _userDb = default!;
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         [Dependency] private readonly IEntityManager _entityManager = default!; // Frontier
+        [Dependency] private readonly IAdminManager _adminManager = default!; // Palmtree
 
         // Cache player prefs on the server so we don't need as much async hell related to them.
         private readonly Dictionary<NetUserId, PlayerPrefData> _cachedPlayerPrefs =
@@ -107,7 +109,7 @@ namespace Content.Server.Preferences.Managers
             var curPrefs = prefsData.Prefs!;
             var session = _playerManager.GetSessionById(userId);
 
-            profile.EnsureValid(session, _dependencies);
+            profile.EnsureValid(session, _dependencies, _adminManager.IsAdmin(session)); // Palmtree: admins bypass restrictions
 
             // Frontier: check for profile modifications (based on Monolith's impl)
             if (validateFields && profile is HumanoidCharacterProfile humanProfile)

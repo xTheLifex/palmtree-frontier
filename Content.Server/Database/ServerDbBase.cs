@@ -10,6 +10,7 @@ using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
 using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Administration.Logs;
+using Content.Shared.Chat.Prototypes; // Palmtree/Coyote: hidden emote categories
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Database;
 using Content.Shared.Ghost.Roles;
@@ -74,6 +75,40 @@ namespace Content.Server.Database
                 constructionFavorites.Add(new ProtoId<ConstructionPrototype>(favorite));
 
             return new PlayerPreferences(profiles, prefs.SelectedCharacterSlot, Color.FromHex(prefs.AdminOOCColor), constructionFavorites);
+        }
+
+        // Palmtree: bulk export of every saved character, grouped by player.
+        public async Task<List<(string UserName, int Slot, HumanoidCharacterProfile Profile)>> GetAllCharacterProfiles(CancellationToken cancel = default)
+        {
+            await using var db = await GetDb(cancel);
+
+            var prefs = await db.DbContext
+                .Preference
+                .Include(p => p.Profiles).ThenInclude(h => h.Jobs)
+                .Include(p => p.Profiles).ThenInclude(h => h.Antags)
+                .Include(p => p.Profiles).ThenInclude(h => h.Traits)
+                .Include(p => p.Profiles)
+                    .ThenInclude(h => h.Loadouts)
+                    .ThenInclude(l => l.Groups)
+                    .ThenInclude(group => group.Loadouts)
+                .AsSplitQuery()
+                .ToListAsync(cancel);
+
+            var players = await db.DbContext.Player
+                .Select(p => new { p.UserId, p.LastSeenUserName })
+                .ToDictionaryAsync(p => p.UserId, p => p.LastSeenUserName, cancel);
+
+            var result = new List<(string, int, HumanoidCharacterProfile)>();
+            foreach (var pref in prefs)
+            {
+                var userName = players.GetValueOrDefault(pref.UserId) ?? pref.UserId.ToString();
+                foreach (var profile in pref.Profiles)
+                {
+                    result.Add((userName, profile.Slot, ConvertProfiles(profile)));
+                }
+            }
+
+            return result;
         }
 
         public async Task SaveSelectedCharacterIndexAsync(NetUserId userId, int index)
@@ -212,6 +247,22 @@ namespace Content.Server.Database
             var antags = profile.Antags.Select(a => new ProtoId<AntagPrototype>(a.AntagName));
             var traits = profile.Traits.Select(t => new ProtoId<TraitPrototype>(t.TraitName));
 
+            // Palmtree/Coyote: keep emote category persistence in the base DB converter.
+            var hiddenEmoteCategories = new HashSet<EmoteCategory>();
+            if (!string.IsNullOrWhiteSpace(profile.HiddenEmoteCategories))
+            {
+                foreach (var rawCategory in profile.HiddenEmoteCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                {
+                    if (Enum.TryParse(rawCategory, true, out EmoteCategory category)
+                        && category is not EmoteCategory.Invalid
+                        && category is not EmoteCategory.Sex
+                        && category is not EmoteCategory.Vocal)
+                    {
+                        hiddenEmoteCategories.Add(category);
+                    }
+                }
+            }
+
             var sex = Sex.Male;
             if (Enum.TryParse<Sex>(profile.Sex, true, out var sexVal))
                 sex = sexVal;
@@ -268,6 +319,7 @@ namespace Content.Server.Database
                 profile.CharacterName,
                 profile.FlavorText,
                 profile.Species,
+                profile.Customspeciesname, // Palmtree/Coyote
                 profile.Age,
                 sex,
                 gender,
@@ -287,6 +339,7 @@ namespace Content.Server.Database
                 (PreferenceUnavailableMode) profile.PreferenceUnavailable,
                 antags.ToHashSet(),
                 traits.ToHashSet(),
+                hiddenEmoteCategories, // Palmtree/Coyote
                 loadouts,
                 profile.VoiceBark == null ? (ProtoId<SpeechSoundsPrototype>?) null : new ProtoId<SpeechSoundsPrototype>(profile.VoiceBark) // Palmtree
             )
@@ -311,6 +364,7 @@ namespace Content.Server.Database
             profile.CharacterName = humanoid.Name;
             profile.FlavorText = humanoid.FlavorText;
             profile.Species = humanoid.Species;
+            profile.Customspeciesname = humanoid.Customspeciesname; // Palmtree/Coyote
             profile.VoiceBark = humanoid.VoiceBark?.Id; // Palmtree
             profile.Genitals = humanoid.Genitals.ToDbString(); // Palmtree
             profile.Height = humanoid.Height; // Palmtree
@@ -348,6 +402,12 @@ namespace Content.Server.Database
                 humanoid.TraitPreferences
                         .Select(t => new Trait {TraitName = t})
             );
+
+            // Palmtree/Coyote: persist as a stable comma-separated list for cross-provider compatibility.
+            profile.HiddenEmoteCategories = string.Join(",",
+                humanoid.HiddenEmoteCategories
+                    .Where(category => category is not EmoteCategory.Invalid and not EmoteCategory.Sex and not EmoteCategory.Vocal)
+                    .OrderBy(category => category.ToString()));
 
             profile.Loadouts.Clear();
 

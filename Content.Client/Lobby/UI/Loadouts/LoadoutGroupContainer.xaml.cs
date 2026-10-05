@@ -1,3 +1,4 @@
+using Content.Client.Administration.Managers;
 using Content.Shared.Clothing;
 using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
@@ -75,8 +76,10 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
 
         // Get all loadout prototypes for this group.
         // Frontier: hide loadout effects, support for subgroups
+        var isAdmin = collection.Resolve<IClientAdminManager>().IsActive(); // Palmtree: admins bypass loadout restrictions
+
         var validProtos = _groupProto.Loadouts.Select(id => protoMan.Index(id))
-            .Where(p => !loadout.IsHidden(profile, session, p, collection));
+            .Where(p => !loadout.IsHidden(profile, session, p, collection, isAdmin));
 
         foreach (var subgroup in _groupProto.Subgroups)
         {
@@ -84,7 +87,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
                 continue;
 
             var subgroupProtos = loadoutGroupProto.Loadouts.Select(id => protoMan.Index(id))
-            .Where(p => !loadout.IsHidden(profile, session, p, collection));
+            .Where(p => !loadout.IsHidden(profile, session, p, collection, isAdmin));
 
             validProtos = (validProtos ?? Enumerable.Empty<LoadoutPrototype>()).Concat(subgroupProtos ?? Enumerable.Empty<LoadoutPrototype>());
         }
@@ -306,7 +309,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
 
         var pressed = selected.Any(e => e.Prototype == proto.ID);
 
-        var enabled = loadout.IsValid(profile, session, proto.ID, collection, out var reason);
+        var enabled = loadout.IsValid(profile, session, proto.ID, collection, out var reason, collection.Resolve<IClientAdminManager>().IsActive()); // Palmtree: admins bypass restrictions
 
         var cont = new LoadoutContainer(proto, !enabled, reason);
 

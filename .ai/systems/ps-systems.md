@@ -137,3 +137,50 @@ Upstream actions/implants/inventory/equipment visuals, `ContentAudioSystem`/lobb
 
 `ConcealableClothingTest` covers action grant/remove and loadout spawning.
 `LobbyBackgroundTest` covers the 30-second rotation server-side.
+
+## Character customization (2026-10)
+
+- **Custom species name**: `HumanoidCharacterProfile.Customspeciesname` (DB column
+  `customspeciesname`), `SpeciesPrototype.CustomName` (defaults to `true` here), editor
+  `CCustomSpecieNameEdit` (`HumanoidProfileEditor`), used by `GetSpeciesRepresentation` (examine)
+  and `StationRecordsSystem` (records).
+- **Emote category picker**: `HumanoidCharacterProfile.HiddenEmoteCategories` (DB column
+  `hiddenemotecategories`, comma-separated), `EmoteCategoryWindow` opened from the traits tab,
+  wheel filtering in `EmotesUIController.IsHiddenCategory`, `EmotePrototype.ShowInWheel`.
+  `EmoteCategory` is Coyote's `ushort` flag set (`Vulp`, `Felinid`, `Borg`, ...); `Sex`/`Vocal`
+  are always visible.
+- **Supplemental emote sounds**: `VocalComponent.SupplementalSounds` (default
+  `SupplementalCoyoteEmoteStuff`) lets any vocal mob use any emote sound; `ChatSystem.TryPlayEmoteSound`
+  checks the species collection first, then the supplemental one. Server-side `AllowedToUseEmote`
+  returns true for everything (Coyote behavior).
+- Emote content: `_Floof/Voice`, `_EE/Voice`, `_PS/Voice`, `_DEN/Voice`, `_Funkystation/Voice`,
+  `_CS/Voice` + `_CS/emotes_but_cooler.yml`, `_CS/speech_emote_sounds_but_cooler.yml`.
+- **Admin bypass**: admins ignore job whitelist/playtime and loadout restrictions
+  (`JobWhitelistManager`, `PlayTimeTrackingSystem`, `RoleLoadout.IsValid/IsHidden` via the
+  `isAdmin` parameter threaded from `ServerPreferencesManager`/`ClientPreferencesManager`/
+  `StationSpawningSystem`).
+- **`exportcharacters`**: server console/admin command (`Content.Server/Administration/Commands/ExportCharactersCommand.cs`)
+  dumps every saved profile to `UserData/exported_characters/<ckey>/character-<slot>.yml` using the
+  editor's `HumanoidProfileExport` format. DB support: `IServerDbManager.GetAllCharacterProfiles`.
+
+## Week-long round tuning (2026-10)
+
+- Generator fuel burn rates: Pacman/SuperPacman/DK `optimalBurnRate` 0.0002, JrPacman 0.0017
+  (roughly 7 days per full tank).
+- AME jars: `AmeFuelContainerComponent` default 120000, `AmeJarBig` 360000 (~7 / ~21 days at the
+  default injection rate).
+- Welders: `WelderComponent.FuelConsumption` 0.05 and `FuelLitCost` 0.05 (20x longer).
+- Disabled station events: pest migrations (`CalmPestEventsTable`/`SpicyPestEventsTable`/
+  `NFCalmPestEventsTable` are now `!type:NoneSelector`) and power shut-off (`BreakerFlip`,
+  `PowerGridCheck`, `NFBreakerFlip`, `NFPowerGridCheck` removed from their tables).
+- Forensic pad `ScanDelay` 0.5 s; SSD bodies with a mind skip `RespiratorSystem` updates.
+
+## Currency and lobby branding (2026-10)
+
+- Currency display renamed to "space roubles" everywhere user-facing (prototype `name:` fields,
+  locale, accents, briefcases, cartridge name); prototype ids (`Speso`, `Spesso`, `SpaceCash`,
+  `Credit`) are unchanged. Bank display LocIds (`bank-currency-display-spesos*`) are defined in
+  `Resources/Locale/en-US/_NF/bank/currency.ftl`.
+- Lobby: only `_PS` backgrounds/music remain active (`_NF/lobbyscreens.yml`,
+  `SoundCollections/lobby.yml`, `_NF/SoundCollections/lobby.yml` and upstream `Blueprint` commented
+  out); `splashLogo` points at `_PS/Logo/logo.png` (extracted from the old `coyote/palm3` branch).

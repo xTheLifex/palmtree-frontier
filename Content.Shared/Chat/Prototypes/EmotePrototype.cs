@@ -72,6 +72,13 @@ public sealed partial class EmotePrototype : IPrototype
     // goob edit - animations
     [DataField]
     public object? Event = null;
+
+    /// <summary>
+    /// Palmtree/Coyote: should this emote show up in the radial emote wheel?
+    /// Emotes with this disabled can still be triggered by chat.
+    /// </summary>
+    [DataField]
+    public bool ShowInWheel = true;
 }
 
 /// <summary>
@@ -80,10 +87,25 @@ public sealed partial class EmotePrototype : IPrototype
 /// </summary>
 [Flags]
 [Serializable, NetSerializable]
-public enum EmoteCategory : byte
+public enum EmoteCategory : ushort
 {
     Invalid = 0,
     Vocal = 1 << 0,
     Hands = 1 << 1,
-    General = byte.MaxValue
+    Harpy = 1 << 2,
+    Goblin = 1 << 3,
+    Vulp = 1 << 4,
+    Rodentia = 1 << 5,
+    Diona = 1 << 6,
+    Sheleg = 1 << 7,
+    Male = 1 << 8,
+    Female = 1 << 9,
+    Avali = 1 << 10,
+    Lizard = 1 << 11,
+    Vox = 1 << 12,
+    Moth = 1 << 13,
+    Borg = 1 << 14,
+    Felinid = 1 << 15,
+    General = ushort.MaxValue,
+    Sex = 3
 }

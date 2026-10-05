@@ -2,9 +2,10 @@
   id: NFBasicCalmEventsTable
   table: !type:AllSelector # we need to pass a list of rules, since rules have further restrictions to consider via StationEventComp
     children:
-    - id: NFBreakerFlip
+    # Palmtree: power shut-off events disabled.
+    #- id: NFBreakerFlip
     - id: NFIonStorm
-    - id: NFPowerGridCheck
+    #- id: NFPowerGridCheck
     - id: NFRandomSentience
     - id: NFSolarFlare
     - id: NFVentClog

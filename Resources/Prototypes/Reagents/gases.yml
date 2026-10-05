@@ -22,6 +22,10 @@
         conditions:
         - !type:OrganType
           type: Rat
+      - !type:Oxygenate # DeltaV - Feroxi still need to breathe (oxygen works alongside water vapor)
+        conditions:
+        - !type:OrganType
+          type: Feroxi
       - !type:Oxygenate
         conditions:
         - !type:OrganType
@@ -71,6 +75,10 @@
         conditions:
         - !type:OrganType
           type: Rat
+      - !type:Oxygenate # DeltaV - Feroxi still need to breathe (oxygen works alongside water vapor)
+        conditions:
+        - !type:OrganType
+          type: Feroxi
       - !type:Oxygenate
         conditions:
         - !type:OrganType

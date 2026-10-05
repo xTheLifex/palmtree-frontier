@@ -46,6 +46,7 @@ public sealed class VocalSystem : EntitySystem
         targetComp.ScreamId = source.Comp.ScreamId;
         targetComp.Wilhelm = source.Comp.Wilhelm;
         targetComp.WilhelmProbability = source.Comp.WilhelmProbability;
+        targetComp.SupplementalSounds = source.Comp.SupplementalSounds; // Palmtree/Coyote
         LoadSounds(target, targetComp);
 
         Dirty(target, targetComp);
@@ -74,7 +75,7 @@ public sealed class VocalSystem : EntitySystem
 
     private void OnEmote(EntityUid uid, VocalComponent component, ref EmoteEvent args)
     {
-        if (args.Handled || !args.Emote.Category.HasFlag(EmoteCategory.Vocal))
+        if (args.Handled)
             return;
 
         // snowflake case for wilhelm scream easter egg
@@ -84,11 +85,12 @@ public sealed class VocalSystem : EntitySystem
             return;
         }
 
-        if (component.EmoteSounds is not { } sounds)
-            return;
+        // Palmtree/Coyote: no category gate - species/cross-species emotes can play sounds too.
+        EmoteSoundsPrototype? sounds = null;
+        if (component.EmoteSounds is { } soundsId && _proto.TryIndex(soundsId, out var soundsProto))
+            sounds = soundsProto;
 
-        // just play regular sound based on emote proto
-        args.Handled = _chat.TryPlayEmoteSound(uid, _proto.Index(sounds), args.Emote);
+        args.Handled = _chat.TryPlayEmoteSound(uid, sounds, component.SupplementalSounds, args.Emote);
     }
 
     private void OnScreamAction(EntityUid uid, VocalComponent component, ScreamActionEvent args)
@@ -108,10 +110,11 @@ public sealed class VocalSystem : EntitySystem
             return true;
         }
 
-        if (component.EmoteSounds is not { } sounds)
-            return false;
+        EmoteSoundsPrototype? sounds = null;
+        if (component.EmoteSounds is { } soundsId && _proto.TryIndex(soundsId, out var soundsProto))
+            sounds = soundsProto;
 
-        return _chat.TryPlayEmoteSound(uid, _proto.Index(sounds), component.ScreamId);
+        return _chat.TryPlayEmoteSound(uid, sounds, component.SupplementalSounds, component.ScreamId);
     }
 
     private void LoadSounds(EntityUid uid, VocalComponent component, Sex? sex = null)

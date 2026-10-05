@@ -2083,17 +2083,20 @@
 - type: loadout
   id: ContractorClothingUniformMechSuitRed
   price: 200
+  groupBy: "MechSuit"
   equipment:
     jumpsuit: ClothingUniformMechSuitRed
 
 - type: loadout
   id: ContractorClothingUniformMechSuitWhite
   price: 200
+  groupBy: "MechSuit"
   equipment:
     jumpsuit: ClothingUniformMechSuitWhite
 
 - type: loadout
   id: ContractorClothingUniformMechSuitBlue
   price: 200
+  groupBy: "MechSuit"
   equipment:
     jumpsuit: ClothingUniformMechSuitBlue

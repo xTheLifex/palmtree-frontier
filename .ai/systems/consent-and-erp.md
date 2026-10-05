@@ -24,7 +24,7 @@ Consequences:
   `characterConsentFreetext` (the old Floof schema). The importer ignores these unknown fields; they
   are not stored or enforced.
 
-The old `coyote-frontier` repo has the complete Floof consent system; `.ai/PORTING.md` §8 and
+The old Coyote checkout (see `.ai/file_paths.md`) has the complete Floof consent system; `.ai/PORTING.md` §8 and
 `guides/porting-from-coyote.md` describe how to port it if requested. It requires DB migrations
 (two tables + a profile column), which the maintainer explicitly deferred.
 

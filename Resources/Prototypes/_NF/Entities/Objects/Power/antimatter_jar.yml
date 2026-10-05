@@ -10,7 +10,7 @@
   - type: Sprite
     sprite: _NF/Objects/Power/big_ame_jar.rsi
   - type: AmeFuelContainer
-    fuelAmount: 1500
-    fuelCapacity: 1500 # ~ 900 MJ
+    fuelAmount: 360000
+    fuelCapacity: 360000 # Palmtree: scaled for week-long rounds
   - type: StaticPrice
     price: 800 # 1k at 1.25

@@ -223,6 +223,7 @@
   - ContractorClothingUniformJumpskirtColorGrey
   subgroups:
   - CoyoteJumpsuit
+  - ContractorMechSuit
 
 - type: loadoutGroup
   id: ContractorBackpack
@@ -918,6 +919,7 @@
   - ContractorClothingMaskBreathMedical
   - ContractorClothingMaskSterile
   - ContractorClothingMaskGas
+  - ContractorClothingMaskGasGlass # Palmtree
   - ContractorClothingMaskPunkHalf # Punkish (Randomized visuals)
   - ContractorClothingMaskGasExplorer
   - ContractorClothingMaskGasCaptain

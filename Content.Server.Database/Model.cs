@@ -407,6 +407,8 @@ namespace Content.Server.Database
         public string Sex { get; set; } = null!;
         public string Gender { get; set; } = null!;
         public string Species { get; set; } = null!;
+        public string Customspeciesname { get; set; } = null!; // Palmtree/Coyote: custom species name
+        public string HiddenEmoteCategories { get; set; } = string.Empty; // Palmtree/Coyote: emote picker
         public string? VoiceBark { get; set; } // Palmtree: character voice bark, null = species default
         public string? Genitals { get; set; } // Palmtree: genital organ selection string, null = none
         public float Height { get; set; } = 1f; // Palmtree: visual height multiplier

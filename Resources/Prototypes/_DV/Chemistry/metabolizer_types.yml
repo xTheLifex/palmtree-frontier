@@ -1,0 +1,4 @@
+# DeltaV - Feroxi metabolizer type. Their lungs and gills can breathe oxygen and water vapor.
+- type: metabolizerType
+  id: Feroxi
+  name: metabolizer-type-feroxi

@@ -70,3 +70,21 @@ chat-emote-msg-monkeyscreeches = screeches!
 chat-emote-msg-yawn = yawns.
 chat-emote-msg-snore = snores.
 chat-emote-msg-flap = flaps {POSS-ADJ($entity)} wings.
+# DeltaV - Feroxi
+chat-emote-msg-gnash = gnashes {POSS-ADJ($entity)} teeth.
+
+# Palmtree/Coyote: ported fork emotes (yap, gekker, eyebrow, keemstar, moo, baa, gurgle, boop, whirr, yip).
+chat-emote-name-yap = Yaps
+chat-emote-name-gekker = Gekkers
+chat-emote-name-boop = Boop
+chat-emote-name-whirr = Whirr
+chat-emote-name-eyebrow = Eyebrow
+chat-emote-name-scream-keemstar = Keemstar
+chat-emote-name-cowmoo = Moo
+chat-emote-name-baa = Baa
+chat-emote-name-gurgle = Gurgle
+chat-emote-name-yip = Yip
+chat-emote-msg-eyebrow = raises an eyebrow
+chat-emote-msg-scream-keemstar = screams from the top of their lungs.
+chat-emote-msg-gurgle = gurgles.
+chat-emote-msg-deathgasp-silicon = suddenly goes silent, with a hiss of grinding servos and a screech of dying myomers.

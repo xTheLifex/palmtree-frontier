@@ -1,0 +1,30 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              Title="{Loc 'emote-window-title'}"
+              MinSize="450 350"
+              SetSize="520 460">
+    <BoxContainer Orientation="Vertical" Margin="10">
+        <Label Name="CategoryTitle"
+               StyleClasses="LabelHeading"
+               Margin="0 0 0 10"
+               Text="{Loc 'emote-window-category-title'}"/>
+
+        <Label Margin="0 0 0 10"
+               FontColorOverride="Gray"
+               Text="{Loc 'emote-window-description'}"/>
+
+        <ScrollContainer VerticalExpand="True" Margin="0 0 0 10">
+            <BoxContainer Name="CategoriesContainer"
+                          Orientation="Vertical"/>
+        </ScrollContainer>
+
+        <BoxContainer Orientation="Horizontal"
+                      HorizontalAlignment="Right">
+            <Button Name="CancelButton"
+                    Text="{Loc 'trait-window-cancel'}"
+                    Margin="0 0 5 0"/>
+            <Button Name="SaveButton"
+                    Text="{Loc 'trait-window-save'}"/>
+        </BoxContainer>
+    </BoxContainer>
+</DefaultWindow>

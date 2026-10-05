@@ -267,3 +267,25 @@ added to `markings-picker.ftl`; the duplicate was removed).
   back and delete stale user-data copies.
 - **Rotating a `noRot` entity in a map file** triggers a load-time `DebugAssertException`.
 - Full method and SS13 concept mapping: `.ai/guides/porting-from-ss13.md`.
+
+## 19. Fork port batch hazards (2026-10)
+
+- **Never run a blind word replacement over locale files.** Renaming "spesos" also rewrote FTL
+  placeables (`{$spesos}` became `{$space roubles}`) and message keys
+  (`forensic-reward-amount-speso-only`); the client then crashes at startup with a Fluent parse
+  error. Always grep for `$` placeables and `^key` after bulk edits, and run the YAMLLinter (which
+  boots a client and parses every `.ftl`).
+- **Commenting out every child of an `entityTable` leaves `children:` null** and crashes prototype
+  deserialization (`NullNotAllowedException`). Use `table: !type:NoneSelector` instead.
+- **`EmoteCategory` is now a `ushort` flag set.** Emotes in species categories (Vulp, Felinid, ...)
+  do not carry the `Vocal` flag, so `HasFlag(EmoteCategory.Vocal)` checks in muting/mumble systems
+  no longer match them — this matches Coyote and is intentional, but new code should not assume
+  "vocal emote" means `Vocal` flag only (`EmoteCategory.Sex` is `Vocal|Hands`).
+- **DB changes need both migrations.** After editing `Content.Server.Database/Model.cs`, run
+  `dotnet ef migrations add <Name> --context SqliteServerDbContext|PostgresServerDbContext
+  --project Content.Server.Database --startup-project Content.Server.Database` (the design-time
+  factories live in the DB project); commit the migration, designer and snapshot files.
+- **Integration tests must `await pair.CleanReturnAsync()`** or the pair is dirty-disposed and the
+  test is reported as skipped, not failed.
+- **`_DV/Recipes/Lathes/misc.yml` already existed** (CassetteTape/TapeRecorder recipes); adding the
+  water vapor tank recipe required appending, not overwriting (the lathe packs reference those ids).

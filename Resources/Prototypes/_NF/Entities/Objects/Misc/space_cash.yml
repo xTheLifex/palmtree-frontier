@@ -233,7 +233,7 @@
 - type: entity
   parent: BaseItem
   id: SpaceCashCounterfeit
-  name: spessos
+  name: counterfeit space roubles
   description: You gotta heve mony.
   components:
   - type: Item

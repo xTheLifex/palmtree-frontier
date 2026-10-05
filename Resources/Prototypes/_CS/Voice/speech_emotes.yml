@@ -1,0 +1,15 @@
+- type: emote
+  id: Yip
+  name: chat-emote-name-yip
+  category: Vulp
+  available: false
+  chatMessages: [yips.]
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    components:
+    - BorgChassis
+  chatTriggers:
+  - yip
+  - yips

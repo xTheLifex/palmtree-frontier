@@ -17,6 +17,8 @@ using Content.Shared.EntityEffects;
 using Content.Shared.EntityEffects.EffectConditions;
 using Content.Shared.EntityEffects.Effects;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Mind.Components; // Palmtree: SSD bodies don't suffocate
+using Content.Shared.SSDIndicator; // Palmtree: SSD bodies don't suffocate
 using Content.Shared._PS.Synth; // Palmtree
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
@@ -82,6 +84,15 @@ public sealed class RespiratorSystem : EntitySystem
 
             if (_mobState.IsDead(uid))
                 continue;
+
+            // Palmtree: SSD clients with a mind don't take air/suffocation damage while
+            // their body sits in an unpowered, airless ship (Coyote behavior).
+            if (TryComp<SSDIndicatorComponent>(uid, out var ssd) && ssd.IsSSD
+                && TryComp<MindContainerComponent>(uid, out var mindContainer)
+                && mindContainer.HasMind)
+            {
+                continue;
+            }
 
             UpdateSaturation(uid, -(float)respirator.UpdateInterval.TotalSeconds, respirator);
 

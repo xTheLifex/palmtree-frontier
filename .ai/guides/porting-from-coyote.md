@@ -1,8 +1,8 @@
 # Guide: Porting Content from Coyote / Other Forks
 
 This is the method used to port Palmtree/Coyote/Floof content into this Frontier-based repo. It is
-written for an AI agent working with the old `coyote-frontier` checkout available on disk (or any
-other fork checkout).
+written for an AI agent working with the Coyote checkout (see `.ai/file_paths.md`) or any
+other fork checkout.
 
 ## 0. Before you start
 
@@ -19,9 +19,10 @@ other fork checkout).
 Search the old repo by prototype id or symbol:
 
 ```
-grep -rn "id: SomeProto" coyote-frontier/Resources/Prototypes --include='*.yml'
-grep -rn "class SomeSystem" coyote-frontier/Content.* --include='*.cs'
-grep -rn "marking-SomeMarking" coyote-frontier/Resources/Locale/en-US --include='*.ftl'
+COYOTE=/path/to/coyote-frontier  # see .ai/file_paths.md
+grep -rn "id: SomeProto" "$COYOTE"/Resources/Prototypes --include='*.yml'
+grep -rn "class SomeSystem" "$COYOTE"/Content.* --include='*.cs'
+grep -rn "marking-SomeMarking" "$COYOTE"/Resources/Locale/en-US --include='*.ftl'
 ```
 
 Prefer porting whole self-contained files (marking packs, item sets) over cherry-picking single
@@ -66,7 +67,7 @@ Known renames/removals encountered:
   before copying (a duplicate key fails prototype load).
 - Sprites → copy the whole `.rsi` directory (`meta.json` included). A quick script that extracts
   every `sprite:` path from the copied YAML and copies missing directories from
-  `coyote-frontier/Resources/Textures` works well.
+  `$COYOTE/Resources/Textures` works well.
 - Audio → copy referenced `/Audio/...` files.
 - Names/typing indicators/speech verbs/sound collections → copy or merge as separate small files to
   avoid conflicts in shared files.

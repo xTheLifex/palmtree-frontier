@@ -50,4 +50,13 @@ public sealed partial class VocalComponent : Component
     [ViewVariables]
     [AutoNetworkedField]
     public ProtoId<EmoteSoundsPrototype>? EmoteSounds = null;
+
+    /// <summary>
+    /// Palmtree/Coyote: extra emote sounds shared by every vocal entity. Used for
+    /// cross-species emotes (e.g. a vulpkanin barking or a felinid meowing) so the
+    /// player-chosen emote categories still have sounds regardless of species.
+    /// </summary>
+    [ViewVariables]
+    [AutoNetworkedField]
+    public ProtoId<EmoteSoundsPrototype> SupplementalSounds = "SupplementalCoyoteEmoteStuff";
 }

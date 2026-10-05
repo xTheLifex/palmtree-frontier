@@ -16,7 +16,7 @@ namespace Content.Shared.Preferences
         /// <summary>
         ///     Makes this profile valid so there's no bad data like negative ages.
         /// </summary>
-        void EnsureValid(ICommonSession session, IDependencyCollection collection);
+        void EnsureValid(ICommonSession session, IDependencyCollection collection, bool isAdmin = false);
 
         /// <summary>
         /// Gets a copy of this profile that has <see cref="EnsureValid"/> applied, i.e. no invalid data.

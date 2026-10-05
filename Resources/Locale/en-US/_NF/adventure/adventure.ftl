@@ -25,7 +25,7 @@ nf-pirate-description = A gang of pirates is on the loose! Take care out in spac
 nf-test-title = Test
 nf-test-description = A preset intended for testing. No POIs, no bluespace events, final destination.
 
-currency = Spesos
+currency = Space roubles
 
 shipyard-rules-default1 =
     Thank you for your interest in Nanotrasen Security Forces.

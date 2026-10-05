@@ -61,6 +61,12 @@
                                                    ToolTip="{Loc 'humanoid-profile-editor-guidebook-button-tooltip'}"/>
                                     <OptionButton Name="SpeciesButton" HorizontalAlignment="Right" />
                                 </BoxContainer>
+                                <!-- Species custom name -->
+                                <BoxContainer HorizontalExpand="True" Name="CCustomSpecieName">
+                                    <Label Text="{Loc 'humanoid-profile-editor-customspeciename-label'}" />
+                                    <Control HorizontalExpand="True" />
+                                    <LineEdit Name="CCustomSpecieNameEdit" MinSize="270 0" HorizontalAlignment="Right" />
+                                </BoxContainer>
                                 <!-- Voice Bark -->
                                 <BoxContainer HorizontalExpand="True">
                                     <Label Text="{Loc 'humanoid-profile-editor-voice-bark-label'}" />

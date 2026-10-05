@@ -6,7 +6,7 @@
 
 ## 1. Background
 
-- Old base: `coyote-frontier` (branch `palm3`), fork chain Wizden → Frontier → Coyote (`_CS`) →
+- Old base: the Coyote checkout (`COYOTE`, see `.ai/file_paths.md`; branch `palm3`), fork chain Wizden → Frontier → Coyote (`_CS`) →
   Palmtree (`_PS`). Frozen since Coyote was abandoned in 2026.
 - New base: this repo, Frontier Station @ 2026-10-03 (`df24c19f08`) + Palmtree branch `ps-erp`
   (merged into `master`, branch deleted).
@@ -177,7 +177,7 @@ The maintainer's exported characters live outside the repo
 
 See `.ai/guides/porting-from-coyote.md` for the full method. In short:
 
-1. Find the source files in `coyote-frontier` by prototype ID or feature name.
+1. Find the source files in the Coyote checkout (`COYOTE`, see `.ai/file_paths.md`) by prototype ID or feature name.
 2. Classify each field/component against this repo (`grep` the C# type / prototype type).
 3. Copy content files and assets; adapt fields that do not exist here (remove or rewrite).
 4. Wire loadouts/groups/locale; keep prefixes for provenance.
@@ -185,7 +185,43 @@ See `.ai/guides/porting-from-coyote.md` for the full method. In short:
 6. Commit with a note about adaptations; update `.ai/PORTING.md` and `.ai/HAZARDS.md` if you learn
    something new.
 
-For **SS13 (BYOND) content** — features from `S.P.L.U.R.T-tg`/`S.P.L.U.R.T-Station-13`/Sandstorm,
+For **SS13 (BYOND) content** — features from the `BYOND` checkouts (see `.ai/file_paths.md`),
 `.dmm` room maps and `.dmi` art — use `.ai/guides/porting-from-ss13.md` instead. It covers the TGM
 `.dmm` format, the `Tools/convert_dmm_room.py` generator, format-7 map requirements (air, gravity,
 power, anchoring), SS13→SS14 concept mapping and the related hazards.
+
+## 9. 2026-10 feature batch (Coyote ports + Palmtree systems)
+
+Ports from the `COYOTE` checkout (see `.ai/file_paths.md`):
+
+- **Feroxi species** (`_DV/Species`, `_DV/Body/{Parts,Organs,Prototypes}`, `_DV/Entities/Mobs`,
+  `_DV/Damage/modifier_sets.yml`, `_DV/Chemistry/metabolizer_types.yml`, `_DV/SoundCollections/feroxi.yml`,
+  `_DV/Voice/*`, `_DV/typing_indicator.yml`, guidebook XML). Coyote's unused `FeroxiDehydrate`
+  component and the RPI `Needs` system were dropped (not ported here); Hunger/Thirst are used instead.
+  The body prototype uses `OrganFeroxiLungs` (Coyote's used human lungs and only had the metabolizer
+  type on the unused organ) so Feroxi can breathe **water vapor and oxygen**:
+  `Water` reagent `Gas` metabolism got the Feroxi `Oxygenate`/`SatiateThirst`/`ModifyLungGas` effects
+  and `Oxygen` got a Feroxi `Oxygenate`.
+- **Water vapor tanks** (`_DV/Entities/Objects/Tools/gas_tank.yml`,
+  `_DV/Catalog/Fills/Items/gas_tanks.yml`, `_DV/Recipes/Lathes/misc.yml` + `DeltaV/Objects/Tanks/*.rsi`,
+  tank dispenser inventory entries). Coyote's water-vapor survival boxes were skipped (they reference
+  unported food/medipens).
+- **Emotes + emote picker**: see `.ai/systems/ps-systems.md` for the system map. Content files were
+  copied from `Floof/`, `_EinsteinEngines/`, `_PS/`, `_DEN/`, `_Funkystation/` and `_CS/` into the
+  matching `_Floof`/`_EE`/`_PS`/`_DEN`/`_Funkystation`/`_CS` folders. `Whine` was kept and Coyote's
+  separate `Whimper` emote was added next to it.
+- **Glass gas mask** (SS13 Skyrat/SPLURT `/obj/item/clothing/mask/gas/glass`): prototype
+  `_PS/Clothing/Mask/glass_gas_mask.yml` + RSI extracted from the SS13 `.dmi` (`gas_clear`). It has no
+  `IdentityBlocker`/`HideLayerClothing`, so the face/snout stays visible, and is a contractor face
+  loadout.
+- **Custom species name** (profile field, DB column, editor field, examine/records use).
+  Coyote's `SpeciesPrototype.CustomName` gated the feature but no species set it, so it never saved;
+  here the default is `true` (all round-start species allow it).
+- **Emote category picker** (profile field + DB column, `EmoteCategoryWindow`, wheel filtering,
+  `EmoteCategory` enum widened to Coyote's `ushort` set, `ShowInWheel`, supplemental emote sounds).
+  Server-side emote restrictions were disabled (Coyote behavior); the picker controls visibility.
+
+Palmtree-original changes in the same batch: currency renamed to "space roubles" (ids unchanged),
+fuel scaling for week-long rounds, pest/power station events disabled, forensic swab 0.5 s,
+SSD bodies don't suffocate, admin job/loadout bypass, `exportcharacters` console command,
+Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
