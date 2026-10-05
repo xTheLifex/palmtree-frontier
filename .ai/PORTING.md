@@ -223,5 +223,5 @@ Ports from the `COYOTE` checkout (see `.ai/file_paths.md`):
 
 Palmtree-original changes in the same batch: currency renamed to "space roubles" (ids unchanged),
 fuel scaling for longer rounds (~2.7x the original durations), pest/power station events disabled, forensic swab 0.5 s,
-SSD bodies don't suffocate, admin job/loadout bypass, `exportcharacters` console command,
+SSD bodies don't suffocate, admin playtime-only bypass, `exportcharacters` console command,
 Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.

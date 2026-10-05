@@ -332,10 +332,7 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
     {
         reason = null;
 
-        // Palmtree: admins bypass loadout restrictions.
-        if (isAdmin)
-            return true;
-
+        // Palmtree: admins don't count towards playtime requirements (other checks still apply).
         var protoManager = collection.Resolve<IPrototypeManager>();
 
         if (!protoManager.TryIndex(loadout, out var loadoutProto))
@@ -355,13 +352,14 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
 
         foreach (var effect in loadoutProto.Effects)
         {
-            valid = valid && effect.Validate(profile, this, session, collection, out reason);
+            // Palmtree: admins don't count towards playtime requirements (other checks still apply).
+            valid = valid && effect.Validate(profile, this, session, collection, out reason, isAdmin);
         }
 
         // Frontier: add hide effects
         foreach (var effect in loadoutProto.HideEffects)
         {
-            valid = valid && effect.Validate(profile, this, session, collection, out reason);
+            valid = valid && effect.Validate(profile, this, session, collection, out reason, isAdmin);
         }
         // End Frontier
 
@@ -374,10 +372,6 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
     /// </summary>
     public bool IsHidden(HumanoidCharacterProfile profile, ICommonSession? session, ProtoId<LoadoutPrototype> loadout, IDependencyCollection collection, bool isAdmin = false)
     {
-        // Palmtree: admins bypass loadout restrictions, so nothing is hidden from them.
-        if (isAdmin)
-            return false;
-
         var protoManager = collection.Resolve<IPrototypeManager>();
 
         if (!protoManager.TryIndex(loadout, out var loadoutProto))
@@ -392,7 +386,8 @@ public sealed partial class RoleLoadout : IEquatable<RoleLoadout>
 
         foreach (var effect in loadoutProto.HideEffects)
         {
-            if (!effect.Validate(profile, this, session, collection, out var _))
+            // Palmtree: admins don't count towards playtime requirements (other checks still apply).
+            if (!effect.Validate(profile, this, session, collection, out var _, isAdmin))
                 return true;
         }
 

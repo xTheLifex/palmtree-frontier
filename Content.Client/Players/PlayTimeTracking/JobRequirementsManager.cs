@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Content.Client.Administration.Managers;
 using Content.Client.Lobby;
 using Content.Shared.CCVar;
 using Content.Shared.Players;
@@ -19,6 +20,7 @@ namespace Content.Client.Players.PlayTimeTracking;
 public sealed partial class JobRequirementsManager : ISharedPlaytimeManager
 {
     [Dependency] private readonly IBaseClient _client = default!;
+    [Dependency] private readonly IClientAdminManager _adminManager = default!; // Palmtree: admins ignore playtime gates
     [Dependency] private readonly IClientNetManager _net = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IEntityManager _entManager = default!;
@@ -148,9 +150,15 @@ public sealed partial class JobRequirementsManager : ISharedPlaytimeManager
         if (requirements == null || !_cfg.GetCVar(CCVars.GameRoleTimers))
             return true;
 
+        // Palmtree: admins don't count towards playtime requirements (other checks still apply).
+        var ignorePlaytime = _adminManager.IsActive();
+
         var reasons = new List<string>();
         foreach (var requirement in requirements)
         {
+            if (ignorePlaytime && requirement.IsPlaytimeRequirement)
+                continue;
+
             if (requirement.Check(_entManager, _prototypes, profile, _roles, out var jobReason))
                 continue;
 

@@ -220,7 +220,7 @@ Entries:
     - type: Add
       message: Palmtree Station splash logo.
     - type: Add
-      message: admins now bypass job and loadout restrictions.
+      message: admins no longer need to meet playtime requirements for jobs and loadouts.
     - type: Tweak
       message: currency is now called "space roubles" instead of "spesos".
     - type: Tweak

@@ -64,7 +64,7 @@ namespace Content.Client.Lobby
         public void UpdateCharacter(ICharacterProfile profile, int slot)
         {
             var collection = IoCManager.Instance!;
-            profile.EnsureValid(_playerManager.LocalSession!, collection, _adminManager.IsActive()); // Palmtree: admins bypass restrictions
+            profile.EnsureValid(_playerManager.LocalSession!, collection, _adminManager.IsActive()); // Palmtree: admins ignore playtime requirements
             var characters = new Dictionary<int, ICharacterProfile>(Preferences.Characters) {[slot] = profile};
             Preferences = new PlayerPreferences(characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, Preferences.ConstructionFavorites);
             var msg = new MsgUpdateCharacter

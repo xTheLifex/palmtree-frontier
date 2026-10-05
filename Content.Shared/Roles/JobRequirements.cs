@@ -14,7 +14,8 @@ public static class JobRequirements
         [NotNullWhen(false)] out FormattedMessage? reason,
         IEntityManager entManager,
         IPrototypeManager protoManager,
-        HumanoidCharacterProfile? profile)
+        HumanoidCharacterProfile? profile,
+        bool ignorePlaytime = false) // Palmtree: admins ignore playtime requirements
     {
         var sys = entManager.System<SharedRoleSystem>();
         var requirements = sys.GetJobRequirement(job);
@@ -27,6 +28,10 @@ public static class JobRequirements
         bool success = true;
         foreach (var requirement in requirements)
         {
+            // Palmtree: admins don't count towards playtime gates.
+            if (ignorePlaytime && requirement.IsPlaytimeRequirement)
+                continue;
+
             if (!requirement.Check(entManager, protoManager, profile, playTimes, out reason))
             {
                 success = false;
@@ -42,6 +47,10 @@ public static class JobRequirements
             success = true;
             foreach (var requirement in requirementSet)
             {
+                // Palmtree: admins don't count towards playtime gates.
+                if (ignorePlaytime && requirement.IsPlaytimeRequirement)
+                    continue;
+
                 // Frontier: do not accumulate reasons for alternate job requirements.
                 if (!requirement.Check(entManager, protoManager, profile, playTimes, out _))
                 {
@@ -72,6 +81,11 @@ public abstract partial class JobRequirement
 {
     [DataField]
     public bool Inverted;
+
+    /// <summary>
+    /// Palmtree: true for requirements that only measure playtime. Admins ignore these.
+    /// </summary>
+    public virtual bool IsPlaytimeRequirement => false;
 
     public abstract bool Check(
         IEntityManager entManager,

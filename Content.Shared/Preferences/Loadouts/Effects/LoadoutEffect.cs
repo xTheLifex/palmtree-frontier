@@ -10,12 +10,14 @@ public abstract partial class LoadoutEffect
     /// <summary>
     /// Tries to validate the effect.
     /// </summary>
+    /// <param name="ignorePlaytime">Palmtree: skip playtime-only requirements (used for admins).</param>
     public abstract bool Validate(
         HumanoidCharacterProfile profile,
         RoleLoadout loadout,
         ICommonSession? session,
         IDependencyCollection collection,
-        [NotNullWhen(false)] out FormattedMessage? reason);
+        [NotNullWhen(false)] out FormattedMessage? reason,
+        bool ignorePlaytime = false);
 
     public virtual void Apply(RoleLoadout loadout) {}
 }

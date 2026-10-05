@@ -15,7 +15,7 @@ public sealed partial class SpeciesLoadoutEffect : LoadoutEffect
     public bool Inverted; // Frontier: if true, list is a blacklist, not a whitelist
 
     public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection,
-        [NotNullWhen(false)] out FormattedMessage? reason)
+        [NotNullWhen(false)] out FormattedMessage? reason, bool ignorePlaytime = false)
     {
         if (Species.Contains(profile.Species) != Inverted) // Frontier: add != Inverted (when true, blacklist)
         {

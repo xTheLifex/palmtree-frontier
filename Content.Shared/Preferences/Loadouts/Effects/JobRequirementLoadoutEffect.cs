@@ -15,8 +15,15 @@ public sealed partial class JobRequirementLoadoutEffect : LoadoutEffect
     [DataField(required: true)]
     public JobRequirement Requirement = default!;
 
-    public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection, [NotNullWhen(false)] out FormattedMessage? reason)
+    public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection, [NotNullWhen(false)] out FormattedMessage? reason, bool ignorePlaytime = false)
     {
+        // Palmtree: admins don't count towards playtime requirements.
+        if (ignorePlaytime && Requirement.IsPlaytimeRequirement)
+        {
+            reason = null;
+            return true;
+        }
+
         if (session == null)
         {
             reason = FormattedMessage.Empty;

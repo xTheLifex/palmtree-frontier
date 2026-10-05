@@ -14,6 +14,9 @@ namespace Content.Shared.Roles;
 [Serializable, NetSerializable]
 public sealed partial class RoleTimeRequirement : JobRequirement
 {
+    /// <inheritdoc/>
+    public override bool IsPlaytimeRequirement => true;
+
     /// <summary>
     /// What particular role they need the time requirement with.
     /// </summary>

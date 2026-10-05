@@ -109,7 +109,7 @@ namespace Content.Server.Preferences.Managers
             var curPrefs = prefsData.Prefs!;
             var session = _playerManager.GetSessionById(userId);
 
-            profile.EnsureValid(session, _dependencies, _adminManager.IsAdmin(session)); // Palmtree: admins bypass restrictions
+            profile.EnsureValid(session, _dependencies, _adminManager.IsAdmin(session)); // Palmtree: admins ignore playtime requirements
 
             // Frontier: check for profile modifications (based on Monolith's impl)
             if (validateFields && profile is HumanoidCharacterProfile humanProfile)

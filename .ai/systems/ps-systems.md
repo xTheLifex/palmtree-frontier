@@ -155,10 +155,12 @@ Upstream actions/implants/inventory/equipment visuals, `ContentAudioSystem`/lobb
   returns true for everything (Coyote behavior).
 - Emote content: `_Floof/Voice`, `_EE/Voice`, `_PS/Voice`, `_DEN/Voice`, `_Funkystation/Voice`,
   `_CS/Voice` + `_CS/emotes_but_cooler.yml`, `_CS/speech_emote_sounds_but_cooler.yml`.
-- **Admin bypass**: admins ignore job whitelist/playtime and loadout restrictions
-  (`JobWhitelistManager`, `PlayTimeTrackingSystem`, `RoleLoadout.IsValid/IsHidden` via the
-  `isAdmin` parameter threaded from `ServerPreferencesManager`/`ClientPreferencesManager`/
-  `StationSpawningSystem`).
+- **Admin bypass (playtime only)**: admins don't count towards playtime requirements for jobs and
+  loadout tiers. Whitelists, role bans, and species/age/traits checks still apply. Implemented via
+  `JobRequirement.IsPlaytimeRequirement` + the `ignorePlaytime` flag in
+  `JobRequirements.TryRequirementsMet`, the client `JobRequirementsManager.CheckRoleRequirements`,
+  and `LoadoutEffect.Validate` (`RoleLoadout.IsValid/IsHidden` thread the `isAdmin` flag from
+  `ServerPreferencesManager`/`ClientPreferencesManager`/`StationSpawningSystem`).
 - **`exportcharacters`**: server console/admin command (`Content.Server/Administration/Commands/ExportCharactersCommand.cs`)
   dumps every saved profile to `UserData/exported_characters/<ckey>/character-<slot>.yml` using the
   editor's `HumanoidProfileExport` format. DB support: `IServerDbManager.GetAllCharacterProfiles`.

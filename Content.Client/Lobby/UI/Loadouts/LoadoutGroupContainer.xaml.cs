@@ -76,7 +76,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
 
         // Get all loadout prototypes for this group.
         // Frontier: hide loadout effects, support for subgroups
-        var isAdmin = collection.Resolve<IClientAdminManager>().IsActive(); // Palmtree: admins bypass loadout restrictions
+        var isAdmin = collection.Resolve<IClientAdminManager>().IsActive(); // Palmtree: admins ignore playtime requirements
 
         var validProtos = _groupProto.Loadouts.Select(id => protoMan.Index(id))
             .Where(p => !loadout.IsHidden(profile, session, p, collection, isAdmin));
@@ -309,7 +309,7 @@ public sealed partial class LoadoutGroupContainer : BoxContainer
 
         var pressed = selected.Any(e => e.Prototype == proto.ID);
 
-        var enabled = loadout.IsValid(profile, session, proto.ID, collection, out var reason, collection.Resolve<IClientAdminManager>().IsActive()); // Palmtree: admins bypass restrictions
+        var enabled = loadout.IsValid(profile, session, proto.ID, collection, out var reason, collection.Resolve<IClientAdminManager>().IsActive()); // Palmtree: admins ignore playtime requirements
 
         var cont = new LoadoutContainer(proto, !enabled, reason);
 

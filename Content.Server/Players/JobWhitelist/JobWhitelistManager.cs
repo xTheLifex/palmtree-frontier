@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Content.Server.Administration.Managers;
 using Content.Server.Database;
 using Content.Shared.CCVar;
 using Content.Shared.Ghost.Roles; // Frontier: Ghost Role handling
@@ -21,7 +20,6 @@ namespace Content.Server.Players.JobWhitelist;
 public sealed class JobWhitelistManager : IPostInjectInit
 {
     [Dependency] private readonly IConfigurationManager _config = default!;
-    [Dependency] private readonly IAdminManager _admin = default!; // Palmtree
     [Dependency] private readonly IServerDbManager _db = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
@@ -74,10 +72,6 @@ public sealed class JobWhitelistManager : IPostInjectInit
 
     public bool IsAllowed(ICommonSession session, ProtoId<JobPrototype> job)
     {
-        // Palmtree: admins bypass job whitelists.
-        if (_admin.IsAdmin(session))
-            return true;
-
         if (!_config.GetCVar(CCVars.GameRoleWhitelist))
             return true;
 

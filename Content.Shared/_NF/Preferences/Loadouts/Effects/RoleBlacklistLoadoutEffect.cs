@@ -15,7 +15,7 @@ public sealed partial class RoleBlacklistLoadoutEffect : LoadoutEffect
     [DataField]
     public bool Inverted = false; //If inverted it's a whitelist
 
-    public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection, [NotNullWhen(false)] out FormattedMessage? reason)
+    public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection, [NotNullWhen(false)] out FormattedMessage? reason, bool ignorePlaytime = false)
     {
         if (Blacklist.Contains(loadout.Role) != Inverted)
         {

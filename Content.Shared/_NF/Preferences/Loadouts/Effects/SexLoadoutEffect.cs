@@ -13,7 +13,7 @@ public sealed partial class SexLoadoutEffect : LoadoutEffect
     [DataField("sex", required: true)]
     public List<Sex> Sexes = default!;
 
-    public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection, [NotNullWhen(false)] out FormattedMessage? reason)
+    public override bool Validate(HumanoidCharacterProfile profile, RoleLoadout loadout, ICommonSession? session, IDependencyCollection collection, [NotNullWhen(false)] out FormattedMessage? reason, bool ignorePlaytime = false)
     {
         if (Sexes.Contains(profile.Sex))
         {

@@ -15,7 +15,8 @@ public sealed partial class IsWhitelistedLoadoutEffect : LoadoutEffect
         RoleLoadout loadout,
         ICommonSession? session,
         IDependencyCollection collection,
-        [NotNullWhen(false)] out FormattedMessage? reason)
+        [NotNullWhen(false)] out FormattedMessage? reason,
+        bool ignorePlaytime = false)
     {
         if (session == null)
         {

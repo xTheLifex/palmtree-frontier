@@ -243,7 +243,7 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
                         }
 
                         // Validate effects against the current character.
-                        var loadoutSession = _actors.GetSession(entity!); // Palmtree: admins bypass restrictions
+                        var loadoutSession = _actors.GetSession(entity!); // Palmtree: admins ignore playtime requirements
                         var loadoutAdmin = loadoutSession != null && _adminManager.IsAdmin(loadoutSession);
                         if (!loadout.IsValid(profile!, loadoutSession, fallback, _dependencyCollection, out var _, loadoutAdmin))
                         {
