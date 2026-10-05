@@ -225,10 +225,10 @@ Entries:
       message: currency is now called "space roubles" instead of "spesos".
     - type: Tweak
       message: >-
-        fuels last much longer (generators and AME jars are tuned for week-long
-        rounds).
+        fuel tanks last about 2.7x longer (the Pacman's 3-hour tank now lasts
+        around 8 hours).
     - type: Tweak
-      message: welders use much less fuel and forensic swabs take 0.5 seconds.
+      message: welders use about 2.7x less fuel and forensic swabs take 0.5 seconds.
     - type: Tweak
       message: SSD bodies no longer take air damage.
     - type: Remove

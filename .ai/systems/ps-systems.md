@@ -163,13 +163,14 @@ Upstream actions/implants/inventory/equipment visuals, `ContentAudioSystem`/lobb
   dumps every saved profile to `UserData/exported_characters/<ckey>/character-<slot>.yml` using the
   editor's `HumanoidProfileExport` format. DB support: `IServerDbManager.GetAllCharacterProfiles`.
 
-## Week-long round tuning (2026-10)
+## Longer round tuning (2026-10)
 
-- Generator fuel burn rates: Pacman/SuperPacman/DK `optimalBurnRate` 0.0002, JrPacman 0.0017
-  (roughly 7 days per full tank).
-- AME jars: `AmeFuelContainerComponent` default 120000, `AmeJarBig` 360000 (~7 / ~21 days at the
-  default injection rate).
-- Welders: `WelderComponent.FuelConsumption` 0.05 and `FuelLitCost` 0.05 (20x longer).
+- Generator fuel burn rates scale to ~2.7x the original duration (the 3 h Pacman tank now lasts
+  ~8 h): Pacman/SuperPacman `optimalBurnRate` 0.0041667 (~8 h), JrPacman 0.0416667 (~6.7 h),
+  DK 0.0028125 (~2.7x).
+- AME jars: `AmeFuelContainerComponent` default 1333, `AmeJarBig` 4000 (~1.9 h / ~5.6 h at the
+  default injection rate, ~2.7x the originals).
+- Welders: `WelderComponent.FuelConsumption` 0.375 and `FuelLitCost` 0.1875 (~2.7x longer).
 - Disabled station events: pest migrations (`CalmPestEventsTable`/`SpicyPestEventsTable`/
   `NFCalmPestEventsTable` are now `!type:NoneSelector`) and power shut-off (`BreakerFlip`,
   `PowerGridCheck`, `NFBreakerFlip`, `NFPowerGridCheck` removed from their tables).

@@ -54,13 +54,13 @@ public sealed partial class WelderComponent : Component
     /// In u/s
     /// </summary>
     [DataField, AutoNetworkedField]
-    public FixedPoint2 FuelConsumption = FixedPoint2.New(0.05f);
+    public FixedPoint2 FuelConsumption = FixedPoint2.New(0.375f);
 
     /// <summary>
     /// A fuel amount to be consumed when the welder goes from being unlit to being lit.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public FixedPoint2 FuelLitCost = FixedPoint2.New(0.05f);
+    public FixedPoint2 FuelLitCost = FixedPoint2.New(0.1875f);
 
     /// <summary>
     /// Sound played when refilling the welder.

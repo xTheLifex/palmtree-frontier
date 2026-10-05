@@ -222,6 +222,6 @@ Ports from the `COYOTE` checkout (see `.ai/file_paths.md`):
   Server-side emote restrictions were disabled (Coyote behavior); the picker controls visibility.
 
 Palmtree-original changes in the same batch: currency renamed to "space roubles" (ids unchanged),
-fuel scaling for week-long rounds, pest/power station events disabled, forensic swab 0.5 s,
+fuel scaling for longer rounds (~2.7x the original durations), pest/power station events disabled, forensic swab 0.5 s,
 SSD bodies don't suffocate, admin job/loadout bypass, `exportcharacters` console command,
 Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
