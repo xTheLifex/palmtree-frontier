@@ -267,3 +267,13 @@ Entries:
   time: '2026-10-05T22:08:30.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/76385f95944c70f649151d84610c1b407accf35b
+- author: TheLife
+  changes:
+    - type: Fix
+      message: >-
+        the belly now draws over the penis and balls, with breasts on top of the
+        belly.
+  id: 90014
+  time: '2026-10-05T22:12:50.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/347e2b30cf125453744c90b0d9259df1172d5ae9
