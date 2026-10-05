@@ -239,3 +239,15 @@ Entries:
   time: '2026-10-05T14:09:20.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/59e3fde3afc849676e495335e4473e6629a5d8d4
+- author: TheLife
+  changes:
+    - type: Fix
+      message: >-
+        the *deathgasp emote now shows the correct deathgasp for your species
+        instead of the silicon one.
+    - type: Add
+      message: the glass gas mask now fits snouted species and vox.
+  id: 90011
+  time: '2026-10-05T15:26:13.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/ad2ce045a7c1be16576084dd1a122d04a6b14c41
