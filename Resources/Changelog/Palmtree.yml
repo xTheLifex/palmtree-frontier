@@ -291,3 +291,13 @@ Entries:
   time: '2026-10-05T22:37:06.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/bf2624e5b77cb74e70563e4a52a8bccb5d03fa53
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        slimepeople can now turn into a slime and back, keeping their inventory,
+        ID, bank account and everything else.
+  id: 90016
+  time: '2026-10-05T23:01:09.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/677174c669ab066d12dee40d2c50a8749e575d9d
