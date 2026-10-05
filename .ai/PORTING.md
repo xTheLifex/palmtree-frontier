@@ -209,11 +209,16 @@ Ports from the `COYOTE` checkout (see `.ai/file_paths.md`):
 - **Emotes + emote picker**: see `.ai/systems/ps-systems.md` for the system map. Content files were
   copied from `Floof/`, `_EinsteinEngines/`, `_PS/`, `_DEN/`, `_Funkystation/` and `_CS/` into the
   matching `_Floof`/`_EE`/`_PS`/`_DEN`/`_Funkystation`/`_CS` folders. `Whine` was kept and Coyote's
-  separate `Whimper` emote was added next to it.
+  separate `Whimper` emote was added next to it. The deathgasp was fixed: `DefaultDeathgasp` has its
+  `deathgasp` chat triggers back (organic message + species sound), `SiliconDeathgasp` is named
+  "Silicon Deathgasp", categorized `Borg` and whitelisted to `BorgChassis`/`Synth`, and both borgs
+  and the Synth species use it as their on-death gasp.
 - **Glass gas mask** (SS13 Skyrat/SPLURT `/obj/item/clothing/mask/gas/glass`): prototype
   `_PS/Clothing/Mask/glass_gas_mask.yml` + RSI extracted from the SS13 `.dmi` (`gas_clear`). It has no
   `IdentityBlocker`/`HideLayerClothing`, so the face/snout stays visible, and is a contractor face
-  loadout.
+  loadout. Species worn variants were extracted from Skyrat's `mask_muzzled.dmi` and `species/vox/mask.dmi`
+  (`equipped-MASK-vulpkanin`/`felinid`/`rodentia`/`feroxi`/`harpy`/`reptilian` use the muzzled sprite,
+  `equipped-MASK-vox` the vox one); the client picks these up from `InventoryComponent.SpeciesId`, no C#.
 - **Custom species name** (profile field, DB column, editor field, examine/records use).
   Coyote's `SpeciesPrototype.CustomName` gated the feature but no species set it, so it never saved;
   here the default is `true` (all round-start species allow it).

@@ -335,8 +335,13 @@
     components:
     - MobState
   chatMessages: ["chat-emote-msg-deathgasp"]
-  # chatTriggers: # DeltaV - Remove from the emote wheel
-  # - deathgasp
+  # Palmtree: restored the chat triggers so *deathgasp uses the species-appropriate
+  # message and sound instead of falling through to the silicon emote.
+  chatTriggers:
+  - deathgasp
+  - deathgasps
+  - deathgasping
+  - deathgasped
 
 - type: emote
   id: MonkeyDeathgasp

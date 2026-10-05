@@ -690,8 +690,13 @@ profile:
                 "The mech suit category is optional.");
 
             var contractor = proto.Index<RoleLoadoutPrototype>("JobContractor");
-            Assert.That(contractor.Groups.Any(g => g.Id == "ContractorMechSuit"), Is.True,
-                "The contractor loadout should list the mech suit category.");
+            Assert.That(contractor.Groups.Any(g => g.Id == "ContractorJumpsuit"), Is.True,
+                "The contractor loadout should list the jumpsuit category.");
+
+            // Palmtree: the mech suits are a dropdown inside the jumpsuit category, not their own category.
+            var jumpsuit = proto.Index<LoadoutGroupPrototype>("ContractorJumpsuit");
+            Assert.That(jumpsuit.Subgroups.Contains("ContractorMechSuit"), Is.True,
+                "The mech suit should be a subgroup of the jumpsuit category.");
         });
 
         await pair.CleanReturnAsync();

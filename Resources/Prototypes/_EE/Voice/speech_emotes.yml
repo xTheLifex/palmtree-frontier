@@ -1,7 +1,12 @@
 - type: emote
   id: SiliconDeathgasp
-  name: chat-emote-name-deathgasp
+  name: chat-emote-name-deathgasp-silicon
   icon: Interface/Emotes/deathgasp.png
+  category: Borg
+  whitelist:
+    components:
+    - BorgChassis
+    - Synth
   chatMessages: ["chat-emote-msg-deathgasp-silicon"]
   chatTriggers:
   - sdeathgasp

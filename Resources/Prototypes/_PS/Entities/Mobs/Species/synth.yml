@@ -29,6 +29,8 @@
     bloodlossThreshold: 0.5
   - type: ZombieImmune
   - type: CanHostGuardian
+  - type: Deathgasp
+    prototype: SiliconDeathgasp # Palmtree: synths use the silicon death message
   - type: TypingIndicator
     proto: robot
   - type: Temperature

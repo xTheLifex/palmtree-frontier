@@ -158,6 +158,8 @@
     sounds:
       Unsexed: UnisexSilicon
     wilhelmProbability: 0
+  - type: Deathgasp
+    prototype: SiliconDeathgasp # Palmtree: silicon death message
   - type: DamagedSiliconAccent
   - type: UnblockableSpeech
   - type: FootstepModifier

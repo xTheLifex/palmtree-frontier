@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Taken from Skyrat-tg (modular_skyrat master_files, gas_clear state) and modified for SS14.",
+    "copyright": "Taken from Skyrat-tg (modular_skyrat master_files, gas_clear state; muzzled and vox variants), modified for SS14.",
     "size": {
         "x": 32,
         "y": 32
@@ -12,6 +12,34 @@
         },
         {
             "name": "equipped-MASK",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-vulpkanin",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-felinid",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-rodentia",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-feroxi",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-harpy",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-reptilian",
+            "directions": 4
+        },
+        {
+            "name": "equipped-MASK-vox",
             "directions": 4
         }
     ]

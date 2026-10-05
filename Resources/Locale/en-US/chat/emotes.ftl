@@ -88,3 +88,5 @@ chat-emote-msg-eyebrow = raises an eyebrow
 chat-emote-msg-scream-keemstar = screams from the top of their lungs.
 chat-emote-msg-gurgle = gurgles.
 chat-emote-msg-deathgasp-silicon = suddenly goes silent, with a hiss of grinding servos and a screech of dying myomers.
+# Palmtree: distinct wheel name for the silicon-only deathgasp.
+chat-emote-name-deathgasp-silicon = Silicon Deathgasp
