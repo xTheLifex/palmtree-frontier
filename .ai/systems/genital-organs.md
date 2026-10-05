@@ -75,6 +75,8 @@ queries).
    ModifyUndies adds no verbs) and colors built from the organ's primary/detail colors (skin color
    when null), following the marking's `colorLinks` so linked states share a color group.
    `NeverHidden` additionally sets `Marking.RenderOverClothing` to draw above outer clothing.
+   If the organ's `SkinTone` toggle is on and the selected size has a `skintoned` render marking,
+   that skin-shaded variant is used instead of the tinted one (breasts).
 5. The interaction panel's genital tab lists organs, toggles `Aroused` per organ
    (`InteractionGenitalArouseMessage`) and changes the visibility rule
    (`InteractionGenitalSetVisibilityMessage`); arousal swaps the render marking and visibility
@@ -93,8 +95,9 @@ queries).
 
    Undergarments are the fork's undergarment markings (`UndergarmentTop` for breasts,
    `UndergarmentBottom` for the rest). The anus is still simulated (no organ): humanoids have one,
-   exposed when bottomless. The `Genital` sprite layer sits below `UndergarmentBottom` (base species
-   maps) so bottom underwear occludes bottom organs.
+   exposed when bottomless. The `Genital` sprite layer sits **after `Tail`** in every species map
+   (just before `mask`), so tails, hands and clothing no longer draw over penises/bellies; clothing
+   occlusion is handled by the visibility rule above, not by draw order.
 
 ## Cum, drip and washing
 
@@ -143,8 +146,9 @@ queries).
 
 Dynamic `Genitals` tab (like Flavor Text, so upstream tab indices do not change). Per organ type:
 enable checkbox, Type dropdown (catalog prototypes), Size dropdown (catalog sizes), Visibility
-dropdown (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never hidden), a collapsible
-**Colors** section with primary + detail `ColorSelectorSliders` (alpha enabled) and a "Use skin
+dropdown (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never hidden), a **Skin tone**
+checkbox for organs whose catalog has skin-shaded variants (breasts), a collapsible **Colors**
+section with primary + detail `ColorSelectorSliders` (alpha enabled) and a "Use skin
 color" reset (null colors follow the skin), plus Glow/Detail glow sliders (0-100%) in the same
 section; a collapsible **Transform** section with Scale and Offset X/Y sliders + spin boxes (scale
 0.25-3, offset ±1, mirroring the marking picker's transform controls) and a reset button; plus a
@@ -162,12 +166,13 @@ to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
 - Transform: each organ stores a `Vector2 Offset` (applied via `Marking.SetOffset`, clamped ±2) and
   a `float Scale` (applied via `Marking.SetScale`, 0.25-3 in the editor), so organs can be nudged
   and scaled exactly like markings. The DB string keeps them in optional 7th/8th segments
-  (`type:proto:size:visibility:color:detail:ox,oy:scale`, `-` for null colors/zero offset); old
-  4/5/6-segment strings still parse.
+  (`type:proto:size:visibility:color:detail:ox,oy:scale:glow,detailGlow:skintone`, `-` for null
+  colors/zero offset/zero glow); old 4/5/6/9-segment strings still parse.
 - Legacy conversion: `TryConvertMarking` walks the organ catalog and matches the marking id against
-  each size's flaccid/aroused render marking (e.g. `PSGenitalBreasts7` -> `BreastsSplurt` size 8,
-  `GenitalVaginaHuman` -> `VaginaHuman`, `GenitalButt1` -> `ButtStandard` size 1). An organ type that
-  is already configured is never overwritten.
+  each size's flaccid/aroused/skintoned render marking (e.g. `PSGenitalBreasts7` -> `BreastsSplurt`
+  size 8, `GenitalVaginaHuman` -> `VaginaHuman`, `GenitalButt1` -> `ButtStandard` size 1; matching a
+  skintoned marking also sets `SkinTone`). An organ type that is already configured is never
+  overwritten.
 - Preview: the Genitals tab has a **Show undergarments in preview** checkbox that toggles
   undergarment marking visibility on the preview dummy only (not saved), so organs can be inspected.
   A **Preview aroused organs** checkbox switches every configured organ on the dummy to its aroused

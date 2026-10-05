@@ -525,4 +525,12 @@ public enum LogType
     /// </summary>
     ObjectiveSummary = 422,
     #endregion DeltaV Values
+
+    // Palmtree Specific
+    #region Palmtree Values
+    /// <summary>
+    /// A player performed an ERP interaction panel interaction on another entity.
+    /// </summary>
+    Interaction = 500,
+    #endregion Palmtree Values
 }

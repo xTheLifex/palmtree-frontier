@@ -39,6 +39,12 @@ public sealed partial class GenitalOrganPrototype : IPrototype
     /// flaccid-only: arousal is rejected and the in-game toggle is disabled.
     /// </summary>
     public bool CanArouse => Sizes.Any(size => size.Aroused != null);
+
+    /// <summary>
+    /// Whether any size has a skin-toned render marking, i.e. whether the editor should offer the
+    /// skin-tone toggle for this organ.
+    /// </summary>
+    public bool CanSkinTone => Sizes.Any(size => size.Skintoned != null);
 }
 
 /// <summary>One selectable size of a genital organ type.</summary>
@@ -56,4 +62,11 @@ public sealed partial class GenitalOrganSize
     /// <summary>Render marking used when the organ is aroused. Falls back to <see cref="Flaccid"/>.</summary>
     [DataField("aroused")]
     public ProtoId<MarkingPrototype>? Aroused { get; private set; }
+
+    /// <summary>
+    /// Alternative render marking with baked-in skin shading, used when the player enables the
+    /// organ's skin-tone toggle (modern SPLURT behaviour). Falls back to <see cref="Flaccid"/>.
+    /// </summary>
+    [DataField("skintoned")]
+    public ProtoId<MarkingPrototype>? Skintoned { get; private set; }
 }

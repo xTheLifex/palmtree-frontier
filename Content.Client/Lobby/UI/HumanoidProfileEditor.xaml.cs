@@ -139,6 +139,7 @@ namespace Content.Client.Lobby.UI
             public BoxContainer DetailGlowRow = default!;
             public Slider DetailGlowSlider = default!;
             public SpinBox DetailGlowBox = default!;
+            public CheckBox SkinTone = default!;
             public bool ColorsCustomized;
             public List<GenitalOrganPrototype> Catalogs = new();
         }
@@ -694,12 +695,30 @@ namespace Content.Client.Lobby.UI
                 visibilityButton.AddItem(Loc.GetString("genital-visibility-hidden-by-jumpsuit"), (int) GenitalVisibility.HiddenByJumpsuit);
                 visibilityButton.AddItem(Loc.GetString("genital-visibility-never-hidden"), (int) GenitalVisibility.NeverHidden);
 
+                // Modern SPLURT: breasts (and any other organ with a skin-toned variant) can use
+                // baked-in skin shading instead of a tinted sprite.
+                var skinToneCheck = new CheckBox
+                {
+                    Text = Loc.GetString("genital-editor-skin-tone"),
+                    ToolTip = Loc.GetString("genital-editor-skin-tone-tooltip"),
+                    Visible = typeCatalogs.Any(c => c.CanSkinTone),
+                    VerticalAlignment = VAlignment.Center,
+                };
+                skinToneCheck.OnToggled += _ =>
+                {
+                    if (_updatingGenitals)
+                        return;
+
+                    OnGenitalControlsChanged();
+                };
+
                 var controls = new GenitalControls
                 {
                     Enabled = enabled,
                     TypeButton = typeButton,
                     SizeButton = sizeButton,
                     VisibilityButton = visibilityButton,
+                    SkinTone = skinToneCheck,
                     Catalogs = typeCatalogs,
                 };
 
@@ -858,6 +877,7 @@ namespace Content.Client.Lobby.UI
                 colorsContainer.AddChild(detailColor);
                 colorsContainer.AddChild(detailGlowRow);
                 colorsContainer.AddChild(useSkinButton);
+                colorsContainer.AddChild(skinToneCheck);
 
                 var colorsBody = new CollapsibleBody();
                 colorsBody.AddChild(colorsContainer);
@@ -1270,6 +1290,8 @@ namespace Content.Client.Lobby.UI
                 controls.TypeButton.Disabled = !enabled;
                 controls.SizeButton.Disabled = !enabled;
                 controls.VisibilityButton.Disabled = !enabled;
+                controls.SkinTone.Pressed = data?.SkinTone ?? false;
+                controls.SkinTone.Disabled = !enabled;
 
                 var typeIndex = 0;
                 if (data != null)
@@ -1358,6 +1380,7 @@ namespace Content.Client.Lobby.UI
                         GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale),
                     Glow = Math.Clamp(controls.GlowSlider.Value, 0f, 1f),
                     DetailGlow = Math.Clamp(controls.DetailGlowSlider.Value, 0f, 1f),
+                    SkinTone = controls.SkinTone.Pressed,
                 });
             }
 

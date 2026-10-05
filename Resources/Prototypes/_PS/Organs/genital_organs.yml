@@ -337,40 +337,58 @@
   sizes:
     - name: genital-size-a
       flaccid: GenitalBreastsRoundA
+      skintoned: GenitalBreastsRoundSkintonedA
     - name: genital-size-b
       flaccid: GenitalBreastsRoundB
+      skintoned: GenitalBreastsRoundSkintonedB
     - name: genital-size-c
       flaccid: GenitalBreastsRoundC
+      skintoned: GenitalBreastsRoundSkintonedC
     - name: genital-size-d
       flaccid: GenitalBreastsRoundD
+      skintoned: GenitalBreastsRoundSkintonedD
     - name: genital-size-e
       flaccid: GenitalBreastsRoundE
+      skintoned: GenitalBreastsRoundSkintonedE
     - name: genital-size-f
       flaccid: GenitalBreastsRoundF
+      skintoned: GenitalBreastsRoundSkintonedF
     - name: genital-size-g
       flaccid: GenitalBreastsRoundG
+      skintoned: GenitalBreastsRoundSkintonedG
     - name: genital-size-h
       flaccid: GenitalBreastsRoundH
+      skintoned: GenitalBreastsRoundSkintonedH
     - name: genital-size-i
       flaccid: GenitalBreastsRoundI
+      skintoned: GenitalBreastsRoundSkintonedI
     - name: genital-size-j
       flaccid: GenitalBreastsRoundJ
+      skintoned: GenitalBreastsRoundSkintonedJ
     - name: genital-size-k
       flaccid: GenitalBreastsRoundK
+      skintoned: GenitalBreastsRoundSkintonedK
     - name: genital-size-l
       flaccid: GenitalBreastsRoundL
+      skintoned: GenitalBreastsRoundSkintonedL
     - name: genital-size-m
       flaccid: GenitalBreastsRoundM
+      skintoned: GenitalBreastsRoundSkintonedM
     - name: genital-size-n
       flaccid: GenitalBreastsRoundN
+      skintoned: GenitalBreastsRoundSkintonedN
     - name: genital-size-o
       flaccid: GenitalBreastsRoundO
+      skintoned: GenitalBreastsRoundSkintonedO
     - name: genital-size-massive
       flaccid: GenitalBreastsRoundMassive
+      skintoned: GenitalBreastsRoundSkintonedMassive
     - name: genital-size-giga
       flaccid: GenitalBreastsRoundGiga
+      skintoned: GenitalBreastsRoundSkintonedGiga
     - name: genital-size-impossible
       flaccid: GenitalBreastsRoundImpossible
+      skintoned: GenitalBreastsRoundSkintonedImpossible
 
 - type: genitalOrgan
   id: BreastsSplurt
@@ -379,40 +397,58 @@
   sizes:
     - name: genital-size-0
       flaccid: PSGenitalBreasts0
+      skintoned: PSGenitalBreastsSkintoned0
     - name: genital-size-1
       flaccid: PSGenitalBreasts1
+      skintoned: PSGenitalBreastsSkintoned1
     - name: genital-size-2
       flaccid: PSGenitalBreasts2
+      skintoned: PSGenitalBreastsSkintoned2
     - name: genital-size-3
       flaccid: PSGenitalBreasts3
+      skintoned: PSGenitalBreastsSkintoned3
     - name: genital-size-4
       flaccid: PSGenitalBreasts4
+      skintoned: PSGenitalBreastsSkintoned4
     - name: genital-size-5
       flaccid: PSGenitalBreasts5
+      skintoned: PSGenitalBreastsSkintoned5
     - name: genital-size-6
       flaccid: PSGenitalBreasts6
+      skintoned: PSGenitalBreastsSkintoned6
     - name: genital-size-7
       flaccid: PSGenitalBreasts7
+      skintoned: PSGenitalBreastsSkintoned7
     - name: genital-size-8
       flaccid: PSGenitalBreasts8
+      skintoned: PSGenitalBreastsSkintoned8
     - name: genital-size-9
       flaccid: PSGenitalBreasts9
+      skintoned: PSGenitalBreastsSkintoned9
     - name: genital-size-10
       flaccid: PSGenitalBreasts10
+      skintoned: PSGenitalBreastsSkintoned10
     - name: genital-size-11
       flaccid: PSGenitalBreasts11
+      skintoned: PSGenitalBreastsSkintoned11
     - name: genital-size-12
       flaccid: PSGenitalBreasts12
+      skintoned: PSGenitalBreastsSkintoned12
     - name: genital-size-13
       flaccid: PSGenitalBreasts13
+      skintoned: PSGenitalBreastsSkintoned13
     - name: genital-size-14
       flaccid: PSGenitalBreasts14
+      skintoned: PSGenitalBreastsSkintoned14
     - name: genital-size-15
       flaccid: PSGenitalBreasts15
+      skintoned: PSGenitalBreastsSkintoned15
     - name: genital-size-16
       flaccid: PSGenitalBreasts16
+      skintoned: PSGenitalBreastsSkintoned16
     - name: genital-size-17
       flaccid: PSGenitalBreasts17
+      skintoned: PSGenitalBreastsSkintoned17
 
 # endregion
 

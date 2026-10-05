@@ -54,6 +54,10 @@ public sealed partial class GenitalOrganComponent : Component
     [DataField, AutoNetworkedField]
     public float DetailGlow;
 
+    /// <summary>Draw the skin-toned render marking variant when the catalog offers one.</summary>
+    [DataField, AutoNetworkedField]
+    public bool SkinTone;
+
     /// <summary>Semen output per climax for a penis organ, copied from the profile.</summary>
     [DataField, AutoNetworkedField]
     public int SemenVolume = GenitalOrganSettings.DefaultSemenVolume;

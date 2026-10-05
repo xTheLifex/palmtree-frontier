@@ -102,6 +102,9 @@ content are intentionally not ported.
    time instead of only after an interaction.
 9. **Favorites** are session-only (`InteractionStateComponent.Favorites`) because this fork has no
    profile storage for them.
+10. **Admin logs.** Every performed interaction (and every manual climax) is written to the admin
+   logs as `LogType.Interaction` with both participants and the interaction prototype id/name.
+   Auto-repeat continuations are not logged again, so a chain produces one log entry.
 
 ## Content
 
@@ -147,10 +150,9 @@ in the same system. Full details: `systems/genital-organs.md`.
 
 ## Validation
 
-- `Content.IntegrationTests/Tests/_PS/InteractionPanelTest.cs` covers profile-driven organ
-  creation, jumpsuit exposure gating, consent, cooldowns, receiver-side/self interactions, manual
-  climax decals, droplet-only drips, remote client genital rendering, and NetSerializable
-  round-trips of the UI state/messages.
+- `Content.IntegrationTests/Tests/_PS/InteractionPanelTest.cs` covers the interaction requirements/
+  consent/cooldowns, the internal-climax drip, legacy marking conversion and stale-profile
+  persistence.
 - `ServerDbSqliteTests` round-trips the persisted `Genitals` string (`CharlieCharlieson`) and
   guards migration drift.
 - The standard pipeline (solution build, YAMLLinter, unit tests, targeted integration tests,

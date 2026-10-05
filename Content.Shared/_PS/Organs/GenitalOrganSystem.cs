@@ -184,6 +184,7 @@ public sealed class GenitalOrganSystem : EntitySystem
                 organ.Comp.Scale = data.Scale;
                 organ.Comp.Glow = data.Glow;
                 organ.Comp.DetailGlow = data.DetailGlow;
+                organ.Comp.SkinTone = data.SkinTone;
 
                 if (changed || !catalog.CanArouse)
                     organ.Comp.Aroused = false;
@@ -220,6 +221,7 @@ public sealed class GenitalOrganSystem : EntitySystem
             comp.Scale = data.Scale;
             comp.Glow = data.Glow;
             comp.DetailGlow = data.DetailGlow;
+            comp.SkinTone = data.SkinTone;
             comp.SemenVolume = settings.SemenVolume;
             Dirty(spawned, comp);
 
@@ -252,7 +254,13 @@ public sealed class GenitalOrganSystem : EntitySystem
                 continue;
 
             var size = catalog.Sizes[organ.Size - 1];
-            var markingId = organ.Aroused && size.Aroused != null ? size.Aroused.Value : size.Flaccid;
+
+            // Modern SPLURT: optionally swap to the skin-toned render marking (baked-in skin shading).
+            ProtoId<MarkingPrototype>? markingId;
+            if (organ.SkinTone && size.Skintoned != null)
+                markingId = size.Skintoned;
+            else
+                markingId = organ.Aroused && size.Aroused != null ? size.Aroused.Value : size.Flaccid;
 
             if (markingId == null)
                 continue;

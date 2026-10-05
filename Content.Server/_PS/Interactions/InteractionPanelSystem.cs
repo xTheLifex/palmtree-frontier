@@ -1,10 +1,12 @@
 using System.Linq;
 using Content.Server._PS.Organs;
+using Content.Server.Administration.Logs;
 using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Shared._PS.Interactions;
 using Content.Shared._PS.Organs;
 using Content.Shared.Chat;
+using Content.Shared.Database;
 using Content.Shared.Ghost;
 using Content.Shared.Hands.Components;
 using Content.Shared.Humanoid;
@@ -47,6 +49,7 @@ public sealed partial class InteractionPanelSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly GenitalOrganSystem _organs = default!;
     [Dependency] private readonly DrippingCumSystem _drip = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogger = default!; // Palmtree: interaction audit log
 
     /// <summary>Verb category shown when right-clicking a character.</summary>
     public static readonly VerbCategory InteractCategory =
@@ -360,6 +363,7 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             }
 
             TriggerClimax(user, state, target, effectiveProto, isActor: true);
+            LogInteraction(user, target, effectiveProto); // Palmtree: admin log
 
             if (IsPanelOpen(user, state))
                 UpdatePanelUi(user, state);
@@ -398,6 +402,10 @@ public sealed partial class InteractionPanelSystem : EntitySystem
 
         ApplyInteractionArousal(user, target, proto);
 
+        // Palmtree: log the start of an interaction (auto-repeat continuations are not logged again).
+        if (!continuing)
+            LogInteraction(user, target, proto);
+
         if (IsPanelOpen(user, state))
             UpdatePanelUi(user, state);
 
@@ -405,6 +413,24 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             UpdatePanelUi(target, targetState);
 
         return true;
+    }
+
+    /// <summary>
+    /// Palmtree: admin-log a performed interaction with both participants, so admins can audit the
+    /// interaction panel. Auto-repeat continuations are not logged again by the caller.
+    /// </summary>
+    private void LogInteraction(EntityUid user, EntityUid target, InteractionPrototype proto)
+    {
+        if (user == target)
+        {
+            _adminLogger.Add(LogType.Interaction, LogImpact.Medium,
+                $"{ToPrettyString(user):player} performed interaction {proto.ID} ({Loc.GetString(proto.Name)}) on themselves");
+        }
+        else
+        {
+            _adminLogger.Add(LogType.Interaction, LogImpact.Medium,
+                $"{ToPrettyString(user):player} performed interaction {proto.ID} ({Loc.GetString(proto.Name)}) on {ToPrettyString(target):target}");
+        }
     }
 
     /// <summary>Applies lust/moans/climax to both participants of a lewd interaction.</summary>

@@ -136,13 +136,14 @@ public sealed partial class GenitalOrganSettings
             for (var i = 0; i < catalog.Sizes.Count; i++)
             {
                 var size = catalog.Sizes[i];
-                if (size.Flaccid?.Id != markingId && size.Aroused?.Id != markingId)
+                if (size.Flaccid?.Id != markingId && size.Aroused?.Id != markingId && size.Skintoned?.Id != markingId)
                     continue;
 
                 settings.Set(catalog.GenitalType, new GenitalOrganData
                 {
                     Prototype = catalog.ID,
                     Size = i + 1,
+                    SkinTone = size.Skintoned?.Id == markingId,
                 });
                 return;
             }
@@ -156,42 +157,26 @@ public sealed partial class GenitalOrganSettings
         {
             var part = $"{organ.Type}:{organ.Prototype}:{organ.Size}:{organ.Visibility}";
 
-            // Colors, offset, scale and glow share the optional tail of the string; null colors and
-            // zero values become '-' placeholders so later segments can still be written.
+            // Colors, offset, scale, glow and skin tone share the optional tail of the string; null
+            // colors and zero values become '-' placeholders so later segments can still be written.
             var hasColors = organ.Color != null || organ.DetailColor != null;
             var hasOffset = organ.Offset != Vector2.Zero;
             var hasScale = organ.Scale != 1f;
             var hasGlow = organ.Glow > 0f || organ.DetailGlow > 0f;
 
-            if (hasColors || hasOffset || hasScale || hasGlow)
+            if (hasColors || hasOffset || hasScale || hasGlow || organ.SkinTone)
             {
                 part += $":{organ.Color?.ToHex() ?? "-"}:{organ.DetailColor?.ToHex() ?? "-"}";
-
-                if (hasOffset || hasScale || hasGlow)
-                {
-                    part += ":";
-                    if (hasOffset)
-                    {
-                        part += organ.Offset.X.ToString(CultureInfo.InvariantCulture) + ","
-                            + organ.Offset.Y.ToString(CultureInfo.InvariantCulture);
-                    }
-                    else
-                    {
-                        part += "-";
-                    }
-
-                    if (hasScale || hasGlow)
-                    {
-                        part += ":" + (hasScale ? organ.Scale.ToString(CultureInfo.InvariantCulture) : "-");
-
-                        if (hasGlow)
-                        {
-                            part += ":"
-                                + organ.Glow.ToString(CultureInfo.InvariantCulture) + ","
-                                + organ.DetailGlow.ToString(CultureInfo.InvariantCulture);
-                        }
-                    }
-                }
+                part += ":" + (hasOffset
+                    ? organ.Offset.X.ToString(CultureInfo.InvariantCulture) + ","
+                        + organ.Offset.Y.ToString(CultureInfo.InvariantCulture)
+                    : "-");
+                part += ":" + (hasScale ? organ.Scale.ToString(CultureInfo.InvariantCulture) : "-");
+                part += ":" + (hasGlow
+                    ? organ.Glow.ToString(CultureInfo.InvariantCulture) + ","
+                        + organ.DetailGlow.ToString(CultureInfo.InvariantCulture)
+                    : "-");
+                part += ":" + (organ.SkinTone ? "1" : "0");
             }
 
             parts.Add(part);
@@ -218,7 +203,7 @@ public sealed partial class GenitalOrganSettings
             }
 
             var halves = part.Split(':');
-            if (halves.Length is < 3 or > 9)
+            if (halves.Length is < 3 or > 10)
                 continue;
 
             if (!Enum.TryParse<GenitalType>(halves[0], ignoreCase: true, out var type))
@@ -262,7 +247,7 @@ public sealed partial class GenitalOrganSettings
 
             var glow = 0f;
             var detailGlow = 0f;
-            if (halves.Length >= 9)
+            if (halves.Length >= 9 && halves[8] != "-")
             {
                 var glowParts = halves[8].Split(',');
                 if (glowParts.Length == 2)
@@ -271,6 +256,8 @@ public sealed partial class GenitalOrganSettings
                     float.TryParse(glowParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out detailGlow);
                 }
             }
+
+            var skinTone = halves.Length >= 10 && halves[9] == "1";
 
             settings.Set(type, new GenitalOrganData
             {
@@ -284,6 +271,7 @@ public sealed partial class GenitalOrganSettings
                 Scale = scale,
                 Glow = glow,
                 DetailGlow = detailGlow,
+                SkinTone = skinTone,
             });
         }
 
@@ -361,6 +349,13 @@ public sealed partial class GenitalOrganData
     [DataField("detailGlow")]
     public float DetailGlow;
 
+    /// <summary>
+    /// Whether to draw the skin-toned render marking (baked-in skin shading) instead of the
+    /// tinted one, when the organ's catalog offers one (breasts).
+    /// </summary>
+    [DataField("skinTone")]
+    public bool SkinTone;
+
     public GenitalOrganData Clone()
     {
         return new GenitalOrganData
@@ -375,6 +370,7 @@ public sealed partial class GenitalOrganData
             Scale = Scale,
             Glow = Glow,
             DetailGlow = DetailGlow,
+            SkinTone = SkinTone,
         };
     }
 
@@ -390,6 +386,7 @@ public sealed partial class GenitalOrganData
                Offset.Equals(other.Offset) &&
                Scale.Equals(other.Scale) &&
                Glow.Equals(other.Glow) &&
-               DetailGlow.Equals(other.DetailGlow);
+               DetailGlow.Equals(other.DetailGlow) &&
+               SkinTone == other.SkinTone;
     }
 }
