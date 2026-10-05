@@ -240,7 +240,9 @@ public sealed class GenitalOrganSystem : EntitySystem
 
         humanoid.MarkingSet.RemoveCategory(MarkingCategories.Genital);
 
-        foreach (var (_, organ) in GetOrgans(mob))
+        // Draw order inside the Genital layer is the order the organs are added: larger/back organs
+        // first and the penis last, so balls, sheaths, butt and belly cannot cover the shaft.
+        foreach (var (_, organ) in GetOrgans(mob).OrderBy(o => GetRenderPriority(o.Comp.GenitalType)))
         {
             // The visibility rule controls rendering directly: covered organs are not drawn at all
             // (layer overlap alone lets oversized sprites poke out of clothing).
@@ -504,6 +506,24 @@ public sealed class GenitalOrganSystem : EntitySystem
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Order in which organs are added to the Genital layer. Later entries draw on top, so the
+    /// penis is last and balls/sheaths cannot cover it (and the belly/butt stay behind).
+    /// </summary>
+    private static int GetRenderPriority(GenitalType type)
+    {
+        return type switch
+        {
+            GenitalType.Belly => 0,
+            GenitalType.Butt => 1,
+            GenitalType.Breasts => 2,
+            GenitalType.Vagina => 3,
+            GenitalType.Balls => 4,
+            GenitalType.Penis => 5,
+            _ => 0,
+        };
     }
 
     /// <summary>Semen produced per climax by the mob's penis organ (profile default when absent).</summary>
