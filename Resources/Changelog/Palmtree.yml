@@ -175,3 +175,27 @@ Entries:
   time: '2026-10-04T23:20:58.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/ed5b2fc511394a4fe3fe98fdfecaa8485aefa3aa
+- author: TheLife
+  changes:
+    - type: Add
+      message: Marking colors now have an alpha slider, including hair, eyes and skin.
+    - type: Add
+      message: >-
+        Genital organs can be given an alpha and a glow color in the character
+        editor.
+    - type: Add
+      message: Female characters now leave female ejaculate decals when they climax.
+    - type: Add
+      message: Added SS13 mech suits to the contractor loadout in red, white and blue.
+    - type: Tweak
+      message: Slime markings keep their own colors instead of following the skin tone.
+    - type: Fix
+      message: Cum, drip and ejaculate decals now spawn centered on the character.
+    - type: Fix
+      message: >-
+        Removing a genital organ in the character editor no longer spams attach
+        warnings.
+  id: 90009
+  time: '2026-10-05T01:26:24.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/3d868327c2098f45dee68740e17c6553984ce6fb
