@@ -42,6 +42,10 @@
     speechVerb: Slime
     speechSounds: Slime
     allowedEmotes: ['Squish', 'Bubble', 'Pop'] # Imp: add Bubble, Pop
+  # Palmtree: innate slime transformation (grants the action; the revert action is automatic).
+  - type: Polymorphable
+    innatePolymorphs:
+    - SlimeForm
   - type: TypingIndicator
     proto: slime
   - type: Vocal

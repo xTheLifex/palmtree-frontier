@@ -34,7 +34,7 @@ species roster in this repo.
 | Species | Source | Notes |
 |---|---|---|
 | Human, Dwarf, Moth, Reptilian, SlimePerson, Vox, Diona, Arachnid, Skeleton, Gingerbread | core | all have `kind` + Floof layers |
-| SlimePerson | core | Palmtree: breathes and drinks plasma harmlessly (`Plasma` reagent got Slime `Oxygenate`/`Drink` effects, poison effects excluded for Slime) |
+| SlimePerson | core | Palmtree: breathes and drinks plasma harmlessly (`Plasma` reagent got Slime `Oxygenate`/`Drink` effects, poison effects excluded for Slime); innate **SlimeForm** polymorph action (see `.ai/systems/ps-systems.md`) |
 | Harpy, Vulpkanin | `_DV` | have digitigrade `altSprites` |
 | Felinid, Oni | `Nyanotrasen` | |
 | Goblin, Sheleg | `_NF` | have digitigrade `altSprites` |

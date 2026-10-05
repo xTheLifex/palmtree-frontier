@@ -1,0 +1,82 @@
+# Palmtree: the form slimepeople polymorph into. It is deliberately a simple mob (no hands,
+# inventory or organs) - the polymorph system parks the original body with all of its gear
+# (inventory, ID card, bank account, organs, records) and restores it untouched on revert.
+- type: entity
+  name: slime
+  id: MobSlimeForm
+  parent: BaseSimpleMob
+  save: false
+  categories: [ HideSpawnMenu ]
+  description: A wobbly blob of slime.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: Mobs/Aliens/slimes.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: green_adult_slime
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: green_adult_slime
+      Dead:
+        Base: green_adult_slime_dead
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.30
+        density: 80
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2
+    baseSprintSpeed: 3.5
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Slime
+  - type: Speech
+    speechVerb: Slime
+    speechSounds: Slime
+    allowedEmotes: ['Squish', 'Bubble', 'Pop']
+  - type: TypingIndicator
+    proto: slime
+  - type: Vocal
+    sounds:
+      Male: AnimalSlime
+      Female: AnimalSlime
+      Unsexed: AnimalSlime
+  - type: ReplacementAccent
+    accent: slimes
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepSlime
+  - type: Tag
+    tags:
+    - FootstepSound
+    - DoorBumpOpener
+
+# One-shot green flash + squish played when a slimeperson transforms.
+- type: entity
+  id: EffectSlimeTransform
+  save: false
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Transform
+  - type: PointLight
+    color: "#7ce07c"
+    radius: 2
+    energy: 4
+    softness: 1
+  - type: TimedDespawn
+    lifetime: 0.4
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Voice/Slime/slime_squish.ogg

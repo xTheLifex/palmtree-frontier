@@ -1,0 +1,19 @@
+# Palmtree: slimeperson transformation. `inventory: None` is deliberate - the original body is
+# parked by the polymorph system with everything on it (clothing, ID, bank, organs) and restored
+# on revert, so nothing is dropped or transferred to the (inventory-less) slime form.
+- type: polymorph
+  id: SlimeForm
+  configuration:
+    entity: MobSlimeForm
+    inventory: None
+    transferName: true
+    transferDamage: true
+    revertOnDeath: true
+    revertOnCrit: true
+    polymorphSound:
+      path: /Audio/Voice/Slime/slime_squish.ogg
+    exitPolymorphSound:
+      path: /Audio/Voice/Slime/slime_squish.ogg
+    polymorphPopup: slime-polymorph-popup
+    exitPolymorphPopup: slime-polymorph-revert-popup
+    effectProto: EffectSlimeTransform

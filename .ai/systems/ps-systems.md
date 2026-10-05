@@ -192,3 +192,28 @@ in-game checks — do not add a new test file per feature.
 - Lobby: only `_PS` backgrounds/music remain active (`_NF/lobbyscreens.yml`,
   `SoundCollections/lobby.yml`, `_NF/SoundCollections/lobby.yml` and upstream `Blueprint` commented
   out); `splashLogo` points at `_PS/Logo/logo.png` (extracted from the old `coyote/palm3` branch).
+
+## Slime transformation (2026-10)
+
+Slimepeople have an innate action to turn into a slime and back, built on the stock polymorph
+system (`inventory: None`, `transferDamage/Name: true`, `revertOnDeath/Crit: true`).
+
+- Form: `Resources/Prototypes/_PS/Entities/Mobs/SlimeForm.yml` (`MobSlimeForm`, a simple mob using
+  the animated `Mobs/Aliens/slimes.rsi` blob, slime speech/typing/accent, no inventory or hands).
+  `EffectSlimeTransform` is the green flash + squish effect spawned on transform.
+- Polymorph: `Resources/Prototypes/_PS/Polymorphs/slime.yml` (`SlimeForm`), granted through
+  `PolymorphableComponent.innatePolymorphs` on `BaseMobSlimePerson`. The revert action is granted
+  automatically by the polymorph system.
+- **Inventory/ID/bank retention**: `inventory: None` means the original body is parked (paused map)
+  with clothing, held items, ID card, bank component, organs and records intact, and restored
+  untouched on revert - nothing is dropped or transferred to the inventory-less form.
+- **`SlimeFormSystem`** (`Content.Server/_PS/Polymorph/SlimeFormSystem.cs`) hooks
+  `PolymorphedEvent` (via `PolymorphableComponent`) and copies the `BankAccountComponent` and the
+  interaction-panel preferences (consent, sounds, favorites, multipliers) onto the form. The bank
+  balance lives in the player profile, so the component is a cache and the copy cannot duplicate
+  money. The hook only runs for `MobSlimeForm`; other polymorphs are untouched.
+- **Damage** scales both ways via `MobThresholdSystem.GetScaledDamage` (dead-threshold ratio), so
+  being hurt as a slime hurts the body proportionally and transforming is not a heal.
+- The SS13 transformation animation is not ported yet: the BYOND checkout was unmounted when this
+  was written, so the transform uses the animated slime sprite + `slime_squish.ogg` + a green flash
+  as a placeholder.
