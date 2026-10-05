@@ -510,14 +510,14 @@ public sealed class GenitalOrganSystem : EntitySystem
 
     /// <summary>
     /// Order in which organs are added to the Genital layer. Later entries draw on top, so the
-    /// penis is last and balls/sheaths cannot cover it (and the belly/butt stay behind).
+    /// penis is last and balls/sheaths cannot cover it (the butt sits behind the belly).
     /// </summary>
     private static int GetRenderPriority(GenitalType type)
     {
         return type switch
         {
-            GenitalType.Belly => 0,
-            GenitalType.Butt => 1,
+            GenitalType.Butt => 0,
+            GenitalType.Belly => 1,
             GenitalType.Breasts => 2,
             GenitalType.Vagina => 3,
             GenitalType.Balls => 4,
