@@ -98,7 +98,16 @@ characters).
 - `HumanoidCharacterAppearance.LegStyle` is chosen in the marking picker (`Plantigrade`/`Digitigrade`)
   and persisted/exported with the profile.
 - Species base sprites use `altSprites` (e.g. `MobSynthLLeg → DigilegSynthlizLegLeft`); markings use
-  their own `altSprites` (species adaptors → `DigilegPaw*`/`DigilegFurry*`).
+  their own `altSprites` (species adaptors → `DigilegPaw*`/`DigilegFurry*`) via
+  `HumanoidAppearanceSystem.GetMarkingForLegStyle` (client). Anthromorph/Reptilian species base
+  sprites were missing `altSprites` entirely (digitigrade did nothing) and got them for torso, legs
+  and feet; the vulpkanin tail markings got their `altSprites → DigiVulpTail*` mappings.
+- The shared `BaseMobSpeciesOrganic` `Sprite` layer list was missing the behind-leg layers
+  (`RLegBehind`/`LLegBehind`/`LFootBehind`/`RFootBehind`); they were added in the correct draw
+  order. `LayerMapReserve` appends unknown layers at the end otherwise, so the digitigrade behind
+  sprites would draw over clothing. Species also need a `speciesBaseSprites` entry
+  (`LLegBehind: MobHumanoidAnyMarking`) for markings to be visible on those layers
+  (`BaseLayers[layer].AllowsMarkings`) — Anthromorph already had them, Reptilian got them.
 - Clothing accommodation: `LegDisplacementPrototype` (`_CS/LegDisplacement.yml`) +
   `HumanoidAppearanceComponent.LegDisplacements` (default `LegDisplacementDigitigrade`).
   `ClientClothingSystem.RenderEquipment` calls `HumanoidAppearanceSystem.GetDisplacementForLegStyle`

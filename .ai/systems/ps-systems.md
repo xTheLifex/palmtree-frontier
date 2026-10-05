@@ -214,6 +214,20 @@ system (`inventory: None`, `transferDamage/Name: true`, `revertOnDeath/Crit: tru
   money. The hook only runs for `MobSlimeForm`; other polymorphs are untouched.
 - **Damage** scales both ways via `MobThresholdSystem.GetScaledDamage` (dead-threshold ratio), so
   being hurt as a slime hurts the body proportionally and transforming is not a heal.
+- **No irreversible warning**: the slime actions are reversible, so `SlimeFormSystem` strips the
+  `ConfirmableActionComponent` from the innate forward action (on `MapInitEvent` of
+  `PolymorphableComponent`, after `PolymorphSystem` created it) and from the form's revert action
+  (in the `PolymorphedEvent` handler). Only actions whose `PolymorphActionEvent.ProtoId` is
+  `SlimeForm` (and the slime form's revert action) are touched; other polymorphs keep the warning.
+- **Very weak to water**: `MobSlimeForm` carries the stock slime `Reactive` water reaction, and
+  `BaseMobSlimePerson`'s was scaled up from `Heat: 0.1` to `Heat: 3` per unit
+  (`scaleByQuantity`, `ignoreResistances`). Thrown/spilled water (`PuddleSystem.TrySplashSpillAt`),
+  extinguisher vapor (`VaporSystem` collisions) and puddle slips (`PuddleSystem` slip reaction) all
+  route through `ReactiveSystem.DoEntityReaction(..., ReactionMethod.Touch)`, so all of them hurt
+  badly. The water `Gas` (inhaled) effect was already 3/unit.
+- **Death revert** is stock `revertOnDeath: true` (the polymorph `Update` loop reverts dead forms);
+  verified with a scratch test that the parked body is restored at the form's position and the form
+  is deleted.
 - The SS13 transformation animation is not ported yet: the BYOND checkout was unmounted when this
   was written, so the transform uses the animated slime sprite + `slime_squish.ogg` + a green flash
   as a placeholder.

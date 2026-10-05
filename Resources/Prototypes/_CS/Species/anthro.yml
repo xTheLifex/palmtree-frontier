@@ -117,24 +117,32 @@
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: torso_m
+  altSprites:
+    Digitigrade: DigilegFurryTorsoMale
 
 - type: humanoidBaseSprite
   id: MobAnthromorphTorsoMale
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: torso_m
+  altSprites:
+    Digitigrade: DigilegFurryTorsoMale
 
 - type: humanoidBaseSprite
   id: MobAnthromorphTorsoFemale
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: torso_f
+  altSprites:
+    Digitigrade: DigilegFurryTorsoFemale
 
 - type: humanoidBaseSprite
   id: MobAnthromorphLLeg
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: l_leg
+  altSprites:
+    Digitigrade: DigilegPawLegLeft
 
 - type: humanoidBaseSprite
   id: MobAnthromorphLHand
@@ -153,12 +161,16 @@
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: l_foot
+  altSprites:
+    Digitigrade: DigilegPawFootLeft
 
 - type: humanoidBaseSprite
   id: MobAnthromorphRLeg
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: r_leg
+  altSprites:
+    Digitigrade: DigilegPawLegRight
 
 - type: humanoidBaseSprite
   id: MobAnthromorphRHand
@@ -177,3 +189,5 @@
   baseSprite:
     sprite: _CS/Mobs/Species/Anthromorph/parts.rsi
     state: r_foot
+  altSprites:
+    Digitigrade: DigilegPawFootRight

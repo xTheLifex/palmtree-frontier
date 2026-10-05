@@ -36,6 +36,10 @@
     RLeg: MobReptilianRLeg
     LFoot: MobReptilianLFoot
     RFoot: MobReptilianRFoot
+    LLegBehind: MobHumanoidAnyMarking
+    RLegBehind: MobHumanoidAnyMarking
+    LFootBehind: MobHumanoidAnyMarking
+    RFootBehind: MobHumanoidAnyMarking
     TailOversuit: MobHumanoidAnyMarking
     UndershirtUnderclothes: MobHumanoidAnyMarking
     UndershirtOverclothes: MobHumanoidAnyMarking
@@ -152,24 +156,32 @@
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: torso_m
+  altSprites:
+    Digitigrade: DigilegLizardTorsoMale
 
 - type: humanoidBaseSprite
   id: MobReptilianTorsoMale
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: torso_m
+  altSprites:
+    Digitigrade: DigilegLizardTorsoMale
 
 - type: humanoidBaseSprite
   id: MobReptilianTorsoFemale
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: torso_f
+  altSprites:
+    Digitigrade: DigilegLizardTorsoFemale
 
 - type: humanoidBaseSprite
   id: MobReptilianLLeg
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: l_leg
+  altSprites:
+    Digitigrade: DigilegPawDarkLegLeft
 
 - type: humanoidBaseSprite
   id: MobReptilianLHand
@@ -188,12 +200,16 @@
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: l_foot
+  altSprites:
+    Digitigrade: DigilegPawDarkFootLeft
 
 - type: humanoidBaseSprite
   id: MobReptilianRLeg
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: r_leg
+  altSprites:
+    Digitigrade: DigilegPawDarkLegRight
 
 - type: humanoidBaseSprite
   id: MobReptilianRHand
@@ -212,3 +228,5 @@
   baseSprite:
     sprite: Mobs/Species/Reptilian/parts.rsi
     state: r_foot
+  altSprites:
+    Digitigrade: DigilegPawDarkFootRight

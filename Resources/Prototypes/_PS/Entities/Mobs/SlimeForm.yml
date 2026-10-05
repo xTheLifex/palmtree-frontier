@@ -42,6 +42,23 @@
   - type: Damageable
     damageContainer: Biological
     damageModifierSet: Slime
+  # Palmtree: the slime form is as weak to water as the slimeperson.
+  - type: Reactive
+    reactions:
+    - reagents: [ Water ]
+      methods: [ Touch ]
+      effects:
+      - !type:HealthChange
+        scaleByQuantity: true
+        ignoreResistances: true
+        damage:
+          types:
+            Heat: 3
+      - !type:PopupMessage
+        type: Local
+        visualType: Large
+        messages: [ "slime-hurt-by-water-popup" ]
+        probability: 0.25
   - type: Speech
     speechVerb: Slime
     speechSounds: Slime

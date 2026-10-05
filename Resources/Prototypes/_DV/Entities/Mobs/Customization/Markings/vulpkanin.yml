@@ -300,6 +300,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTail
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: vulp
@@ -312,6 +314,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailTip
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: vulp
@@ -324,6 +328,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailWag
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: vulp_wag
@@ -336,6 +342,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailWag
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: vulp_wag
@@ -348,6 +356,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailAlt
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: vulp_alt
@@ -360,6 +370,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailAltTip
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: vulp_alt
@@ -372,6 +384,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailLong
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: long
@@ -384,6 +398,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailFox
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: fox
@@ -396,6 +412,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailFoxTip
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: fox
@@ -408,6 +426,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailFoxWag
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: fox_wag
@@ -420,6 +440,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailFoxWagTip
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: fox_wag
@@ -514,6 +536,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailFox3
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: fox3
@@ -536,6 +560,8 @@
   markingCategory: Tail
   speciesRestriction: [Vulpkanin, Felinid]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
+  altSprites:
+    Digitigrade: DigiVulpTailOtie
   sprites:
     - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
       state: otie

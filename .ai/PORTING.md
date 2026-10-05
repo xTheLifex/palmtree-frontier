@@ -229,3 +229,29 @@ Palmtree-original changes in the same batch: currency renamed to "space roubles"
 fuel scaling for longer rounds (~2.7x the original durations), pest/power station events disabled, forensic swab 0.5 s,
 SSD bodies don't suffocate, admin playtime-only bypass, `exportcharacters` console command,
 Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
+
+## 10. 2026-10 marking port batch (Coyote)
+
+- **Cybernetic markings** (`_EE/Entities/Mobs/Customization/`): all seven shell sets (bishop,
+  hephiastos, morpheus, shellguard, wardtakahashi, xion, zenghu) + `Resources/Textures/_EE/Mobs/Species/Cybernetics/*`.
+  Coyote lists them as `speciesRestriction: [IPC]` (no IPC here), but every marking carries
+  `kindAllowance: [BasicHumanlike, BasicFurry]`, and `IsAllowedBySpeciesOrKindAllowance` allows a
+  kind match even when the species restriction does not, so the **Synth** species (kind includes
+  `BasicRobot`/`BasicHumanlike`/`BasicFurry`) can use all heads/chests/limbs. Organics with matching
+  kinds can use the limb sets (arms/legs/hands/feet).
+- **Robot antennae + screen faces** (`_EE/.../antenna.yml`, `screens.yml` + `_EE/Mobs/Customization/ipc_antenna.rsi`,
+  `ipc_screens.rsi`): same kind-allowance sharing, usable by Synth.
+- **Tail/wing/hair marking sets**: `_CS/aggie_tails.yml` (Kemono tails), `_CS/.../Markings/tail_adapters.yml`
+  (hidden digitigrade vulp tails, used through `altSprites`), `_CS/.../Markings/wings.yml` (draconic/fairy
+  wings), `_CS/.../Markings/anthro_tails.yml` (Aussie Shepherd tail + wag), `_DV/.../Markings/hairextensions.yml`
+  (91 hairstyles, `_CS/Hairmarkings/*`), `_Starlight` Avali/Resomi sets (parts, crests, eyes, jewelry,
+  hair, gauze, tails) and Avali/Resomi undergarments, `_DV`/`_NF` chitinid sets. All sprites copied.
+- **Adaptations**: Coyote's `waggingId`/`staticId` marking fields were stripped (its modified
+  wag-toggle `WaggingSystem` is not ported; this fork keeps the older "Animated"-suffix system and the
+  separate `*Wag` markings are selected manually). Vulp tail markings got `altSprites → DigiVulpTail*`
+  so digitigrade swaps tails too.
+- **Digitigrade fixes**: Anthromorph and Reptilian base sprites got `altSprites`; the shared organic
+  base layer list got the behind-leg layers; Reptilian got the behind-layer `speciesBaseSprites`
+  entries. See `.ai/systems/marking-and-appearance.md`.
+- **Slime batch**: water weakness + confirm suppression + death revert; see
+  `.ai/systems/ps-systems.md` ("Slime transformation").

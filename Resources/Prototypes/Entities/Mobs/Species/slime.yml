@@ -91,11 +91,13 @@
     - reagents: [ Water ]
       methods: [ Touch ]
       effects:
+      # Palmtree: slimes are very weak to water (stock was 0.1 damage per unit).
       - !type:HealthChange
         scaleByQuantity: true
+        ignoreResistances: true
         damage:
           types:
-            Heat: 0.1
+            Heat: 3
       - !type:PopupMessage
         type: Local
         visualType: Large
