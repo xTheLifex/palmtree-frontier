@@ -4,8 +4,6 @@
   markingCategory: Head
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  forcedColoring: true
-  followSkinColor: true
   sprites:
   - sprite: _Impstation/Mobs/Customization/slime_parts.rsi
     state: nose
@@ -16,7 +14,6 @@
   markingCategory: Head
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: true
   sprites:
   - sprite: _Impstation/Mobs/Customization/slime_parts.rsi
     state: mouth
@@ -27,7 +24,6 @@
   markingCategory: Head
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: true
   sprites:
   - sprite: _Impstation/Mobs/Customization/slime_parts.rsi
     state: brain
@@ -54,7 +50,6 @@
   markingCategory: Chest
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: true
   sprites:
   - sprite: _Impstation/Mobs/Customization/slime_parts.rsi
     state: lungs
@@ -65,7 +60,6 @@
   markingCategory: Chest
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: true
   sprites:
   - sprite: _Impstation/Mobs/Customization/slime_parts.rsi
     state: core
@@ -76,7 +70,6 @@
   markingCategory: Head
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -92,7 +85,6 @@
   markingCategory: Chest
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -108,7 +100,6 @@
   markingCategory: Arms
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -124,7 +115,6 @@
   markingCategory: Arms
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -140,7 +130,6 @@
   markingCategory: Legs
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -156,7 +145,6 @@
   markingCategory: Legs
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -172,7 +160,6 @@
   markingCategory: Arms
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -188,7 +175,6 @@
   markingCategory: Arms
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -204,7 +190,6 @@
   markingCategory: Legs
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:
@@ -220,7 +205,6 @@
   markingCategory: Legs
   speciesRestriction: [SlimePerson]
   kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
-  followSkinColor: false
   coloring:
     default:
       type:

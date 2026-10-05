@@ -32,13 +32,15 @@
 
 `GenitalOrganSettings` (profile + network): one `GenitalOrganData { GenitalType Type; string
 Prototype; int Size; GenitalVisibility Visibility; Color? Color; Color? DetailColor; Vector2 Offset;
-float Scale }` per organ (at most one per type) plus `SemenVolume` (1-300, default 30). Persisted as
-a compact string via `ToDbString`/`FromDbString` in a plain text column, e.g.
-`Penis:PenisHuman:3:NeverHidden:#f2c9a0:-:0.25,-0.5:1.5;Vagina:VaginaHuman:1:HiddenByJumpsuit;semen=42`
-(older 3/4-part entries parse as `HiddenByJumpsuit`/skin colors; `-` means "follow skin"; the 7th
-segment is the optional `offsetX,offsetY` and the 8th the optional `scale`). Offset and scale are
-applied to the organ's render marking via `Marking.SetOffset`/`SetScale`, so organs can be nudged
-and scaled like markings.
+float Scale; float Glow; float DetailGlow }` per organ (at most one per type) plus `SemenVolume`
+(1-300, default 30; the editor labels it "Fluid per climax" and it applies to female climaxes too).
+Persisted as a compact string via `ToDbString`/`FromDbString` in a plain text column, e.g.
+`Penis:PenisHuman:3:NeverHidden:#f2c9a0:-:0.25,-0.5:1.5:0.5,0;Vagina:VaginaHuman:1:HiddenByJumpsuit;semen=42`
+(older 3/4-part entries parse as `HiddenByJumpsuit`/skin colors; `-` means "follow skin"/default; the
+7th/8th/9th segments are the optional `offsetX,offsetY`, `scale` and `glow,detailGlow`). Offset,
+scale and glow are applied to the organ's render marking via
+`Marking.SetOffset`/`SetScale`/`SetGlow`, so organs can be transformed like markings. Organ color
+pickers expose alpha (`IsAlphaVisible`).
 
 `GenitalOrganPrototype` (catalog): `genitalType`, localized `name`, and an ordered `sizes` list.
 Each size maps to a `flaccid` render marking and an optional `aroused` one. `CanArouse` is false
@@ -111,10 +113,14 @@ queries).
   while a jumpsuit is worn).
 - **Multi-pulse climax:** `EmitClimax` splits the stored volume into 30u pulses, capped at 10 per
   climax (`InteractionPanelSystem.ClimaxPulseVolume`/`MaxClimaxPulses`), so 30u = one pulse and the
-  300u maximum = ten. The first pulse fires immediately; the rest run every 0.6s from the server
-  `Update` loop (`EmitClimaxPulse`). Each pulse emits its share of the fluid, its decal/drip, the
+  300u maximum = ten. The first pulse fires immediately; the rest run from the server `Update` loop
+  every 0.6s (1s for female climaxes). Each pulse emits its share of the fluid, its decal/drip, the
   interaction's cum message and a moan. While a sequence is active the actor cannot start another
   climax and climaxing participants gain no lust (fail-safe).
+- **Female climax:** vagina-only characters use the `FemPuddle1..4` decals (SPLURT fem sprites,
+  random per pulse, no volume scaling). The pulse count comes from the same "Fluid per climax"
+  setting (`GenitalOrganSystem.GetFluidVolume` falls back to the vagina organ), and the pulses are
+  1 second apart.
 - Receiver-side acts (`Ride`, `TakeAnal`) route the **target's** climax through the same cum target,
   so the penis owner finishing fills the actor.
 - Exterior climaxes (handjob, breastfuck, frotting, **Cum on them**, manual Climax with no recent
@@ -125,11 +131,12 @@ queries).
   "cums all over {target}'s breasts"); the generic per-target text is the fallback. The generic
   Climax reuses the last interaction's proto/target within `continueTimeout`, so the text and the
   destination both follow what you were doing.
-- Decals are placed at the mob's actual position (not snapped to the tile) with a small random
-  scatter, and every drop is a new decal, so the floor builds up a mess. If the scattered position
-  lands on a space tile (standing on an edge/corner) placement falls back to the mob's exact
-  position. Note `GetDecalsInRange` compares against `coordinate + (0.5, 0.5)`, so tests should
-  query around `position + (0.5, 0.5)`.
+- Decals are placed centered on the mob (the stored coordinate is the sprite's bottom-left corner,
+  so placement subtracts half a tile) and every drop is a new decal, so the floor builds up a mess.
+  Drips barely scatter (`DripScatter = 0.05`) while ejaculation decals scatter widely
+  (`CumScatter = 0.35`). If the scattered position lands on a space tile (standing on an
+  edge/corner) placement falls back to the mob's exact position. Note `GetDecalsInRange` compares
+  against `coordinate + (0.5, 0.5)`, so tests query at the mob's position.
 - The shower structure does not yet wash mobs (no SS14 shower system); space cleaner removes decals.
 
 ## Editor tab
@@ -137,11 +144,12 @@ queries).
 Dynamic `Genitals` tab (like Flavor Text, so upstream tab indices do not change). Per organ type:
 enable checkbox, Type dropdown (catalog prototypes), Size dropdown (catalog sizes), Visibility
 dropdown (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never hidden), a collapsible
-**Colors** section with primary + detail `ColorSelectorSliders` and a "Use skin color" reset (null
-colors follow the skin), a collapsible **Transform** section with Scale and Offset X/Y sliders +
-spin boxes (scale 0.25-3, offset ±1, mirroring the marking picker's transform controls) and a reset
-button, plus a `Semen per climax` SpinBox. Changing anything calls `WithGenitals`, marks the profile
-dirty and reloads the preview.
+**Colors** section with primary + detail `ColorSelectorSliders` (alpha enabled) and a "Use skin
+color" reset (null colors follow the skin), plus Glow/Detail glow sliders (0-100%) in the same
+section; a collapsible **Transform** section with Scale and Offset X/Y sliders + spin boxes (scale
+0.25-3, offset ±1, mirroring the marking picker's transform controls) and a reset button; plus a
+`Fluid per climax` SpinBox. Changing anything calls `WithGenitals`, marks the profile dirty and
+reloads the preview.
 
 The MarkingPicker ignores the `Genital` category; profiles with old genital markings are converted
 to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
@@ -187,6 +195,10 @@ to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
   to `CanInsertOrgan` and reuse the existing slot, or toggling an organ off and on in the editor
   silently stops it from ever rendering again (regression test:
   `TogglingOrgansOffAndOnRecreatesThem`).
+- Removed organs must be detached with `Containers.Remove(..., reparent: false)` (the container
+  event still drives `SharedBodySystem` bookkeeping) before `QueueDel`. The default
+  `SharedBodySystem.RemoveOrgan` reparents to the grid/map, which spams "Failed to attach entity to
+  map or grid" warnings for the lobby preview dummy (it isn't on a grid).
 - `GenitalOrganSystem.SyncRender` must set `CanToggleVisible = false` on render markings or
   ModifyUndies will expose them as toggle verbs.
 - The client `HumanoidAppearanceSystem.LoadProfile` override does not call the shared method; any

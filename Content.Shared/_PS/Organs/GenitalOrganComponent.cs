@@ -46,6 +46,14 @@ public sealed partial class GenitalOrganComponent : Component
     [DataField, AutoNetworkedField]
     public float Scale = 1f;
 
+    /// <summary>Glow level (0-1) for the primary color group.</summary>
+    [DataField, AutoNetworkedField]
+    public float Glow;
+
+    /// <summary>Glow level (0-1) for the detail color group.</summary>
+    [DataField, AutoNetworkedField]
+    public float DetailGlow;
+
     /// <summary>Semen output per climax for a penis organ, copied from the profile.</summary>
     [DataField, AutoNetworkedField]
     public int SemenVolume = GenitalOrganSettings.DefaultSemenVolume;

@@ -138,8 +138,11 @@ public sealed partial class InteractionPanelSystem
     /// <summary>Hard cap on pulses per climax (even if the stored volume is larger).</summary>
     public const int MaxClimaxPulses = 10;
 
-    /// <summary>Delay between climax pulses.</summary>
-    private static readonly TimeSpan ClimaxPulseInterval = TimeSpan.FromSeconds(0.6);
+    /// <summary>Default delay between climax pulses (penis owners).</summary>
+    private static readonly TimeSpan DefaultClimaxPulseInterval = TimeSpan.FromSeconds(0.6);
+
+    /// <summary>Female climaxes pulse slower (1 second).</summary>
+    private static readonly TimeSpan FemaleClimaxPulseInterval = TimeSpan.FromSeconds(1);
 
     /// <summary>
     /// Starts a climax: the actor's stored semen is split into <see cref="ClimaxPulseVolume"/>
@@ -148,17 +151,23 @@ public sealed partial class InteractionPanelSystem
     /// </summary>
     private void EmitClimax(EntityUid uid, InteractionStateComponent state, EntityUid? partner, InteractionPrototype? proto)
     {
-        if (!_organs.TryGetOrgan(uid, GenitalType.Penis, out _, out var penis))
+        var hasPenis = _organs.TryGetOrgan(uid, GenitalType.Penis, out _, out _);
+        var hasVagina = _organs.TryGetOrgan(uid, GenitalType.Vagina, out _, out _);
+
+        // Penis owners ejaculate; vagina owners squirt (SPLURT fem decals).
+        if (!hasPenis && !hasVagina)
             return;
 
-        var volume = penis.SemenVolume;
+        var volume = _organs.GetFluidVolume(uid);
         if (volume <= 0)
             return;
 
         state.ClimaxPulseRemaining = volume;
         state.ClimaxPulsesLeft = Math.Clamp((int) Math.Ceiling(volume / ClimaxPulseVolume), 1, MaxClimaxPulses);
+        state.ClimaxPulseInterval = hasPenis ? DefaultClimaxPulseInterval : FemaleClimaxPulseInterval;
         state.ClimaxPulseTarget = partner is { } partnerUid && !Deleted(partnerUid) ? partnerUid : null;
         state.ClimaxPulseProto = proto?.ID;
+        state.ClimaxPulseFemale = !hasPenis;
         state.ClimaxPulseFirst = true;
 
         // Fire the first pulse immediately so the climax is responsive; the rest follow in Update.
@@ -167,7 +176,7 @@ public sealed partial class InteractionPanelSystem
         else
             state.ClimaxPulsesLeft = 0;
 
-        state.NextClimaxPulse = _timing.CurTime + ClimaxPulseInterval;
+        state.NextClimaxPulse = _timing.CurTime + state.ClimaxPulseInterval;
 
         if (state.ClimaxPulsesLeft <= 0)
         {
@@ -175,6 +184,7 @@ public sealed partial class InteractionPanelSystem
             state.ClimaxPulseTarget = null;
             state.ClimaxPulseProto = null;
             state.ClimaxPulseFirst = false;
+            state.ClimaxPulseFemale = false;
         }
     }
 
@@ -187,7 +197,8 @@ public sealed partial class InteractionPanelSystem
     /// </summary>
     private bool EmitClimaxPulse(EntityUid uid, InteractionStateComponent state, InteractionPrototype? proto)
     {
-        if (!_organs.TryGetOrgan(uid, GenitalType.Penis, out _, out _))
+        var hasPenis = _organs.TryGetOrgan(uid, GenitalType.Penis, out _, out _);
+        if (!hasPenis && !_organs.TryGetOrgan(uid, GenitalType.Vagina, out _, out _))
             return false;
 
         var amount = Math.Min(ClimaxPulseVolume, state.ClimaxPulseRemaining);
@@ -198,60 +209,69 @@ public sealed partial class InteractionPanelSystem
         var first = state.ClimaxPulseFirst;
         state.ClimaxPulseFirst = false;
 
-        // Self/climax-with-no-target behaves like an exterior climax on the actor themselves.
-        var cumTarget = proto?.CumTarget ?? "exterior";
-        var target = state.ClimaxPulseTarget;
-        var other = target is { } targetUid && !Deleted(targetUid) && targetUid != uid ? targetUid : uid;
-        var hasPartner = other != uid;
-
-        switch (cumTarget)
+        if (state.ClimaxPulseFemale)
         {
-            case "vagina":
-                if (!hasPartner || !_genitals.HasGenital(other, GenitalType.Vagina))
+            // Female squirt: a random fem decal lands under the actor, regardless of the
+            // interaction's cum target (there is no penis to direct it anywhere).
+            _drip.SpawnFemDecals(uid);
+        }
+        else
+        {
+            // Self/climax-with-no-target behaves like an exterior climax on the actor themselves.
+            var cumTarget = proto?.CumTarget ?? "exterior";
+            var target = state.ClimaxPulseTarget;
+            var other = target is { } targetUid && !Deleted(targetUid) && targetUid != uid ? targetUid : uid;
+            var hasPartner = other != uid;
+
+            switch (cumTarget)
+            {
+                case "vagina":
+                    if (!hasPartner || !_genitals.HasGenital(other, GenitalType.Vagina))
+                        break;
+
+                    _drip.AddSemen(other, amount);
+                    SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-inside");
+
+                    if (first)
+                    {
+                        _popup.PopupEntity(Loc.GetString(_organs.IsWearingJumpsuit(other)
+                            ? "interaction-cum-received-held"
+                            : "interaction-cum-received"), other, other);
+                    }
+
                     break;
 
-                _drip.AddSemen(other, amount);
-                SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-inside");
+                case "anus":
+                    if (!hasPartner)
+                        break;
 
-                if (first)
-                {
-                    _popup.PopupEntity(Loc.GetString(_organs.IsWearingJumpsuit(other)
-                        ? "interaction-cum-received-held"
-                        : "interaction-cum-received"), other, other);
-                }
+                    _drip.AddSemen(other, amount);
+                    SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-inside");
 
-                break;
+                    if (first)
+                    {
+                        _popup.PopupEntity(Loc.GetString(_organs.IsWearingJumpsuit(other)
+                            ? "interaction-cum-received-held"
+                            : "interaction-cum-received"), other, other);
+                    }
 
-            case "anus":
-                if (!hasPartner)
                     break;
 
-                _drip.AddSemen(other, amount);
-                SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-inside");
+                case "mouth":
+                    if (!hasPartner)
+                        break;
 
-                if (first)
-                {
-                    _popup.PopupEntity(Loc.GetString(_organs.IsWearingJumpsuit(other)
-                        ? "interaction-cum-received-held"
-                        : "interaction-cum-received"), other, other);
-                }
-
-                break;
-
-            case "mouth":
-                if (!hasPartner)
+                    SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-mouth");
                     break;
 
-                SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-mouth");
-                break;
+                case "exterior":
+                default:
+                    SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-exterior");
 
-            case "exterior":
-            default:
-                SendCumMessage(uid, other, proto, hasPartner, "interaction-cum-exterior");
-
-                // Ejaculation leaves the full cum decals; the drip reservoir only ever makes droplets.
-                _drip.SpawnCumDecals(other, amount);
-                break;
+                    // Ejaculation leaves the full cum decals; the drip reservoir only ever makes droplets.
+                    _drip.SpawnCumDecals(other, amount);
+                    break;
+            }
         }
 
         // Each pulse comes with its own moan.

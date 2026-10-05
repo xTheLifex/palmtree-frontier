@@ -85,6 +85,12 @@ public sealed partial class InteractionStateComponent : Component
     /// <summary>Whether the next pulse is the first one (only the first shows the receiver popup).</summary>
     public bool ClimaxPulseFirst;
 
+    /// <summary>True when this sequence is a female (vagina-only) climax using the fem decals.</summary>
+    public bool ClimaxPulseFemale;
+
+    /// <summary>Delay between pulses for the current sequence (females are slower).</summary>
+    public TimeSpan ClimaxPulseInterval = TimeSpan.FromSeconds(0.6);
+
     #endregion
 
     #region Cooldowns / continuity

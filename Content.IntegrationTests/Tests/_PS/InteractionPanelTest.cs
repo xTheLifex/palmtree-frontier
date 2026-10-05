@@ -11,8 +11,10 @@ using Content.Shared._PS.Organs;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Preferences;
+using Content.Shared.Preferences.Loadouts;
 using Robust.Client.GameObjects;
 using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -43,7 +45,7 @@ public sealed class InteractionPanelTest
             var organSystem = server.System<GenitalOrganSystem>();
             var interactions = server.System<InteractionPanelSystem>();
 
-            var user = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var user = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             var target = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(1f, 0f)));
 
             // Configure organs through the character profile (the player-facing path).
@@ -155,7 +157,7 @@ public sealed class InteractionPanelTest
         await server.WaitAssertion(() =>
         {
             var drip = server.System<DrippingCumSystem>();
-            receiver = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            receiver = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
 
             drip.AddSemen(receiver, 6);
             Assert.That(drip.GetSemen(receiver), Is.EqualTo(6));
@@ -170,7 +172,7 @@ public sealed class InteractionPanelTest
             Assert.That(xform.GridUid, Is.Not.Null, "The receiver should be standing on a grid.");
 
             // Decals are placed where the mob stands (plus scatter), so query around their position.
-            var query = xform.LocalPosition + new Vector2(0.5f, 0.5f);
+            var query = xform.LocalPosition; // decals are centered on the mob now
             var decals = server.System<DecalSystem>()
                 .GetDecalsInRange(xform.GridUid!.Value, query, 1f)
                 .ToList();
@@ -197,7 +199,7 @@ public sealed class InteractionPanelTest
         await server.WaitAssertion(() =>
         {
             var drip = server.System<DrippingCumSystem>();
-            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
 
             // 30 units is the default organ volume, which maps to the second puddle stage.
             // Two climaxes should leave two decals (no replacing the previous one).
@@ -205,7 +207,7 @@ public sealed class InteractionPanelTest
             drip.SpawnCumDecals(mob, 30);
 
             var xform = entMan.GetComponent<TransformComponent>(mob);
-            var query = xform.LocalPosition + new Vector2(0.5f, 0.5f);
+            var query = xform.LocalPosition; // decals are centered on the mob now
             var decals = server.System<DecalSystem>()
                 .GetDecalsInRange(xform.GridUid!.Value, query, 1f)
                 .ToList();
@@ -214,6 +216,9 @@ public sealed class InteractionPanelTest
                 "Ejaculation should place the full SPLURT cum decals.");
             Assert.That(decals.Count(d => d.Decal.Id.StartsWith("SemenPuddle")), Is.GreaterThanOrEqualTo(2),
                 "Each ejaculation should add a new decal instead of replacing the previous one.");
+            Assert.That(decals.Any(d =>
+                    (d.Decal.Coordinates + new Vector2(0.5f, 0.5f) - xform.LocalPosition).Length() < 0.5f), Is.True,
+                "Cum decals should be centered on the mob, not offset up-right.");
             entMan.DeleteEntity(mob);
         });
 
@@ -235,7 +240,7 @@ public sealed class InteractionPanelTest
             var interactions = server.System<InteractionPanelSystem>();
             var drip = server.System<DrippingCumSystem>();
 
-            var user = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var user = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             var target = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(1f, 0f)));
 
             var userSettings = new GenitalOrganSettings();
@@ -271,7 +276,7 @@ public sealed class InteractionPanelTest
             Assert.That(interactions.CanPerform(masturbate, user, target, false), Is.False);
 
             // A male manual climax with no partner leaves the full cum decals on their own tile.
-            var male = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var male = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             var maleSettings = new GenitalOrganSettings();
             maleSettings.Set(GenitalType.Penis, new GenitalOrganData { Prototype = "PenisHuman", Size = 3 });
             appearance.LoadProfile(male, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(maleSettings));
@@ -281,7 +286,7 @@ public sealed class InteractionPanelTest
             Assert.That(interactions.TryPerform(male, male, climax), Is.True);
 
             var maleXform = entMan.GetComponent<TransformComponent>(male);
-            var maleQuery = maleXform.LocalPosition + new Vector2(0.5f, 0.5f);
+            var maleQuery = maleXform.LocalPosition; // decals are centered on the mob now
             var decals = server.System<DecalSystem>()
                 .GetDecalsInRange(maleXform.GridUid!.Value, maleQuery, 1f)
                 .ToList();
@@ -344,7 +349,7 @@ profile:
             Assert.That(profile.Appearance.Markings.Any(m =>
                 m.MarkingId.StartsWith("Genital") || m.MarkingId.StartsWith("PSGenital")), Is.False);
 
-            // Offset/scale round-trip through the DB string (colors omitted).
+            // Offset/scale/glow round-trip through the DB string (colors omitted).
             var dbSettings = new GenitalOrganSettings();
             dbSettings.Set(GenitalType.Penis, new GenitalOrganData
             {
@@ -352,10 +357,14 @@ profile:
                 Size = 3,
                 Offset = new Vector2(0.25f, -0.5f),
                 Scale = 1.5f,
+                Glow = 0.5f,
+                DetailGlow = 0.25f,
             });
             var parsed = GenitalOrganSettings.FromDbString(dbSettings.ToDbString());
             Assert.That(parsed.Get(GenitalType.Penis)?.Offset, Is.EqualTo(new Vector2(0.25f, -0.5f)));
             Assert.That(parsed.Get(GenitalType.Penis)?.Scale, Is.EqualTo(1.5f));
+            Assert.That(parsed.Get(GenitalType.Penis)?.Glow, Is.EqualTo(0.5f));
+            Assert.That(parsed.Get(GenitalType.Penis)?.DetailGlow, Is.EqualTo(0.25f));
         });
 
         await pair.CleanReturnAsync();
@@ -374,7 +383,7 @@ profile:
             var appearance = server.System<SharedHumanoidAppearanceSystem>();
             var organSystem = server.System<GenitalOrganSystem>();
 
-            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             var baseProfile = HumanoidCharacterProfile.DefaultWithSpecies("Human");
 
             var enabled = new GenitalOrganSettings();
@@ -423,7 +432,7 @@ profile:
             var organSystem = server.System<GenitalOrganSystem>();
             var genitals = server.System<GenitalSystem>();
 
-            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             var settings = new GenitalOrganSettings();
             settings.Set(GenitalType.Balls, new GenitalOrganData { Prototype = "BallsSheath", Size = 1 });
             settings.Set(GenitalType.Penis, new GenitalOrganData { Prototype = "PenisHuman", Size = 3 });
@@ -477,7 +486,7 @@ profile:
             Assert.That(profile.Height, Is.EqualTo(HumanoidCharacterProfile.MaxHeight));
             Assert.That(profile.Width, Is.EqualTo(HumanoidCharacterProfile.MinWidth));
 
-            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             appearance.LoadProfile(mob, profile);
             var humanoid = entMan.GetComponent<HumanoidAppearanceComponent>(mob);
 
@@ -506,7 +515,7 @@ profile:
             var appearance = server.System<SharedHumanoidAppearanceSystem>();
             var interactions = server.System<InteractionPanelSystem>();
 
-            male = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            male = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
 
             var settings = new GenitalOrganSettings { SemenVolume = 300 };
             settings.Set(GenitalType.Penis, new GenitalOrganData { Prototype = "PenisHuman", Size = 3 });
@@ -543,7 +552,7 @@ profile:
             Assert.That(state.ClimaxPulsesLeft, Is.EqualTo(0), "The pulse sequence should finish.");
 
             var xform = entMan.GetComponent<TransformComponent>(male);
-            var query = xform.LocalPosition + new Vector2(0.5f, 0.5f);
+            var query = xform.LocalPosition; // decals are centered on the mob now
             var decals = server.System<DecalSystem>()
                 .GetDecalsInRange(xform.GridUid!.Value, query, 1f)
                 .ToList();
@@ -552,6 +561,137 @@ profile:
                 "A 300u climax should leave ten pulses worth of decals.");
 
             entMan.DeleteEntity(male);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task FemaleClimaxSpawnsFemDecals()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var testMap = await pair.CreateTestMap();
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        EntityUid female = default;
+
+        await server.WaitAssertion(() =>
+        {
+            var proto = server.ResolveDependency<IPrototypeManager>();
+            var appearance = server.System<SharedHumanoidAppearanceSystem>();
+            var interactions = server.System<InteractionPanelSystem>();
+
+            female = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
+
+            // Vagina-only character; 60u of "fluid per climax" = two 30u pulses.
+            var settings = new GenitalOrganSettings { SemenVolume = 60 };
+            settings.Set(GenitalType.Vagina, new GenitalOrganData { Prototype = "VaginaHuman", Size = 1 });
+            appearance.LoadProfile(female, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
+
+            var climax = proto.Index<InteractionPrototype>("Climax");
+            var state = interactions.EnsureState(female);
+            interactions.SetLust(female, state, 0);
+            state.LastInteractionTime = TimeSpan.MinValue;
+
+            Assert.That(interactions.TryPerform(female, female, climax), Is.True);
+            Assert.That(state.ClimaxPulseFemale, Is.True);
+            Assert.That(state.ClimaxPulsesLeft, Is.EqualTo(1), "60u should leave one more pulse.");
+            Assert.That(state.ClimaxPulseInterval, Is.EqualTo(TimeSpan.FromSeconds(1)),
+                "Female climax pulses are slower (1s).");
+        });
+
+        // Let the second pulse fire (1s later).
+        await server.WaitRunTicks(60);
+
+        await server.WaitAssertion(() =>
+        {
+            var xform = entMan.GetComponent<TransformComponent>(female);
+            var query = xform.LocalPosition; // decals are centered on the mob now
+            var decals = server.System<DecalSystem>()
+                .GetDecalsInRange(xform.GridUid!.Value, query, 1f)
+                .ToList();
+
+            Assert.That(decals.Count(d => d.Decal.Id.StartsWith("FemPuddle")), Is.EqualTo(2),
+                "Female climaxes should leave fem decals.");
+            Assert.That(decals.Any(d => d.Decal.Id.StartsWith("SemenPuddle")), Is.False,
+                "Female climaxes should not use the semen decals.");
+
+            entMan.DeleteEntity(female);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task HairAlphaIsPreserved()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+
+        await server.WaitAssertion(() =>
+        {
+            var profile = HumanoidCharacterProfile.DefaultWithSpecies("Human");
+            var color = new Color(255, 0, 0, 128);
+            profile = profile.WithCharacterAppearance(profile.Appearance.WithHairColor(color));
+            profile.EnsureValid(null!, IoCManager.Instance!);
+
+            Assert.That(profile.Appearance.HairColor.AByte, Is.EqualTo(color.AByte),
+                "Hair alpha should survive profile validation.");
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task SlimeMarkingsCanBeColored()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+
+        await server.WaitAssertion(() =>
+        {
+            var proto = server.ResolveDependency<IPrototypeManager>();
+            var markingManager = server.ResolveDependency<MarkingManager>();
+
+            // Slime hair/facial hair no longer follow the skin color...
+            Assert.That(markingManager.MustMatchSkin("SlimePerson", HumanoidVisualLayers.Hair, out _, proto), Is.False);
+            Assert.That(markingManager.MustMatchSkin("SlimePerson", HumanoidVisualLayers.FacialHair, out _, proto), Is.False);
+
+            // ...and slime markings can be recolored.
+            Assert.That(proto.Index<MarkingPrototype>("SlimeNose").ForcedColoring, Is.False);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    [Test]
+    public async Task MechSuitsAreAvailableToContractors()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+
+        await server.WaitAssertion(() =>
+        {
+            var proto = server.ResolveDependency<IPrototypeManager>();
+
+            foreach (var id in new[]
+                     {
+                         "ClothingUniformMechSuitRed",
+                         "ClothingUniformMechSuitWhite",
+                         "ClothingUniformMechSuitBlue",
+                     })
+            {
+                Assert.That(proto.HasIndex<EntityPrototype>(id), Is.True, $"{id} should exist.");
+            }
+
+            Assert.That(proto.HasIndex<LoadoutGroupPrototype>("ContractorMechSuit"), Is.True);
+            Assert.That(proto.Index<LoadoutGroupPrototype>("ContractorMechSuit").MinLimit, Is.EqualTo(0),
+                "The mech suit category is optional.");
+
+            var contractor = proto.Index<RoleLoadoutPrototype>("JobContractor");
+            Assert.That(contractor.Groups.Any(g => g.Id == "ContractorMechSuit"), Is.True,
+                "The contractor loadout should list the mech suit category.");
         });
 
         await pair.CleanReturnAsync();
@@ -618,7 +758,7 @@ profile:
 
         await server.WaitPost(() =>
         {
-            var mob = sEntMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = sEntMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
 
             var settings = new GenitalOrganSettings();
             settings.Set(GenitalType.Penis, new GenitalOrganData { Prototype = "PenisHuman", Size = 3 });
@@ -680,7 +820,7 @@ profile:
             var organSystem = server.System<GenitalOrganSystem>();
             var inventory = server.System<Content.Shared.Inventory.InventorySystem>();
 
-            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
 
             var settings = new GenitalOrganSettings();
             settings.Set(GenitalType.Breasts, new GenitalOrganData
@@ -690,6 +830,7 @@ profile:
                 Visibility = GenitalVisibility.HiddenByJumpsuit,
                 Offset = new Vector2(0.25f, -0.5f),
                 Scale = 1.5f,
+                Glow = 0.5f,
             });
 
             appearance.LoadProfile(mob, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
@@ -703,6 +844,8 @@ profile:
                 "Organ offsets should reach the render marking.");
             Assert.That(renderMarking.MarkingScale, Is.EqualTo(1.5f),
                 "Organ scale should reach the render marking.");
+            Assert.That(renderMarking.MarkingGlow[0], Is.EqualTo(0.5f),
+                "Organ glow should reach the render marking.");
 
             // HiddenByUnderwear + toggling the undergarment marking exercises the visibility event
             // and must not crash the render rebuild (dictionary mutation regression).
@@ -759,7 +902,7 @@ profile:
             Assert.That(GenitalOrganSystem.CountColorGroups(proto.Index<MarkingPrototype>("PSGenitalBreasts7")),
                 Is.EqualTo(2));
 
-            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords);
+            var mob = entMan.SpawnEntity("MobHuman", testMap.GridCoords.Offset(new Vector2(0.5f, 0.5f)));
             var settings = new GenitalOrganSettings();
             settings.Set(GenitalType.Breasts, new GenitalOrganData
             {
@@ -767,6 +910,8 @@ profile:
                 Size = 8, // PSGenitalBreasts7
                 Color = Color.Red,
                 DetailColor = Color.Blue,
+                Glow = 0.25f,
+                DetailGlow = 0.75f,
             });
 
             appearance.LoadProfile(mob, HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
@@ -779,6 +924,9 @@ profile:
             Assert.That(marking.MarkingColors[0], Is.EqualTo(Color.Red));
             Assert.That(marking.MarkingColors[1], Is.EqualTo(Color.Blue),
                 "The secondary sprite (nipples) should use the detail color.");
+            Assert.That(marking.MarkingGlow[0], Is.EqualTo(0.25f));
+            Assert.That(marking.MarkingGlow[1], Is.EqualTo(0.75f),
+                "The secondary sprite (nipples) should use the detail glow.");
 
             entMan.DeleteEntity(mob);
         });

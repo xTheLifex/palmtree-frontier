@@ -190,7 +190,8 @@ public sealed partial class HumanoidCharacterAppearance : ICharacterAppearance, 
 
     public static Color ClampColor(Color color)
     {
-        return new(color.RByte, color.GByte, color.BByte);
+        // Palmtree: keep the alpha channel (markings/hair can be translucent).
+        return new(color.RByte, color.GByte, color.BByte, color.AByte);
     }
 
     public static HumanoidCharacterAppearance EnsureValid(HumanoidCharacterAppearance appearance, string species, Sex sex)

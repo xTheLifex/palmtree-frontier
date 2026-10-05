@@ -134,6 +134,11 @@ namespace Content.Client.Lobby.UI
             public SpinBox OffsetYBox = default!;
             public Slider ScaleSlider = default!;
             public SpinBox ScaleBox = default!;
+            public Slider GlowSlider = default!;
+            public SpinBox GlowBox = default!;
+            public BoxContainer DetailGlowRow = default!;
+            public Slider DetailGlowSlider = default!;
+            public SpinBox DetailGlowBox = default!;
             public bool ColorsCustomized;
             public List<GenitalOrganPrototype> Catalogs = new();
         }
@@ -694,10 +699,12 @@ namespace Content.Client.Lobby.UI
                 var primaryColor = new ColorSelectorSliders
                 {
                     SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
+                    IsAlphaVisible = true, // Palmtree: per-organ alpha
                 };
                 var detailColor = new ColorSelectorSliders
                 {
                     SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
+                    IsAlphaVisible = true, // Palmtree: per-organ alpha
                 };
                 controls.PrimaryColor = primaryColor;
                 controls.DetailColor = detailColor;
@@ -739,6 +746,98 @@ namespace Content.Client.Lobby.UI
                 };
                 controls.DetailColorLabel = detailColorLabel;
 
+                // Glow rows (0-100%), mirroring the marking picker's glow slider.
+                (BoxContainer Row, Slider Slider, SpinBox Box) CreateGlowRow(string labelKey)
+                {
+                    var glowSlider = new Slider
+                    {
+                        HorizontalExpand = true,
+                        MinValue = 0f,
+                        MaxValue = 1f,
+                        Rounded = false,
+                    };
+                    var glowBox = new SpinBox
+                    {
+                        MinWidth = 70,
+                        IsValid = value => value is >= 0 and <= 100,
+                    };
+                    glowBox.InitDefaultButtons();
+
+                    var glowRow = new BoxContainer
+                    {
+                        Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                        SeparationOverride = 6,
+                    };
+                    glowRow.AddChild(new Label
+                    {
+                        Text = Loc.GetString(labelKey),
+                        MinWidth = 80,
+                        VerticalAlignment = VAlignment.Center,
+                    });
+                    glowRow.AddChild(glowSlider);
+                    glowRow.AddChild(glowBox);
+                    return (glowRow, glowSlider, glowBox);
+                }
+
+                var (glowRow, glowSlider, glowBox) = CreateGlowRow("genital-editor-glow");
+                var (detailGlowRow, detailGlowSlider, detailGlowBox) = CreateGlowRow("genital-editor-detail-glow");
+
+                controls.GlowSlider = glowSlider;
+                controls.GlowBox = glowBox;
+                controls.DetailGlowRow = detailGlowRow;
+                controls.DetailGlowSlider = detailGlowSlider;
+                controls.DetailGlowBox = detailGlowBox;
+
+                var settingGlowFromInput = false;
+                var settingGlowFromSlider = false;
+
+                glowSlider.OnValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingGlowFromInput)
+                        return;
+
+                    settingGlowFromSlider = true;
+                    glowBox.Value = (int) MathF.Round(Math.Clamp(glowSlider.Value, 0f, 1f) * 100f);
+                    settingGlowFromSlider = false;
+                    OnGenitalControlsChanged();
+                };
+
+                glowBox.ValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingGlowFromSlider)
+                        return;
+
+                    settingGlowFromInput = true;
+                    glowSlider.SetValueWithoutEvent(Math.Clamp(glowBox.Value, 0, 100) / 100f);
+                    settingGlowFromInput = false;
+                    OnGenitalControlsChanged();
+                };
+
+                var settingDetailGlowFromInput = false;
+                var settingDetailGlowFromSlider = false;
+
+                detailGlowSlider.OnValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingDetailGlowFromInput)
+                        return;
+
+                    settingDetailGlowFromSlider = true;
+                    detailGlowBox.Value = (int) MathF.Round(Math.Clamp(detailGlowSlider.Value, 0f, 1f) * 100f);
+                    settingDetailGlowFromSlider = false;
+                    OnGenitalControlsChanged();
+                };
+
+                detailGlowBox.ValueChanged += _ =>
+                {
+                    if (_updatingGenitals || settingDetailGlowFromSlider)
+                        return;
+
+                    settingDetailGlowFromInput = true;
+                    detailGlowSlider.SetValueWithoutEvent(Math.Clamp(detailGlowBox.Value, 0, 100) / 100f);
+                    settingDetailGlowFromInput = false;
+                    OnGenitalControlsChanged();
+                };
+
                 // CollapsibleBody stretches its direct children to fill; wrap everything in a box.
                 var colorsContainer = new BoxContainer
                 {
@@ -747,8 +846,10 @@ namespace Content.Client.Lobby.UI
                 };
                 colorsContainer.AddChild(new Label { Text = Loc.GetString("genital-editor-primary-color") });
                 colorsContainer.AddChild(primaryColor);
+                colorsContainer.AddChild(glowRow);
                 colorsContainer.AddChild(detailColorLabel);
                 colorsContainer.AddChild(detailColor);
+                colorsContainer.AddChild(detailGlowRow);
                 colorsContainer.AddChild(useSkinButton);
 
                 var colorsBody = new CollapsibleBody();
@@ -1059,6 +1160,7 @@ namespace Content.Client.Lobby.UI
 
             controls.DetailColorLabel.Visible = detailVisible;
             controls.DetailColor.Visible = detailVisible;
+            controls.DetailGlowRow.Visible = detailVisible;
             controls.DetailColorLabel.Text = Loc.GetString(type == GenitalType.Breasts
                 ? "genital-editor-nipple-color"
                 : "genital-editor-detail-color");
@@ -1199,6 +1301,13 @@ namespace Content.Client.Lobby.UI
                 controls.ScaleSlider.SetValueWithoutEvent(scale);
                 controls.ScaleBox.Value = (int) MathF.Round(scale * 100f);
 
+                var glow = Math.Clamp(data?.Glow ?? 0f, 0f, 1f);
+                var detailGlow = Math.Clamp(data?.DetailGlow ?? 0f, 0f, 1f);
+                controls.GlowSlider.SetValueWithoutEvent(glow);
+                controls.GlowBox.Value = (int) MathF.Round(glow * 100f);
+                controls.DetailGlowSlider.SetValueWithoutEvent(detailGlow);
+                controls.DetailGlowBox.Value = (int) MathF.Round(detailGlow * 100f);
+
                 RefreshGenitalDetailVisibility(type);
             }
 
@@ -1240,6 +1349,8 @@ namespace Content.Client.Lobby.UI
                         Math.Clamp(controls.OffsetYSlider.Value, -1f, 1f)),
                     Scale = Math.Clamp(controls.ScaleSlider.Value,
                         GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale),
+                    Glow = Math.Clamp(controls.GlowSlider.Value, 0f, 1f),
+                    DetailGlow = Math.Clamp(controls.DetailGlowSlider.Value, 0f, 1f),
                 });
             }
 
@@ -1529,6 +1640,9 @@ namespace Content.Client.Lobby.UI
             ApplyPreviewUndergarmentVisibility();
             ApplyPreviewArousal();
 
+            // Palmtree: height/width scale the sprite; re-measure so the view fits the whole character.
+            SpriteView.InvalidateMeasure();
+
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();
         }
@@ -1596,6 +1710,9 @@ namespace Content.Client.Lobby.UI
             _entManager.System<HumanoidAppearanceSystem>().LoadProfile(PreviewDummy, Profile);
             ApplyPreviewUndergarmentVisibility();
             ApplyPreviewArousal();
+
+            // Palmtree: height/width scale the sprite; re-measure so the view fits the whole character.
+            SpriteView.InvalidateMeasure();
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();

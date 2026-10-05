@@ -172,6 +172,15 @@ undershirts) so hiding a parent hides its sublayers.
   `OtherCanToggleVisible`.
 - Each color has a **Glow** slider/spin box (0–100%) persisted through `Marking.SetGlow`; glowing
   markings render an `unshaded` companion layer.
+- Marking color selectors expose an **alpha** slider (`ColorSelectorSliders.IsAlphaVisible`), and the
+  stored color keeps its alpha through the DB string/export (`Color.ToHex()` is 8-digit RGBA). The
+  picker must not strip alpha when loading colors (`MarkingPicker.OnUsedMarkingSelected`).
+- Hair/facial hair/eye/skin colors go through `HumanoidCharacterAppearance.ClampColor`, which must
+  preserve the alpha channel (`new Color(RByte, GByte, BByte, AByte)`); stripping it silently undid
+  the hair picker's alpha slider.
+- SlimePerson: `MobSlimeMarkingFollowSkin` no longer sets `markingsMatchSkin`, so slime hair/facial
+  hair keep their own colors, and `SlimeNose` lost `forcedColoring` — all slime markings are
+  recolorable (per the user's request; the body itself still uses the skin color).
 - Leg Style selector (`Plantigrade`/`Digitigrade`) raises `OnLegStyleChanged`; the profile editor
   stores it with `HumanoidCharacterAppearance.WithLegs` and re-renders the preview.
 - Color selectors skip states present in `colorLinks` (they inherit a parent's color).

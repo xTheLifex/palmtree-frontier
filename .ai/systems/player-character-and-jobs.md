@@ -52,6 +52,9 @@ All playable species carry `kind` lists so Floof/Coyote markings apply via `kind
 - The contractor chain (`_NF/Loadouts/contractor_loadout_groups.yml`) is the common case; Palmtree
   added `CoyoteJumpsuit` as a subgroup in 19 job group files, plus entries for the concealment
   implanter, clicker, leather satchel and foot protectors.
+- Palmtree also added the `ContractorMechSuit` group (`minLimit: 0`, "mech suit" category) to
+  `JobContractor`: the three SS13 mech suit uniforms (`ClothingUniformMechSuitRed/White/Blue`,
+  sprites in `_PS/Clothing/Uniforms/MechSuit/*.rsi`).
 - `RoleLoadout` stores selected loadouts per group; `StationSpawningSystem` applies them.
 
 ## Markings in the profile

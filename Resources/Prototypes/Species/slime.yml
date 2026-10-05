@@ -59,7 +59,7 @@
 
 - type: humanoidBaseSprite
   id: MobSlimeMarkingFollowSkin
-  markingsMatchSkin: true
+  # Palmtree: markings on slimes keep their own colors instead of being forced to the skin tone.
   layerAlpha: 0.75 # imp 0.72<0.75
 
 - type: humanoidBaseSprite

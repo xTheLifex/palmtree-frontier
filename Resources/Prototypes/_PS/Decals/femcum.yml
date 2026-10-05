@@ -1,0 +1,33 @@
+# Palmtree: SPLURT female ejaculate decals, used for female climaxes. Cleanable with space cleaner.
+
+- type: decal
+  id: FemPuddle1
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: fem1
+
+- type: decal
+  id: FemPuddle2
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: fem2
+
+- type: decal
+  id: FemPuddle3
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: fem3
+
+- type: decal
+  id: FemPuddle4
+  tags: ["semen"]
+  defaultCleanable: true
+  sprite:
+    sprite: _PS/Effects/decals/semen.rsi
+    state: fem4

@@ -38,8 +38,11 @@ public sealed class DrippingCumSystem : EntitySystem
         "SemenDrip5",
     ];
 
-    /// <summary>How far a drop can scatter from the mob's exact position.</summary>
-    private const float Scatter = 0.05f;
+    /// <summary>How far a drip droplet can scatter from the mob's exact position (barely any).</summary>
+    private const float DripScatter = 0.05f;
+
+    /// <summary>How far an ejaculation decal can scatter (a proper mess).</summary>
+    private const float CumScatter = 0.35f;
 
     public override void Update(float frameTime)
     {
@@ -72,7 +75,7 @@ public sealed class DrippingCumSystem : EntitySystem
     private bool TryDrip(EntityUid uid, DrippingCumComponent comp)
     {
         var stage = Math.Clamp((int) (comp.Dripped / 2.0), 0, DripDecals.Length - 1);
-        return TryPlaceDecal(uid, DripDecals[stage]);
+        return TryPlaceDecal(uid, DripDecals[stage], DripScatter);
     }
 
     /// <summary>
@@ -89,26 +92,45 @@ public sealed class DrippingCumSystem : EntitySystem
             _ => "SemenPuddle1",
         };
 
-        TryPlaceDecal(uid, decalId);
+        TryPlaceDecal(uid, decalId, CumScatter);
     }
 
-    /// <summary>Adds a decal at the mob's position with a little scatter; existing decals are kept.</summary>
-    private bool TryPlaceDecal(EntityUid uid, string decalId)
+    /// <summary>
+    /// Female ejaculation decals: drops a random SPLURT fem decal where the mob stands.
+    /// Never replaces an existing decal.
+    /// </summary>
+    public void SpawnFemDecals(EntityUid uid)
+    {
+        var decalId = _random.Pick(new[] { "FemPuddle1", "FemPuddle2", "FemPuddle3", "FemPuddle4" });
+        TryPlaceDecal(uid, decalId, CumScatter);
+    }
+
+    /// <summary>Adds a decal centered on the mob's position with scatter; existing decals are kept.</summary>
+    private bool TryPlaceDecal(EntityUid uid, string decalId, float scatter)
     {
         var xform = Transform(uid);
 
         if (xform.GridUid is not { } grid)
             return false;
 
-        var local = xform.LocalPosition +
-                    new Vector2(_random.NextFloat(-Scatter, Scatter), _random.NextFloat(-Scatter, Scatter));
+        // Decals are drawn with their bottom-left corner at the stored coordinate, while mob
+        // sprites are centered on their transform. Shift by half a tile so the decal center lands
+        // on the character instead of up-right of them (near the head).
+        var pos = xform.LocalPosition;
+        var centered = pos - new Vector2(0.5f, 0.5f);
+        var scattered = centered +
+                        new Vector2(_random.NextFloat(-scatter, scatter), _random.NextFloat(-scatter, scatter));
 
-        // Scatter can land on a space tile (standing on an edge/corner); fall back to the mob's
-        // exact position so a drop is never silently lost.
-        if (_decals.TryAddDecal(decalId, new EntityCoordinates(grid, local), out _, cleanable: true))
+        if (_decals.TryAddDecal(decalId, new EntityCoordinates(grid, scattered), out _, cleanable: true))
             return true;
 
-        return _decals.TryAddDecal(decalId, new EntityCoordinates(grid, xform.LocalPosition), out _, cleanable: true);
+        // Scatter (or the shift itself, when standing on a tile edge) can land on space; retry
+        // without scatter, then fall back to the mob's tile center so a drop is never lost.
+        if (_decals.TryAddDecal(decalId, new EntityCoordinates(grid, centered), out _, cleanable: true))
+            return true;
+
+        var tileCorner = new Vector2(MathF.Floor(pos.X), MathF.Floor(pos.Y));
+        return _decals.TryAddDecal(decalId, new EntityCoordinates(grid, tileCorner), out _, cleanable: true);
     }
 
     /// <summary>Adds semen to the mob's reservoir, creating the drip if needed.</summary>

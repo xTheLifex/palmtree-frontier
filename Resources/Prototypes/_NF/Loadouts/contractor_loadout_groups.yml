@@ -1026,3 +1026,13 @@
   - ContractorCrateEmotionalSupportRaccoon
   - ContractorCrateEmotionalSupportParrot
   - ContractorCrateEmotionalSupportMouse
+
+# Palmtree: SS13 mech suit uniforms.
+- type: loadoutGroup
+  id: ContractorMechSuit
+  name: loadout-group-contractor-mech-suit
+  minLimit: 0
+  loadouts:
+  - ContractorClothingUniformMechSuitRed
+  - ContractorClothingUniformMechSuitWhite
+  - ContractorClothingUniformMechSuitBlue

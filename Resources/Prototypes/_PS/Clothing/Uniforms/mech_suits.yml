@@ -1,0 +1,34 @@
+# Palmtree: Evangelion-style mech suit uniforms, ported from SPLURT/SS13.
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformMechSuitRed
+  name: red mech suit
+  description: What are you, stupid?
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Uniforms/MechSuit/red_mech_suit.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Uniforms/MechSuit/red_mech_suit.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformMechSuitWhite
+  name: white mech suit
+  description: ...Mom?
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Uniforms/MechSuit/white_mech_suit.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Uniforms/MechSuit/white_mech_suit.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformMechSuitBlue
+  name: blue mech suit
+  description: Get in the damn robot already!
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Uniforms/MechSuit/blue_mech_suit.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Uniforms/MechSuit/blue_mech_suit.rsi

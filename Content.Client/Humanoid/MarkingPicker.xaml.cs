@@ -465,6 +465,7 @@ public sealed partial class MarkingPicker : Control
 
             ColorSelectorSliders colorSelector = new ColorSelectorSliders();
             colorSelector.SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv; // defaults color selector to HSV
+            colorSelector.IsAlphaVisible = true; // Palmtree: per-marking alpha
             colorSliders.Add(colorSelector);
 
             colorContainer.AddChild(new Label { Text = $"{stateNames[i]} color:" });
@@ -473,12 +474,8 @@ public sealed partial class MarkingPicker : Control
             var listing = _currentMarkings.Markings[_selectedMarkingCategory];
             var markingEntry = listing[listing.Count - 1 - item.ItemIndex];
 
-            var color = markingEntry.MarkingColors[i];
-            var currentColor = new Color(
-                color.RByte,
-                color.GByte,
-                color.BByte
-            );
+            // Palmtree: keep the stored alpha when loading the color.
+            var currentColor = markingEntry.MarkingColors[i];
             colorSelector.Color = currentColor;
             _currentMarkingColors.Add(currentColor);
             var colorIndex = _currentMarkingColors.Count - 1;

@@ -10,6 +10,7 @@ using Content.Shared.Humanoid.Markings;
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Preferences;
+using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -28,6 +29,7 @@ namespace Content.Shared._PS.Organs;
 public sealed class GenitalOrganSystem : EntitySystem
 {
     [Dependency] private readonly SharedBodySystem _body = default!;
+    [Dependency] private readonly SharedContainerSystem _containers = default!;
     [Dependency] private readonly MarkingManager _markingManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -148,7 +150,13 @@ public sealed class GenitalOrganSystem : EntitySystem
             {
                 if (existing.TryGetValue(type, out var toRemove))
                 {
-                    _body.RemoveOrgan(toRemove.Uid);
+                    // Detach without reparenting: the lobby preview dummy isn't on a grid, so the
+                    // default grid-attach in SharedBodySystem.RemoveOrgan logs a warning. The
+                    // container event still drives the body bookkeeping, and the organ is deleted
+                    // right after anyway.
+                    if (_containers.TryGetContainingContainer((toRemove.Uid, null, null), out var container))
+                        _containers.Remove(toRemove.Uid, container, reparent: false);
+
                     QueueDel(toRemove.Uid);
                 }
 
@@ -174,12 +182,15 @@ public sealed class GenitalOrganSystem : EntitySystem
                 organ.Comp.DetailColor = data.DetailColor;
                 organ.Comp.Offset = data.Offset;
                 organ.Comp.Scale = data.Scale;
+                organ.Comp.Glow = data.Glow;
+                organ.Comp.DetailGlow = data.DetailGlow;
 
                 if (changed || !catalog.CanArouse)
                     organ.Comp.Aroused = false;
 
-                if (type == GenitalType.Penis)
-                    organ.Comp.SemenVolume = settings.SemenVolume;
+                // Palmtree: the fluid volume setting applies to every organ so vagina-only
+                // characters can use it for their climax too.
+                organ.Comp.SemenVolume = settings.SemenVolume;
 
                 Dirty(organ.Uid, organ.Comp);
                 continue;
@@ -207,6 +218,8 @@ public sealed class GenitalOrganSystem : EntitySystem
             comp.DetailColor = data.DetailColor;
             comp.Offset = data.Offset;
             comp.Scale = data.Scale;
+            comp.Glow = data.Glow;
+            comp.DetailGlow = data.DetailGlow;
             comp.SemenVolume = settings.SemenVolume;
             Dirty(spawned, comp);
 
@@ -263,6 +276,15 @@ public sealed class GenitalOrganSystem : EntitySystem
             if (organ.Scale != 1f)
                 marking.SetScale(organ.Scale);
 
+            // Glow follows the same color groups as the colors (0 = primary, 1 = detail).
+            var groups = GetColorGroups(markingProto);
+            for (var i = 0; i < groups.Count && i < colors.Count; i++)
+            {
+                var glow = groups[i] == 0 ? organ.Glow : organ.DetailGlow;
+                if (glow > 0f)
+                    marking.SetGlow(i, glow);
+            }
+
             humanoid.MarkingSet.AddBack(MarkingCategories.Genital, marking);
         }
 
@@ -277,23 +299,35 @@ public sealed class GenitalOrganSystem : EntitySystem
     {
         var primary = organ.Color ?? skin;
         var detail = organ.DetailColor ?? primary;
-        var colors = new List<Color>(prototype.Sprites.Count);
-        var groups = new Dictionary<string, int>();
+        var groups = GetColorGroups(prototype);
+        var colors = new List<Color>(groups.Count);
+
+        foreach (var group in groups)
+            colors.Add(group == 0 ? primary : detail);
+
+        return colors;
+    }
+
+    /// <summary>Maps each sprite to its color group index (0 = primary, 1+ = detail).</summary>
+    private static List<int> GetColorGroups(MarkingPrototype prototype)
+    {
+        var groups = new List<int>(prototype.Sprites.Count);
+        var roots = new Dictionary<string, int>();
 
         foreach (var sprite in prototype.Sprites)
         {
             var root = ResolveColorRoot(prototype, sprite);
 
-            if (!groups.TryGetValue(root, out var group))
+            if (!roots.TryGetValue(root, out var group))
             {
-                group = groups.Count;
-                groups.Add(root, group);
+                group = roots.Count;
+                roots.Add(root, group);
             }
 
-            colors.Add(group == 0 ? primary : detail);
+            groups.Add(group);
         }
 
-        return colors;
+        return groups;
     }
 
     /// <summary>Number of independent color groups (color links resolved) in a marking prototype.</summary>
@@ -470,6 +504,21 @@ public sealed class GenitalOrganSystem : EntitySystem
         return TryGetOrgan(mob, GenitalType.Penis, out _, out var penis)
             ? penis.SemenVolume
             : GenitalOrganSettings.DefaultSemenVolume;
+    }
+
+    /// <summary>
+    /// Fluid produced per climax: the penis volume for penis owners, otherwise the vagina volume
+    /// (so the editor's "Fluid per climax" setting applies to female climaxes too).
+    /// </summary>
+    public int GetFluidVolume(EntityUid mob)
+    {
+        if (TryGetOrgan(mob, GenitalType.Penis, out _, out var penis))
+            return penis.SemenVolume;
+
+        if (TryGetOrgan(mob, GenitalType.Vagina, out _, out var vagina))
+            return vagina.SemenVolume;
+
+        return GenitalOrganSettings.DefaultSemenVolume;
     }
 
     public static string GetOrganSlot(GenitalType type)

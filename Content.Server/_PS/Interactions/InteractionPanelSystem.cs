@@ -601,7 +601,7 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             else
                 state.ClimaxPulsesLeft = 0;
 
-            state.NextClimaxPulse = now + ClimaxPulseInterval;
+            state.NextClimaxPulse = now + state.ClimaxPulseInterval;
 
             if (state.ClimaxPulsesLeft <= 0)
             {
@@ -609,6 +609,7 @@ public sealed partial class InteractionPanelSystem : EntitySystem
                 state.ClimaxPulseTarget = null;
                 state.ClimaxPulseProto = null;
                 state.ClimaxPulseFirst = false;
+                state.ClimaxPulseFemale = false;
             }
 
             if (IsPanelOpen(uid, state))

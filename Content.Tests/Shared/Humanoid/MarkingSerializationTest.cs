@@ -83,6 +83,19 @@ public sealed class MarkingSerializationTest
     }
 
     [Test]
+    public void DbStringRoundTripAlpha()
+    {
+        // Palmtree: per-marking colors keep their alpha channel through the DB string.
+        var translucent = new Color(255, 128, 64, 90);
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { translucent });
+
+        var parsed = Marking.ParseFromDbString(marking.ToString());
+
+        Assert.That(parsed, Is.Not.Null);
+        Assert.That(parsed!.MarkingColors[0], Is.EqualTo(translucent));
+    }
+
+    [Test]
     public void TransformValuesAreClamped()
     {
         var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White });
