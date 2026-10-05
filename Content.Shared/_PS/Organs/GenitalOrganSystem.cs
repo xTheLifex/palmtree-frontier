@@ -240,8 +240,8 @@ public sealed class GenitalOrganSystem : EntitySystem
 
         humanoid.MarkingSet.RemoveCategory(MarkingCategories.Genital);
 
-        // Draw order inside the Genital layer is the order the organs are added: larger/back organs
-        // first and the penis last, so balls, sheaths, butt and belly cannot cover the shaft.
+        // Draw order inside the Genital layer is the order the organs are added: back/mid organs
+        // first, then the belly (which covers the groin) and the breasts on top of it.
         foreach (var (_, organ) in GetOrgans(mob).OrderBy(o => GetRenderPriority(o.Comp.GenitalType)))
         {
             // The visibility rule controls rendering directly: covered organs are not drawn at all
@@ -509,19 +509,19 @@ public sealed class GenitalOrganSystem : EntitySystem
     }
 
     /// <summary>
-    /// Order in which organs are added to the Genital layer. Later entries draw on top, so the
-    /// penis is last and balls/sheaths cannot cover it (the butt sits behind the belly).
+    /// Order in which organs are added to the Genital layer. Later entries draw on top: the belly
+    /// covers the penis and balls, and the breasts are the only organ above the belly.
     /// </summary>
     private static int GetRenderPriority(GenitalType type)
     {
         return type switch
         {
             GenitalType.Butt => 0,
-            GenitalType.Belly => 1,
-            GenitalType.Breasts => 2,
-            GenitalType.Vagina => 3,
-            GenitalType.Balls => 4,
-            GenitalType.Penis => 5,
+            GenitalType.Vagina => 1,
+            GenitalType.Balls => 2,
+            GenitalType.Penis => 3,
+            GenitalType.Belly => 4,
+            GenitalType.Breasts => 5,
             _ => 0,
         };
     }

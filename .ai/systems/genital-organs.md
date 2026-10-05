@@ -74,9 +74,9 @@ queries).
    `Forced = true`, `Visible = true`, `CanToggleVisible/OtherCanToggleVisible = false` (so
    ModifyUndies adds no verbs) and colors built from the organ's primary/detail colors (skin color
    when null), following the marking's `colorLinks` so linked states share a color group.
-   Organs are added in a fixed render order — butt, belly, breasts, vagina, balls, penis — so the
-   penis draws over balls/sheaths and the belly draws over the butt, regardless of the order the
-   player enabled them in the editor.
+   Organs are added in a fixed render order — butt, vagina, balls, penis, belly, breasts — so the
+   penis draws over the balls, the belly draws over the groin, and the breasts are the only organ
+   drawn over the belly, regardless of the order the player enabled them in the editor.
    `NeverHidden` additionally sets `Marking.RenderOverClothing` to draw above outer clothing.
    If the organ's `SkinTone` toggle is on and the selected size has a `skintoned` render marking,
    that skin-shaded variant is used instead of the tinted one (breasts).
