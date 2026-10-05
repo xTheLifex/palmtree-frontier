@@ -146,27 +146,53 @@
     Poison:
       effects:
       - !type:HealthChange
+        conditions: # Palmtree: slimes can drink plasma harmlessly
+        - !type:OrganType
+          type: Slime
+          shouldHave: false
         damage:
           types:
             Poison: 3
       - !type:AdjustReagent
+        conditions: # Palmtree: slimes can drink plasma harmlessly
+        - !type:OrganType
+          type: Slime
+          shouldHave: false
         reagent: Inaprovaline
         amount: -2.0
+    Drink: # Palmtree: slimes can drink plasma
+      effects:
+      - !type:SatiateThirst
+        conditions:
+        - !type:OrganType
+          type: Slime
+        factor: 2
     Gas:
       effects:
       - !type:HealthChange
+        conditions: # Palmtree: slimes can breathe plasma
+        - !type:OrganType
+          type: Slime
+          shouldHave: false
         scaleByQuantity: true
         ignoreResistances: true
         damage:
           types:
             Poison:
               1
+      - !type:Oxygenate # Palmtree: slimes breathe plasma
+        conditions:
+        - !type:OrganType
+          type: Slime
       # We need a metabolism effect on reagent removal
       - !type:AdjustAlert
         alertType: Toxins
         conditions:
           - !type:ReagentThreshold
             min: 1.5
+          - !type:OrganType # Palmtree
+            type: Slime
+            shouldHave: false
         clear: True
         time: 5
   reactiveEffects:

@@ -80,6 +80,7 @@
     metabolizerTypes: [Human]
     groups:
     - id: Poison
+      skipEffects: true # Palmtree: synths drink anything with no consequence
     removeEmpty: true
 
 - type: entity

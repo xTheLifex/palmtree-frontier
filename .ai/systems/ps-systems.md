@@ -100,6 +100,12 @@ Properties:
   `Synth` damage modifier set (0.8 brute, immune poison/asphyxiation/cold, weak heat/shock),
   `ZombieImmune`, `CanHostGuardian`, robot typing indicator, insulated temperature, `Oxidant` coolant
   blood, fixture density 462.5 (heavier, matching IPC).
+- **Temperature immunity**: `Temperature heatDamageThreshold: 4000` (only a 4000K+ plasma fire
+  damages them; cold threshold 0 and `Cold: 0`). Temperature damage ignores resistances, so the
+  `Heat: 1.5` modifier only affects direct fire/burn damage.
+- **Drinks anything**: `OrganSynthEyes` metabolizes Food/Drink/Medicine/Cryogenic/Narcotic/Alcohol
+  with `skipEffects: true`; `OrganSynthPump` does the same for Poison, so no reagent has any effect
+  on a synth (reagents are still metabolized/removed).
 - **Silicon parts**: the Synth body uses `_EE/Mobs/Species/IPC/parts.rsi` sprites (robot limbs/head),
   `Inorganic` damage container on parts, and synthetic organs (`OrganSynthEyes`, `OrganSynthPump`,
   `OrganSynthBrain`, plus unused `OrganSynthTongue`/`OrganSynthEars`). Base sprites default to the

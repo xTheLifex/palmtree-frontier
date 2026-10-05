@@ -34,7 +34,7 @@
   - type: TypingIndicator
     proto: robot
   - type: Temperature
-    heatDamageThreshold: 358.15
+    heatDamageThreshold: 4000 # Palmtree: only extreme plasma-fire heat (4000K+) can damage them
     coldDamageThreshold: 0
     currentTemperature: 310.15
     specificHeat: 42

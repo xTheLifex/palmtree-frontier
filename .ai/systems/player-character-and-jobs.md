@@ -34,13 +34,14 @@ species roster in this repo.
 | Species | Source | Notes |
 |---|---|---|
 | Human, Dwarf, Moth, Reptilian, SlimePerson, Vox, Diona, Arachnid, Skeleton, Gingerbread | core | all have `kind` + Floof layers |
+| SlimePerson | core | Palmtree: breathes and drinks plasma harmlessly (`Plasma` reagent got Slime `Oxygenate`/`Drink` effects, poison effects excluded for Slime) |
 | Harpy, Vulpkanin | `_DV` | have digitigrade `altSprites` |
 | Felinid, Oni | `Nyanotrasen` | |
 | Goblin, Sheleg | `_NF` | have digitigrade `altSprites` |
 | Rodentia | `_DV` (ported) | 999-point tail/ears defaults, digileg support, rat speech |
 | Anthromorph | `_CS` (ported) | BasicHumanlike + BasicFurry, custom body sprites |
 | Tajaran | `_EE` (ported) | body/markings/sprites/damage/names, Felinid component |
-| Synth | `_PS` (new) | IPC replacement: 1.5× speed, 3× durability, marking-based appearance, IPC-like resistances |
+| Synth | `_PS` (new) | IPC replacement: 1.5× speed, 3× durability, marking-based appearance, IPC-like resistances; immune to cold and to heat below 4000K, and reagent effects are skipped (`skipEffects`) |
 | IPC | — | **not present**; replaced by Synth (see `.ai/systems/ps-systems.md`) |
 
 All playable species carry `kind` lists so Floof/Coyote markings apply via `kindAllowance`.
@@ -56,6 +57,9 @@ All playable species carry `kind` lists so Floof/Coyote markings apply via `kind
   `JobContractor`: the three SS13 mech suit uniforms (`ClothingUniformMechSuitRed/White/Blue`,
   sprites in `_PS/Clothing/Uniforms/MechSuit/*.rsi`).
 - `RoleLoadout` stores selected loadouts per group; `StationSpawningSystem` applies them.
+- **Job whitelists are disabled** in the config presets (`Resources/ConfigPresets/_NF/frontier.toml`,
+  `hypatia.toml`, `maunder.toml`, `Build/development.toml`): `game.role_whitelist = false`. Playtime
+  requirements (`game.role_timers`) are untouched, and admins bypass playtime only.
 
 ## Markings in the profile
 

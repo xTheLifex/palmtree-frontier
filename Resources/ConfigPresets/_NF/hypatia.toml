@@ -1,6 +1,8 @@
 [game]
 hostname = "[EN][MRP] Frontier | Hypatia [US 1]"
 soft_max_players = 120
+# Palmtree: no job whitelists.
+role_whitelist = false
 
 [shuttle]
 auto_call_time = 720 # 12 hours
