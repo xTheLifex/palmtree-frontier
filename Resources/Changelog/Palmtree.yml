@@ -251,3 +251,11 @@ Entries:
   time: '2026-10-05T15:26:13.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/ad2ce045a7c1be16576084dd1a122d04a6b14c41
+- author: TheLife
+  changes:
+    - type: Fix
+      message: the penis now draws over the balls instead of under them.
+  id: 90012
+  time: '2026-10-05T21:55:53.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/1335191acf145c28a9b321312f86cae0d15ec961
