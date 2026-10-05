@@ -259,3 +259,11 @@ Entries:
   time: '2026-10-05T21:55:53.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/1335191acf145c28a9b321312f86cae0d15ec961
+- author: TheLife
+  changes:
+    - type: Fix
+      message: the belly now draws over the butt instead of under it.
+  id: 90013
+  time: '2026-10-05T22:08:30.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/76385f95944c70f649151d84610c1b407accf35b
