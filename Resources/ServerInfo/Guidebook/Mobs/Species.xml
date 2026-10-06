@@ -27,6 +27,23 @@
   <GuideEntityEmbed Entity="MobFelinid" Caption="Felinid"/>
   <GuideEntityEmbed Entity="MobHarpy" Caption="Harpy"/>
   <GuideEntityEmbed Entity="MobOni" Caption="Oni"/>
+  <GuideEntityEmbed Entity="MobFeroxi" Caption="Feroxi"/>
+  <GuideEntityEmbed Entity="MobRodentia" Caption="Rodentia"/>
+  <GuideEntityEmbed Entity="MobChitinid" Caption="Chitinid"/>
+  </Box>
+  # Starlight and Den species
+  <Box>
+  <GuideEntityEmbed Entity="MobAvali" Caption="Avali"/>
+  <GuideEntityEmbed Entity="MobResomi" Caption="Resomi"/>
+  <GuideEntityEmbed Entity="MobOvinia" Caption="Ovinia"/>
+  <GuideEntityEmbed Entity="MobTajaran" Caption="Tajaran"/>
+  <GuideEntityEmbed Entity="MobAnthromorph" Caption="Anthromorph"/>
+  </Box>
+  # Palmtree and special species
+  <Box>
+  <GuideEntityEmbed Entity="MobSynth" Caption="Synth"/>
+  <GuideEntityEmbed Entity="MobGingerbread" Caption="Gingerbread"/>
+  <GuideEntityEmbed Entity="MobSkeletonPerson" Caption="Skeleton"/>
   </Box>
 
 </Document>

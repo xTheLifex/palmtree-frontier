@@ -18,6 +18,22 @@
     - Human
     - Moth
     - Reptilian
+    # Palmtree: ported species were missing from the survival box group.
+    - Vulpkanin
+    - Harpy
+    - Felinid
+    - Oni
+    - Feroxi
+    - Rodentia
+    - Tajaran
+    - Anthromorph
+    - Synth
+    - Goblin
+    - Sheleg
+    - Chitinid
+    - Avali
+    - Resomi
+    - Ovinia
 
 - type: loadoutEffectGroup
   id: EffectSpeciesVox

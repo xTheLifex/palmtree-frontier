@@ -17,6 +17,17 @@
     - Harpy # DeltaV
     - Felinid # DeltaV
     - Oni # DeltaV
+    - Feroxi # Flooftier
+    - Rodentia # Flooftier
+    - Avali # Starlight
+    - Resomi # Starlight
+    - Ovinia # Den
+    - Chitinid # DeltaV
+    - Tajaran # EE
+    - Anthromorph # Coyote
+    - Synth # Palmtree
+    - Gingerbread # core
+    - Skeleton # core
 
 - type: guideEntry
   id: Arachnid
@@ -57,3 +68,53 @@
   id: Vox
   name: species-name-vox
   text: "/ServerInfo/Guidebook/Mobs/Vox.xml"
+
+- type: guideEntry
+  id: Rodentia
+  name: species-name-rodentia
+  text: "/ServerInfo/Guidebook/Mobs/_DV/Rodentia.xml"
+
+- type: guideEntry
+  id: Avali
+  name: species-name-avali
+  text: "/ServerInfo/Guidebook/Mobs/_Starlight/Avali.xml"
+
+- type: guideEntry
+  id: Resomi
+  name: species-name-resomi
+  text: "/ServerInfo/Guidebook/Mobs/_CS/Resomi.xml"
+
+- type: guideEntry
+  id: Ovinia
+  name: species-name-ovinia
+  text: "/ServerInfo/Guidebook/Mobs/_DEN/Ovinia.xml"
+
+- type: guideEntry
+  id: Chitinid
+  name: species-name-chitinid
+  text: "/ServerInfo/Guidebook/Mobs/_DV/Chitinid.xml"
+
+- type: guideEntry
+  id: Tajaran
+  name: species-name-tajaran
+  text: "/ServerInfo/Guidebook/Mobs/Tajaran.xml"
+
+- type: guideEntry
+  id: Anthromorph
+  name: species-name-anthromorph
+  text: "/ServerInfo/Guidebook/Mobs/_CS/Anthromorph.xml"
+
+- type: guideEntry
+  id: Synth
+  name: species-name-synth
+  text: "/ServerInfo/Guidebook/Mobs/Synth.xml"
+
+- type: guideEntry
+  id: Gingerbread
+  name: species-name-gingerbread
+  text: "/ServerInfo/Guidebook/Mobs/Gingerbread.xml"
+
+- type: guideEntry
+  id: Skeleton
+  name: species-name-skeleton
+  text: "/ServerInfo/Guidebook/Mobs/Skeleton.xml"

@@ -1,0 +1,20 @@
+<Document>
+  # Skeleton
+
+  Animated bones held together by little more than spite. Rarely seen outside of spooky events.
+
+  <Box>
+    <GuideEntityEmbed Entity="MobSkeletonPerson" Caption=""/>
+  </Box>
+
+  ## Benefits
+
+  - Resistant to slashing (20%), piercing (40%), cold, poison, radiation, asphyxiation, blood loss
+    and cellular damage.
+  - Blunt damage is reduced by a flat 5.
+
+  ## Drawbacks
+
+  - Fragile: 100 critical / 150 dead, and they turn to dust at 150 damage.
+  - Slowed down as they take damage.
+</Document>

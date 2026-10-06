@@ -11,6 +11,9 @@
   name: chat-emote-name-cowmoo
   category: Vocal
   icon: _DEN/Interface/Emotes/moo.png
+  whitelist:
+    tags:
+    - OviniaEmotes
   blacklist:
     components:
     - BorgChassis
@@ -24,6 +27,9 @@
   name: chat-emote-name-baa
   category: Vocal
   icon: _DEN/Interface/Emotes/baa.png
+  whitelist:
+    tags:
+    - OviniaEmotes
   blacklist:
     components:
     - BorgChassis

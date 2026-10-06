@@ -255,3 +255,37 @@ Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
   entries. See `.ai/systems/marking-and-appearance.md`.
 - **Slime batch**: water weakness + confirm suppression + death revert; see
   `.ai/systems/ps-systems.md` ("Slime transformation").
+
+## 11. 2026-10 species + marking locale batch
+
+- **Marking locale**: the 13 Coyote FTL files for the previously ported marking sets
+  (`_EE/silicons/cyberlimbs.ftl`, `_EE/.../ipcAntenna.ftl`/`ipcScreens.ftl`,
+  `_Starlight/markings/{avali,avali_tattoos,gauze_resomi,tattoos_resomi,undergarments}.ftl`,
+  `_Starlight/accessories/{avali-crest,resomi-hair}.ftl`, `_DV/markings/chitinid.ftl`,
+  `_NF/markings/chitinid.ftl`, `_CS/markings.ftl`). Without them every marking name rendered as
+  its raw id.
+- **Species ports** (from Coyote, same file layout as `.ai/guides/adding-species.md`):
+  - **Chitinid** (`_DV`): species/body/parts/organs/player/names, `Chitinid` radiation-absorbing
+    C# (`Content.Server/_DV/Abilities/Chitinid`), the `Chitzite` item + `ActionChitzite` (uses the
+    already-ported `ItemCougherSystem`). Adaptations: `Needs` → `Hunger`/`Thirst` (33% faster),
+    `AphrodisiacDrinks` metabolizer group dropped (not ported), custom Sprite layer block dropped,
+    `chitinid0/1` typing states merged into `_DV/Effects/speech.rsi`.
+  - **Ovinia** (`_DEN`): species/body/parts/mob/player (Coyote keeps the player mob under `_DV`),
+    sound collections + baa/moo audio, `OviniaEmotes` tag + emote whitelists, typing indicator,
+    damage set. `minHeight`/`maxHeight` removed, `Needs` dropped, custom Sprite dropped.
+  - **Avali + Resomi** (`_Starlight`): species/bodies/organs/mobs/players/dummies, names, voice,
+    sound collections, tags, inventories, metabolizer types (`Avali`/`Resomi`), Avali blood reagents
+    (`AvaliBlood`/`ResomiBlood`) and `Amoxla`. Dropped: the Coyote `Stasis`/Nanite Shell actions and
+    the Mono `FoodMeatResomi` (uses `FoodMeatHuman`). `Needs` → `Hunger`/`Thirst` (Avali 2x).
+  - **Avali core reagent conditions** (ported into the shared reagent files): Ammonia heals Avali
+    asphyxiation and is otherwise harmless to them, Iron poisons them, Dexalin/Dexalin+ are lethal
+    to them, Saline burns them, and the DeltaV Feroxi saline nerf was ported in the same pass.
+- **Every species now has a guidebook entry**: added index entries and XMLs for Feroxi, Rodentia,
+  Tajaran and Anthromorph (from Coyote), new pages for Synth/Gingerbread/Skeleton, and the four new
+  species' pages; the Species overview embeds all of them.
+- **Survival boxes**: all ported species were added to the `OxygenBreather` loadout effect group -
+  previously Vulpkanin/Felinid/etc. failed the species check and spawned without a survival box.
+- **Shared organic layer list**: `UndershirtUnderclothes` and `clownedon` were added to the
+  `BaseMobSpeciesOrganic` sprite layer list (the first block and custom species already had them),
+  so base-list species render those layers in the right order.
+- **Slime water rebalance** and the `SlimeWaterContactSystem`: see `.ai/systems/ps-systems.md`.

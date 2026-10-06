@@ -1,0 +1,46 @@
+<Document>
+  # Rodentia
+
+  ### Homeworld
+  Unknown, assumed Sol
+
+  ### Temperment
+  Rodentia tend to trend towards the shy, the quiet, and the unassuming.  Many are seen as anxious, nervous, or just generally flighty.  Despite that they are - when comfortable - close kept friends who seem
+  to lack a real understanding of personal space or have tendencies to horde materials.
+
+  ### Secondary Species of Interest
+  Felinids - Most rodentia are scared of Felinids to a degree.  Feeling easily flustered by the larger - seemingly predatory - humanoids.  The rare exception occurs at times though where a Rodentia will be overly attentive to a Felinid - often causing confusion.
+
+  Resomi - A sort of kinship exists between the Resomi and Rodentia.  The two small and quiet species finding peace in each others presence - including a desire to hold onto everything they can.
+
+  Feroxi - Many Rodentia look up to the Feroxi they know, fascinated by the Feroxi's pride and attitudes.  Quietly they attempt to emulate them, hoping that they aren't noticed.
+
+  <Box>
+    <GuideEntityEmbed Entity="MobRodentiaDummy" Caption=""/>
+  </Box>
+
+  Rodentia are a race of humanoid beings resembling rodents. Resourceful, evasive, sneaky, but fragile.
+
+  ## Diet
+
+  - Can eat raw meat.
+
+  ## Benefits
+
+  - Uses their claws to do some Slashing and Blunt damage.
+  - Smaller than humans.
+  - Can fit in duffelbags.
+
+  ## Special
+
+  - Can Rummage in disposal chutes, which can dig up trash.
+  - Can store small items in their cheeks. Having items in their mouth makes their speech unintelligible, and they will drop all items in their mouth if attacked, stunned, or shoved.
+  - Can "sneak" underneath tables, but not doors.
+
+  ## Drawbacks
+
+  - Takes 30% more Blunt damage, and 15% more Slash and Piercing damage.
+  - Always triggers mousetraps, regardless of whether or not they are wearing shoes.
+  - Gets hungry 33% faster.
+
+</Document>

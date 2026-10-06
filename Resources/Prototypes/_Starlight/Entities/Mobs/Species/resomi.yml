@@ -1,0 +1,122 @@
+- type: entity
+  save: false
+  name: Urist McRaptor
+  parent: [ BaseColdBird, BaseMobSpeciesOrganic, BaseInventoryResomi ]
+  id: BaseMobResomi
+  abstract: true
+  components:
+  - type: DamageVisuals
+    thresholds: [ 10, 30, 50, 70]
+    targetLayers:
+    - "enum.HumanoidVisualLayers.Chest"
+    - "enum.HumanoidVisualLayers.Head"
+    - "enum.HumanoidVisualLayers.LArm"
+    - "enum.HumanoidVisualLayers.LLeg"
+    - "enum.HumanoidVisualLayers.RArm"
+    - "enum.HumanoidVisualLayers.RLeg"
+    - "enum.HumanoidVisualLayers.RHand"
+    - "enum.HumanoidVisualLayers.LHand"
+    - "enum.HumanoidVisualLayers.RFoot"
+    - "enum.HumanoidVisualLayers.LFoot"
+    damageOverlayGroups:
+      Brute:
+        sprite: _Starlight/Mobs/Effects/Resomi/brute_damage.rsi
+        color: "#C048C2"
+      Burn:
+        sprite: _Starlight/Mobs/Effects/Resomi/burn_damage.rsi
+  - type: Bloodstream
+    bloodReagent: ResomiBlood
+  - type: FireVisuals
+    sprite: _Starlight/Mobs/Effects/onfire.rsi
+    normalState: Resomi_minor_burning
+    alternateState: Resomi_burning
+  - type: HumanoidAppearance
+    species: Resomi
+    hideLayersOnEquip:
+      - Special
+      - Head
+      - Hair
+      - HeadTop
+      - HeadSide
+    undergarmentTop: UndergarmentTopTanktopResomi
+    undergarmentBottom: UndergarmentBottomBoxersResomi
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 100
+        restitution: 0.0
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  # Palmtree: Coyote used the RPI Needs system; Hunger/Thirst replace it (same need as Avali).
+  - type: Hunger
+    baseDecayRate: 0.04
+  - type: Thirst
+  - type: Puller
+    needsHands: false
+  - type: Icon
+    sprite: _Starlight/Mobs/Species/Resomi/parts.rsi
+    state: full
+  - type: Body
+    prototype: Resomi
+    requiredLegs: 2
+  - type: Butcherable
+    butcheringType: Spike
+    spawned:
+    - id: FoodMeatHuman # Palmtree: Coyote's Mono FoodMeatResomi is not ported
+      amount: 3
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      85: Critical
+      170: Dead
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      51: 0.7  #Basicly 60% and 80%
+      68: 0.5
+  - type: MeleeWeapon
+    soundHit:
+      collection: AlienClaw
+    angle: 30
+    animation: WeaponArcClaw
+    damage:
+      types:
+        Slash: 5
+  - type: Hands
+    handDisplacement:
+      sizeMaps:
+        32:
+          sprite: _Starlight/Mobs/Species/Resomi/displacement.rsi
+          state: inHand
+  - type: Vocal
+    sounds:
+      Male: UnisexResomi
+      Female: UnisexResomi
+      Unsexed: UnisexResomi
+  - type: Speech
+    speechVerb: Resomi
+    speechSounds: UnisexResomi
+    allowedEmotes: ['Chirp', 'Hisses', 'Purr', 'Growl', 'Trill', 'Scree', 'Call', 'Squawk']
+  - type: TypingIndicator
+    proto: resomi
+  - type: Tag
+    tags:
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+    - Resomi
+  # Coyote: No NightVision, No FlashModifier, No NotLabelable
+  # Frontier: tall/short traits (Coyote height fields are not ported)
+  - type: ShortWhitelist
+    scale: 0.8
+    density: 140
+    pseudoItem: true
+    cosmeticOnly: false
+  - type: TallWhitelist
+    scale: 1.2
+  # End Frontier

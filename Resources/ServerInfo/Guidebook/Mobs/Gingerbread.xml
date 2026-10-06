@@ -1,0 +1,18 @@
+<Document>
+  # Gingerbread
+
+  A holiday species baked out of dough and decorated with icing. Rarely seen outside of festivities.
+
+  <Box>
+    <GuideEntityEmbed Entity="MobGingerbread" Caption=""/>
+  </Box>
+
+  ## Benefits
+
+  - Immune to cold, asphyxiation, blood loss and cellular damage.
+  - Takes only half radiation damage.
+
+  ## Drawbacks
+
+  - Takes 50% more blunt damage - they crumble easily.
+</Document>

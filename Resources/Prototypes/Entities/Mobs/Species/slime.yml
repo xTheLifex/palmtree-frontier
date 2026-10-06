@@ -79,6 +79,7 @@
       types:
         Blunt: 0.50 #per second, scales with pressure and other constants.
         Heat: 0.2 # 0.1 more than humans, i feel like low pressure would make slime boil more than blunt stretch them so i decided on this instead.
+  - type: SlimeWaterContact
   - type: Reactive
     groups:
       Flammable: [ Touch ]
@@ -91,13 +92,14 @@
     - reagents: [ Water ]
       methods: [ Touch ]
       effects:
-      # Palmtree: slimes are very weak to water (stock was 0.1 damage per unit).
+      # Palmtree: slimes are weak to water (stock was 0.1 damage per unit). Prolonged contact with
+      # puddles/water tiles is handled by SlimeWaterContactSystem.
       - !type:HealthChange
         scaleByQuantity: true
         ignoreResistances: true
         damage:
           types:
-            Heat: 3
+            Heat: 0.75
       - !type:PopupMessage
         type: Local
         visualType: Large

@@ -324,6 +324,7 @@
     - map: [ "enum.HumanoidVisualLayers.LLeg" ]
     - map: [ "enum.HumanoidVisualLayers.UndergarmentBottom" ]
     - map: [ "enum.HumanoidVisualLayers.UndergarmentTop" ]
+    - map: [ "enum.HumanoidVisualLayers.UndershirtUnderclothes" ]
     - map: ["jumpsuit"]
     - map: ["enum.HumanoidVisualLayers.LFootBehind"]
     - map: ["enum.HumanoidVisualLayers.RFootBehind"]
@@ -359,6 +360,7 @@
     - map: [ "head" ]
     - map: [ "pocket1" ]
     - map: [ "pocket2" ]
+    - map: [ "clownedon" ] # Dynamically generated
   - type: Appearance
   - type: HumanoidAppearance
     species: Human

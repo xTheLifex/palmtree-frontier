@@ -1,0 +1,127 @@
+- type: entity
+  save: false
+  name: Urist McAnt
+  parent: BaseMobSpeciesOrganic
+  id: BaseMobChitinid
+  abstract: true
+  components:
+  - type: HumanoidAppearance
+    species: Chitinid
+    hideLayersOnEquip:
+    - HeadTop
+
+  # Palmtree: Coyote used the RPI Needs system; Hunger/Thirst are used instead.
+  - type: Hunger
+    baseDecayRate: 0.0266 # Coyote: needs to eat more to survive (33% faster than the 0.0200 baseline)
+  - type: Thirst
+
+  - type: UnpoweredFlashlight # Frontier: https://github.com/DeltaV-Station/Delta-v/pull/2796 this was added back and need to be removed if we ever take DeltaV medical
+  - type: PointLight # Frontier
+    enabled: false # Frontier
+    radius: 3 # Frontier
+    softness: 5 # Frontier
+    color: "#2CFA1F" # Frontier
+    autoRot: true # Frontier
+
+  - type: Inventory # Allows vulps to wear properly shaped helmets
+    speciesId: vulpkanin
+
+  - type: Carriable
+
+  - type: Icon
+    sprite: _DV/Mobs/Species/Chitinid/parts.rsi
+    state: full
+
+  - type: Body
+    prototype: Chitinid
+    requiredLegs: 2
+
+  - type: Damageable
+    damageContainer: Biological
+    damageModifierSet: Chitinid
+
+  - type: Speech
+    speechVerb: Chitinid
+    allowedEmotes: ['Chitter', 'Click', 'Hiss']
+
+  - type: MeleeWeapon
+    animation: WeaponArcBite
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    damage:
+      types:
+        Piercing: 5
+
+  - type: TypingIndicator
+    proto: Chitinid
+
+  - type: Butcherable
+    butcheringType: Spike
+    spawned:
+    - id: FoodMeat
+      amount: 5
+
+  - type: Bloodstream
+    bloodReagent: InsectBlood
+
+  - type: DamageVisuals
+    damageOverlayGroups:
+      Brute:
+        sprite: Mobs/Effects/brute_damage.rsi
+        color: "#808A51"
+      Burn:
+        sprite: Mobs/Effects/burn_damage.rsi
+
+  - type: Vocal
+    sounds:
+      Male: UnisexChitinid
+      Female: UnisexChitinid
+      Unsexed: UnisexChitinid
+
+  - type: Fixtures
+    fixtures: # TODO: This needs a second fixture just for mob collisions.
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.42
+        density: 220
+        restitution: 0.0
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+
+  - type: Temperature # Ants hate the cold
+    heatDamageThreshold: 320
+    coldDamageThreshold: 230
+    currentTemperature: 310.15
+    specificHeat: 46
+    coldDamage:
+      types:
+        Cold : 1.25 #per second, scales with temperature & other constants
+    heatDamage:
+      types:
+        Heat : 1.0 #per second, scales with temperature & other constants
+  - type: TemperatureSpeed
+    thresholds:
+      289: 0.6
+      275: 0.4
+      250: 0.3
+
+  - type: ItemCougher
+    item: Chitzite
+    action: ActionChitzite
+    coughPopup: chitzite-cough
+  - type: Chitinid
+  - type: BlockInjection
+
+- type: entity
+  save: false
+  name: Chitinid Dummy
+  parent: MobHumanDummy
+  id: MobChitinidDummy
+  categories: [ HideSpawnMenu ]
+  description: A dummy chitinid meant to be used in character setup.
+  components:
+  - type: HumanoidAppearance
+    species: Chitinid

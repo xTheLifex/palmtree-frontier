@@ -280,6 +280,12 @@
     Medicine:
       effects:
       - !type:HealthChange
+      # Coyote Start
+        conditions:
+          - !type:OrganType
+            type: Avali
+            shouldHave: false
+      # End Coyote
         damage:
           types:
             Asphyxiation: -1
@@ -292,6 +298,17 @@
           types:
             Asphyxiation: 3
             Cold: 1
+      # Coyote Start
+      - !type:HealthChange #Starlight
+        conditions:
+        - !type:OrganType
+          type: Avali
+        damage:
+          types:
+            Poison: 1.5 # Avali blood is ammonia based, so chems made to treat normal bloodloss poison them instead (Lethal Dose: 20u)
+            Asphyxiation: 1
+            Bloodloss: 1
+      # End Coyote
 
 - type: reagent
   id: DexalinPlus
@@ -305,10 +322,16 @@
     Medicine:
       effects:
       - !type:HealthChange
+        # Coyote Start
+        conditions:
+        - !type:OrganType
+          type: Avali
+          shouldHave: false
         damage:
           types:
             Asphyxiation: -3.5
             Bloodloss: -3
+        # End Coyote
       - !type:AdjustReagent
         conditions:
         - !type:ReagentThreshold
@@ -324,6 +347,17 @@
           types:
             Asphyxiation: 5
             Cold: 3
+      # Coyote Start
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Avali
+        damage:
+          types:
+            Poison: 2.5 # Avali blood is ammonia based, so chems made to treat normal bloodloss poison them instead. Dex+ is worse. (Lethal Dose: 15u)
+            Asphyxiation: 1.5
+            Bloodloss: 1
+      # End Coyote
 
 # this ones a doozy
 - type: reagent
@@ -742,9 +776,34 @@
     Drink:
       effects:
         - !type:SatiateThirst
+          conditions: # DeltaV nerf of saline for Feroxi
+          - !type:OrganType
+            type: Feroxi
+            shouldHave: false
           factor: 6
+        - !type:SatiateThirst # DeltaV nerf of saline for Feroxi
+          conditions:
+          - !type:OrganType
+            type: Feroxi
+          factor: 2
         - !type:ModifyBloodLevel
+          # Coyote Start
+          conditions:
+            - !type:OrganType
+              type: Avali
+              shouldHave: false
+          # End Coyote
           amount: 6
+        # Coyote Start
+        - !type:HealthChange
+          conditions:
+            - !type:OrganType
+              type: Avali
+          damage:
+            types:
+              Caustic: 2 # 30 damage per unit was ridiculous, but I'm leaving some damage to punish mistakes without risking round removal. Adding salt to water shouldn't suddenly make it the strongest toxin in the game by far.
+              Heat: 2
+        # End Coyote
 
 - type: reagent
   id: Siderlac

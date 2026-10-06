@@ -1,0 +1,34 @@
+# Palmtree: character-setup dummies for the ported Starlight species.
+# Coyote defined these as AppearanceAvali/AppearanceResomi; here they follow the
+# Palmtree dummy naming pattern (MobXDummy) and use the shared BaseSpeciesDummy plus
+# the species Inventory so the editor preview gets the correct displacement maps.
+
+- type: entity
+  save: false
+  name: Avali Dummy
+  parent: [ BaseSpeciesDummy, BaseInventoryAvali ]
+  id: MobAvaliDummy
+  categories: [ HideSpawnMenu ]
+  description: A dummy avali meant to be used in character setup.
+  components:
+  - type: HumanoidAppearance
+    species: Avali
+    undergarmentTop: UndergarmentTopTanktopAvali
+    undergarmentBottom: UndergarmentBottomBoxersAvali
+
+- type: entity
+  save: false
+  name: Resomi Dummy
+  parent: [ BaseSpeciesDummy, BaseInventoryResomi ]
+  id: MobResomiDummy
+  categories: [ HideSpawnMenu ]
+  description: A dummy resomi meant to be used in character setup.
+  components:
+  - type: HumanoidAppearance
+    species: Resomi
+    hideLayersOnEquip:
+      - Special
+      - Head
+      - Hair
+      - HeadTop
+      - HeadSide

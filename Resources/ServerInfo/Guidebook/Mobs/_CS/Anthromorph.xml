@@ -1,0 +1,11 @@
+<Document>
+  # Anthromorph
+
+  Anthromorphs are a blank slate for you to create your own species. Go wild!
+
+  <Box>
+    <GuideEntityEmbed Entity="MobAnthromorph" Caption=""/>
+  </Box>
+
+  Anthromorphs have identical stats to humans in most regards.
+</Document>

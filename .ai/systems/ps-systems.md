@@ -219,12 +219,19 @@ system (`inventory: None`, `transferDamage/Name: true`, `revertOnDeath/Crit: tru
   `PolymorphableComponent`, after `PolymorphSystem` created it) and from the form's revert action
   (in the `PolymorphedEvent` handler). Only actions whose `PolymorphActionEvent.ProtoId` is
   `SlimeForm` (and the slime form's revert action) are touched; other polymorphs keep the warning.
-- **Very weak to water**: `MobSlimeForm` carries the stock slime `Reactive` water reaction, and
-  `BaseMobSlimePerson`'s was scaled up from `Heat: 0.1` to `Heat: 3` per unit
-  (`scaleByQuantity`, `ignoreResistances`). Thrown/spilled water (`PuddleSystem.TrySplashSpillAt`),
-  extinguisher vapor (`VaporSystem` collisions) and puddle slips (`PuddleSystem` slip reaction) all
-  route through `ReactiveSystem.DoEntityReaction(..., ReactionMethod.Touch)`, so all of them hurt
-  badly. The water `Gas` (inhaled) effect was already 3/unit.
+- **Weak to water, but not instantly lethal**: `MobSlimeForm` carries the stock slime `Reactive`
+  water reaction, and `BaseMobSlimePerson`'s was scaled up from `Heat: 0.1` to `Heat: 0.75` per
+  unit (`scaleByQuantity`, `ignoreResistances`). Thrown/spilled water
+  (`PuddleSystem.TrySplashSpillAt`), extinguisher vapor (`VaporSystem` collisions) and puddle slips
+  (`PuddleSystem` slip reaction) all route through
+  `ReactiveSystem.DoEntityReaction(..., ReactionMethod.Touch)`, so a splash hurts but does not
+  instantly kill. The water `Gas` (inhaled) effect is still `Heat: 3` per unit.
+- **Prolonged water contact is lethal**: `SlimeWaterContactComponent` marks slimes and
+  `SlimeWaterContactSystem` (`Content.Server/_PS/Slime/`) applies a fixed `ContactQuantity` (10
+  units) of Water as a touch reaction once per second while the slime stands in a water puddle
+  (`PuddleSystem.TryGetPuddle` + any solution containing Water) or on a water tile
+  (`FloorWaterEntity`). At the current 0.75/unit that is ~7.5 damage/second, so standing in water
+  kills in roughly 15-25 seconds.
 - **Death revert** is stock `revertOnDeath: true` (the polymorph `Update` loop reverts dead forms);
   verified with a scratch test that the parked body is restored at the form's position and the form
   is deleted.

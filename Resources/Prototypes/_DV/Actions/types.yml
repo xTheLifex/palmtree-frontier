@@ -11,3 +11,17 @@
     useDelay: 30
   - type: InstantAction # Frontier, Wizden#27422 compliance
     event: !type:CoughItemActionEvent
+
+- type: entity
+  id: ActionChitzite
+  parent: BaseAction # Frontier, Wizden#27422 compliance
+  name: Cough Up Chitzite
+  description: Purge the excess radiation build-up from your body, and gain a cool danger rock.
+  components:
+  - type: Action
+    icon:
+      sprite: _DV/Objects/Specific/Species/chitinid.rsi
+      state: chitzite
+    useDelay: 120
+  - type: InstantAction # Frontier, Wizden#27422 compliance
+    event: !type:CoughItemActionEvent

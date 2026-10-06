@@ -214,9 +214,26 @@
     Poison:
       effects:
       - !type:HealthChange
+        # Coyote start
+        conditions:
+        - !type:OrganType
+          type: Avali
+          shouldHave: false
+        # End Coyote
         damage:
           types:
             Caustic: 1
+    # Coyote start
+    Medicine:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:OrganType
+          type: Avali
+        damage:
+          types:
+            Asphyxiation: -1
+    # End Coyote
     Gas:
       effects:
       - !type:HealthChange
@@ -224,6 +241,11 @@
         - !type:OrganType
           type: Rat
           shouldHave: false
+        # Coyote start
+        - !type:OrganType
+          type: Avali
+          shouldHave: false
+        # End Coyote
         - !type:ReagentThreshold
           reagent: Ammonia
           min: 1
@@ -240,6 +262,11 @@
         - !type:OrganType
           type: Vox
           shouldHave: false
+        # Coyote start
+        - !type:OrganType
+          type: Avali
+          shouldHave: false
+        # End Coyote
         - !type:ReagentThreshold
           reagent: Ammonia
           min: 0.8
