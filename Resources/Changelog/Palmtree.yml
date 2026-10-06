@@ -324,3 +324,29 @@ Entries:
   time: '2026-10-05T23:45:29.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/312fe657ca84084060ad1fd102eb97807be0d4a4
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Ported the Ovinia, Chitinid, Avali and Resomi species from Coyote,
+        including their bodies, markings, sounds and guidebook pages.
+    - type: Add
+      message: >-
+        Added the missing translations for the ported cybernetic, robot, tail,
+        wing and hair markings.
+    - type: Add
+      message: >-
+        Every species now has a guidebook entry, with new pages for Synth,
+        Gingerbread and Skeleton.
+    - type: Fix
+      message: >-
+        Ported species now spawn with a survival box (they were missing from the
+        oxygen-breather group).
+    - type: Tweak
+      message: >-
+        Slime water damage was cut by 75%, but standing in water puddles or on
+        water tiles is still lethal after a while.
+  id: 90018
+  time: '2026-10-06T00:47:10.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/2cfd704c98f740f47d0a9a2652ceeae04a4b04d4
