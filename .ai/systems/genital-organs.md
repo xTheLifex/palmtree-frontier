@@ -46,11 +46,14 @@ pickers expose alpha (`IsAlphaVisible`).
 Each size maps to a `flaccid` render marking and an optional `aroused` one. `CanArouse` is false
 when no size defines an aroused marking; such organs (balls, breasts) are flaccid-only —
 `SetAroused` rejects/clears the state, the in-game arousal toggle is disabled and the editor's
-aroused preview skips them. The generator deliberately does not emit `aroused` for balls (the
-`*Alt` sprites are not drawn for arousal). The catalog is
+aroused preview skips them. The generator deliberately does not emit `aroused` for balls;
+instead, where a size has an aroused (`*Alt`) sprite, that marking becomes the `flaccid`
+(standard) one, so balls always show the aroused art with no state change. Legacy conversion
+(`TryConvertMarking`) accepts both a ball's base marking and its `*Alt` variant. The catalog is
 generated from existing marking ids by `Tools/gen_genital_organ_catalog.py`, e.g. `PenisHuman`
 sizes 1-5 map to `Genital-Penis-Human-N-0` / `-N-1`, `BreastsCoyote` maps to
-`GenitalBreastsRoundA..Impossible`, `BreastsSplurt` to `PSGenitalBreasts0..17`.
+`GenitalBreastsRoundA..Impossible` (with `GenitalBreastsRoundSkintoned*` variants for the skin
+tone toggle), `BreastsSplurt` to `PSGenitalBreasts0..17`.
 
 The organ entity (`OrganGenital*`) carries `Organ` + `GenitalOrganComponent` and is inserted into a
 custom slot on the torso (`genital_penis`, `genital_vagina`, ...). `GenitalOrganSystem` creates the

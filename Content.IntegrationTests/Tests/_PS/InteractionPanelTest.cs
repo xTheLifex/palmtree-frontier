@@ -212,6 +212,8 @@ profile:
       markingColor: ['#FFFFFFFF']
     - markingId: GenitalButt1
       markingColor: ['#FFFFFFFF', '#FFFFFFFF']
+    - markingId: Genital-Balls-Sheath2
+      markingColor: ['#FFFFFFFF']
     - markingId: TailBats
       markingColor: ['#FFFFFFFF', '#FFFFFFFF', '#FFFFFFFF', '#FFFFFFFF']
     - markingId: VulpEar
@@ -225,6 +227,10 @@ profile:
             Assert.That(profile.Genitals.Get(GenitalType.Breasts)?.Size, Is.EqualTo(8));
             Assert.That(profile.Genitals.Get(GenitalType.Vagina)?.Prototype, Is.EqualTo("VaginaHuman"));
             Assert.That(profile.Genitals.Get(GenitalType.Butt)?.Prototype, Is.EqualTo("ButtStandard"));
+            // Balls render their aroused (*Alt) sprite as the standard one, so the base marking
+            // still has to convert.
+            Assert.That(profile.Genitals.Get(GenitalType.Balls)?.Prototype, Is.EqualTo("BallsSheath"));
+            Assert.That(profile.Genitals.Get(GenitalType.Balls)?.Size, Is.EqualTo(2));
 
             // Non-genital markings (including cross-species tails/ears) survive validation.
             Assert.That(profile.Appearance.Markings.Any(m => m.MarkingId == "TailBats"), Is.True,

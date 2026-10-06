@@ -96,8 +96,10 @@ sanitized to `_`). Old strings remain valid and default to self-toggleable. Chan
 - Organ colors (primary + detail, alpha enabled) and transforms (offset + scale + glow) are picked
   per organ in the editor (sliders mirror the marking picker); they persist in the DB string and
   apply via `Marking.SetOffset`/`SetScale`/`SetGlow`. The editor also has a **Preview aroused
-  organs** toggle and per-organ `HSeparator`s. Balls and breasts are **flaccid-only** (no aroused
-  sprite, `CanArouse` false) — their arousal toggle is disabled and arousal is rejected. A manual
+  organs** toggle and per-organ `HSeparator`s. Balls and breasts are **flaccid-only** (`CanArouse`
+  false) — their arousal toggle is disabled and arousal is rejected. Ball sizes that have an
+  aroused (`*Alt`) sprite render that sprite as their standard one, so they show the aroused art
+  with no state change. A manual
   **Climax** action exists alongside **Cum on them**. Old genital
   markings are converted to organs on load/import (`GenitalOrganSettings.TryConvertMarking`), so
   Coyote exports keep their genitals. Human/Vulpkanin/Reptilian marking-point limits match Coyote

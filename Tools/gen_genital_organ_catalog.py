@@ -69,8 +69,12 @@ def main():
             flaccid = f"Genital-Balls-{tid}{size}"
             if flaccid not in ids:
                 continue
-            # Palmtree: balls are flaccid-only (the *Alt sprites are not drawn for arousal),
-            # matching breasts. Do not emit an aroused marking for them.
+            # Palmtree: balls have no aroused state, matching breasts. Where an aroused
+            # (*Alt) sprite exists, use it as the standard/only sprite instead. Do not emit
+            # an aroused marking for them.
+            aroused = f"{flaccid}Alt"
+            if aroused in ids:
+                flaccid = aroused
             out += [f"    - name: genital-size-{size}", f"      flaccid: {flaccid}"]
         out.append("")
     loc += ["# Balls types", "genital-organ-balls-single = Single",
@@ -113,6 +117,9 @@ def main():
         if mid not in ids:
             continue
         out += [f"    - name: genital-size-{key}", f"      flaccid: {mid}"]
+        skintoned = f"GenitalBreastsRoundSkintoned{key.capitalize()}"
+        if skintoned in ids:
+            out.append(f"      skintoned: {skintoned}")
     out.append("")
     out += ["- type: genitalOrgan", "  id: BreastsSplurt", "  name: genital-organ-breasts-splurt",
             "  genitalType: Breasts", "  sizes:"]
@@ -121,6 +128,9 @@ def main():
         if mid not in ids:
             continue
         out += [f"    - name: genital-size-{size}", f"      flaccid: {mid}"]
+        skintoned = f"PSGenitalBreastsSkintoned{size}"
+        if skintoned in ids:
+            out.append(f"      skintoned: {skintoned}")
     out.append("")
     loc += ["# Breasts types", "genital-organ-breasts-coyote = Coyote (round pair)",
             "genital-organ-breasts-splurt = Splurt (round pair)"]

@@ -123,8 +123,9 @@ public sealed partial class GenitalOrganSettings
 
     /// <summary>
     /// Best-effort conversion of a legacy genital marking into an organ entry. Matches the marking
-    /// against every catalog size's flaccid/aroused render marking; the first match wins, and an
-    /// organ that is already configured for that type is never overwritten.
+    /// against every catalog size's flaccid/aroused/skintoned render marking; the first match wins,
+    /// and an organ that is already configured for that type is never overwritten. A flaccid
+    /// marking also matches its *Alt variant (balls render the aroused sprite as their standard).
     /// </summary>
     public static void TryConvertMarking(GenitalOrganSettings settings, string markingId, IPrototypeManager prototypes)
     {
@@ -136,7 +137,10 @@ public sealed partial class GenitalOrganSettings
             for (var i = 0; i < catalog.Sizes.Count; i++)
             {
                 var size = catalog.Sizes[i];
-                if (size.Flaccid?.Id != markingId && size.Aroused?.Id != markingId && size.Skintoned?.Id != markingId)
+                var flaccid = size.Flaccid?.Id;
+                var matchesFlaccid = flaccid == markingId ||
+                                     (flaccid != null && flaccid == markingId + "Alt");
+                if (!matchesFlaccid && size.Aroused?.Id != markingId && size.Skintoned?.Id != markingId)
                     continue;
 
                 settings.Set(catalog.GenitalType, new GenitalOrganData
