@@ -1312,7 +1312,7 @@ namespace Content.Client.Lobby.UI
 
                 var sizeIndex = data != null ? Math.Clamp(data.Size - 1, 0, catalog.Sizes.Count - 1) : 0;
                 controls.SizeButton.SelectId(sizeIndex);
-                controls.VisibilityButton.SelectId((int) (data?.Visibility ?? GenitalVisibility.HiddenByJumpsuit));
+                controls.VisibilityButton.SelectId((int) (data?.Visibility ?? GenitalVisibility.HiddenByUnderwear));
 
                 // Palmtree: null colors follow the skin; track whether this organ uses custom colors.
                 var skin = Profile.Appearance.SkinColor;

@@ -108,7 +108,7 @@ public sealed partial class GenitalOrganSettings
                 continue;
 
             if (!Enum.IsDefined(organ.Visibility))
-                organ.Visibility = GenitalVisibility.HiddenByJumpsuit;
+                organ.Visibility = GenitalVisibility.HiddenByUnderwear;
 
             organ.Offset = new Vector2(Math.Clamp(organ.Offset.X, -2f, 2f), Math.Clamp(organ.Offset.Y, -2f, 2f));
             organ.Scale = Math.Clamp(organ.Scale, MinScale, MaxScale);
@@ -216,7 +216,7 @@ public sealed partial class GenitalOrganSettings
             if (!int.TryParse(halves[2], out var size))
                 continue;
 
-            var visibility = GenitalVisibility.HiddenByJumpsuit;
+            var visibility = GenitalVisibility.HiddenByUnderwear;
             if (halves.Length >= 4 &&
                 Enum.TryParse<GenitalVisibility>(halves[3], ignoreCase: true, out var parsedVisibility))
             {
@@ -327,7 +327,7 @@ public sealed partial class GenitalOrganData
 
     /// <summary>SPLURT-style exposure rule for this organ.</summary>
     [DataField("visibility")]
-    public GenitalVisibility Visibility = GenitalVisibility.HiddenByJumpsuit;
+    public GenitalVisibility Visibility = GenitalVisibility.HiddenByUnderwear;
 
     /// <summary>Primary sprite color; null follows the mob's skin color.</summary>
     [DataField("color")]

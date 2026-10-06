@@ -28,7 +28,7 @@ public sealed partial class GenitalOrganComponent : Component
 
     /// <summary>SPLURT-style exposure rule for this organ.</summary>
     [DataField, AutoNetworkedField]
-    public GenitalVisibility Visibility = GenitalVisibility.HiddenByJumpsuit;
+    public GenitalVisibility Visibility = GenitalVisibility.HiddenByUnderwear;
 
     /// <summary>Primary sprite color; null follows the mob's skin color.</summary>
     [DataField, AutoNetworkedField]

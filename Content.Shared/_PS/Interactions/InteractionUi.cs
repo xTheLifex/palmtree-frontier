@@ -42,7 +42,7 @@ public sealed class InteractionGenitalUiEntry
     public bool Aroused;
 
     /// <summary>SPLURT-style exposure rule for this organ.</summary>
-    public GenitalVisibility Visibility = GenitalVisibility.HiddenByJumpsuit;
+    public GenitalVisibility Visibility = GenitalVisibility.HiddenByUnderwear;
 
     /// <summary>Whether this panel may toggle the arousal state (only for your own organs).</summary>
     public bool CanToggleArousal;

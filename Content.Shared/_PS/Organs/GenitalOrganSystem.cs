@@ -455,7 +455,7 @@ public sealed class GenitalOrganSystem : EntitySystem
             return false;
 
         if (!Enum.IsDefined(visibility))
-            visibility = GenitalVisibility.HiddenByJumpsuit;
+            visibility = GenitalVisibility.HiddenByUnderwear;
 
         if (organ.Visibility == visibility)
             return false;
