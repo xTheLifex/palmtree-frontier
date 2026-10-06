@@ -350,3 +350,13 @@ Entries:
   time: '2026-10-06T00:47:10.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/2cfd704c98f740f47d0a9a2652ceeae04a4b04d4
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: >-
+        Balls now use their aroused sprite as their standard sprite where one
+        exists.
+  id: 90019
+  time: '2026-10-06T02:09:22.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/67f02557e6c390e92e7b9d1f6bc9ead3c5810b67
