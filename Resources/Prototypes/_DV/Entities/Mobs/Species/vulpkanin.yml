@@ -103,7 +103,6 @@
       types:
         Blunt: 2
         Slash: 3
-  - type: Perishable
   - type: Damageable
     damageModifierSet: Vulpkanin
   - type: Vocal

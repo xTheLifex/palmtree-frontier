@@ -97,7 +97,6 @@
     damage:
       types:
         Piercing: 7 # oooh scary extra damage~
-  - type: Perishable
   - type: Damageable
     damageModifierSet: Feroxi
   - type: TypingIndicator
