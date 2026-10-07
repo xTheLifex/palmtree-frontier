@@ -360,3 +360,30 @@ Entries:
   time: '2026-10-06T02:09:22.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/67f02557e6c390e92e7b9d1f6bc9ead3c5810b67
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: New genital organs now default to "Hidden by underwear" visibility.
+  id: 90020
+  time: '2026-10-06T03:14:47.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/16e5dc490cd0e9dccc031358a36da9cc1ae6e2fb
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Shotguns now have "Insert randomly" and "Fill sequence" verbs that load
+        shells from nearby ammo boxes, plus a "Shoot self" action that fires the
+        loaded shell into the user.
+  id: 90021
+  time: '2026-10-07T02:52:02.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/3eec6b5f518481db82cbbff62f9fcd54279d3f02
+- author: TheLife
+  changes:
+    - type: Fix
+      message: Feroxi and Vulpkanin no longer rot away over time.
+  id: 90022
+  time: '2026-10-07T02:52:09.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/5322b2c6b193a9b4611d391169f58a018f18c1a7
