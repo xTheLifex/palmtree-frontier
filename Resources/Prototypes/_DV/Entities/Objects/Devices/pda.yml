@@ -8,6 +8,8 @@
   name: mail carrier PDA # Frontier: courier PDA<mail carrier PDA
   description: Smells like unopened letters.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetMailCourier
   - type: Pda
     id: CourierIDCard
   - type: Appearance

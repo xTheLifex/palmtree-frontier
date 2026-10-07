@@ -15,14 +15,19 @@
   id: MobSlimeSprites
   sprites:
     Genital: MobHumanoidAnyMarking
+    Special: MobHumanoidAnyMarking # Palmtree: cat ears and other special markings must render
+    Tail: MobHumanoidAnyMarking # Palmtree: tails (the layer existed only as TailBehind/TailOversuit)
     TailBehind: MobHumanoidAnyMarking
     Head: MobSlimeHead
     Hair: MobSlimeMarkingFollowSkin
     FacialHair: MobSlimeMarkingFollowSkin
+    Snout: MobHumanoidAnyMarking # Palmtree: snouts/muzzles
     UndergarmentTop: MobHumanoidAnyMarking
     UndergarmentBottom: MobHumanoidAnyMarking
     Chest: MobSlimeTorso
     Eyes: MobHumanoidEyes
+    HeadTop: MobHumanoidAnyMarking # Palmtree: ears and head-top markings
+    HeadSide: MobHumanoidAnyMarking # Palmtree: side horns/frills
     LArm: MobSlimeLArm
     RArm: MobSlimeRArm
     LHand: MobSlimeLHand
@@ -32,6 +37,8 @@
     LFoot: MobSlimeLFoot
     RFoot: MobSlimeRFoot
     TailOversuit: MobHumanoidAnyMarking
+    NeckFluff: MobHumanoidAnyMarking # Palmtree: Ovinia neck fluff
+    RArmExtension: MobHumanoidAnyMarking # Palmtree: harpy wings
     UndershirtUnderclothes: MobHumanoidAnyMarking
     UndershirtOverclothes: MobHumanoidAnyMarking
 

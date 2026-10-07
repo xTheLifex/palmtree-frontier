@@ -7,6 +7,7 @@ using Content.Server.Radio.Components;
 using Content.Server.Radio.EntitySystems;
 using Content.Server.Speech;
 using Content.Server.Speech.Components;
+using Content.Shared._CS.RadioNoises; // Palmtree/Coyote: Shortband radio
 using Content.Shared._NF.Radio;
 using Content.Shared.Chat;
 using Content.Shared.Hands.Components;
@@ -144,22 +145,68 @@ public sealed partial class HandheldRadioSystem : EntitySystem
                     RaiseLocalEvent(parent, ref relayEvent);
                 }
 
-                if (TryComp(parent, out ActorComponent? actor))
-                    _netMan.ServerSendMessage(args.ChatMsg, actor.PlayerSession.Channel);
+                if (!TryComp(parent, out ActorComponent? actor))
+                    break;
+
+                // Palmtree/Coyote: degrade the message by range and play static.
+                var privateChat = _radio.MangleRadioMessage(
+                    uid,
+                    ref args,
+                    out var privateDegradation);
+
+                if (privateDegradation.DropMessageEntirely || privateDegradation.DropMessage)
+                    break;
+
+                var privateStatic = new DoRadioStaticEvent(
+                    uid,
+                    args.MessageSource,
+                    actor.PlayerSession.AttachedEntity,
+                    args.Channel.ID,
+                    args.Message,
+                    privateDegradation);
+                RaiseLocalEvent(uid, ref privateStatic);
+
+                _netMan.ServerSendMessage(privateChat, actor.PlayerSession.Channel);
                 break;
 
             case HandheldRadioMode.Intercom:
                 if (uid == args.RadioSource)
                     return;
 
+                // Palmtree/Coyote: degrade the message by range and play static.
+                var intercomChat = _radio.MangleRadioMessage(
+                    uid,
+                    ref args,
+                    out var intercomDegradation);
+
+                if (intercomDegradation.DropMessageEntirely || intercomDegradation.DropMessage)
+                    return;
+
+                var intercomStatic = new DoRadioStaticEvent(
+                    uid,
+                    args.MessageSource,
+                    null,
+                    args.Channel.ID,
+                    args.Message,
+                    intercomDegradation);
+                RaiseLocalEvent(uid, ref intercomStatic);
+
                 var nameEv = new TransformSpeakerNameEvent(args.MessageSource, Name(args.MessageSource));
                 RaiseLocalEvent(args.MessageSource, nameEv);
 
+                var origName = intercomDegradation is { GenerifyName: true, NameOverride: not null }
+                    ? intercomDegradation.NameOverride
+                    : nameEv.VoiceName;
+
                 var name = Loc.GetString("speech-name-relay",
                     ("speaker", Name(uid)),
-                    ("originalName", nameEv.VoiceName));
+                    ("originalName", origName));
 
-                _chat.TrySendInGameICMessage(uid, args.Message, component.OutputChatType, ChatTransmitRange.GhostRangeLimitNoAdminCheck, nameOverride: name, checkRadioPrefix: false);
+                var chatType = component.OutputChatType;
+                if (intercomDegradation.Whisperfy)
+                    chatType = InGameICChatType.Whisper;
+
+                _chat.TrySendInGameICMessage(uid, intercomChat.Message.Message, chatType, ChatTransmitRange.GhostRangeLimitNoAdminCheck, nameOverride: name, checkRadioPrefix: false);
                 break;
         }
     }

@@ -16,8 +16,135 @@
     program: 62
   - type: SwappableInstrument
     instrumentList:
-      "Electro": {62: 0} #i needed generic sounding synth presets, sue me
-      "Bubbles": {63: 0}
+      # Palmtree: full General MIDI program list ported from Coyote (stock only has Electro/Bubbles).
+      "Grand Piano"           : { 0   : 0 }
+      "Bright Grand Piano"    : { 1   : 0 }
+      "Electric Grand Piano"  : { 2   : 0 }
+      "Hankietank"            : { 3   : 0 }
+      "Tine Electric Piano"   : { 4   : 0 }
+      "FM Electric Piano"     : { 5   : 0 }
+      "Harpsichord"           : { 6   : 0 }
+      "Clavinet"              : { 7   : 0 }
+      "Celeste"               : { 8   : 0 }
+      "Glockenspiel"          : { 9   : 0 }
+      "Music Box"             : { 10  : 0 }
+      "Vibraphone"            : { 11  : 0 }
+      "Marimba"               : { 12  : 0 }
+      "Xylophone"             : { 13  : 0 }
+      "Tubular Bells"         : { 14  : 0 }
+      "Dulcimer"              : { 15  : 0 }
+      "Tonewheel Organ"       : { 16  : 0 }
+      "Percussive Organ"      : { 17  : 0 }
+      "Rock Organ"            : { 18  : 0 }
+      "Pipe Organ"            : { 19  : 0 }
+      "Reed Organ"            : { 20  : 0 }
+      "Accordion"             : { 21  : 0 }
+      "Harmonica"             : { 22  : 0 }
+      "Bandoneon"             : { 23  : 0 }
+      "Nylon Guitar"          : { 24  : 0 }
+      "Steel Guitar"          : { 25  : 0 }
+      "Jazz Guitar"           : { 26  : 0 }
+      "Clean Guitar"          : { 27  : 0 }
+      "Muted Guitar"          : { 28  : 0 }
+      "Overdrive Guitar"      : { 29  : 0 }
+      "Distortion Guitar"     : { 30  : 0 }
+      "Guitar Harmonics"      : { 31  : 0 }
+      "Acoustic Bass"         : { 32  : 0 }
+      "Finger Bass"           : { 33  : 0 }
+      "Pick Bass"             : { 34  : 0 }
+      "Fretless Bass"         : { 35  : 0 }
+      "Slap Bass 1"           : { 36  : 0 }
+      "Slap Bass 2"           : { 37  : 0 }
+      "Synth Bass 1"          : { 38  : 0 }
+      "Synth Bass 2"          : { 39  : 0 }
+      "Violin"                : { 40  : 0 }
+      "Viola"                 : { 41  : 0 }
+      "Cello"                 : { 42  : 0 }
+      "Double Bass"           : { 43  : 0 }
+      "Tremolo Strings"       : { 44  : 0 }
+      "Pizzicato Strings"     : { 45  : 0 }
+      "Orchestral Harp"       : { 46  : 0 }
+      "Timpani"               : { 47  : 0 }
+      "Fast Strings"          : { 48  : 0 }
+      "Slow Strings"          : { 49  : 0 }
+      "Synth Strings 1"       : { 50  : 0 }
+      "Synth Strings 2"       : { 51  : 0 }
+      "Concert Choir"         : { 52  : 0 }
+      "Voice Oohs"            : { 53  : 0 }
+      "Synth Voice"           : { 54  : 0 }
+      "Orchestra Hit"         : { 55  : 0 }
+      "Trumpet"               : { 56  : 0 }
+      "Trombone"              : { 57  : 0 }
+      "Tuba"                  : { 58  : 0 }
+      "Muted Trumpet"         : { 59  : 0 }
+      "French Horns"          : { 60  : 0 }
+      "Brass Section"         : { 61  : 0 }
+      "Synth Brass 1"         : { 62  : 0 }
+      "Synth Brass 2"         : { 63  : 0 }
+      "Soprano Sax"           : { 64  : 0 }
+      "Alto Sax"              : { 65  : 0 }
+      "Tenor Sax"             : { 66  : 0 }
+      "Baritone Sax"          : { 67  : 0 }
+      "Oboe"                  : { 68  : 0 }
+      "English Horn"          : { 69  : 0 }
+      "Bassoon"               : { 70  : 0 }
+      "Clarinet"              : { 71  : 0 }
+      "Piccolo"               : { 72  : 0 }
+      "Flute"                 : { 73  : 0 }
+      "Recorder"              : { 74  : 0 }
+      "Pan Flute"             : { 75  : 0 }
+      "Bottle Blow"           : { 76  : 0 }
+      "Shakuhachi"            : { 77  : 0 }
+      "Whistle"               : { 78  : 0 }
+      "Ocarina"               : { 79  : 0 }
+      "Square Lead"           : { 80  : 0 }
+      "Saw Lead"              : { 81  : 0 }
+      "Synth Calliope"        : { 82  : 0 }
+      "Chiffer Lead"          : { 83  : 0 }
+      "Charang"               : { 84  : 0 }
+      "Solo Vox"              : { 85  : 0 }
+      "5th Saw Wave"          : { 86  : 0 }
+      "Bass "                 : { 87  : 0 }
+      "Fantasia"              : { 88  : 0 }
+      "Warm Pad"              : { 89  : 0 }
+      "Polysynth"             : { 90  : 0 }
+      "Space Voice"           : { 91  : 0 }
+      "Bowed Glass"           : { 92  : 0 }
+      "Metal Pad"             : { 93  : 0 }
+      "Halo Pad"              : { 94  : 0 }
+      "Sweep Pad"             : { 95  : 0 }
+      "Ice Rain"              : { 96  : 0 }
+      "Soundtrack"            : { 97  : 0 }
+      "Crystal"               : { 98  : 0 }
+      "Atmosphere"            : { 99  : 0 }
+      "Brightness"            : { 100 : 0 }
+      "Goblin"                : { 101 : 0 }
+      "Echo Drops"            : { 102 : 0 }
+      "Star Theme"            : { 103 : 0 }
+      "Sitar"                 : { 104 : 0 }
+      "Banjo"                 : { 105 : 0 }
+      "Shamisen"              : { 106 : 0 }
+      "Koto"                  : { 107 : 0 }
+      "Kalimba"               : { 108 : 0 }
+      "Bagpipes"              : { 109 : 0 }
+      "Fiddle"                : { 110 : 0 }
+      "Shenai"                : { 111 : 0 }
+      "Tinker Bell"           : { 112 : 0 }
+      "Agogo"                 : { 113 : 0 }
+      "Steel Drums"           : { 114 : 0 }
+      "Wood Block"            : { 115 : 0 }
+      "Taiko Drum"            : { 116 : 0 }
+      "Melodic Tom"           : { 117 : 0 }
+      "Synth Drum"            : { 118 : 0 }
+      "Reverse Cymbal"        : { 119 : 0 }
+      "Fret Noise"            : { 120 : 0 }
+      "Breath Noise"          : { 121 : 0 }
+      "Seashore"              : { 122 : 0 }
+      "Birds"                 : { 123 : 0 }
+      "Telephone 1"           : { 124 : 0 }
+      "Helicopter"            : { 125 : 0 }
+      "Applause"              : { 126 : 0 }
+      "Gun Shot"              : { 127 : 0 }
   - type: Sprite
     sprite: Objects/Fun/Instruments/h_synthesizer.rsi
   - type: StaticPrice

@@ -1,6 +1,8 @@
 using Content.Server.Chat.Systems;
 using Content.Server.Emp;
 using Content.Server.Radio.Components;
+using Content.Shared._CS.RadioNoises; // Palmtree/Coyote: Shortband radio
+using Content.Shared.Ghost;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Radio;
 using Content.Shared.Radio.Components;
@@ -111,8 +113,35 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
             RaiseLocalEvent(parent, ref relayEvent);
         }
 
-        if (TryComp(parent, out ActorComponent? actor))
+        if (!TryComp(parent, out ActorComponent? actor))
+            return;
+
+        // Palmtree/Coyote: ghosts hear radio without degradation or static.
+        if (HasComp<GhostHearingComponent>(parent))
+        {
             _netMan.ServerSendMessage(args.ChatMsg, actor.PlayerSession.Channel);
+            return;
+        }
+
+        var chatMess = _radio.MangleRadioMessage(
+            uid,
+            ref args,
+            out var degradationParams);
+
+        if (degradationParams.DropMessageEntirely || degradationParams.DropMessage)
+            return;
+
+        // Play the static for the receiver.
+        var staticEv = new DoRadioStaticEvent(
+            uid,
+            args.MessageSource,
+            actor.PlayerSession.AttachedEntity,
+            args.Channel.ID,
+            args.Message,
+            degradationParams);
+        RaiseLocalEvent(uid, ref staticEv);
+
+        _netMan.ServerSendMessage(chatMess, actor.PlayerSession.Channel);
     }
 
     private void OnEmpPulse(EntityUid uid, HeadsetComponent component, ref EmpPulseEvent args)

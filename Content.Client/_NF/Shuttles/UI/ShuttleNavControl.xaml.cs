@@ -281,6 +281,30 @@ public sealed partial class ShuttleNavControl
             case RadarBlipShape.Arrow:
                 DrawArrow(handle, position, size, color);
                 break;
+            case RadarBlipShape.Heart:
+                // Two lobes and a point make a serviceable heart.
+                var lobeRadius = size * 0.45f;
+                var lobeOffset = new Vector2(lobeRadius * 0.8f, -lobeRadius * 0.4f);
+                handle.DrawCircle(position - lobeOffset, lobeRadius, color);
+                handle.DrawCircle(position + lobeOffset, lobeRadius, color);
+                var heartPoints = new Vector2[]
+                {
+                    position + new Vector2(-lobeRadius * 1.7f, -lobeRadius * 0.35f),
+                    position + new Vector2(lobeRadius * 1.7f, -lobeRadius * 0.35f),
+                    position + new Vector2(0, size),
+                };
+                handle.DrawPrimitives(DrawPrimitiveTopology.TriangleList, heartPoints, color);
+                break;
+            case RadarBlipShape.X:
+                var xPoints = new Vector2[]
+                {
+                    position + new Vector2(-size, -size),
+                    position + new Vector2(size, size),
+                    position + new Vector2(size, -size),
+                    position + new Vector2(-size, size)
+                };
+                handle.DrawPrimitives(DrawPrimitiveTopology.LineList, xPoints, color);
+                break;
         }
     }
 

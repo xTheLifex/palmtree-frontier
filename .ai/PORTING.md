@@ -289,3 +289,29 @@ Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
   `BaseMobSpeciesOrganic` sprite layer list (the first block and custom species already had them),
   so base-list species render those layers in the right order.
 - **Slime water rebalance** and the `SlimeWaterContactSystem`: see `.ai/systems/ps-systems.md`.
+
+## 12. 2026-10 feature batch (PDA IFF, Shortband, crit speech)
+
+- **PDA IFF blips (Coyote)**: `_CS/BlipCartridge` (`BlipCartridgeComponent`,
+  `BlipColorSetPrototype`, `BlipShapeSetPrototype`, `RadarBlipPresetPrototype`, server
+  `BlipCartridgeSystem`) plus the `_CS/Blipz` prototypes. Every PDA inherits `BlipCartridge` from
+  `BasePDA` with per-department presets; admin PDAs are disabled. It reuses the existing `_NF`
+  radar-blip pipeline: `RadarBlipShape` gained `Heart`, `X`, `CircleWithLine` and the client
+  `ShuttleNavControl` draws the X and geometric heart shapes. Pocket PDAs appear as customizable
+  blips on mass scanners / shuttle consoles (verbs: preset, colour, shape, size, toggle).
+- **Shortband radio (Coyote "Traffic" replacement)**: `RadioChannelPrototype` gained the range
+  degradation fields; `RadioSystem.MangleRadioMessage` / `MangleMessage` / `GenerifyName` rebuild a
+  degraded message, with hooks in `RadioSystem.OnIntrinsicReceive`, `HeadsetSystem`,
+  `RadioDeviceSystem` and `_NF/HandheldRadioSystem`. `Traffic` keeps its id/frequency but displays
+  as "Shortband" and degrades with distance (650 m optimal, static-glyph text beyond, 50% drop past
+  the heavy range). The `_CS/RadioNoises` static-sound system (component, prototype, system and
+  `Resources/Audio/_CS/RadioStatic`) is attached to headsets, handheld radios and intercoms, with
+  squelch/volume verbs.
+- **Speech in crit (Coyote)**: `MobStateSystem` only cancels `SpeakAttemptEvent` and
+  `EmoteAttemptEvent` while dead; critical mobs can talk and emote. The one-shot
+  `AllowNextCritSpeechComponent` is still consumed by `SleepingSystem` but no longer by
+  `MobStateSystem`.
+- **Housekeeping**: solar flare and bluespace cargo events are disabled in the NF and upstream
+  calm-event tables; slime base sprites gained the missing marking layers (`Tail`, `HeadTop`,
+  `HeadSide`, `Snout`, `Special`, `NeckFluff`, `RArmExtension`); the synthesizer now carries
+  Coyote's full 128-program General MIDI list.

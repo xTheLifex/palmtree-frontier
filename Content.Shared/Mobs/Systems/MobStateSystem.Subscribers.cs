@@ -2,7 +2,6 @@
 using Content.Shared.Buckle.Components;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Damage;
-using Content.Shared.Damage.ForceSay;
 using Content.Shared.Emoting;
 using Content.Shared.Hands;
 using Content.Shared.Interaction;
@@ -34,7 +33,7 @@ public partial class MobStateSystem
         SubscribeLocalEvent<MobStateComponent, ThrowAttemptEvent>(CheckAct);
         SubscribeLocalEvent<MobStateComponent, SpeakAttemptEvent>(OnSpeakAttempt);
         SubscribeLocalEvent<MobStateComponent, IsEquippingAttemptEvent>(OnEquipAttempt);
-        SubscribeLocalEvent<MobStateComponent, EmoteAttemptEvent>(CheckAct);
+        SubscribeLocalEvent<MobStateComponent, EmoteAttemptEvent>(OnEmoteAttempt); // Palmtree/Coyote: emotes allowed in crit
         SubscribeLocalEvent<MobStateComponent, IsUnequippingAttemptEvent>(OnUnequipAttempt);
         SubscribeLocalEvent<MobStateComponent, DropAttemptEvent>(CheckAct);
         SubscribeLocalEvent<MobStateComponent, PickupAttemptEvent>(CheckAct);
@@ -141,13 +140,16 @@ public partial class MobStateSystem
 
     private void OnSpeakAttempt(EntityUid uid, MobStateComponent component, SpeakAttemptEvent args)
     {
-        if (HasComp<AllowNextCritSpeechComponent>(uid))
-        {
-            RemCompDeferred<AllowNextCritSpeechComponent>(uid);
-            return;
-        }
+        // Palmtree/Coyote: only death blocks speech; critical mobs can still talk.
+        if (component.CurrentState == MobState.Dead)
+            args.Cancel();
+    }
 
-        CheckAct(uid, component, args);
+    private void OnEmoteAttempt(EntityUid uid, MobStateComponent component, EmoteAttemptEvent args)
+    {
+        // Palmtree/Coyote: only death blocks emotes; critical mobs can still emote.
+        if (component.CurrentState == MobState.Dead)
+            args.Cancel();
     }
 
     private void CheckAct(EntityUid target, MobStateComponent component, CancellableEntityEventArgs args)

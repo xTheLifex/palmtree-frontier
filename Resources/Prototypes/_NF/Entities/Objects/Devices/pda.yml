@@ -12,6 +12,8 @@
   parent: [MusicBasePDA, AdminPDA]
   id: NFAdminPDA
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    enabled: false
   - type: CartridgeLoader
     diskSpace: 20
     preinstalled:
@@ -34,6 +36,8 @@
   name: mercenary PDA
   description: This PDA smells of war.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetMercenary
   - type: Pda
     id: MercenaryIDCard
   - type: Appearance
@@ -53,6 +57,8 @@
   name: pilot PDA
   description: This PDA smells like thruster exhaust fumes.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetPilot
   - type: Pda
     id: PilotIDCard
   - type: Appearance
@@ -352,6 +358,8 @@
   name: station representative PDA
   description: Looks like it's been clawed on.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: SrIDCard
     penSlot:
@@ -387,6 +395,8 @@
   name: pirate PDA
   suffix: Frontier
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetPirate
   - type: Pda
     id: NFPirateIDCard
   - type: Appearance
@@ -562,6 +572,8 @@
   name: plant manager PDA
   description: Pristine, but smells strongly of ozone.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: PlantManagerIDCard
   - type: Appearance

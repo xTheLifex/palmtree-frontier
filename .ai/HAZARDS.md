@@ -124,6 +124,11 @@ loading with `already exist entry of type: Message`. When porting locale files, 
 already exist (the ported `_Floof/anthro.ftl` already contained the leg-style keys that were also
 added to `markings-picker.ftl`; the duplicate was removed).
 
+**Fluent (`.ftl`) has no inline comments.** Text after a value is part of the translated string, so
+`chat-radio-traffic = Shortband # Palmtree...` renders the comment in-game; it has to be removed by
+hand. Comments are only allowed on their own `#` line (common in this repo), never at the end of a
+value line.
+
 ## 12. DB and persistence
 
 - `LogType` numeric values are persisted; do not renumber.

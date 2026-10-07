@@ -7,12 +7,14 @@
     - id: NFIonStorm
     #- id: NFPowerGridCheck
     - id: NFRandomSentience
-    - id: NFSolarFlare
+    # Palmtree: solar flares disabled (they break lights).
+    #- id: NFSolarFlare
     - id: NFVentClog
-    - id: NFBluespaceCargoCrate
-    - id: NFBluespaceMcCargoCrate
-    - id: NFBluespaceSyndicateCrate
-    - id: NFBluespaceBrokenMcDelivery
+    # Palmtree: bluespace cargo events disabled.
+    #- id: NFBluespaceCargoCrate
+    #- id: NFBluespaceMcCargoCrate
+    #- id: NFBluespaceSyndicateCrate
+    #- id: NFBluespaceBrokenMcDelivery
     - id: NFSmugglingFax
 
 - type: entity

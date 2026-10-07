@@ -26,6 +26,13 @@
   - type: GuideHelp
     guides:
     - Radio
+  - type: RadioStatic # Palmtree/Coyote: Shortband radio static
+    baseSoundpack: RadioStaticDefault
+    departmentSoundPacks:
+      Traffic: RadioStaticTrafficHeadset
+      Medical: RadioStaticMedical
+      Nfsd: RadioStaticSecurity
+      Science: RadioStaticScience
 
 - type: entity
   parent: ClothingHeadset

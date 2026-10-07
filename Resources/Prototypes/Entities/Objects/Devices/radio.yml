@@ -30,6 +30,12 @@
   - type: Tag
     tags:
     - Radio
+  - type: RadioStatic # Palmtree/Coyote: Shortband radio static
+    baseSoundpack: RadioStaticDefaultLoud
+    departmentSoundPacks:
+      Traffic: RadioStaticTrafficConsoleLoud
+      Medical: RadioStaticMedicalLoud
+      Nfsd: RadioStaticSecurityLoud
 
 - type: entity
   name: security radio

@@ -22,7 +22,8 @@
     #- id: PowerGridCheck
     - id: RandomSentience
     - id: SlimesSpawn
-    - id: SolarFlare
+    # Palmtree: solar flares disabled (they break lights).
+    #- id: SolarFlare
     - id: SnakeSpawn
     - id: SpiderClownSpawn
     - id: SpiderSpawn

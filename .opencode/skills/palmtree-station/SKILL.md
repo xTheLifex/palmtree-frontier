@@ -106,7 +106,8 @@ dotnet run --project Content.Client -c Debug --no-build -- --headless
   have markings.
 - **Body speed** comes from leg `MovementBodyPart` values, not only the mob's
   `MovementSpeedModifier`.
-- **Locale duplicates** are load errors; unknown prototype fields are lint errors.
+- **Locale duplicates** are load errors; unknown prototype fields are lint errors. Fluent (`.ftl`)
+  has no inline comments — text after a value (even `# ...`) becomes part of the translation.
 - **Server popups**: `SharedPopupSystem.PopupClient` is a no-op on the server (it exists for client
   prediction). Server code must use `PopupEntity(message, entity, recipient)` or popups silently
   never appear.

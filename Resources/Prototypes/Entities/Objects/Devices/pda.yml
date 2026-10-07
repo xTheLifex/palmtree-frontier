@@ -5,6 +5,7 @@
   name: PDA
   description: Personal Data Assistant.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
   - type: Appearance
     appearanceDataInit:
      enum.PdaVisuals.PdaType:
@@ -169,6 +170,8 @@
   id: BaseSecurityPDA
   abstract: true
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetSecurity
   - type: CartridgeLoader
     preinstalled:
     - CrewManifestCartridge
@@ -183,6 +186,9 @@
   parent: BasePDA
   id: BaseMedicalPDA
   abstract: true
+  components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetMedical
   # Frontier: cartridges moved to loadouts
   # components:
   # - type: CartridgeLoader
@@ -213,6 +219,8 @@
   name: technical assistant PDA
   description: Why isn't it yellow?
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetEngineering
   - type: Pda
     id: TechnicalAssistantIDCard
   - type: Appearance
@@ -273,6 +281,8 @@
   name: research assistant PDA
   description: Why isn't it purple?
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetScience
   - type: Pda
     id: ResearchAssistantIDCard
   - type: Appearance
@@ -499,6 +509,8 @@
   id: QuartermasterPDA
   description: PDA for the guy that orders the guns.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: QuartermasterIDCard
   - type: Appearance
@@ -525,6 +537,8 @@
   name: cargo PDA
   description: PDA for the guys that order the pizzas.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetEngineering
   - type: Pda
     id: CargoIDCard
   - type: Appearance
@@ -543,6 +557,8 @@
   name: salvage PDA
   description: Smells like ash.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetEngineering
   - type: Pda
     id: SalvageIDCard
   - type: Appearance
@@ -679,6 +695,8 @@
   name: captain PDA
   description: Surprisingly no different from your PDA.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: CaptainIDCard
     penSlot:
@@ -703,6 +721,8 @@
   name: head of personnel PDA
   description: Looks like it's been chewed on.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: HoPIDCard
     penSlot:
@@ -728,6 +748,8 @@
   name: chief engineer PDA
   description: Looks like it's barely been used.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: CEIDCard
   - type: Appearance
@@ -747,6 +769,8 @@
   name: engineer PDA
   description: Rugged and well-worn.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetEngineering
   - type: Pda
     id: EngineeringIDCard
   - type: Appearance
@@ -766,6 +790,8 @@
   name: chief medical officer PDA
   description: Extraordinarily shiny and sterile.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: CMOIDCard
   - type: Appearance
@@ -857,6 +883,8 @@
   name: research director PDA
   description: It appears surprisingly ordinary.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: RDIDCard
   - type: Appearance
@@ -877,6 +905,8 @@
   name: science PDA
   description: It's covered with an unknown gooey substance.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetScience
   - type: Pda
     id: ResearchIDCard
   - type: Appearance
@@ -896,6 +926,8 @@
   name: head of security PDA
   description: Whosoever bears this PDA is the law.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: HoSIDCard
   - type: Appearance
@@ -960,6 +992,8 @@
   name: CentComm PDA
   description: Light green sign of walking bureaucracy.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetCommand
   - type: Pda
     id: CentcomIDCard
     penSlot:
@@ -997,6 +1031,8 @@
   categories: [ HideSpawnMenu ] # Frontier: use NF variant
   description: If you are not an admin please return this PDA to the nearest admin.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    enabled: false
   - type: Pda
     id: UniversalIDCard
   - type: HealthAnalyzer
@@ -1070,6 +1106,8 @@
   name: atmos PDA
   description: Still smells like plasma.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetEngineering
   - type: Pda
     id: AtmosIDCard
   - type: Appearance
@@ -1118,6 +1156,8 @@
   name: syndicate PDA
   description: Ok, time to be a productive member of- oh cool I'm a bad guy time to kill people!
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetPirate
   - type: Pda
     id: SyndicateIDCard
   - type: Appearance
@@ -1400,6 +1440,8 @@
   name: senior engineer PDA
   description: Seems to have been taken apart and put back together several times.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetEngineering
   - type: Pda
     id: SeniorEngineerIDCard
   - type: Appearance
@@ -1419,6 +1461,8 @@
   name: senior researcher PDA
   description: Looks like it's been through years of chemical burns and explosions.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetScience
   - type: Pda
     id: SeniorResearcherIDCard
   - type: Appearance
@@ -1479,6 +1523,8 @@
   description: Yargh!
   categories: [ HideSpawnMenu ] # Frontier
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetPirate
   - type: Pda
     id: PirateIDCard
   - type: Appearance
@@ -1550,6 +1596,8 @@
   name: wizard PDA
   description: You hear faint whispers coming from it.
   components:
+  - type: BlipCartridge # Palmtree/Coyote: PDA IFF blip
+    defaultPreset: BlipPresetPirate
   - type: Pda
     id: WizardIDCard
     penSlot:

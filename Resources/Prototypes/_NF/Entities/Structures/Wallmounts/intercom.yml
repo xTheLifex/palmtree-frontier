@@ -24,6 +24,12 @@
       key_slots: !type:Container
   - type: ShuttleIntercom
     appendName: true
+  - type: RadioStatic # Palmtree/Coyote: Shortband radio static
+    baseSoundpack: RadioStaticDefaultLoud
+    departmentSoundPacks:
+      Traffic: RadioStaticTrafficConsoleLoud
+      Medical: RadioStaticMedicalLoud
+      Nfsd: RadioStaticSecurityLoud
 
 - type: entity
   parent: BaseShuttleIntercom

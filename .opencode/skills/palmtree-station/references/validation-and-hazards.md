@@ -78,6 +78,8 @@ they reset).
 ### Content authoring
 - Unknown prototype fields are **lint errors**; unknown fields in exported character YAML are ignored.
 - Duplicate Fluent keys in a culture are load errors; check before copying locale.
+- Fluent (`.ftl`) has **no inline comments**: anything after a value, including `# ...`, becomes part
+  of the translated string. Only standalone `#` lines are comments; never annotate a value line.
 - `ProtoId` fields (`altSprites`, loadout items, effects) are validated by the linter.
 - Missing RSI states can pass lint and fail at runtime; copy complete `.rsi` directories.
 - `EntityTest` catches body/prototype spawn errors; run it after species/content changes.

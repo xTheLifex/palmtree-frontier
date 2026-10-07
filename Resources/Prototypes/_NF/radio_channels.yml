@@ -4,6 +4,17 @@
   keycode: 'd'
   frequency: 1022
   color: "#CC6633"
+  # Palmtree/Coyote: Shortband range degradation.
+  useRangeDegradation: true
+  optimalRange: 650
+  degradationMinPercent: 0.05
+  degradationMaxPercent: 0.4
+  degradationWordMult: 0.25
+  lightDegradationRange: 150
+  heavyDegradationRange: 150
+  totalDegradationRange: 200
+  heavyDegradationMultiplier: 2
+  beyondHeavyDegradationDropChancePercent: 0.5
 
 - type: radioChannel
   id: Nfsd
