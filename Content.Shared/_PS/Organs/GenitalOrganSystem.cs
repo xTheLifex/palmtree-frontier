@@ -11,6 +11,7 @@ using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Preferences;
 using Robust.Shared.Containers;
+using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -33,6 +34,7 @@ public sealed class GenitalOrganSystem : EntitySystem
     [Dependency] private readonly MarkingManager _markingManager = default!;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly INetManager _netManager = default!;
 
     /// <summary>
     /// Profiles applied before the body parts exist (admin respawns, deferred MapInit). Retried each
@@ -119,11 +121,27 @@ public sealed class GenitalOrganSystem : EntitySystem
     }
 
     /// <summary>
+    /// Palmtree: only the server (and client-side preview dummies) may rebuild organ render state.
+    /// Network clients must render the server's networked marking set as-is: while they detach or
+    /// reconcile entities for PVS, body organs are temporarily ejected from their containers, which
+    /// raises <see cref="OrganRemovedFromBodyEvent"/> and would make <see cref="GetOrgans"/> return
+    /// nothing. Because the client's marking set is the same object as the cached component state,
+    /// such a wipe would stick through PVS re-entry even though the server still has the organs.
+    /// </summary>
+    private bool CanModifyOrgans(EntityUid mob)
+    {
+        return !_netManager.IsClient || IsClientSide(mob);
+    }
+
+    /// <summary>
     /// Makes the mob's organs match the profile exactly: adds/updates missing organs, removes
     /// organs that are no longer selected.
     /// </summary>
     public void SyncFromProfile(EntityUid mob, HumanoidCharacterProfile? profile)
     {
+        if (!CanModifyOrgans(mob))
+            return;
+
         var settings = profile?.Genitals ?? new GenitalOrganSettings();
 
         // The appearance component applies a default profile during ComponentInit, before the
@@ -235,6 +253,9 @@ public sealed class GenitalOrganSystem : EntitySystem
     /// <summary>Rebuilds the genital render markings from the mob's current organs.</summary>
     public void SyncRender(EntityUid mob)
     {
+        if (!CanModifyOrgans(mob))
+            return;
+
         if (!TryComp<HumanoidAppearanceComponent>(mob, out var humanoid))
             return;
 

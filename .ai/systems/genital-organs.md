@@ -26,7 +26,7 @@
 | Editor tab | `Content.Client/Lobby/UI/HumanoidProfileEditor.xaml.cs` (`RefreshGenitals`, `BuildGenitalControls`, `OnGenitalControlsChanged`) |
 | Catalog generator | `Tools/gen_genital_organ_catalog.py` |
 | DB | `Profile.Genitals` string column (`Content.Server.Database/Model.cs`), migrations `*_GenitalOrgans`, `ServerDbBase.ConvertProfiles` |
-| Tests | `Content.IntegrationTests/Tests/_PS/InteractionPanelTest.cs`, `ServerDbSqliteTests` round-trip |
+| Tests | `Content.IntegrationTests/Tests/_PS/InteractionPanelTest.cs`, `Content.IntegrationTests/Tests/_PS/GenitalRenderTest.cs`, `ServerDbSqliteTests` round-trip |
 
 ## Data model
 
@@ -212,6 +212,16 @@ to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
   map or grid" warnings for the lobby preview dummy (it isn't on a grid).
 - `GenitalOrganSystem.SyncRender` must set `CanToggleVisible = false` on render markings or
   ModifyUndies will expose them as toggle verbs.
+- **Network clients must not rebuild the organ render markings.** `SyncRender`/`SyncFromProfile`
+  early-out through `CanModifyOrgans` unless the system is server-side or the mob is client-side
+  (lobby preview). Robust ejects contained entities when a client detaches an entity for PVS
+  (`ClientGameStateManager.Detach`), which fires `EntRemovedFromContainerMessage` →
+  `SharedBodySystem.OnBodyPartRemoved` → `OrganRemovedFromBodyEvent` on the client. Rebuilding there
+  found no organs and stripped the `Genital` category; because the client's `MarkingSet` **is** its
+  cached component state object (generated `HandleState` assigns it by reference), the wipe stuck
+  through PVS re-entry and hid genitals for observers who walked away and returned, or joined as
+  ghosts. Regression test: `Content.IntegrationTests/Tests/_PS/GenitalRenderTest.cs` (fails if the
+  guard is removed).
 - The client `HumanoidAppearanceSystem.LoadProfile` override does not call the shared method; any
   new profile-driven visual must be applied there too (see the preview call).
 - Editing the catalog by hand will be overwritten; run the generator instead.
