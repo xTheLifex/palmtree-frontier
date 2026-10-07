@@ -411,3 +411,34 @@ Entries:
   time: '2026-10-07T18:33:59.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/820d9d04f7cd5f8acbd73f5bba0d15501d8ab0eb
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Added the Soviet uniform, Soviet conscript uniform and Soviet armored
+        coat.
+    - type: Add
+      message: The Research Director's locker now contains a research director's beret.
+    - type: Add
+      message: Added a CentComm admiral's jumpsuit (admin spawn only).
+  id: 90024
+  time: '2026-10-07T19:37:06.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/ad816df7dfcbd99047911ae063a7b9f404bf2479
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: >-
+        Shotgun "Insert randomly" and "Fill sequence" now load a random number
+        of shells (at least two) and announce how many of each shell type were
+        loaded.
+    - type: Tweak
+      message: >-
+        Sequence fills now vary between alternating and doubled patterns instead
+        of always alternating.
+    - type: Fix
+      message: Shotguns that can only hold one shell no longer offer the insert verbs.
+  id: 90025
+  time: '2026-10-07T19:37:06.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/42f4e5189a5b56c671bd1019471d907fff7e0ff5
