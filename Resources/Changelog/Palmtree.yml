@@ -387,3 +387,27 @@ Entries:
   time: '2026-10-07T02:52:09.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/5322b2c6b193a9b4611d391169f58a018f18c1a7
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        PDAs now show up as customizable blips on mass scanners and shuttle
+        consoles.
+    - type: Tweak
+      message: >-
+        The Traffic radio channel is now Shortband - it degrades with distance,
+        plays static noise, and can be squelched or volume-adjusted.
+    - type: Tweak
+      message: >-
+        You can now speak and emote while in critical condition (but not once
+        dead).
+    - type: Tweak
+      message: The synthesizer can now play the full range of General MIDI instruments.
+    - type: Fix
+      message: Slimepeople's tails, ears and other markings now render.
+    - type: Remove
+      message: Solar flare and bluespace cargo events no longer occur.
+  id: 90023
+  time: '2026-10-07T18:33:59.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/820d9d04f7cd5f8acbd73f5bba0d15501d8ab0eb
