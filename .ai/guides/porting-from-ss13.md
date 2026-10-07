@@ -107,10 +107,20 @@ What it does and why:
 
 - BYOND `.dmi` is a PNG with a `zTXt` metadata chunk (frame grid, states, directions, delays).
   SS14 `.rsi` is a directory with `meta.json` plus one PNG per state.
-- RSIEdit (see `.ai/file_paths.md`) is a **compiled GUI-only**
-  binary (no CLI, no source), so it cannot be scripted. Automated `.dmi` → `.rsi` would need a
-  custom script (read the zTXt JSON, slice frames, write `meta.json`); this has not been done.
-  Prefer SS14-native art for converted maps.
+- **DMI layout** (verified against DMISharp, `github.com/bobbah/DMISharp`): the sheet is a grid of
+  `size` cells (`dimX = width / size.x`). It is read in row-major order, and each state consumes
+  `dirs * frames` consecutive cells in **frame-major, direction-minor** order (for frame 0:
+  south, north, east, west; then frame 1, ...). A state's cells may wrap across sheet rows.
+  Consequence: a 4-direction state stored as 4 cells wide (or as a 2×2 block) is still valid in
+  `.rsi` — Robust slices with `dimX = image.Width / meta.size.x`, so directions do not have to be
+  stacked vertically in the file.
+- **Trap**: the metadata is authoritative and can contain an **empty state name** (`state = ""`)
+  that still consumes cells. Any parser that skips it shifts every later state and silently
+  extracts the wrong sprites. Match state names with `state = "([^"]*)"` and count its
+  `dirs * frames` cells.
+- Validate conversions against DMISharp (`dotnet` + NuGet) or RSIEdit; RSIEdit is GUI-only, but a
+  ~30-line Python zTXt/Pillow script plus DMISharp diffing has worked for the Soviet set and
+  RD beret ports.
 - When copying art, keep the `meta.json` license/copyright and audio `attributions.yml`.
 
 ## 6. SS14 → SS14 fork content (e.g. the Coyote `_HL` shower)

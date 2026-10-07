@@ -315,3 +315,21 @@ Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
   calm-event tables; slime base sprites gained the missing marking layers (`Tail`, `HeadTop`,
   `HeadSide`, `Snout`, `Special`, `NeckFluff`, `RArmExtension`); the synthesizer now carries
   Coyote's full 128-program General MIDI list.
+
+## 13. 2026-10 Sandstorm clothing batch (Soviet set, RD beret, admiral jumpsuit)
+
+- **DMI conversion verified**: extraction follows the BYOND cell layout (row-major grid,
+  `dimX = width / 32`; each state consumes `dirs * frames` cells frame-major/dir-minor) and was
+  diffed pixel-for-pixel against DMISharp. Method and pitfalls: `.ai/guides/porting-from-ss13.md`
+  §5. Source: `Sandstorm-Station-13`
+  (`icons/obj|mob/clothing/{uniforms,uniform,suits,suit,hats,head}.dmi`).
+- **Soviet set (`_PS`)**: `ClothingUniformJumpsuitSoviet` (state `soviet`),
+  `ClothingUniformJumpsuitSovietConscript` (state `soviet_uniform`) and
+  `ClothingOuterCoatSoviet` (state `soviet_suit`); RSIs under
+  `Resources/Textures/_PS/Clothing/{Uniforms/Jumpsuit,OuterClothing/Coats}`. The ushanka already
+  existed upstream. Sprites are CC-BY-SA-3.0 (tg/DonkSoft set via Sandstorm).
+- **Research Director's beret (`_PS`)**: `ClothingHeadHatBeretResearchDirector` (state `rdberet`),
+  wired into `LockerFillResearchDirectorNoHardsuit` (so both RD lockers spawn it).
+- **CentComm admiral jumpsuit**: Skyrat asset `centcom_admiral.rsi` copied from Coyote under
+  `_Starlight`; prototype `ClothingUniformJumpsuitCentcomAdmiral` in the `_Starlight` jumpsuits
+  file. Admin spawn only - no loadout/lathe/vendor entry.

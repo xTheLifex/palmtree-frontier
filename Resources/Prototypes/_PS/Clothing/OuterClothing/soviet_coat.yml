@@ -1,0 +1,12 @@
+# Palmtree: Soviet armored coat, ported from Sandstorm-Station-13 (SS13).
+
+- type: entity
+  parent: ClothingOuterBase
+  id: ClothingOuterCoatSoviet
+  name: soviet armored coat
+  description: Conscript reporting! Sponsored by DonkSoft Co. for historical reenactment of the Third World War!
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/OuterClothing/Coats/soviet_coat.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/OuterClothing/Coats/soviet_coat.rsi

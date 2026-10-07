@@ -71,8 +71,14 @@ entities).
 ## Sprites
 
 `.dmi` (PNG + zTXt metadata) vs `.rsi` (directory + `meta.json` + per-state PNGs). RSIEdit is
-GUI-only (no CLI/source) — automated conversion needs a custom zTXt/Pillow script; prefer
-SS14-native art. Keep `meta.json` license/copyright and audio `attributions.yml`.
+GUI-only (no CLI/source); a custom zTXt/Pillow script works well. DMI layout: the sheet is a grid of
+`size` cells (`dimX = width / size.x`) read row-major; each state consumes `dirs * frames`
+consecutive cells in frame-major, direction-minor order (frame 0: S, N, E, W; then frame 1), and a
+block may wrap across rows. Robust slices an RSI with `dimX = image.Width / meta.size.x`, so
+directions do not need to be stacked vertically in the file. Watch for **empty state names**
+(`state = ""`) — they still consume cells; skipping them shifts every later state. Validate with
+DMISharp (`dotnet` + NuGet) or RSIEdit. Keep `meta.json` license/copyright and audio
+`attributions.yml`.
 
 ## Validation
 

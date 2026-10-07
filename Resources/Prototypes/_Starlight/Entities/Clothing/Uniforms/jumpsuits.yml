@@ -1,0 +1,13 @@
+# Palmtree: Starlight clothing ported from Coyote.
+
+# Palmtree: admin spawn only - not in any loadout, lathe or vendor.
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitCentcomAdmiral
+  name: CentComm admiral's jumpsuit
+  description: A green uniform with gold trim, reserved for the admiralty of Central Command.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Uniforms/Jumpsuit/centcom_admiral.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Uniforms/Jumpsuit/centcom_admiral.rsi

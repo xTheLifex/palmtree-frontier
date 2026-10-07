@@ -1,0 +1,18 @@
+# Palmtree: Research Director's beret, ported from Sandstorm-Station-13 (SS13).
+
+- type: entity
+  parent: ClothingHeadBase
+  id: ClothingHeadHatBeretResearchDirector
+  name: research director's beret
+  description: A beret worn only by highly intelligent people.
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Head/Hats/rd_beret.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Head/Hats/rd_beret.rsi
+  - type: Tag
+    tags:
+    - PetWearable
+    - CorgiWearable
+    - ClothMade
+    - Recyclable

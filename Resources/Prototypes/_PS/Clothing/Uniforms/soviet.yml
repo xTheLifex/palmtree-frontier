@@ -1,0 +1,23 @@
+# Palmtree: Soviet uniforms, ported from Sandstorm-Station-13 (SS13).
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitSoviet
+  name: soviet uniform
+  description: For the Motherland!
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Uniforms/Jumpsuit/soviet.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Uniforms/Jumpsuit/soviet.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitSovietConscript
+  name: soviet conscript uniform
+  description: A cheap uniform issued to conscripts. For the Motherland!
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/Uniforms/Jumpsuit/soviet_conscript.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/Uniforms/Jumpsuit/soviet_conscript.rsi

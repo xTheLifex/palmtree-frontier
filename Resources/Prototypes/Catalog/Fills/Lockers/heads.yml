@@ -298,6 +298,7 @@
     # - id: ResearchComputerCircuitboard # Frontier
     # - id: CargoRequestScienceComputerCircuitboard # Frontier
     - id: RubberStampRd
+    - id: ClothingHeadHatBeretResearchDirector # Palmtree: Sandstorm RD beret
 
 # Hardsuit table, used for suit storage as well
 - type: entityTable
