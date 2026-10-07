@@ -72,6 +72,16 @@ Adaptations made when porting (old 2023 prototypes):
 Not ported from `_PS`: turrets, RCD, strobe lighting, shipyard cauterizer, announcement/interaction
 sound collections, custom emotes. See `.ai/PORTING.md`.
 
+Shotgun fill verbs (`Content.Server/_PS/Gambling/RandomWeaponInsertSystem.cs`): adds
+"Insert randomly", "Fill sequence" and "Shoot self" to any shotgun. The two fill verbs pull from
+held/nearby ammo boxes (`Radius = 2`), always load a random total between 2 and the gun's free
+capacity/available shells, and the public emote lists the count per shell type
+("shoves 3 .50 buckshot and 2 .50 practice into ..."). `Fill sequence` repeats a shuffled cycle in
+which each shell kind appears once or twice, so patterns vary between A-B-A-B, A-B-B-A-B-B, etc.
+Guns with a capacity below 2, no room for two shells, or fewer than two available shells hide the
+fill verbs entirely. Shell labels strip the "shell (...)" wrapper from `Name()`; update the
+`ammo-fill-*` locale keys if the naming changes.
+
 ## Synth species (IPC replacement)
 
 `Synth` is Palmtree's replacement for the IPC species. It is a humanoid species that uses the

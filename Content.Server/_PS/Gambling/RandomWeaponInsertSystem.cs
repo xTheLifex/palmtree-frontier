@@ -17,9 +17,11 @@ namespace Content.Server._PS.Gambling;
 
 /// <summary>
 /// Adds "Insert randomly" / "Fill sequence" / "Shoot self" verbs to shotguns.
-/// The fill verbs pull shells from any ammo box the interacting character is holding or that lies
-/// within <see cref="Radius"/> tiles of them. "Shoot self" is the proof-of-concept Buckshot
-/// Roulette action: it fires the loaded shell straight into the person doing the shooting.
+/// The fill verbs pull a random number of shells (never fewer than <see cref="MinShells"/>, never
+/// more than the gun can hold) from any ammo box the interacting character is holding or that lies
+/// within <see cref="Radius"/> tiles, and report how many of each shell type were loaded.
+/// "Shoot self" is the proof-of-concept Buckshot Roulette action: it fires the loaded shell
+/// straight into the person doing the shooting.
 /// </summary>
 public sealed class RandomWeaponInsertSystem : EntitySystem
 {
@@ -33,6 +35,11 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
 
     private const float Radius = 2f;
     private const string ShotgunTag = "ShellShotgun";
+
+    /// <summary>
+    /// The fewest shells a fill inserts. Guns that cannot hold this many do not offer the verbs.
+    /// </summary>
+    private const int MinShells = 2;
 
     /// <summary>
     /// Per-gun cooldown for the "Shoot self" verb. The vanilla firing path enforces
@@ -68,9 +75,15 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
 
         AddShootSelfVerb(uid, comp, gun, args);
 
-        if (comp.Capacity <= comp.Entities.Count + comp.UnspawnedCount) // Full
+        // The fill verbs always load at least two shells, so a gun that cannot hold (or take) that
+        // many does not offer them.
+        if (comp.Capacity < MinShells)
             return;
-        if (GatherPool(uid, comp, args.User, hands).Count == 0) // Nothing to pull from.
+        if (FreeCapacity(comp) < MinShells)
+            return;
+
+        var pool = GatherPool(uid, comp, args.User, hands);
+        if (TotalAvailable(pool) < MinShells)
             return;
 
         args.Verbs.Add(new AlternativeVerb
@@ -195,10 +208,10 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
 
     /// <summary>
     /// Pulls a single shell out of <paramref name="box"/> and feeds it into the gun through the
-    /// vanilla insertion path. Returns false (without consuming the raw entity) if the box is empty
-    /// or the shell does not fit the gun.
+    /// vanilla insertion path. Returns the inserted shell's prototype id and a short display label,
+    /// or null if the box is empty or the shell does not fit the gun.
     /// </summary>
-    private bool TryPullShell(EntityUid box, EntityUid gun, BallisticAmmoProviderComponent target, EntityUid user)
+    private (string Id, string Label)? TryPullShell(EntityUid box, EntityUid gun, BallisticAmmoProviderComponent target, EntityUid user)
     {
         var before = target.Entities.Count + target.UnspawnedCount;
 
@@ -210,19 +223,23 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
             if (ent is not { } shell)
                 continue;
 
+            var id = MetaData(shell).EntityPrototype?.ID ?? $"entity:{shell.Id}";
+            var label = ShortShellName(Name(shell));
+
             // InteractUsing runs OnBallisticInteractUsing, which handles the whitelist check,
             // container insert, sound and appearance for us. If it refuses the shell the gun's
             // ammo count is unchanged and we report failure so the caller stops trying.
             _interaction.InteractUsing(user, shell, gun, Transform(gun).Coordinates, checkCanInteract: false, checkCanUse: false);
-            return target.Entities.Count + target.UnspawnedCount > before;
+            return target.Entities.Count + target.UnspawnedCount > before ? (id, label) : null;
         }
 
-        return false;
+        return null;
     }
 
     /// <summary>
-    /// Fills the gun with at least one shell of every shell kind present in the pool, then tops the
-    /// rest up from uniformly random boxes.
+    /// Loads a random number of shells (between <see cref="MinShells"/> and the free capacity),
+    /// guaranteeing at least one shell of every kind present in the pool, then tops the rest up
+    /// from uniformly random boxes.
     /// </summary>
     private void FillRandom(EntityUid gun, BallisticAmmoProviderComponent target, EntityUid user, HandsComponent hands)
     {
@@ -230,8 +247,12 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
         if (pool.Count == 0)
             return;
 
-        var remaining = Math.Min(FreeCapacity(target), TotalAvailable(pool));
-        var initial = remaining;
+        var maxInsert = Math.Min(FreeCapacity(target), TotalAvailable(pool));
+        if (maxInsert < MinShells)
+            return;
+
+        var remaining = _random.Next(MinShells, maxInsert + 1);
+        var tally = new Dictionary<string, (string Label, int Count)>();
 
         // Guarantee one shell of each distinct kind (e.g. lethal + blank) before filling randomly.
         // Shuffling first randomises which kind lands in which magazine slot.
@@ -246,8 +267,11 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
             if (proto == null || !seeded.Add(proto))
                 continue;
 
-            if (TryPullShell(box, gun, target, user))
+            if (TryPullShell(box, gun, target, user) is { } shell)
+            {
+                AddTally(tally, shell);
                 remaining--;
+            }
         }
 
         while (remaining > 0)
@@ -257,20 +281,27 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
                 break;
 
             var box = _random.Pick(candidates);
-            if (TryPullShell(box, gun, target, user))
+            if (TryPullShell(box, gun, target, user) is { } shell)
+            {
+                AddTally(tally, shell);
                 remaining--;
+            }
             else
+            {
                 pool.Remove(box); // Incompatible ammo; stop trying this box.
+            }
         }
 
-        var inserted = initial - remaining;
-        if (inserted > 0)
-            SendEmote(user, Loc.GetString("ammo-fill-random-emote", ("gun", gun), ("count", inserted)));
+        if (tally.Count > 0)
+            SendEmote(user, Loc.GetString("ammo-fill-random-emote", ("gun", gun), ("shells", FormatShellTally(tally))));
     }
 
     /// <summary>
-    /// Fills the gun with a repeated, randomly-ordered sequence of the available shell kinds, so two
-    /// boxes of lethal and blank shells produce e.g. LETHAL BLANK LETHAL BLANK or BLANK LETHAL BLANK.
+    /// Loads a random number of shells (between <see cref="MinShells"/> and the free capacity) as a
+    /// repeated cycle of the available shell kinds. Each kind appears once or twice in the cycle,
+    /// rolled randomly, so a two-kind fill can be A-B-A-B..., A-B-B-A-B-B..., A-A-B-A-A-B..., etc.
+    /// instead of always alternating. The kind order is shuffled too, so the whole pattern varies
+    /// between loads.
     /// </summary>
     private void FillSequence(EntityUid gun, BallisticAmmoProviderComponent target, EntityUid user, HandsComponent hands)
     {
@@ -298,29 +329,54 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
         if (groups.Count == 0)
             return;
 
+        var maxInsert = Math.Min(FreeCapacity(target), TotalAvailable(pool));
+        if (maxInsert < MinShells)
+            return;
+
         var kinds = groups.Keys.ToList();
         _random.Shuffle(kinds);
 
-        var remaining = Math.Min(FreeCapacity(target), TotalAvailable(pool));
-        var initial = remaining;
+        // Build the cycle used for the whole load: each kind repeats once or twice, e.g. A-B or
+        // A-B-B. The kind order is shuffled and the repeats are rolled per fill, so the sequence is
+        // a random one of these patterns instead of the same alternation every time.
+        var cycle = new List<string>();
+        foreach (var kind in kinds)
+        {
+            var repeats = _random.Next(1, 3); // 1 or 2
+            for (var i = 0; i < repeats; i++)
+                cycle.Add(kind);
+        }
+
+        var remaining = _random.Next(MinShells, maxInsert + 1);
+        var tally = new Dictionary<string, (string Label, int Count)>();
+        var liveKinds = new HashSet<string>(kinds);
         var index = 0;
 
         // Every iteration either inserts a shell, drops a box, or drops a kind, so this always terminates.
-        while (remaining > 0 && kinds.Count > 0)
+        while (remaining > 0 && liveKinds.Count > 0)
         {
-            var kind = kinds[index % kinds.Count];
+            var kind = cycle[index % cycle.Count];
+
+            if (!liveKinds.Contains(kind))
+            {
+                index++;
+                continue;
+            }
+
             var boxes = groups[kind];
             var candidates = boxes.Where(box => GetAvailable(box) > 0).ToList();
 
             if (candidates.Count == 0)
             {
-                kinds.RemoveAt(index % kinds.Count);
+                liveKinds.Remove(kind);
+                index++;
                 continue;
             }
 
             var box = _random.Pick(candidates);
-            if (TryPullShell(box, gun, target, user))
+            if (TryPullShell(box, gun, target, user) is { } shell)
             {
+                AddTally(tally, shell);
                 remaining--;
                 index++;
             }
@@ -330,9 +386,8 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
             }
         }
 
-        var inserted = initial - remaining;
-        if (inserted > 0)
-            SendEmote(user, Loc.GetString("ammo-fill-sequence-emote", ("gun", gun), ("count", inserted)));
+        if (tally.Count > 0)
+            SendEmote(user, Loc.GetString("ammo-fill-sequence-emote", ("gun", gun), ("shells", FormatShellTally(tally))));
     }
 
     private int FreeCapacity(BallisticAmmoProviderComponent target)
@@ -371,6 +426,54 @@ public sealed class RandomWeaponInsertSystem : EntitySystem
             return MetaData(comp.Entities[^1]).EntityPrototype?.ID;
 
         return comp.Proto?.Id;
+    }
+
+    /// <summary>
+    /// Shells are named "shell (.50 practice)"; chat reads better as ".50 practice". Anything that
+    /// does not follow that pattern is left alone.
+    /// </summary>
+    private static string ShortShellName(string name)
+    {
+        const string prefix = "shell (";
+        if (name.StartsWith(prefix, StringComparison.Ordinal) && name.EndsWith(')'))
+            return name[prefix.Length..^1];
+
+        return name;
+    }
+
+    /// <summary>
+    /// Adds one pulled shell to the per-type tally, keyed by prototype id.
+    /// </summary>
+    private static void AddTally(Dictionary<string, (string Label, int Count)> tally, (string Id, string Label) shell)
+    {
+        if (tally.TryGetValue(shell.Id, out var entry))
+            tally[shell.Id] = (entry.Label, entry.Count + 1);
+        else
+            tally[shell.Id] = (shell.Label, 1);
+    }
+
+    /// <summary>
+    /// Formats "3 .50 buckshot and 2 .50 practice" from the per-type tally.
+    /// </summary>
+    private string FormatShellTally(Dictionary<string, (string Label, int Count)> tally)
+    {
+        var parts = tally.Values
+            .OrderByDescending(entry => entry.Count)
+            .ThenBy(entry => entry.Label, StringComparer.Ordinal)
+            .Select(entry => Loc.GetString("ammo-fill-shell-count", ("count", entry.Count), ("shell", entry.Label)))
+            .ToList();
+
+        if (parts.Count == 0)
+            return string.Empty;
+
+        var result = parts[0];
+        for (var i = 1; i < parts.Count; i++)
+        {
+            var key = i == parts.Count - 1 ? "ammo-fill-shell-list-last" : "ammo-fill-shell-list-mid";
+            result = Loc.GetString(key, ("left", result), ("right", parts[i]));
+        }
+
+        return result;
     }
 
     /// <summary>
