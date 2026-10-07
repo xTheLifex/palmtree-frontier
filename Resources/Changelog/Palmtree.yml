@@ -442,3 +442,21 @@ Entries:
   time: '2026-10-07T19:37:06.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/42f4e5189a5b56c671bd1019471d907fff7e0ff5
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: Characters now get hungry and thirsty six times slower.
+  id: 90026
+  time: '2026-10-07T21:53:30.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/3cef897d708a518a4a4a102cae0795f047551662
+- author: TheLife
+  changes:
+    - type: Fix
+      message: >-
+        Genitals now render correctly for ghosts and for players who walk away
+        and come back.
+  id: 90027
+  time: '2026-10-07T21:53:30.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/85e67cc7d70df51bfc49f1d5327a1001239346e4
