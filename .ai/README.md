@@ -108,6 +108,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/guides/adding-loadouts.md` | Adding loadouts, their items, and group wiring |
 | `.ai/guides/adding-hotel-rooms.md` | Adding Hilbert's Hotel room maps + archetype prototypes |
 | `.ai/guides/changelogs.md` | Changelog YAML authoring + `:cl:` automation for this fork |
+| `.ai/ideas/README.md` | Proposed (unimplemented) feature designs, e.g. `highroller-table.md` (Buckshot Roulette) |
 
 ### Procedural guides
 
