@@ -248,3 +248,12 @@ system (`inventory: None`, `transferDamage/Name: true`, `revertOnDeath/Crit: tru
 - The SS13 transformation animation is not ported yet: the BYOND checkout was unmounted when this
   was written, so the transform uses the animated slime sprite + `slime_squish.ogg` + a green flash
   as a placeholder.
+
+## Nutrition rate tuning (2026-10)
+
+- `Content.Shared/_PS/Nutrition/PalmtreeNutrition.cs` holds `DecayRateMultiplier = 1f / 6f`.
+- `HungerSystem.DoHungerThresholdEffects` and `ThirstSystem.UpdateEffects` multiply the computed
+  `ActualDecayRate` by it (marked `// Palmtree`), so every species and NPC - including the
+  per-species `baseDecayRate` overrides (Chitinid 33% faster, Avali/Resomi 2x, Diona and Sheleg,
+  etc.) - now takes 6x longer to get hungry or thirsty.
+- Change the one constant to retune; hunger and thirst share it.

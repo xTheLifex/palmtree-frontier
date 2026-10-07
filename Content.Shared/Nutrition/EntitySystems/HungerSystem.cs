@@ -4,6 +4,7 @@ using Content.Shared.Damage;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Nutrition.Components;
+using Content.Shared._PS.Nutrition; // Palmtree
 using Content.Shared.Rejuvenate;
 using Content.Shared.StatusIcon;
 using Robust.Shared.Network;
@@ -163,7 +164,8 @@ public sealed class HungerSystem : EntitySystem
 
         if (component.HungerThresholdDecayModifiers.TryGetValue(component.CurrentThreshold, out var modifier))
         {
-            component.ActualDecayRate = component.BaseDecayRate * modifier;
+            // Palmtree: global decay slowdown (6x by default).
+            component.ActualDecayRate = component.BaseDecayRate * modifier * PalmtreeNutrition.DecayRateMultiplier;
             DirtyField(uid, component, nameof(HungerComponent.ActualDecayRate));
             SetAuthoritativeHungerValue((uid, component), GetHunger(component));
         }
