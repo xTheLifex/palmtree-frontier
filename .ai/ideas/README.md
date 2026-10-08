@@ -17,3 +17,4 @@ Conventions:
 | Idea | Status |
 |---|---|
 | [`highroller-table.md`](highroller-table.md) — Buckshot Roulette table | Proposed / not implemented |
+| [`coyote-bayou-weapons.md`](coyote-bayou-weapons.md) — Coyote Bayou (BYOND) weapon port backlog | Proposed / not implemented |
