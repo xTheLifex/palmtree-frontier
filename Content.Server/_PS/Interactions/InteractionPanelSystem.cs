@@ -46,7 +46,6 @@ public sealed partial class InteractionPanelSystem : EntitySystem
     [Dependency] private readonly ChatSystem _chat = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly IPlayerManager _player = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly GenitalOrganSystem _organs = default!;
     [Dependency] private readonly DrippingCumSystem _drip = default!;
     [Dependency] private readonly IAdminLogManager _adminLogger = default!; // Palmtree: interaction audit log
@@ -374,9 +373,7 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             return true;
         }
 
-        if (GetFlags(proto).HasFlag(InteractionFlags.Adjacent))
-            FaceEachOther(user, target);
-
+        // Palmtree: do not turn the participants automatically; they keep their own facing.
         var targetName = Identity.Name(target, EntityManager);
         var continuing = state.LastInteractionId == proto.ID &&
                          state.LastInteractionTarget == target &&
@@ -707,22 +704,6 @@ public sealed partial class InteractionPanelSystem : EntitySystem
             return false;
 
         return state.Target != null && _ui.IsUiOpen(uid, InteractionUiKey.Key);
-    }
-
-    /// <summary>Makes both participants face each other (Sandstorm turns mobs on interaction).</summary>
-    private void FaceEachOther(EntityUid user, EntityUid target)
-    {
-        if (user == target)
-            return;
-
-        var userPos = _transform.GetMapCoordinates(user);
-        var targetPos = _transform.GetMapCoordinates(target);
-
-        if (userPos.MapId != targetPos.MapId)
-            return;
-
-        _transform.SetWorldRotation(user, (targetPos.Position - userPos.Position).ToWorldAngle());
-        _transform.SetWorldRotation(target, (userPos.Position - targetPos.Position).ToWorldAngle());
     }
 
     private const string ErpColor = "#c060ff";

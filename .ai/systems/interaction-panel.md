@@ -67,8 +67,9 @@ content are intentionally not ported.
    purple-wrapped message (`#c060ff`) and sends it through `IChatManager.ChatMessageToManyFiltered`
    for lewd ones (the emote path strips markup). It plays the prototype's sound (lewd sounds are
    filtered to sessions in range whose `LewdSounds` is on; normal sounds use PVS), applies
-   intro/continuing message selection (same interaction + target within `ContinueTimeout`), faces
-   the participants, then applies lust.
+   intro/continuing message selection (same interaction + target within `ContinueTimeout`), then
+   applies lust. Participants are **not** turned to face each other (Palmtree removed the Sandstorm
+   auto-facing).
 6. **Arousal.** `EnsureState` randomizes tolerance (75-200) and potency (10-25) per mob once. Lust
    decays 1/s on read. Lewd interactions add 20 by default (self actions 30/20, ass slap 10; kiss
    sets at least 10) and arouse the
