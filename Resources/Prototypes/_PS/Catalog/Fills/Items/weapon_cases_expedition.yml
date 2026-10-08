@@ -1,0 +1,36 @@
+# Palmtree: dungeon weapon cases for the Coyote weapons ported into _PS.
+
+- type: entity
+  parent: WeaponCaseShort
+  id: WeaponCaseShortEnergyRevolverExpedition
+  suffix: Dungeon, Energy Revolver
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponEnergyRevolver
+      amount: 1
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongPrototypePulseRifleExpedition
+  suffix: Dungeon, Pulse Rifle
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponPrototypePulseRifle
+      amount: 1
+
+- type: entity
+  parent: [WeaponCaseShort, RareWeaponCase]
+  id: WeaponCaseShortStechkinAPS
+  suffix: Dungeon, Stechkin APS
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: PSWeaponPistolStechkinAPSExpedition
+      amount: 1
+    - id: NFMagazineHighCapacityPistol35
+      amount: 2

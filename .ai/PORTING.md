@@ -333,3 +333,94 @@ Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
 - **CentComm admiral jumpsuit**: Skyrat asset `centcom_admiral.rsi` copied from Coyote under
   `_Starlight`; prototype `ClothingUniformJumpsuitCentcomAdmiral` in the `_Starlight` jumpsuits
   file. Admin spawn only - no loadout/lathe/vendor entry.
+
+## 14. 2026-10 AKM port (Coyote `_CS` weapons)
+
+- **AKM (`CSWeaponAssaultRifleAKM`, `_CS`)**: prototype in
+  `Resources/Prototypes/_CS/Entities/Objects/Weapons/Guns/Rifles/rifles_assault.yml` (NF .30
+  assault rifle chamber + Cybersun frame), RSI
+  `Resources/Textures/_CS/Objects/Weapons/Guns/Rifles/akm.rsi` (CC-BY-SA-3.0, CEV-Eris/Frontier)
+  and Mono gunshot `Resources/Audio/_Mono/Weapons/Guns/SmallArms/Gunshots/ak_fire.ogg`.
+  Obtainable exactly like Coyote: `WeaponCaseLongAkm` dungeon case
+  (`_CS/Catalog/Fills/Items/weapon_cases_expedition.yml`), `MailCSAK` (`_CS/Mail/mail.yml`) added
+  to `RandomNFMailDeliveryPool` at 0.1, and the T3 ranged dungeon weapon table
+  (`_NF/Entities/Markers/Spawners/Random/Items/weapon_tables.yml`).
+- **Pending Coyote `_CS` weapons** (not ported yet):
+  - **`.40` heavy pistol conversion suite (`_CS/HeavyPistols` + `Ammunition/*/pistol.yml`)**:
+    frames/chambers, cartridges, boxes, magazines and projectiles. Coyote uses these to convert
+    `NFWeaponPistolViper`, the Universal/NFSD Universal variants and the tiered heavy pistols to
+    `.40`; this fork still ships them on the Frontier `.35` chambers. The suite also brings
+    `WeaponCaseShortAmmoBox*40` cases and `WeaponCaseHeavyAmmo`. (Only the heavy pistol *frames*
+    are ported, for the Anaconda - the chambers/ammo are not.)
+  - **Size manipulator (`WeaponSizeManipulator`)**: blocked - depends on Coyote's size system and
+    `BulletSizeManipulator*` projectiles, and the size system is not ported (`.ai/UNKNOWN.md` #8).
+
+## 15. 2026-10 Weapon batch: re-enabled Frontier guns, practice ammo, Coyote ports
+
+- **Frontier-disabled upstream guns.** Frontier removes whole upstream weapon directories at load
+  through `Resources/IgnoredPrototypes/ignoredPrototypes.yml` (`Battery`, `HMGs`, `Rifles`,
+  `Pistols`, `Revolvers`, `Shotguns`, `SMGs`, `Snipers`, plus the ammunition directories), so
+  individual prototypes cannot be re-enabled in place - their IDs stay reserved but the prototypes
+  are gone. Guns that had no enabled Frontier replacement were copied into `_PS` with `PS` ids and
+  the original stats/sprites (all CC-BY-SA-3.0 upstream assets):
+  - `PSWeaponTaser` + `PSWeaponTaserSuper` (elite taser) - `_PS/.../Battery/reenabled_upstream_guns.yml`
+  - `PSWeaponTeslaGun`, `PSWeaponEnergyShotgun` (fire modes restored with `_PS` spread projectiles)
+  - `PSWeaponMinigun` (+ `PSCartridgeMinigun`/`PSBulletMinigun`, the upstream .10 cartridge was
+    disabled in place by Frontier) - `_PS/.../HMGs/minigun.yml`
+  - `PSWeaponRifleAk` (the WizDen AKMS, magazine whitelist switched to the `NFMagazineRifle30`/
+    `NFCartridgeRifle30` tags) - `_PS/.../Rifles/akms.yml`
+  - Projectiles needed by the above live in
+    `_PS/.../Ammunition/Projectiles/reenabled_upstream_projectiles.yml`; the wizard "Summon Guns"
+    pool (`Magic/event_spells.yml`) got `PSWeaponTaser`, `PSWeaponTeslaGun`,
+    `PSWeaponEnergyShotgun`, `PSWeaponMinigun` and the previously commented
+    `WeaponTetherGun`/`WeaponForceGun` back.
+  - Pulse pistol/carbine/rifle, laser cannon, x-ray cannon, advanced/antique laser, particle
+    decelerator and the revolver/SMG/shotgun/sniper families were **not** copied: Frontier already
+    ships rebalanced enabled versions (`NFWeaponEnergyPistolPulse`, `NFWeaponEnergyRiflePulse`,
+    `NFWeaponEnergyRifleAssaultPulseCarbine`, `NFWeaponEnergyRifleSniperCannon`,
+    `NFWeaponEnergyRifleSniperXrayCannon`, `NFWeaponEnergyPistolLaserAdvanced`,
+    `NFWeaponEnergyPistolLaserAntique`, `NFWeaponParticleDecelerator`, ...).
+- **Practice ammo re-enabled** (Frontier removed it in #4608): the commented practice cases
+  (`WeaponCaseShortAmmoBoxPractice{20,25,30,35,45,Shotgun}`), crates
+  (`CrateAmmoBoxPractice*`), the `TableDungeonLootWeaponsAmmunitionPractice` table and the
+  `SpawnDungeonLootAmmoPractice` marker were un-commented in place; the practice table is nested
+  into `TableDungeonLootWeaponsAmmunition` (weight 0.05) and the crates into the mercenary T5
+  crate group.
+- **Prototype pulse rifle (`WeaponPrototypePulseRifle`, `_PS`)**: ported from Coyote (Floof),
+  sprite `_PS/Objects/Weapons/Guns/Battery/prototype_pulse_rifle.rsi`, hitscan `PulseWeak` in the
+  `_PS` hitscan file, case `WeaponCaseLongPrototypePulseRifleExpedition` (T5 dungeon loot) and the
+  `FloofBlueprintWeaponLaserPrototypePulseRifle` blueprint (`_PS` blueprint + lathe recipe
+  `WeaponPrototypePulseLaser`) added to the expedition document case table.
+- **EG-4 energy revolver (`WeaponEnergyRevolver`, `_PS`)**: ported from Coyote (Goobstation),
+  sprite `_PS/Objects/Weapons/Guns/Battery/erevolver.rsi`, `BulletEnergyGunMagnum` projectile,
+  case `WeaponCaseShortEnergyRevolverExpedition` (T4 dungeon loot) and the
+  `UplinkSecurityEnergyRevolver` NFSD uplink listing (`_PS/Catalog/security_uplink_catalog.yml`).
+- **Anaconda (`WeaponPistolAnaconda` + `CSWeaponPistolAnacondaExpedition`)**: ported from Coyote
+  (`_Goobstation` pistol + `BulletAnaconda` cartridge-wrapper projectile, `_CS` expedition variant
+  and case). Needs the `_CS` heavy pistol **frames** (ported in
+  `_CS/Entities/Objects/Weapons/Guns/HeavyPistols/base_pistol.yml`; the .40 chambers are not) and
+  the new `weapon-details-class-heavy-pistol` locale string. Case in T4 dungeon loot.
+- **Lollypop dispensers (`LauncherLollypopRegenerating` + Tricordazine/Omnizine/Weh/Mystery)**
+  and the whole lollypop food set: copied from Coyote (`_Goobstation` food + pneumatic cannon
+  files, `_Goobstation/.../lollypop.rsi`). Admin/DoNotMap content.
+- **C-19r SMG (`CSWeaponSubMachineGunC19r`, `_CS`)**: ported from Coyote, `_Mono` c19r RSI and
+  gunshot sound, `WeaponCaseLongC19r` (T5 dungeon loot) and `MailCSC19r` added to
+  `RandomNFMailDeliveryPool` at 0.1.
+
+## 16. 2026-10 Stechkin APS (Sandstorm BYOND port)
+
+- Coyote does **not** have a Stechkin; Sandstorm Station 13 does
+  (`code/modules/projectiles/guns/ballistic/pistol.dm`, `/obj/item/gun/ballistic/automatic/pistol/APS`:
+  9mm, burst 3, semi/burst/full-auto, suppressor-capable).
+- **`PSWeaponPistolStechkinAPS`** (`_PS/Entities/Objects/Weapons/Guns/Pistols/stechkin_aps.yml`):
+  machine pistol frame + .35 high capacity chamber (this fork has no 9mm, so it uses .35 auto;
+  Frontier has no suppressor system either), `Gun` set to SemiAuto/Burst/FullAuto with
+  `shotsPerBurst: 3`.
+- **Sprite**: `_PS/Objects/Weapons/Guns/Pistols/stechkin_aps.rsi` - `icon`/`base` from the DMI
+  `aps` state, `bolt-open` from `aps-e`, inhands from the generic SS13 `gun` state
+  (`icons/mob/inhands/weapons/guns_{left,right}hand.dmi`), belt/suit-storage sprites from the
+  shared SS14 pistol art (`viper.rsi`). DMI cells were extracted with the zTXt/Pillow method
+  (frame-major, direction-minor S/N/E/W; 2x2 RSI sheet layout).
+- **Obtainable**: `WeaponCaseShortStechkinAPS` dungeon case (expedition variant
+  `PSWeaponPistolStechkinAPSExpedition`, T2 ranged loot next to the Viper) and both WeaponryWorks
+  (emagged black market) inventories, plus the DEBUG guns vendor.

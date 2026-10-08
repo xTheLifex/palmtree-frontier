@@ -1,0 +1,27 @@
+# Palmtree: copy of the upstream minigun (Frontier removed the upstream HMG directory through
+# Resources/IgnoredPrototypes/ignoredPrototypes.yml), with a working .10 cartridge.
+# Original: Resources/Prototypes/Entities/Objects/Weapons/Guns/HMGs/hmgs.yml
+
+- type: entity
+  name: minigun
+  id: PSWeaponMinigun
+  parent: [ BaseWeaponHeavyMachineGun, BaseC3Contraband ]
+  description: Vzzzzzt! Rahrahrahrah! Vrrrrr! Uses .10 rifle ammo. Illegal for use in the Frontier sector.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/HMGs/minigun.rsi
+    layers:
+    - state: icon
+  - type: Item
+    sprite: Objects/Weapons/Guns/HMGs/minigun.rsi
+  - type: Gun
+    fireRate: 15
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/minigun.ogg
+  - type: BallisticAmmoProvider
+    proto: PSCartridgeMinigun
+    capacity: 1000
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+        ents: []

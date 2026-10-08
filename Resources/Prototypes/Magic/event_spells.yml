@@ -94,10 +94,10 @@
         orGroup: Guns
       - id: NFWeaponLauncherPirateCannon # Frontier: WeaponLauncherPirateCannon<NFWeaponLauncherPirateCannon
         orGroup: Guns
-      # - id: WeaponTetherGun # Frontier
-      #   orGroup: Guns # Frontier
-      # - id: WeaponForceGun # Frontier
-      #   orGroup: Guns # Frontier
+      - id: WeaponTetherGun # Palmtree: re-enabled
+        orGroup: Guns
+      - id: WeaponForceGun # Palmtree: re-enabled
+        orGroup: Guns
       - id: WeaponGrapplingGun
         orGroup: Guns
       - id: NFWeaponLightMachineGunL6 # Frontier: WeaponLightMachineGunL6<NFWeaponLightMachineGunL6
@@ -108,8 +108,8 @@
         orGroup: Guns # Frontier
       - id: NFWeaponEnergyPistolLaserMakeshift # WeaponMakeshiftLaser<NFWeaponEnergyPistolLaserMakeshift
         orGroup: Guns
-      # - id: WeaponTeslaGun # Frontier
-      #   orGroup: Guns # Frontier
+      - id: PSWeaponTeslaGun # Palmtree: upstream tesla gun
+        orGroup: Guns
       - id: NFWeaponEnergyRifleCarbinePractice # Frontier: WeaponLaserCarbinePractice<NFWeaponEnergyRifleCarbinePractice
         orGroup: Guns
       - id: NFWeaponEnergyRifleCarbine # Frontier: WeaponLaserCarbine<NFWeaponEnergyRifleCarbine
@@ -132,8 +132,8 @@
         orGroup: Guns
       - id: NFWeaponEnergySubMachineGunDisabler # Frontier: WeaponDisablerSMG<NFWeaponEnergySubMachineGunDisabler
         orGroup: Guns
-      # - id: WeaponTaser # Frontier
-      #   orGroup: Guns # Frontier
+      - id: PSWeaponTaser # Palmtree: upstream taser
+        orGroup: Guns
       - id: NFWeaponEnergyPistolLaserAntique # Frontier: WeaponAntiqueLaser<NFWeaponEnergyPistolLaserAntique
         orGroup: Guns # Frontier
       # - id: WeaponAdvancedLaser # Frontier
@@ -142,10 +142,10 @@
         orGroup: Guns
       - id: NFWeaponBehonkerLaser # Frontier
         orGroup: Guns
-      # - id: WeaponEnergyShotgun # Frontier
-      #   orGroup: Guns # Frontier
-      # - id: WeaponMinigun # Frontier
-      #   orGroup: Guns # Frontier
+      - id: PSWeaponEnergyShotgun # Palmtree: upstream energy shotgun
+        orGroup: Guns
+      - id: PSWeaponMinigun # Palmtree: upstream minigun
+        orGroup: Guns
       - id: BowImprovised
         orGroup: Guns
       - id: WeaponFlareGun

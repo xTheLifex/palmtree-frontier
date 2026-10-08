@@ -1,0 +1,146 @@
+# Palmtree: upstream weapons that Frontier removed through
+# Resources/IgnoredPrototypes/ignoredPrototypes.yml (the whole upstream weapon directories are made
+# abstract/removed at load). These are copies of the upstream prototypes with the same stats and
+# sprites, kept here so they can be enabled without un-ignoring every upstream gun.
+# Originals: Resources/Prototypes/Entities/Objects/Weapons/Guns/Battery/battery_guns.yml
+
+- type: entity
+  name: taser
+  parent: [ BaseWeaponBatterySmall, BaseC2ContrabandUnredeemable ]
+  id: PSWeaponTaser
+  description: A low-capacity, energy-based stun gun used by security teams to subdue targets at close range. On the handle is a label that says 'for authorized use only.'
+  components:
+  - type: Tag
+    tags:
+    - Taser
+    - Sidearm
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Battery/taser.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-unshaded-0
+      map: ["enum.GunVisualLayers.MagUnshaded"]
+      shader: unshaded
+  - type: Item
+    heldPrefix: taser4
+  - type: Clothing
+    quickEquip: false
+    slots:
+    - Belt
+  - type: Gun
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/taser.ogg
+  - type: ProjectileBatteryAmmoProvider
+    proto: NFBulletTaser
+    fireCost: 200
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: Appearance
+
+- type: entity
+  name: elite taser
+  parent: PSWeaponTaser
+  id: PSWeaponTaserSuper
+  suffix: ADMEME
+  description: A low-capacity, energy-based stun gun used by elite security teams to disable even the toughest of targets.
+  components:
+  - type: Gun
+    fireRate: 0.5
+    soundGunshot:
+      path: /Audio/Effects/tesla_collapse.ogg # The wrath of god...
+      params:
+        volume: -6
+  - type: ProjectileBatteryAmmoProvider
+    proto: PSBulletTaserSuper
+    fireCost: 200
+
+- type: entity
+  name: tesla gun
+  parent: [BaseWeaponBattery, BaseC3Contraband]
+  id: PSWeaponTeslaGun
+  description: The power of the primordial element of lightning in your hands. An experimental and illegal weapon.
+  components:
+  - type: Item
+    size: Large
+    shape:
+    - 0,0,2,1
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Battery/tesla_gun.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-unshaded-4
+        map: ["enum.GunVisualLayers.MagUnshaded"]
+        shader: unshaded
+  - type: Gun
+    projectileSpeed: 10
+    soundGunshot:
+      path: /Audio/Effects/Lightning/lightningshock.ogg
+      params:
+        variation: 0.2
+  - type: ProjectileBatteryAmmoProvider
+    proto: NFTeslaGunBullet
+    fireCost: 300
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: true
+  - type: Appearance
+
+- type: entity
+  name: energy shotgun
+  parent: [BaseWeaponBattery, BaseGunWieldable, BaseC2ContrabandUnredeemable]
+  id: PSWeaponEnergyShotgun
+  description: A one-of-a-kind prototype energy weapon that uses various shotgun configurations. It offers the possibility of both lethal and non-lethal shots, making it a versatile weapon.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Battery/energy_shotgun.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-unshaded-4
+        map: ["enum.GunVisualLayers.MagUnshaded"]
+        shader: unshaded
+  - type: MagazineVisuals
+    magState: mag
+    steps: 5
+    zeroVisible: false
+  - type: Appearance
+  - type: Clothing
+    sprite: Objects/Weapons/Guns/Battery/energy_shotgun.rsi
+  - type: Gun
+    fireRate: 2
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
+  - type: ProjectileBatteryAmmoProvider
+    proto: PSBulletLaserSpread
+    fireCost: 150
+  - type: BatteryWeaponFireModes
+    fireModes:
+    - proto: PSBulletLaserSpread
+      fireCost: 150
+    - proto: PSBulletLaserSpreadNarrow
+      fireCost: 200
+    - proto: PSBulletDisablerSmgSpread
+      fireCost: 120
+  - type: Item
+    size: Large
+    sprite: Objects/Weapons/Guns/Battery/inhands_64x.rsi
+    heldPrefix: energy
+  - type: Tag
+    tags:
+    - HighRiskItem
+  - type: StealTarget
+    stealGroup: WeaponEnergyShotgun
+  - type: GunRequiresWield #remove when inaccuracy on spreads is fixed
+  - type: Battery
+    maxCharge: 1200
+    startingCharge: 1200
+  - type: BatterySelfRecharger
+    autoRecharge: true
+    autoRechargeRate: 24
+    autoRechargePause: true
+    autoRechargePauseTime: 30

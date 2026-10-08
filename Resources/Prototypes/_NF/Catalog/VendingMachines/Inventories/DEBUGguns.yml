@@ -11,6 +11,7 @@
   # Machine Pistols
     NFWeaponPistolViper: 4294967295
     NFWeaponPistolPollock: 4294967295
+    PSWeaponPistolStechkinAPS: 4294967295 # Palmtree/Sandstorm: Stechkin APS
   # Revolvers
     NFWeaponRevolverDeckard: 4294967295
     NFWeaponRevolverInspector: 4294967295

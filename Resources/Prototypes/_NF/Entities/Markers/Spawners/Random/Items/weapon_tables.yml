@@ -209,6 +209,7 @@
       - id: WeaponCaseShortCobra
       - id: WeaponCaseShortN1984Expedition
       - id: WeaponCaseShortViper
+      - id: WeaponCaseShortStechkinAPS # Palmtree/Sandstorm: Stechkin APS
       - id: WeaponCaseShortFitzExpedition
       - id: WeaponCaseShortWard45Expedition
       - id: WeaponCaseShortRevolverPirate
@@ -238,6 +239,7 @@
       - id: WeaponCaseLongDrozdExpedition
       - id: WeaponCaseLongM90Expedition
       - id: WeaponCaseLongLecterExpedition
+      - id: WeaponCaseLongAkm # Palmtree/Coyote: AKM
       - id: WeaponCaseShortSvalinnExpedition
       - id: WeaponCaseLongHristovExpedition
       - id: WeaponCaseLongMusketExpedition
@@ -263,6 +265,8 @@
       - id: WeaponCaseLongLaserCarbineExpedition
       - id: WeaponCaseLongXrayCannonExpedition
       - id: WeaponCaseLongTemperatureGunExpedition
+      - id: WeaponCaseShortEnergyRevolverExpedition # Palmtree/Coyote: EG-4 energy revolver
+      - id: WeaponCaseShortAnacondaExpedition # Palmtree/Coyote: Anaconda
     - !type:NestedSelector
       weight: 0.05
       tableId: TableDungeonLootWeaponsRangedTier5
@@ -281,6 +285,8 @@
       - id: WeaponCaseLongEnergyGunExpedition
       - id: WeaponCaseLongLaserCannonExpedition
       - id: WeaponCaseHeavyAsmgtExpeditions
+      - id: WeaponCaseLongPrototypePulseRifleExpedition # Palmtree/Coyote: prototype pulse rifle
+      - id: WeaponCaseLongC19r # Palmtree/Coyote: C-19r
 
 # region explosives
 - type: entityTable
@@ -382,9 +388,9 @@
     - !type:NestedSelector
       weight: 0.15
       tableId: TableDungeonLootWeaponsAmmunitionUranium
-   # - !type:NestedSelector
-   #   weight: 0.05
-   #   tableId: TableDungeonLootWeaponsAmmunitionPractice
+    - !type:NestedSelector
+      weight: 0.05
+      tableId: TableDungeonLootWeaponsAmmunitionPractice
 
 # region ammo lethal
 - type: entityTable
@@ -456,16 +462,16 @@
     - id: WeaponCaseShortAmmoBoxUranium45
 
 # region ammo practice
-# - type: entityTable
-#   id: TableDungeonLootWeaponsAmmunitionPractice
-#   table: !type:GroupSelector
-#     children:
-#     - id: WeaponCaseShortAmmoBoxPractice20
-#     - id: WeaponCaseShortAmmoBoxPractice30
-#     - id: WeaponCaseShortAmmoBoxPractice35
-#     - id: WeaponCaseShortAmmoBoxPractice25
-#     - id: WeaponCaseShortAmmoBoxPracticeShotgun
-#     - id: WeaponCaseShortAmmoBoxPractice45
+- type: entityTable
+  id: TableDungeonLootWeaponsAmmunitionPractice
+  table: !type:GroupSelector
+    children:
+    - id: WeaponCaseShortAmmoBoxPractice20
+    - id: WeaponCaseShortAmmoBoxPractice30
+    - id: WeaponCaseShortAmmoBoxPractice35
+    - id: WeaponCaseShortAmmoBoxPractice25
+    - id: WeaponCaseShortAmmoBoxPracticeShotgun
+    - id: WeaponCaseShortAmmoBoxPractice45
 
 # region combined
 - type: entityTable

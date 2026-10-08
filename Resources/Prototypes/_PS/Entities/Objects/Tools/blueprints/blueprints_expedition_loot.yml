@@ -1,0 +1,11 @@
+# Palmtree: prototype pulse rifle blueprint, ported from Coyote (Floof).
+
+- type: entity
+  parent: NFBaseBlueprintExpeditionArmory
+  id: FloofBlueprintWeaponLaserPrototypePulseRifle
+  name: prototype pulse rifle blueprint
+  description: A blueprint with a schematic for a prototype pulse rifle. It can be inserted into a mercenary or NFSD techfab.
+  components:
+  - type: Blueprint
+    providedRecipes:
+    - WeaponPrototypePulseLaser

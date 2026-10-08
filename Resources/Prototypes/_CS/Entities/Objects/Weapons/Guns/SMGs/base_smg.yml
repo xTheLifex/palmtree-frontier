@@ -1,0 +1,32 @@
+# Palmtree: C-19r SMG ported from Coyote. Only the weapon is ported; the Coyote .40 SMG chambers
+# from the original file are not.
+# Original: Resources/Prototypes/_CS/Entities/Objects/Weapons/Guns/SMGs/base_smg.yml (Coyote)
+
+- type: entity
+  id: CSWeaponSubMachineGunC19r
+  parent: [ NFBaseWeaponSubMachineGunChamber35, NFBaseWeaponFrameSubMachineGunGorlex ]
+  name: C-19r
+  description: |-
+    A rare and early variant of the iconic weapon used often by syndicate operatives. A label on its receiver has long since faded. Uses .35 ammo.
+  components:
+  - type: Gun
+    projectileSpeed: 35
+    minAngle: 3.7
+    maxAngle: 27
+    shotsPerBurst: 5
+    availableModes:
+    - Burst
+    - FullAuto
+    - SemiAuto
+    soundGunshot:
+      path: /Audio/_Mono/Weapons/Guns/SmallArms/Gunshots/smg.ogg
+  - type: Sprite
+    sprite: _Mono/Objects/Weapons/Guns/SMGs/c19r.rsi
+  - type: Clothing
+    sprite: _Mono/Objects/Weapons/Guns/SMGs/c19r.rsi
+  - type: ChamberMagazineAmmoProvider
+    autoEject: true
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: true

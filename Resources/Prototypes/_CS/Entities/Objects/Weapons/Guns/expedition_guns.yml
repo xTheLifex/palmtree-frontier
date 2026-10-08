@@ -1,0 +1,9 @@
+# Palmtree: Anaconda expedition variant, ported from Coyote.
+# Original: Resources/Prototypes/_CS/Entities/Objects/Weapons/Guns/expedition_guns.yml (Coyote)
+
+- type: entity
+  parent:
+  - BaseExpeditionWeaponTier4
+  - WeaponPistolAnaconda
+  categories: [ HideSpawnMenu ]
+  id: CSWeaponPistolAnacondaExpedition

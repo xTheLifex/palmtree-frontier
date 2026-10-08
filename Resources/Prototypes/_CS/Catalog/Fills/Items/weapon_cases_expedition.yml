@@ -1,0 +1,38 @@
+# Palmtree: Coyote dungeon weapon cases (AKM, Anaconda), ported from Coyote.
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongAkm
+  suffix: Dungeon, AKM
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: CSWeaponAssaultRifleAKM
+      amount: 1
+    - id: NFMagazineRifle30
+      amount: 2
+
+- type: entity
+  parent: WeaponCaseShort
+  id: WeaponCaseShortAnacondaExpedition
+  suffix: Dungeon, Anaconda
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: CSWeaponPistolAnacondaExpedition
+      amount: 1
+
+- type: entity
+  parent: WeaponCaseLong
+  id: WeaponCaseLongC19r
+  suffix: Dungeon, C19r
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: CSWeaponSubMachineGunC19r
+      amount: 1
+    - id: NFMagazineSubMachineGun35
+      amount: 3

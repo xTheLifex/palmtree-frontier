@@ -1,0 +1,82 @@
+# Palmtree: projectiles needed by the upstream weapons re-enabled under _PS
+# (Frontier removed the upstream projectile/cartridge directories through
+# Resources/IgnoredPrototypes/ignoredPrototypes.yml).
+# Originals: Resources/Prototypes/Entities/Objects/Weapons/Guns/Projectiles/projectiles.yml
+#            Resources/Prototypes/Entities/Objects/Weapons/Guns/Ammunition/Projectiles/heavy_rifle.yml
+
+- type: entity
+  parent: NFBulletTaser
+  id: PSBulletTaserSuper
+  categories: [ HideSpawnMenu ]
+  name: taser bolt
+  description: If you can see this, you've probably been stun-meta'd
+  components:
+  - type: Sprite
+    noRot: true
+    sprite: Structures/Power/Generation/Tesla/energy_miniball.rsi
+    color: "#ffff33"
+    layers:
+    - state: tesla_projectile
+      shader: unshaded
+  - type: PointLight
+    enabled: true
+    color: "#ffff33"
+    radius: 2.0
+    energy: 7.01
+  - type: TimedDespawn
+    lifetime: 1.0 # Not so short range
+  - type: StunOnCollide
+    stunAmount: 5
+    knockdownAmount: 10
+    slowdownAmount: 10
+    walkSpeedModifier: 0.5
+    sprintSpeedModifier: 0.5
+
+- type: entity
+  id: PSBulletMinigun
+  name: minigun bullet (.10 rifle)
+  parent: BulletHeavyRifle
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 5
+
+- type: entity
+  parent: BulletLaser
+  id: PSBulletLaser
+  categories: [ HideSpawnMenu ]
+
+- type: entity
+  name: wide laser barrage
+  id: PSBulletLaserSpread
+  categories: [ HideSpawnMenu ]
+  parent: PSBulletLaser
+  components:
+  - type: ProjectileSpread
+    proto: PSBulletLaser
+    count: 5 #65 heat damage if you hit all your shots, but wide spread
+    spread: 30
+
+- type: entity
+  name: narrow laser barrage
+  id: PSBulletLaserSpreadNarrow
+  categories: [ HideSpawnMenu ]
+  parent: PSBulletLaser
+  components:
+  - type: ProjectileSpread
+    proto: PSBulletLaser
+    count: 4 #52 heat damage if you hit all your shots, but narrower spread
+    spread: 10
+
+- type: entity
+  name: disabling laser barrage
+  id: PSBulletDisablerSmgSpread
+  categories: [ HideSpawnMenu ]
+  parent: NFBulletDisablerSmg
+  components:
+  - type: ProjectileSpread
+    proto: NFBulletDisablerSmg
+    count: 3 #bit stronger than a disabler if you hit your shots you goober, still not a 2 hit stun though
+    spread: 9

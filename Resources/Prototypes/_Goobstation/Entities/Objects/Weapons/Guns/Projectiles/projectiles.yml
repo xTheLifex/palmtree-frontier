@@ -1,0 +1,12 @@
+# Palmtree: Anaconda projectile, ported from Coyote (Goobstation).
+# The cartridge wrapper fires the standard NF .45 pistol bullet on impact, mirroring Coyote.
+# Original: Resources/Prototypes/_Goobstation/Entities/Objects/Weapons/Guns/Projectiles/projectiles.yml (Coyote)
+
+- type: entity
+  id: BulletAnaconda
+  name: bullet (.45 caseless)
+  parent: NFBaseCartridgePistol45
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: CartridgeAmmo
+    deleteOnSpawn: true

@@ -1,0 +1,8 @@
+# Palmtree: expedition variant of the Stechkin APS.
+
+- type: entity
+  parent:
+  - BaseExpeditionWeaponTier2Syndicate
+  - PSWeaponPistolStechkinAPS
+  categories: [ HideSpawnMenu ]
+  id: PSWeaponPistolStechkinAPSExpedition

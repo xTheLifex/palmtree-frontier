@@ -1,0 +1,12 @@
+# Palmtree: .10 rifle cartridge needed by the re-enabled minigun.
+# Original: Resources/Prototypes/Entities/Objects/Weapons/Guns/Ammunition/Cartridges/heavy_rifle.yml
+
+- type: entity
+  categories: [ HideSpawnMenu ]
+  id: PSCartridgeMinigun
+  name: cartridge (.10 rifle)
+  parent: BaseCartridgeHeavyRifle
+  components:
+  - type: CartridgeAmmo
+    proto: PSBulletMinigun
+    deleteOnSpawn: true

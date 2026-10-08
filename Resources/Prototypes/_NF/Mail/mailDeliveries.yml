@@ -84,6 +84,8 @@
     MailNFKendoKit: 0.2
     MailNFKnife: 0.7
     MailNFSword: 0.3
+    MailCSAK: 0.1 # Palmtree/Coyote: AKM, rare.
+    MailCSC19r: 0.1 # Palmtree/Coyote: C-19r, rare.
     # Pranks
     MailNFBuildABuddy: 0.5
     MailNFCritter: 1

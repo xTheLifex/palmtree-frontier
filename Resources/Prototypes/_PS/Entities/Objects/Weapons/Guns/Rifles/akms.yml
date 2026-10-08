@@ -1,0 +1,50 @@
+# Palmtree: copy of the upstream AKMS (Frontier removed the upstream rifle directory through
+# Resources/IgnoredPrototypes/ignoredPrototypes.yml). Unlike the Coyote AKM (CSWeaponAssaultRifleAKM)
+# this is the original WizDen magazine-fed .30 rifle.
+# Original: Resources/Prototypes/Entities/Objects/Weapons/Guns/Rifles/rifles.yml
+
+- type: entity
+  name: AKMS
+  parent: [BaseWeaponRifle, BaseC3SyndicateContraband]
+  id: PSWeaponRifleAk
+  description: A somewhat battered combat rifle of a design originating from old Earth. Favored by criminals, militias, and terrorists due to its famed reliability and easy-to-manufacture design. Feeds from .30 rifle magazines.
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Rifles/ak.rsi
+    layers:
+      - state: base
+        map: ["enum.GunVisualLayers.Base"]
+      - state: mag-0
+        map: ["enum.GunVisualLayers.Mag"]
+  - type: Gun
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/rifle2.ogg
+  - type: ChamberMagazineAmmoProvider
+    soundRack:
+      path: /Audio/Weapons/Guns/Cock/ltrifle_cock.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - NFMagazineRifle30 # Frontier: MagazineLightRifle<NFMagazineRifle30
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        priority: 1
+        whitelist:
+          tags:
+            - NFCartridgeRifle30 # Frontier: CartridgeLightRifle<NFCartridgeRifle30
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance

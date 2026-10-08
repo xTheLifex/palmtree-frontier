@@ -72,6 +72,18 @@ Adaptations made when porting (old 2023 prototypes):
 Not ported from `_PS`: turrets, RCD, strobe lighting, shipyard cauterizer, announcement/interaction
 sound collections, custom emotes. See `.ai/PORTING.md`.
 
+Re-enabled Frontier-disabled guns: Frontier deletes whole upstream weapon directories at load
+(`Resources/IgnoredPrototypes/ignoredPrototypes.yml`), so the upstream taser, elite taser, tesla
+gun, energy shotgun, minigun and AKMS were copied into `_PS` with `PS` ids
+(`_PS/Entities/Objects/Weapons/Guns/.../reenabled_upstream_guns.yml`, `HMGs/minigun.yml`,
+`Rifles/akms.yml` plus the `_PS` projectiles/cartridge they need). Pulse/laser/x-ray/advanced/antique
+energy weapons were not copied - Frontier already ships enabled NF versions of them. Practice ammo
+cases/crates/table/spawner were un-commented and nested back into the dungeon ammo tables. Coyote
+ports in the same batch: prototype pulse rifle, EG-4 energy revolver, Anaconda, lollypop dispensers
+and the C-19r SMG (see `.ai/PORTING.md` §15). The Stechkin APS is a BYOND port from Sandstorm
+(chambered in .35 auto) available from T2 dungeon loot and the emagged WeaponryWorks vendor
+(`.ai/PORTING.md` §16).
+
 Shotgun fill verbs (`Content.Server/_PS/Gambling/RandomWeaponInsertSystem.cs`): adds
 "Insert randomly", "Fill sequence" and "Shoot self" to any shotgun. The two fill verbs pull from
 held/nearby ammo boxes (`Radius = 2`), always load a random total between 2 and the gun's free

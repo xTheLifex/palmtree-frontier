@@ -1,0 +1,22 @@
+# Palmtree: Stechkin APS ported from Sandstorm Station 13 (BYOND, /tg/-derived).
+# Sandstorm version: /obj/item/gun/ballistic/automatic/pistol/APS (9mm, burst 3, semi/burst/full).
+# This fork has no 9mm caliber, so it is chambered in .35 auto (15-round high capacity magazine).
+
+- type: entity
+  id: PSWeaponPistolStechkinAPS
+  parent: [ NFBaseWeaponPistolChamber35HighCapacity, NFBaseWeaponFrameMachinePistolGorlex ]
+  name: Stechkin APS
+  description: |-
+    The original Russian version of a widely used Syndicate sidearm. Uses .35 auto ammo.
+  components:
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    - Burst
+    - FullAuto
+    shotsPerBurst: 3
+  - type: Sprite
+    sprite: _PS/Objects/Weapons/Guns/Pistols/stechkin_aps.rsi
+  - type: Clothing
+    sprite: _PS/Objects/Weapons/Guns/Pistols/stechkin_aps.rsi

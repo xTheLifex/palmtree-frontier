@@ -1,0 +1,11 @@
+# Palmtree: prototype pulse rifle lathe recipe, ported from Coyote (Floof).
+
+- type: latheRecipe
+  id: WeaponPrototypePulseLaser
+  parent: BaseWeaponRecipeLong
+  result: WeaponPrototypePulseRifle
+  materials:
+    Wood: 1500
+    Gold: 850
+    Plasma: 1000
+    Steel: 1000

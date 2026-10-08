@@ -5,6 +5,7 @@
     - id: NFBlueprintWeaponLaserCannon
     - id: NFBlueprintWeaponXrayCannon
     - id: NFBlueprintWeaponTemperatureGun
+    - id: FloofBlueprintWeaponLaserPrototypePulseRifle # Palmtree/Coyote: prototype pulse rifle blueprint
 
 - type: entity
   abstract: true

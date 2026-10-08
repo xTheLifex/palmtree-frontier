@@ -18,6 +18,7 @@
     NFAmmunitionBoxRifle20: 2
   emaggedInventory:
     NFWeaponPistolViper: 1
+    PSWeaponPistolStechkinAPS: 1 # Palmtree/Sandstorm: Stechkin APS
 
 - type: vendingMachineInventory
   id: WeaponryWorksVendPOIInventory
@@ -41,3 +42,4 @@
     NFAmmunitionBoxShellShotgunBeanbag: 4294967295
   emaggedInventory:
     NFWeaponPistolViper: 1
+    PSWeaponPistolStechkinAPS: 1 # Palmtree/Sandstorm: Stechkin APS

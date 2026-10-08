@@ -1,0 +1,53 @@
+# Palmtree: Coyote heavy pistol frames, needed by the Anaconda. Only the frames are ported;
+# the .40 caliber chambers from Coyote are not (this fork still uses the .35 chambers).
+# Original: Resources/Prototypes/_CS/Entities/Objects/Weapons/Guns/HeavyPistols/base_pistol.yml (Coyote)
+
+#region frame
+- type: entity
+  id: CSBaseWeaponFrameHeavyPistol
+  parent: [ NFBaseWeaponEncumbrancePistol, NFBaseItemWeaponGunMagazineFed ]
+  name: heavy pistol
+  abstract: true
+  components:
+  - type: Gun
+    projectileSpeed: 33
+    minAngle: 3.1
+    maxAngle: 15.5
+    angleIncrease: 0.8
+    angleDecay: 4
+    fireRate: 3.4
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+  - type: StaticPrice
+    price: 250
+  - type: NFWeaponDetails
+    class: weapon-details-class-heavy-pistol
+  - type: FireOnLand
+
+#region manufacturer
+- type: entity
+  id: CSBaseWeaponFrameHeavyPistolNanotrasen
+  parent: CSBaseWeaponFrameHeavyPistol
+  abstract: true
+  components:
+  - type: Gun
+    minAngle: 0.8
+    maxAngle: 26
+    angleIncrease: 2.4
+    angleDecay: 6.0
+    fireRate: 3.4
+  - type: NFWeaponDetails
+    manufacturer: weapon-details-manufacturer-nanotrasen-munitions
+
+- type: entity
+  id: CSBaseWeaponFrameHeavyPistolCybersun
+  parent: [ CSBaseWeaponFrameHeavyPistol, BaseC2Contraband ]
+  abstract: true
+  components:
+  - type: Gun
+    angleIncrease: 0.9
+    angleDecay: 6.3
+    fireRate: 3.2
+  - type: NFWeaponDetails
+    manufacturer: weapon-details-manufacturer-cybersun-industries
