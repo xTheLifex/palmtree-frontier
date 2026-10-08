@@ -57,7 +57,8 @@ namespace Content.IntegrationTests.Tests.Preferences
                     Color.Aquamarine,
                     Color.Azure,
                     Color.Beige,
-                    new ())
+                    new (),
+                    HumanoidLegStyle.Digitigrade) // Palmtree/Coyote: leg style round-trip
             };
 
             // Palmtree: genital organ + semen volume round-trip.

@@ -844,6 +844,11 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("hidden_emote_categories");
 
+                    b.Property<string>("LegStyle")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("leg_style");
+
                     b.Property<byte[]>("Markings")
                         .HasColumnType("jsonb")
                         .HasColumnName("markings");

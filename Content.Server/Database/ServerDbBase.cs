@@ -275,6 +275,11 @@ namespace Content.Server.Database
 
             var balance = profile.BankBalance;
 
+            // Palmtree/Coyote: restore the character's leg style.
+            var legStyle = HumanoidLegStyle.Plantigrade;
+            if (Enum.TryParse<HumanoidLegStyle>(profile.LegStyle, true, out var legStyleVal))
+                legStyle = legStyleVal;
+
             // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
             var markingsRaw = profile.Markings?.Deserialize<List<string>>();
 
@@ -332,7 +337,8 @@ namespace Content.Server.Database
                     Color.FromHex(profile.FacialHairColor),
                     Color.FromHex(profile.EyeColor),
                     Color.FromHex(profile.SkinColor),
-                    markings
+                    markings,
+                    legStyle // Palmtree/Coyote
                 ),
                 spawnPriority,
                 jobs,
@@ -369,6 +375,7 @@ namespace Content.Server.Database
             profile.Genitals = humanoid.Genitals.ToDbString(); // Palmtree
             profile.Height = humanoid.Height; // Palmtree
             profile.Width = humanoid.Width; // Palmtree
+            profile.LegStyle = appearance.LegStyle.ToString(); // Palmtree/Coyote
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();

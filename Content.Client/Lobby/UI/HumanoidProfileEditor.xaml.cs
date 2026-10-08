@@ -2098,6 +2098,7 @@ namespace Content.Client.Lobby.UI
                 return;
 
             Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithLegs(legStyle));
+            SetDirty(); // Palmtree: persist the leg style to the server/DB
             ReloadProfilePreview();
         }
 
