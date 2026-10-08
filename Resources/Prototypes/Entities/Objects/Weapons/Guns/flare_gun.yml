@@ -2,7 +2,7 @@
   name: flare gun
   parent: BaseItem
   id: WeaponFlareGun
-  description: A compact, single-shot pistol that fires shotgun shells. Comes with a safety feature that prevents the user from fitting lethal shells inside.
+  description: A compact, single-shot pistol that fires shotgun shells.
   components:
   - type: Sprite
     sprite: Objects/Weapons/Guns/Shotguns/flaregun.rsi
@@ -22,9 +22,10 @@
         startingItem: NFShellShotgunFlare # Frontier: use NF prefix
         priority: 1
         whitelist:
-          tags: ## TODO: Add a risk of the gun blowing up if using non-light shotgun shells, and then re-enable them.
-            ## - ShellShotgun
-            - ShellShotgunLight
+          tags:
+            # Palmtree: allow regular 12 gauge shells again (Wizden #32829 limited the flare gun
+            # to ShellShotgunLight; we keep the reworked gun but restore the old ammo whitelist).
+            - ShellShotgun
   - type: ContainerContainer
     containers:
       gun_chamber: !type:ContainerSlot
