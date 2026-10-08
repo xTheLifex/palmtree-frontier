@@ -460,3 +460,49 @@ Entries:
   time: '2026-10-07T21:53:30.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/85e67cc7d70df51bfc49f1d5327a1001239346e4
+- author: TheLife
+  changes:
+    - type: Fix
+      message: Digitigrade leg style is now saved and persists between rounds.
+  id: 90028
+  time: '2026-10-08T22:31:43.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/46055cf5499978d7488d5aa0fd1a92a0290aaca4
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: >-
+        Lewd interactions no longer automatically turn participants to face each
+        other.
+  id: 90029
+  time: '2026-10-08T22:31:51.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/fd7c5343baef075e56aebf0adeee9161f6bf8218
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: Flare guns can now load regular 12 gauge shotgun shells.
+  id: 90030
+  time: '2026-10-08T22:32:09.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/eaff098dbe91f1ea75fc8fb98ca7110ea1d891dc
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        Ported the AKM, C-19r SMG, Anaconda, prototype pulse rifle, EG-4 energy
+        revolver, Stechkin APS and lollypop dispensers.
+    - type: Add
+      message: >-
+        Re-enabled the taser, elite taser, tesla gun, energy shotgun, minigun
+        and AKMS, and returned them to the wizard's Summon Guns pool.
+    - type: Add
+      message: Practice ammunition is back in expedition and mercenary loot.
+    - type: Add
+      message: >-
+        The new weapons are obtainable from expedition weapon cases, mail and
+        the black market.
+  id: 90031
+  time: '2026-10-08T22:32:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/d137d08b81d3bdd4ef85054f8e82e4967cc53d20
