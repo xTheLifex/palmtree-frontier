@@ -2040,7 +2040,7 @@
 
 - type: entity
   id: CSMagazine308Rpd
-  name: RPD drum magazine (.308)
+  name: drum magazine (.308)
   parent: BaseMagazineRifle
   components:
   - type: Tag
@@ -2051,7 +2051,7 @@
       tags:
       - CSCartridge308
     proto: CSCartridge308
-    capacity: 40
+    capacity: 100
   - type: MagazineVisuals
     magState: mag
     steps: 6
@@ -2074,7 +2074,7 @@
 
 - type: entity
   id: CSMagazine308RpdOverpressure
-  name: RPD drum magazine (.308) (overpressure)
+  name: drum magazine (.308) (overpressure)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2090,7 +2090,7 @@
 
 - type: entity
   id: CSMagazine308RpdIncendiary
-  name: RPD drum magazine (.308) (incendiary)
+  name: drum magazine (.308) (incendiary)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2106,7 +2106,7 @@
 
 - type: entity
   id: CSMagazine308RpdUranium
-  name: RPD drum magazine (.308) (uranium)
+  name: drum magazine (.308) (uranium)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2122,7 +2122,7 @@
 
 - type: entity
   id: CSMagazine308RpdPractice
-  name: RPD drum magazine (.308) (practice)
+  name: drum magazine (.308) (practice)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2138,7 +2138,7 @@
 
 - type: entity
   id: CSMagazine308RpdEmp
-  name: RPD drum magazine (.308) (EMP)
+  name: drum magazine (.308) (EMP)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2154,7 +2154,7 @@
 
 - type: entity
   id: CSMagazine308RpdRubber
-  name: RPD drum magazine (.308) (rubber)
+  name: drum magazine (.308) (rubber)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2170,7 +2170,7 @@
 
 - type: entity
   id: CSMagazine308RpdEmpty
-  name: RPD drum magazine (.308) (any)
+  name: drum magazine (.308) (any)
   parent: CSMagazine308Rpd
   components:
   - type: BallisticAmmoProvider
@@ -2311,145 +2311,6 @@
   id: CSMagazine308LewisEmpty
   name: pan magazine (.308) (any)
   parent: CSMagazine308Lewis
-  components:
-  - type: BallisticAmmoProvider
-    proto: null
-
-
-- type: entity
-  id: CSMagazine308Belt
-  name: ammo belt (.308)
-  parent: BaseMagazineRifle
-  components:
-  - type: Tag
-    tags:
-    - CSMagazine308Belt
-  - type: BallisticAmmoProvider
-    whitelist:
-      tags:
-      - CSCartridge308
-    proto: CSCartridge308
-    capacity: 100
-  - type: MagazineVisuals
-    magState: mag
-    steps: 6
-    zeroVisible: false
-  - type: Sprite
-    sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Belt.rsi
-    layers:
-    - state: mag-0
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: Item
-    sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Belt.rsi
-    inhandVisuals:
-      left:
-      - state: inhand-left-mag
-      right:
-      - state: inhand-right-mag
-
-
-- type: entity
-  id: CSMagazine308BeltOverpressure
-  name: ammo belt (.308) (overpressure)
-  parent: CSMagazine308Belt
-  components:
-  - type: BallisticAmmoProvider
-    proto: CSCartridge308Overpressure
-  - type: Sprite
-    layers:
-    - state: mag-0
-      color: "#ff8d00"
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-
-- type: entity
-  id: CSMagazine308BeltIncendiary
-  name: ammo belt (.308) (incendiary)
-  parent: CSMagazine308Belt
-  components:
-  - type: BallisticAmmoProvider
-    proto: CSCartridge308Incendiary
-  - type: Sprite
-    layers:
-    - state: mag-0
-      color: "#ff0000"
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-
-- type: entity
-  id: CSMagazine308BeltUranium
-  name: ammo belt (.308) (uranium)
-  parent: CSMagazine308Belt
-  components:
-  - type: BallisticAmmoProvider
-    proto: CSCartridge308Uranium
-  - type: Sprite
-    layers:
-    - state: mag-0
-      color: "#00ff00"
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-
-- type: entity
-  id: CSMagazine308BeltPractice
-  name: ammo belt (.308) (practice)
-  parent: CSMagazine308Belt
-  components:
-  - type: BallisticAmmoProvider
-    proto: CSCartridge308Practice
-  - type: Sprite
-    layers:
-    - state: mag-0
-      color: "#dddddd"
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-
-- type: entity
-  id: CSMagazine308BeltEmp
-  name: ammo belt (.308) (EMP)
-  parent: CSMagazine308Belt
-  components:
-  - type: BallisticAmmoProvider
-    proto: CSCartridge308Emp
-  - type: Sprite
-    layers:
-    - state: mag-0
-      color: "#00ffff"
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-
-- type: entity
-  id: CSMagazine308BeltRubber
-  name: ammo belt (.308) (rubber)
-  parent: CSMagazine308Belt
-  components:
-  - type: BallisticAmmoProvider
-    proto: CSCartridge308Rubber
-  - type: Sprite
-    layers:
-    - state: mag-0
-      color: "#00b0ff"
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-1
-      map: ["enum.GunVisualLayers.Mag"]
-
-
-- type: entity
-  id: CSMagazine308BeltEmpty
-  name: ammo belt (.308) (any)
-  parent: CSMagazine308Belt
   components:
   - type: BallisticAmmoProvider
     proto: null
@@ -2747,6 +2608,8 @@
       - CSCartridge54R
     proto: CSCartridge54R
     capacity: 5
+    mayTransfer: true # Palmtree: feeds internal magazines (e.g. the Mosin) instead of going inside the gun
+    mayTransferAll: true # Palmtree: one action loads the whole clip
   - type: MagazineVisuals
     magState: mag
     steps: 6

@@ -23,7 +23,7 @@
   - type: MagazineVisuals # Palmtree: magazine art from the BYOND source
     magState: mag
     steps: 3
-    zeroVisible: false
+    zeroVisible: true
   - type: StaticPrice
     price: 4800
 
@@ -49,18 +49,18 @@
   - type: MagazineVisuals # Palmtree: belt art from the BYOND source
     magState: mag
     steps: 5
-    zeroVisible: false
-  - type: ItemSlots # Palmtree: M1919 is belt-fed; spawns with the .308 ammo belt
+    zeroVisible: true
+  - type: ItemSlots # Palmtree: M1919 is belt-fed; spawns with the .308 drum
     slots:
       gun_magazine:
         name: Magazine
-        startingItem: CSMagazine308Belt
+        startingItem: CSMagazine308Rpd
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2
-        whitelist: # Palmtree: belts only - box mags, drums, pans and clips do not fit
+        whitelist: # Palmtree: fed from the .308 drum (the belt container), shared with the RPD
           tags:
-          - CSMagazine308Belt
+          - CSMagazine308Rpd
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
@@ -78,7 +78,7 @@
   suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber308, NFBaseWeaponFrameLightMachineGun ]
   name: RPD
-  description: A soviet made Russian LMG. Known as the RPK, this LMG was chambered in 7.62 Soviet, now rechambered to .308 with a 40 round drum mag.
+  description: A soviet made Russian LMG. Known as the RPK, this LMG was chambered in 7.62 Soviet, now rechambered to .308 with a 100 round drum mag.
   components:
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Fallout/RPD.rsi
@@ -94,7 +94,7 @@
   - type: MagazineVisuals # Palmtree: drum art from the BYOND source; gun is magless while empty
     magState: mag
     steps: 2
-    zeroVisible: false
+    zeroVisible: true
   - type: ItemSlots # Palmtree: feeds from its 40-round drum, not from other .308 magazines
     slots:
       gun_magazine:
@@ -137,6 +137,7 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/bozar_fire.ogg
+  # Palmtree: no magazine sprite - the source only has the pan baked into the base art.
   - type: ItemSlots # Palmtree: feeds from its pan magazine, not from other .308 magazines
     slots:
       gun_magazine:

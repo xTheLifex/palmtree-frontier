@@ -65,7 +65,7 @@ public abstract partial class SharedGunSystem
     private void OnBallisticAfterInteract(EntityUid uid, BallisticAmmoProviderComponent component, AfterInteractEvent args)
     {
         if (args.Handled ||
-            !component.MayTransfer ||
+            (!component.MayTransfer && !component.MayTransferAll) || // Palmtree: MayTransferAll counts as transferable
             !Timing.IsFirstTimePredicted ||
             args.Target == null ||
             args.Used == args.Target ||
@@ -152,7 +152,13 @@ public abstract partial class SharedGunSystem
         }
 
         List<(EntityUid? Entity, IShootable Shootable)> ammo = new();
-        var evTakeAmmo = new TakeAmmoEvent(1, ammo, Transform(uid).Coordinates, args.User);
+
+        // Palmtree: stripper clips fill as many rounds as the target can take in a single action.
+        var takeCount = 1;
+        if (component.MayTransferAll && ballisticTarget is not null)
+            takeCount = Math.Max(1, ballisticTarget.Capacity - GetBallisticShots(ballisticTarget));
+
+        var evTakeAmmo = new TakeAmmoEvent(takeCount, ammo, Transform(uid).Coordinates, args.User);
         RaiseLocalEvent(uid, evTakeAmmo);
 
         bool validAmmoType = true; // Frontier: do not repeat reload attempts with invalid ammo.

@@ -245,7 +245,7 @@
     contents:
     - id: CSWeaponLightMachineGunM1919
       amount: 1
-    - id: CSMagazine308Belt
+    - id: CSMagazine308Rpd
       amount: 1
 
 - type: entity

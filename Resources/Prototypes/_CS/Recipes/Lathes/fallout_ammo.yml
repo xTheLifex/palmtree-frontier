@@ -587,14 +587,6 @@
 
 - type: latheRecipe
   parent: BaseEmptyMagazineRecipe
-  id: CSMagazine308BeltEmpty
-  result: CSMagazine308BeltEmpty
-  materials:
-    Steel: 40
-
-
-- type: latheRecipe
-  parent: BaseEmptyMagazineRecipe
   id: CSMagazine308SksEmpty
   result: CSMagazine308SksEmpty
   materials:

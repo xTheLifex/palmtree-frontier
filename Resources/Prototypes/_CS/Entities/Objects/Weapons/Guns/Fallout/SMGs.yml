@@ -23,7 +23,7 @@
   - type: MagazineVisuals # Palmtree: magazine art from the BYOND source
     magState: mag
     steps: 2
-    zeroVisible: false
+    zeroVisible: true
   - type: StaticPrice
     price: 2600
 
@@ -127,7 +127,7 @@
   - type: MagazineVisuals # Palmtree: magazine art from the BYOND source
     magState: mag
     steps: 2
-    zeroVisible: false
+    zeroVisible: true
   - type: StaticPrice
     price: 2800
 
@@ -154,7 +154,7 @@
   - type: MagazineVisuals # Palmtree: drum magazine art from the BYOND source
     magState: mag
     steps: 2
-    zeroVisible: false
+    zeroVisible: true
   - type: ItemSlots # Palmtree: takes its own 71-round drum, not the Uzi magazine
     slots:
       gun_magazine:

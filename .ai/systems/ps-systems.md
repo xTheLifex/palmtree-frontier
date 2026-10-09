@@ -122,10 +122,23 @@ without manual hand switching. It runs on client and server (predicted).
 - Knives/melee (no `GunComponent`) and unwielded two-handed guns (`GunRequiresWieldComponent`
   without `WieldableComponent.Wielded`) never trigger a swap; in-progress bursts are not
   interrupted. Covered by `GunHandSwapTest`.
-- `.308` and 9mm SMG magazines are per-gun: BAR takes `CSMagazine308`/`CSMagazine308Ext`, M1919
-  the belt, RPD its drum, DP27 the pan, SKS its clip, and the PPSh only its drum. The shared
-  `CSBaseWeaponRifleChamber308`/`CSBaseWeaponSubMachineGunChamber9mm` whitelists only seed the
-  default; concrete guns override them. Covered by `GunMagazineWhitelistTest`/`GunAmmoTest`.
+- `.308` and 9mm SMG magazines are per-gun: BAR takes `CSMagazine308`/`CSMagazine308Ext`, the
+  M1919 and RPD share the 100-round `CSMagazine308Rpd` drum (the belt container - the separate
+  `CSMagazine308Belt` item was removed), DP27 the pan, SKS its clip, and the PPSh only its 71-round
+  drum. `EveryGunOnlyAcceptsItsOwnMagazines` sweeps every CS magazine against every CS gun, so a
+  whitelist can never silently accept a foreign magazine. The shared `CSBaseWeaponRifleChamber308`/`CSBaseWeaponSubMachineGunChamber9mm` whitelists
+  only seed the default; concrete guns override them. Covered by
+  `GunMagazineWhitelistTest`/`GunAmmoTest`.
+- **Mosin internal magazine**: `CSBaseWeaponRifleChamber54R` is a `BallisticAmmoProvider` (5 rounds,
+  no mag slot), so the stripper clip never enters the gun. `CSMagazine54RClip` uses the new
+  `BallisticAmmoProviderComponent.MayTransferAll` (annotated upstream field) to fill the whole
+  magazine in one action - faster than loading loose cartridges one at a time.
+- Gun magazine layers use `zeroVisible: true` with a real `mag-0` art (usually a copy of `mag-1`):
+  `RoundToLevels` maps `steps: 2` to level 0 for *any* partial count, so a `zeroVisible: false` gun
+  loses its magazine after the first shot. With `zeroVisible: true` the layer is only hidden when
+  the magazine is actually removed (`MagLoaded = false`). The DP-27 is the exception: its source has
+  no usable pan art, so the gun is magless (`dp-e` base/bolt-open/icon) and has **no** magazine
+  sprite at all - do not add a composed overlay.
 
 ## Synth species (IPC replacement)
 

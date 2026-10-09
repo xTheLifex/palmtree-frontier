@@ -41,11 +41,11 @@ public sealed class GunMagazineWhitelistTest
                 ("CSWeaponSubMachineGunP90", "CSMagazine10mmP90", new[] { "CSAmmunitionBox10mm", "CSMagazine9mmUzi" }, true),
                 ("CSWeaponRifleAUGA10", "CSMagazine5mm", new[] { "CSAmmunitionBox5mm", "CSMagazine9mmUzi" }, true),
                 ("CSWeaponAssaultRifleAKM", "NFMagazineRifle30", new[] { "CSAmmunitionBox308", "CSMagazine5mm" }, true),
-                ("CSWeaponLightMachineGunBAR", "CSMagazine308", new[] { "CSMagazine308Sks", "CSMagazine308Rpd", "CSMagazine308Belt", "CSAmmunitionBox308" }, true),
-                ("CSWeaponLightMachineGunM1919", "CSMagazine308Belt", new[] { "CSMagazine308", "CSMagazine308Ext", "CSMagazine308Rpd", "CSMagazine308Sks", "CSAmmunitionBox308" }, true),
-                ("CSWeaponLightMachineGunRPD", "CSMagazine308Rpd", new[] { "CSMagazine308Sks", "CSMagazine308Belt", "CSMagazine308", "CSMagazine308Lewis" }, true),
-                ("CSWeaponLightMachineGunDP27", "CSMagazine308Lewis", new[] { "CSMagazine308Sks", "CSMagazine308Belt", "CSMagazine308Rpd", "CSMagazine308" }, true),
-                ("CSWeaponRifleSKS", "CSMagazine308Sks", new[] { "CSMagazine308Rpd", "CSMagazine308Belt", "CSMagazine308Lewis", "CSMagazine308" }, true),
+                ("CSWeaponLightMachineGunBAR", "CSMagazine308", new[] { "CSMagazine308Sks", "CSMagazine308Rpd", "CSAmmunitionBox308" }, true),
+                ("CSWeaponLightMachineGunM1919", "CSMagazine308Rpd", new[] { "CSMagazine308", "CSMagazine308Ext", "CSMagazine308Sks", "CSAmmunitionBox308" }, true),
+                ("CSWeaponLightMachineGunRPD", "CSMagazine308Rpd", new[] { "CSMagazine308Sks", "CSMagazine308", "CSMagazine308Lewis" }, true),
+                ("CSWeaponLightMachineGunDP27", "CSMagazine308Lewis", new[] { "CSMagazine308Sks", "CSMagazine308Rpd", "CSMagazine308" }, true),
+                ("CSWeaponRifleSKS", "CSMagazine308Sks", new[] { "CSMagazine308Rpd", "CSMagazine308Lewis", "CSMagazine308" }, true),
                 ("NFWeaponRifleAssaultNovaliteC1", "NFMagazineClipRifle20", new[] { "CSAmmunitionBox22", "CSMagazine5mm" }, true),
                 ("PSWeaponRifleAssaultNovaliteC2", "NFMagazineRifle20", new[] { "NFAmmunitionBoxRifle20", "CSMagazine5mm" }, true),
                 ("CSWeaponSubMachineGunUzi", "CSMagazine9mmUzi", new[] { "CSAmmunitionBox9mm", "CSMagazine10mmP90", "CSMagazine9mmPpsh" }, true),
@@ -55,7 +55,6 @@ public sealed class GunMagazineWhitelistTest
                 ("CSWeaponPistolAutomag", "CSMagazine44Automag", new[] { "CSAmmunitionBox44" }, true),
                 ("CSWeaponRifleScarL", "CSMagazine5mm", new[] { "CSAmmunitionBox5mm" }, true),
                 ("CSWeaponShotgunSaiga12", "CSMagazineSaiga", new[] { "CSAmmunitionBox50AE" }, false),
-                ("CSWeaponRifleMosin", "CSMagazine54RClip", new[] { "CSAmmunitionBox54R" }, true),
                 ("NFWeaponPistolMk58", null, new[] { "CSAmmunitionBox9mm", "CSMagazine9mmUzi" }, true),
                 ("NFWeaponSubMachineGunWt550", null, new[] { "CSAmmunitionBox10mm", "CSMagazine10mmP90" }, true),
             };
@@ -120,6 +119,103 @@ public sealed class GunMagazineWhitelistTest
                     $"Hristov internal magazine spawned {ammoEv.Count} rounds (expected 5) - the provider override dropped the parent's data");
                 Assert.That(ammoEv.Capacity, Is.EqualTo(5),
                     $"Hristov internal magazine capacity is {ammoEv.Capacity} (expected 5)");
+
+                foreach (var uid in spawned)
+                {
+                    entMan.DeleteEntity(uid);
+                }
+            });
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    /// <summary>
+    /// Palmtree: sweeps every CS magazine against every CS gun so a whitelist can never silently
+    /// accept a foreign magazine (the reported "SKS clip fits the Mosin/RPD" class of bugs).
+    /// </summary>
+    [Test]
+    public async Task EveryGunOnlyAcceptsItsOwnMagazines()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var entMan = server.ResolveDependency<IEntityManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var slotsSys = entMan.System<ItemSlotsSystem>();
+            var spawned = new List<EntityUid>();
+
+            EntityUid Spawn(string id)
+            {
+                var uid = entMan.SpawnEntity(id, MapCoordinates.Nullspace);
+                spawned.Add(uid);
+                return uid;
+            }
+
+            // Every CS magazine the sweep tries (base mags; variants inherit their parent's whitelist).
+            var allMags = new[]
+            {
+                "CSMagazine9mm", "CSMagazine9mmDs", "CSMagazine9mmUzi", "CSMagazine9mmPpsh",
+                "CSMagazine10mm", "CSMagazine10mmExt", "CSMagazine10mmP90",
+                "CSMagazine22Drum", "CSMagazine44", "CSMagazine44Automag", "CSMagazine357",
+                "CSMagazine50AE", "CSMagazine5mm",
+                "CSMagazine308", "CSMagazine308Ext", "CSMagazine308Rpd", "CSMagazine308Lewis",
+                "CSMagazine308Sks", "CSMagazine3006Clip", "CSMagazine54RClip", "CSMagazineSaiga",
+            };
+
+            // gun -> the only magazines from the list above it may accept
+            var allowed = new Dictionary<string, string[]>
+            {
+                ["CSWeaponSubMachineGunP90"] = new[] { "CSMagazine10mmP90" },
+                ["CSWeaponRifleAUGA10"] = new[] { "CSMagazine5mm" },
+                ["CSWeaponRifleScarL"] = new[] { "CSMagazine5mm" },
+                ["CSWeaponAssaultRifleAKM"] = System.Array.Empty<string>(), // NF magazines only
+                ["CSWeaponLightMachineGunBAR"] = new[] { "CSMagazine308", "CSMagazine308Ext" },
+                ["CSWeaponLightMachineGunM1919"] = new[] { "CSMagazine308Rpd" },
+                ["CSWeaponLightMachineGunRPD"] = new[] { "CSMagazine308Rpd" },
+                ["CSWeaponLightMachineGunDP27"] = new[] { "CSMagazine308Lewis" },
+                ["CSWeaponRifleSKS"] = new[] { "CSMagazine308Sks" },
+                ["CSWeaponSubMachineGunUzi"] = new[] { "CSMagazine9mmUzi" },
+                ["CSWeaponSubMachineGunMP5"] = new[] { "CSMagazine9mmUzi" },
+                ["CSWeaponSubMachineGunPPSh"] = new[] { "CSMagazine9mmPpsh" },
+                ["CSWeaponSubMachineGunAmerican180"] = new[] { "CSMagazine22Drum" },
+                ["CSWeaponRifleM1A1"] = new[] { "CSMagazine10mm", "CSMagazine10mmExt" },
+                ["CSWeaponRifleM1Garand"] = new[] { "CSMagazine3006Clip" },
+                ["CSWeaponShotgunSaiga12"] = new[] { "CSMagazineSaiga" },
+                ["CSWeaponPistolAutomag"] = new[] { "CSMagazine44", "CSMagazine44Automag" },
+                ["CSWeaponPistolHiPower"] = new[] { "CSMagazine9mm", "CSMagazine9mmDs" },
+                ["CSWeaponPistolM93R"] = new[] { "CSMagazine9mm", "CSMagazine9mmDs" },
+                ["CSWeaponPistolM9FS"] = new[] { "CSMagazine9mm", "CSMagazine9mmDs" },
+                ["CSWeaponPistolMakarov"] = new[] { "CSMagazine9mm", "CSMagazine9mmDs" },
+                ["CSWeaponPistolSkorpion"] = new[] { "CSMagazine9mm", "CSMagazine9mmDs" },
+                ["PSWeaponPistolDesertEagle"] = new[] { "CSMagazine50AE", "CSMagazine44", "CSMagazine44Automag", "CSMagazine357" },
+                ["PSWeaponRifleAssaultNovaliteC2"] = System.Array.Empty<string>(), // NF magazines only
+                ["NFWeaponRifleAssaultNovaliteC1"] = System.Array.Empty<string>(),
+                ["NFWeaponPistolMk58"] = System.Array.Empty<string>(),
+                ["NFWeaponSubMachineGunWt550"] = System.Array.Empty<string>(),
+            };
+
+            Assert.Multiple(() =>
+            {
+                foreach (var (gun, ok) in allowed)
+                {
+                    var gunUid = Spawn(gun);
+                    if (!slotsSys.TryGetSlot(gunUid, "gun_magazine", out var slot))
+                    {
+                        Assert.Fail($"{gun} has no gun_magazine slot");
+                        continue;
+                    }
+
+                    foreach (var magId in allMags)
+                    {
+                        var magUid = Spawn(magId);
+                        var canInsert = slotsSys.CanInsert(gunUid, magUid, null, slot, swap: true);
+                        var shouldInsert = System.Array.IndexOf(ok, magId) >= 0;
+                        Assert.That(canInsert, Is.EqualTo(shouldInsert),
+                            $"{gun} {(shouldInsert ? "rejected its own" : "accepted a foreign")} magazine {magId}");
+                    }
+                }
 
                 foreach (var uid in spawned)
                 {

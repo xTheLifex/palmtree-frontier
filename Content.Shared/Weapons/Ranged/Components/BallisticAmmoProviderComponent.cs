@@ -52,6 +52,11 @@ public sealed partial class BallisticAmmoProviderComponent : Component
     [ViewVariables(VVAccess.ReadWrite), DataField]
     public bool MayTransfer;
 
+    // Palmtree: stripper clips - transfer as many rounds as the target can take in one action
+    // instead of one round per repeat, so clips reload internal magazines faster than loose ammo.
+    [ViewVariables(VVAccess.ReadWrite), DataField]
+    public bool MayTransferAll;
+
     /// <summary>
     /// DoAfter delay for filling a bullet into another ballistic ammo provider.
     /// </summary>

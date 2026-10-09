@@ -155,6 +155,10 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/ninemil.ogg
+  - type: MagazineVisuals # Palmtree: magazine art from the BYOND source
+    magState: mag
+    steps: 2
+    zeroVisible: true
   - type: StaticPrice
     price: 2600
 
