@@ -20,6 +20,14 @@
   - type: Inventory
   # Synthetic physiology.
   - type: Synth
+  - type: PressureImmunity # Palmtree: sealed chassis - no barotrauma damage in vacuum
+  - type: DeadStartupButton # Palmtree: reboot a dead synth (EE IPC mechanic)
+    sound:
+      path: /Audio/_EE/Effects/Silicon/startup.ogg
+    rebootHeal: # Palmtree: small repair before the reboot check, like a defib zap (-50 per type)
+      groups:
+        Brute: -150
+        Burn: -150
   - type: Damageable
     damageContainer: Synth
     damageModifierSet: Synth
@@ -39,6 +47,12 @@
     currentTemperature: 310.15
     specificHeat: 42
     atmosTemperatureTransferEfficiency: 0.8
+  # Palmtree: fire is visual only. Lava and liquid plasma only ignite the chassis
+  # (FlammableReaction/Ignite tile effects), so zeroing the burn damage keeps synths unharmed.
+  - type: Flammable
+    damage:
+      types:
+        Heat: 0
   # Twice the speed of a normal person (defaults are 2.5 / 4.5).
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.75

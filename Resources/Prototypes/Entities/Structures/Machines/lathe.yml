@@ -370,6 +370,7 @@
     - BorgModulesStatic
     - BorgLimbsStatic
     - NFBorgChip # Frontier
+    - CSIPCTopicalsStatic # Palmtree: synthetic repair topicals
     dynamicPacks:
     - Robotics
     - BorgModules
@@ -570,6 +571,7 @@
     - NFSurgeryMedicalToolsStatic #Frontier
     - NFTopicalsStatic # Frontier
     - NFMedicalArchetypeStatic # Frontier
+    - CSIPCTopicalsStatic # Palmtree: synthetic repair topicals
     # dynamicPacks: # Frontier
     # - Chemistry # Frontier
   - type: Machine

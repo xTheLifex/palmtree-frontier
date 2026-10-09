@@ -1,0 +1,147 @@
+# Palmtree: synthetic healing topicals ported from coyote-bayou (_CS).
+# Adapted so they also work on the Synth damage container (and therefore our synths).
+
+- type: entity
+  name: repair patch
+  description: A sealed, single-use adhesive patch to patch up damaged areas. For synthetic use only.
+  parent: BaseHealingItem
+  id: RepairPatch
+  suffix: Full
+  components:
+  - type: Tag
+    tags:
+    - RepairPatch
+  - type: Sprite
+    sprite: _CS/Objects/Specific/Medical/robotopicals.rsi
+    state: synth_patch
+  - type: Construction
+    graph: RepairPatch
+    node: repairpatch
+  - type: StaticPrice
+    vendPrice: 3000
+  - type: Healing
+    delay: 2
+    damageContainers:
+    - Silicon
+    - Synth # Palmtree: our synth species
+    damage:
+      types:
+        Piercing: -20
+        Slash: -20
+        Blunt: -20
+    bloodlossModifier: -8 # doesn't stop open hemorrhaging
+    healingBeginSound:
+      path: "/Audio/Items/Medical/brutepack_begin.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+    healingEndSound:
+      path: "/Audio/Items/Medical/brutepack_end.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+  - type: Stack
+    stackType: RepairPatch
+    count: 10
+  - type: StackPrice
+    price: 5
+
+- type: entity
+  id: RepairPatch1
+  parent: RepairPatch
+  suffix: Single
+  components:
+  - type: Stack
+    stackType: RepairPatch
+    count: 1
+
+- type: entity
+  name: repair spray
+  description: A single-use spray gun to fill damaged areas with polyurethane-based expanding foam. For synthetic use only.
+  parent: BaseHealingItem
+  id: RepairSpray
+  components:
+  - type: Tag
+    tags:
+    - Ointment
+  - type: Sprite
+    sprite: _CS/Objects/Specific/Medical/robotopicals.rsi
+    state: robofoam
+  - type: Item
+    shape:
+    - 0,0,1,0
+  - type: StaticPrice
+    vendPrice: 5000
+  - type: Healing
+    delay: 1
+    damageContainers:
+    - Silicon
+    - Synth # Palmtree: our synth species
+    damage:
+      types:
+        Cold: -45
+        Heat: -45
+        Shock: -45
+        Bloodloss: -30
+    bloodlossModifier: -10 # stops bleeding
+    modifyBloodLevel: 50 # restores a lot of internal fluid
+    healingBeginSound:
+      path: "/Audio/Items/canopen.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+    healingEndSound:
+      path: "/Audio/Items/hiss.ogg"
+      params:
+        volume: 1.0
+        variation: 0.125
+
+- type: entity
+  name: arcadian repair spray
+  description: An unwieldy and obnoxiously large version of the single-use spray gun. This one features all the arcadian colors, albeit with a lot more warnings.
+  parent: [ BaseHealingItem, RepairSpray ]
+  id: RepairSprayPlus
+  components:
+  - type: MultiHandedItem
+  - type: Tag
+    tags:
+    - Brutepack
+  - type: Sprite
+    sprite: _CS/Objects/Specific/Medical/robotopicals.rsi
+    state: robofoam_super
+  - type: Item
+    size: Ginormous
+  - type: Healing
+    delay: 25
+    damageContainers:
+    - Silicon
+    - Synth # Palmtree: our synth species
+    damage:
+      types:
+        Cold: -900
+        Heat: -900
+        Shock: -900
+        Radiation: -250
+        Bloodloss: -600
+    bloodlossModifier: -25
+    modifyBloodLevel: 90
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: RepairPatch
+  materials:
+    Steel: 250
+    Plastic: 100
+  result: RepairPatch1
+  completetime: 5
+
+- type: latheRecipe
+  parent: BaseToolRecipe
+  id: RepairSpray
+  materials:
+    Steel: 500
+    Plastic: 500
+    Gold: 500
+    Silver: 500
+  result: RepairSpray
+  completetime: 10

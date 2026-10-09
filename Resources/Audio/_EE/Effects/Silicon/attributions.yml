@@ -1,0 +1,4 @@
+- files: ["startup.ogg"]
+  license: "Custom"
+  copyright: "Startup sound ported from the EinsteinEngines fork (via coyote-bayou) for the synth reboot mechanic."
+  source: "https://github.com/Simple-Station/Einstein-Engines"

@@ -171,9 +171,31 @@ Properties:
 - **Temperature immunity**: `Temperature heatDamageThreshold: 4000` (only a 4000K+ plasma fire
   damages them; cold threshold 0 and `Cold: 0`). Temperature damage ignores resistances, so the
   `Heat: 1.5` modifier only affects direct fire/burn damage.
-- **Drinks anything**: `OrganSynthEyes` metabolizes Food/Drink/Medicine/Cryogenic/Narcotic/Alcohol
-  with `skipEffects: true`; `OrganSynthPump` does the same for Poison, so no reagent has any effect
-  on a synth (reagents are still metabolized/removed).
+- **No reagent effects**: `OrganSynthEyes` metabolizes Food/Drink/Medicine/Cryogenic/Narcotic/Alcohol
+  with `skipEffects: true` and `OrganSynthPump` covers Poison/Gas the same way, and
+  `MetabolizerSystem` additionally skips all reagent effects for any body with `SynthComponent`
+  (annotated patch). So food, medicine and poisons do nothing to a synth, good or bad - reagents are
+  still metabolized/removed.
+- **No hunger or thirst, but can eat**: synths have no `Hunger`/`Thirst` components, so they never
+  need to eat and cannot starve. They do have a `stomach: OrganSynthStomach` ("nutrient tank", human
+  stomach sprite as a placeholder) in the body prototype, so eating and drinking work if the player
+  wants to - the MetabolizerSystem guard means it has no effects either way.
+- **Space-proof**: `PressureImmunity` on `BaseMobSynth` sets `BarotraumaComponent.HasImmunity`, so
+  the sealed chassis takes no low-pressure damage in vacuum (on top of the breathing skip and the
+  `Cold: 0` damage modifier).
+- **Fire, lava and liquid plasma are harmless**: `BaseMobSynth` overrides `Flammable.damage` with
+  `Heat: 0`, so being set on fire is purely visual. Lava and liquid plasma only apply
+  `FlammableReaction`/`Ignite` tile effects (no direct damage), so a synth standing in either just
+  catches fire cosmetically. The `Temperature` threshold (4000K) covers environmental heat.
+- **Synthetic repair topicals**: `RepairPatch`, `RepairSpray` and `RepairSprayPlus`
+  (`_CS/Entities/Objects/Specific/Medical/healing.yml`, ported from coyote-bayou with the `Synth`
+  damage container added) cover brute, burn, cold, shock, radiation and bloodloss. They print from
+  the medical/exosuit/mercenary techfabs (`CSIPCTopicalsStatic` pack) and the patch can also be
+  hand-crafted (steel + cable construction graph).
+- **Reboot**: `DeadStartupButton` on `BaseMobSynth` adds a "Reboot" verb to a dead synth
+  (`Content.{Shared,Server}/_PS/Synth/DeadStartupButton/`, ported from the EE IPC mechanic via
+  coyote-bayou). It applies a small repair first (like a defib zap) and revives the synth if the
+  remaining damage is below the death threshold, otherwise the chassis is "way too damaged".
 - **Silicon parts**: the Synth body uses `_EE/Mobs/Species/IPC/parts.rsi` sprites (robot limbs/head),
   `Inorganic` damage container on parts, and synthetic organs (`OrganSynthEyes`, `OrganSynthPump`,
   `OrganSynthBrain`, plus unused `OrganSynthTongue`/`OrganSynthEars`). Base sprites default to the

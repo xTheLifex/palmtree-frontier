@@ -351,6 +351,7 @@
     - NfsdPracticeStatic
     - NFMercenaryMagazineStatic
     - NFTopicalsStatic
+    - CSIPCTopicalsStatic # Palmtree: synthetic repair topicals
     - NFMercenaryArchetypeStatic
     - NFMercenaryArchetypeMeleeStatic
 

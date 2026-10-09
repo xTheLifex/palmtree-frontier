@@ -19,6 +19,7 @@
       organs:
         posbrain: OrganSynthBrain
         pump: OrganSynthPump
+        stomach: OrganSynthStomach # Palmtree: lets synths eat (they still don't need to)
     right_arm:
       part: RightArmSynth
       connections:

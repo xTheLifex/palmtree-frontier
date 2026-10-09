@@ -58,6 +58,22 @@
     state: tongue
 
 - type: entity
+  id: OrganSynthStomach
+  parent: BaseSynthOrgan
+  name: nutrient tank
+  description: "A tank where food and drink are broken down. Synths do not need to eat, but they can."
+  components:
+  # Palmtree: placeholder sprite - the IPC organ set has no stomach art yet.
+  - type: Sprite
+    sprite: Mobs/Species/Human/organs.rsi
+    state: stomach
+  - type: SolutionContainerManager
+    solutions:
+      stomach:
+        maxVol: 50
+  - type: Stomach
+
+- type: entity
   id: OrganSynthEars
   parent: BaseSynthOrgan
   name: sonic receptors
@@ -81,6 +97,8 @@
     groups:
     - id: Poison
       skipEffects: true # Palmtree: synths drink anything with no consequence
+    - id: Gas
+      skipEffects: true # Palmtree: gases do nothing to synths either
     removeEmpty: true
 
 - type: entity

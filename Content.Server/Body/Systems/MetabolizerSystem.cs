@@ -1,4 +1,5 @@
 using Content.Server.Body.Components;
+using Content.Shared._PS.Synth; // Palmtree
 using Content.Shared.Administration.Logs;
 using Content.Shared.Body.Events;
 using Content.Shared.Body.Organ;
@@ -179,6 +180,11 @@ namespace Content.Server.Body.Systems
                     if (group.SkipEffects)
                         continue;
                     // End Frontier
+
+                    // Palmtree: synths metabolize reagents but never suffer or benefit from their
+                    // effects - food, medicine and poisons all do nothing to them.
+                    if (HasComp<SynthComponent>(ent.Comp2?.Body ?? solutionEntityUid.Value))
+                        continue;
 
                     float scale = (float) mostToRemove / (float) rate;
 
