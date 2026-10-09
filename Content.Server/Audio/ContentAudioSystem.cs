@@ -6,6 +6,7 @@ using Content.Shared.Audio.Events;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Robust.Server.Audio;
+using Robust.Server.Player;
 using Robust.Shared.Audio;
 using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
@@ -20,9 +21,16 @@ public sealed class ContentAudioSystem : SharedContentAudioSystem
     [Dependency] private readonly IRobustRandom _robustRandom = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
 
     private SoundCollectionPrototype? _lobbyMusicCollection = default!;
     private string[]? _lobbyPlaylist;
+
+    // Palmtree: admin debug command - while true, round ends keep the forced playlist.
+    private bool _forcedLobbyPlaylist;
+
+    /// <summary> Palmtree: whether an admin has forced the lobby playlist (debug). </summary>
+    public bool LobbyPlaylistForced => _forcedLobbyPlaylist;
 
     public override void Initialize()
     {
@@ -90,8 +98,45 @@ public sealed class ContentAudioSystem : SharedContentAudioSystem
         // because ShowRoundEndScoreboard triggers the start of the music playing
         // at the end of a round, and this needs to be set before RestartRound
         // in order for the lobby song status display to be accurate.
+        if (!_forcedLobbyPlaylist) // Palmtree: keep an admin-forced playlist across rounds
+            _lobbyPlaylist = ShuffleLobbyPlaylist();
+        RaiseNetworkEvent(new LobbyPlaylistChangedEvent(_lobbyPlaylist ?? []));
+    }
+
+    // Palmtree: admin debug command support - force a fixed playlist until it is cleared.
+    public void ForceLobbyPlaylist(string[] playlist)
+    {
+        _lobbyPlaylist = playlist;
+        _forcedLobbyPlaylist = true;
+        SendLobbyPlaylistToLobby();
+    }
+
+    // Palmtree: admin debug command support - clear the force and shuffle the configured collection.
+    public void ClearForcedLobbyPlaylist()
+    {
+        _forcedLobbyPlaylist = false;
         _lobbyPlaylist = ShuffleLobbyPlaylist();
-        RaiseNetworkEvent(new LobbyPlaylistChangedEvent(_lobbyPlaylist));
+        SendLobbyPlaylistToLobby();
+    }
+
+    // Palmtree: only tell clients waiting in the lobby - sending the playlist to in-game clients
+    // would start lobby music mid-round.
+    private void SendLobbyPlaylistToLobby()
+    {
+        var ticker = EntityManager.System<GameTicker>();
+        var playlist = _lobbyPlaylist ?? [];
+
+        foreach (var session in _playerManager.Sessions)
+        {
+            // NotReadyToPlay / ReadyToPlay are both pre-round lobby states; JoinedGame is in-round.
+            if (!ticker.PlayerGameStatuses.TryGetValue(session.UserId, out var status) ||
+                status == PlayerGameStatus.JoinedGame)
+            {
+                continue;
+            }
+
+            RaiseNetworkEvent(new LobbyPlaylistChangedEvent(playlist), session);
+        }
     }
 
     private string[] ShuffleLobbyPlaylist()

@@ -1,0 +1,14 @@
+- files: ["welcometoourworld.ogg"]
+  license: "Custom"
+  copyright: "Welcome to our world by Digital Insanity. Ported from coyote-bayou."
+  source: "https://www.youtube.com/watch?v=0dCPcdpRUkA"
+
+- files: ["NI4NI.ogg"]
+  license: "Custom"
+  copyright: "NI4NI by Vylet Pony. Ported from coyote-bayou."
+  source: "https://youtu.be/Yiy-plVqG64"
+
+- files: ["unrealsuperhero.ogg"]
+  license: "Custom"
+  copyright: "Unreal Superhero 3 by Kenët & Rez. Ported from coyote-bayou."
+  source: "https://modarchive.org/module.php?149252"

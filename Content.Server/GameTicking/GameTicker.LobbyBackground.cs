@@ -11,6 +11,11 @@ public sealed partial class GameTicker
     [ViewVariables]
     public string? LobbyBackground { get; private set; }
 
+    // Palmtree: forced lobby background (admin debug command); while set, the automatic rotation
+    // is paused until the override is cleared.
+    [ViewVariables]
+    public string? LobbyBackgroundOverride { get; private set; }
+
     [ViewVariables]
     private List<ResPath>? _lobbyBackgrounds;
 
@@ -31,9 +36,28 @@ public sealed partial class GameTicker
     // Palmtree/Coyote: cycles the lobby background and tells clients to refresh it.
     private void CycleLobbyBackground()
     {
+        if (LobbyBackgroundOverride != null)
+            return;
+
         if (_lobbyBackgrounds == null || _lobbyBackgrounds.Count == 0)
             return;
 
+        RandomizeLobbyBackground();
+        SendStatusToAll();
+    }
+
+    // Palmtree: admin command support - force a lobby background until the override is cleared.
+    public void SetLobbyBackgroundOverride(string path)
+    {
+        LobbyBackgroundOverride = path;
+        LobbyBackground = path;
+        SendStatusToAll();
+    }
+
+    // Palmtree: admin command support - clear the forced background and resume the rotation.
+    public void ClearLobbyBackgroundOverride()
+    {
+        LobbyBackgroundOverride = null;
         RandomizeLobbyBackground();
         SendStatusToAll();
     }

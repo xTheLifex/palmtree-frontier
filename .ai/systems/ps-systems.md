@@ -41,6 +41,17 @@ How it works:
 - Backgrounds + music: `Resources/Prototypes/_PS/lobby.yml` (21 `lobbyBackground` prototypes plus the
   `PSLobbyMusic` sound collection), textures `Resources/Textures/_PS/Lobby/*`, audio
   `Resources/Audio/_PS/Lobby/*`.
+- **Track credits**: the lobby's "Playing: X by Y" line reads the ogg's Vorbis `title`/`artist`
+  comments (`LobbyState.UpdateLobbySoundtrackInfo`), not the attribution files. A track converted
+  without those comments shows "Unknown title/artist" - set both when adding one (mutagen,
+  ffmpeg/oggenc, vorbiscomment). Fork tracks are attributed in
+  `Resources/Audio/_PS/Lobby/attributions.yml`.
+- **Debug commands** (`AdminFlags.Debug`, in `Content.Server/_PS/Commands/`):
+  - `setlobbybackground <lobbyBackgroundId | reset>` - forces a background and pauses the 30s
+    rotation until reset (`GameTicker.LobbyBackgroundOverride`).
+  - `setlobbymusic <trackPath | soundCollectionId | reset>` - forces a single track or a whole
+    collection until reset; the force survives round ends, and only clients currently in the lobby
+    are notified (in-game clients never start lobby music mid-round).
 - Music selection: `audio.lobby_music_collection` CVar default was changed to `PSLobbyMusic` in
   `Content.Shared/CCVar/CCVars.Audio.cs`.
 - Rotation: `Content.Server/GameTicking/GameTicker.LobbyBackground.cs` re-rolls the background every
