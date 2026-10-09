@@ -2,6 +2,7 @@
   id: RMCHumanHairCrew
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_crewcut
@@ -10,6 +11,7 @@
   id: RMCHumanHairFlair
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_flair
@@ -18,6 +20,7 @@
   id: RMCHumanHairLongerAlt
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_vlongfringe
@@ -26,6 +29,7 @@
   id: RMCHumanHairLongestAlt
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_longest
@@ -34,6 +38,7 @@
   id: RMCHumanHairPonytail1
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail
@@ -42,6 +47,7 @@
   id: RMCHumanHairPonytail4
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail4
@@ -50,6 +56,7 @@
   id: RMCHumanHairPonytailRough
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail_rough
@@ -58,6 +65,7 @@
   id: RMCHumanHairSidePonytail
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_stail
@@ -66,6 +74,7 @@
   id: RMCHumanHairCleancut
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_cleancut
@@ -74,6 +83,7 @@
   id: RMCHumanHairBob
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_bobcut
@@ -82,6 +92,7 @@
   id: RMCHumanHairBuzz
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_buzzcut
@@ -90,6 +101,7 @@
   id: RMCHumanHairTall
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_buzzcut_tall
@@ -98,6 +110,7 @@
   id: RMCHumanHairDreadlocks
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_dreads
@@ -106,6 +119,7 @@
   id: RMCHumanHairAfroLarge
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_bigafro
@@ -114,6 +128,7 @@
   id: RMCHumanHairSargeant
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_sargeant
@@ -122,6 +137,7 @@
   id: RMCHumanHairEmo
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_emo
@@ -130,6 +146,7 @@
   id: RMCHumanHairShortOvereye
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_shortovereye
@@ -138,6 +155,7 @@
   id: RMCHumanHairLongOvereye
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_longovereye
@@ -146,6 +164,7 @@
   id: RMCHumanHairMohawk
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mohawk
@@ -154,6 +173,7 @@
   id: RMCHumanHairSpiky
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_spikey
@@ -162,6 +182,7 @@
   id: RMCHumanHairKusanagi
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_kusanagi
@@ -170,6 +191,7 @@
   id: RMCHumanHairBraid
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_braid
@@ -178,6 +200,7 @@
   id: RMCHumanHairMediumBraid
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_shortbraid
@@ -186,6 +209,7 @@
   id: RMCHumanHairBraid2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_hbraid
@@ -194,6 +218,7 @@
   id: RMCHumanHairOdango
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_odango
@@ -202,6 +227,7 @@
   id: RMCHumanHairSkinhead
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_skinhead
@@ -210,6 +236,7 @@
   id: RMCHumanHairFamilyman
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_thefamilyman
@@ -218,6 +245,7 @@
   id: RMCHumanHairMahdrills
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_drillruru
@@ -226,6 +254,7 @@
   id: RMCHumanHairCrono
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_toriyama
@@ -234,6 +263,7 @@
   id: RMCHumanHairVegeta
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_toriyama2
@@ -242,6 +272,7 @@
   id: RMCHumanHairScully
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_scully
@@ -250,6 +281,7 @@
   id: RMCHumanHairNitori
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_nitori
@@ -258,6 +290,7 @@
   id: RMCHumanHairJoestar
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_joestar
@@ -266,6 +299,7 @@
   id: RMCHumanHairFlatTopFade
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mflattopfade
@@ -274,6 +308,7 @@
   id: RMCHumanHairHighAndTight
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mhighandtight
@@ -282,6 +317,7 @@
   id: RMCHumanHairIceman
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_miceman
@@ -290,6 +326,7 @@
   id: RMCHumanHairPvtJoker
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mjoker
@@ -298,6 +335,7 @@
   id: RMCHumanHairLtRasczak
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mrasczak
@@ -306,6 +344,7 @@
   id: RMCHumanHairMarineFade
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mmarinefade
@@ -314,6 +353,7 @@
   id: RMCHumanHairMarineMohawk
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mmarinemohawk
@@ -322,6 +362,7 @@
   id: RMCHumanHairMullet
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mmullet
@@ -330,6 +371,7 @@
   id: RMCHumanHairWardaddy
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mwardaddy
@@ -338,6 +380,7 @@
   id: RMCHumanHairMarineFlatTop
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_uflat
@@ -346,6 +389,7 @@
   id: RMCHumanHairCornRows
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fcornrows
@@ -354,6 +398,7 @@
   id: RMCHumanHairPixieCutLeft
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fpixieleft
@@ -362,6 +407,7 @@
   id: RMCHumanHairPixieCutRight
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fpixieright
@@ -370,6 +416,7 @@
   id: RMCHumanHairPvtRedding
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fredding
@@ -378,6 +425,7 @@
   id: RMCHumanHairPvtClarison
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fbella
@@ -386,6 +434,7 @@
   id: RMCHumanHairCplDietrich
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fdietrich
@@ -394,6 +443,7 @@
   id: RMCHumanHairPvtVasquez
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fvasquez
@@ -402,6 +452,7 @@
   id: RMCHumanHairMarineBun
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fbun
@@ -410,6 +461,7 @@
   id: RMCHumanHairMarineBun2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fbun2
@@ -418,6 +470,7 @@
   id: RMCHumanHairShavedHead
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ushaved
@@ -426,6 +479,7 @@
   id: RMCHumanHairHeadStubble
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ustubble
@@ -434,6 +488,7 @@
   id: RMCHumanHairPonytail6
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail6
@@ -442,6 +497,7 @@
   id: RMCHumanHairPonytail7
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail7
@@ -450,6 +506,7 @@
   id: RMCHumanHairBun
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_bun
@@ -458,6 +515,7 @@
   id: RMCHumanHairShavedbun
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_shavedbun
@@ -466,6 +524,7 @@
   id: RMCHumanHairBunTopknot
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_bun_topknot
@@ -474,6 +533,7 @@
   id: RMCHumanHairBunMan
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_bun_manbun
@@ -482,6 +542,7 @@
   id: RMCHumanHairSleeze
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_sleeze
@@ -490,6 +551,7 @@
   id: RMCHumanHairRows1
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_rows1
@@ -498,6 +560,7 @@
   id: RMCHumanHairRows2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_rows2
@@ -506,6 +569,7 @@
   id: RMCHumanHairNofade
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_nofade
@@ -514,6 +578,7 @@
   id: RMCHumanHairCoffeehouse
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_coffeehouse
@@ -522,6 +587,7 @@
   id: RMCHumanHairUndercutTop
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_undercuttop
@@ -530,6 +596,7 @@
   id: RMCHumanHairHightight
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_hightight
@@ -538,6 +605,7 @@
   id: RMCHumanHairFringetail
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_fringetail
@@ -546,6 +614,7 @@
   id: RMCHumanHairRowbun
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_rowbun
@@ -554,6 +623,7 @@
   id: RMCHumanHairRowDualTail
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_rowdualtail
@@ -562,6 +632,7 @@
   id: RMCHumanHairThinning
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_thinning
@@ -570,6 +641,7 @@
   id: RMCHumanHairThinningrear
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_thinningrear
@@ -578,6 +650,7 @@
   id: RMCHumanHairThinningfront
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_thinningfront
@@ -586,6 +659,7 @@
   id: RMCHumanHairAverageJoe
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_averagejoe
@@ -594,6 +668,7 @@
   id: RMCHumanHairMohawkShaved
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mohawkshaved
@@ -602,6 +677,7 @@
   id: RMCHumanHairMohawkShaved2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mohawkshaved2
@@ -610,6 +686,7 @@
   id: RMCHumanHairMohawkShaved3
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_mohawkshavednaomi
@@ -618,6 +695,7 @@
   id: RMCHumanHairSideUndercut
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_sideundercut
@@ -626,6 +704,7 @@
   id: RMCHumanHairSideUndercutHang
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_sidehangundercut
@@ -634,6 +713,7 @@
   id: RMCHumanHairSideUndercutReverse
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_reversesidehangundercut
@@ -642,6 +722,7 @@
   id: RMCHumanHairGentle2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_gentle2
@@ -650,6 +731,7 @@
   id: RMCHumanHairFlair2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_flair2
@@ -658,6 +740,7 @@
   id: RMCHumanHairScully2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_scully2
@@ -666,6 +749,7 @@
   id: RMCHumanHairScully2Alt
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_scully2alt
@@ -674,6 +758,7 @@
   id: RMCHumanHairPonytail8
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail8
@@ -682,6 +767,7 @@
   id: RMCHumanHairChelsea
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelsea
@@ -690,6 +776,7 @@
   id: RMCHumanHairChelseaSmallHawk
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelsea_smallhawk
@@ -698,6 +785,7 @@
   id: RMCHumanHairChelseaPonytail
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelsea_ponytail
@@ -706,6 +794,7 @@
   id: RMCHumanHairChelseaFringe
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelseafringe
@@ -714,6 +803,7 @@
   id: RMCHumanHairChelseaSmallHawkFringe
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelseafringe_smallhawk
@@ -722,6 +812,7 @@
   id: RMCHumanHairChelseaBigHawkFringe
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelseafringe_bighawk
@@ -730,6 +821,7 @@
   id: RMCHumanHairChelseaPonytailFringe
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_punk_chelseafringe_ponytail
@@ -738,6 +830,7 @@
   id: RMCHumanHairOxton
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_oxton
@@ -746,6 +839,7 @@
   id: RMCHumanHairRowBraid
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_row_braid
@@ -754,6 +848,7 @@
   id: RMCHumanHairCroft
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_croft
@@ -762,6 +857,7 @@
   id: RMCHumanHairAviator
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_aviator
@@ -770,6 +866,7 @@
   id: RMCHumanHairGentlePonytail
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_gentleponytail
@@ -778,6 +875,7 @@
   id: RMCHumanHairEdgar
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_edgar
@@ -786,6 +884,7 @@
   id: RMCHumanHairEmobun
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_emobun
@@ -794,6 +893,7 @@
   id: RMCHumanHairTaper
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_taper
@@ -802,6 +902,7 @@
   id: RMCHumanHairGentlebraid
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_braid3
@@ -810,6 +911,7 @@
   id: RMCHumanHairLongMessy
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_longmessy
@@ -818,6 +920,7 @@
   id: RMCHumanHairPulatoLong
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_pulatolong
@@ -826,6 +929,7 @@
   id: RMCHumanHairPulatoLong2
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_pulatolong2
@@ -834,6 +938,7 @@
   id: RMCHumanHairPonytail9
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_ponytail9
@@ -842,6 +947,7 @@
   id: RMCHumanHairShavedKnot
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_shavedknot
@@ -850,6 +956,7 @@
   id: RMCHumanHairHolly
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_holly
@@ -858,6 +965,7 @@
   id: RMCHumanHairHollyShaved
   bodyPart: Hair
   markingCategory: Hair
+  kindAllowance: [BasicHumanlike, BasicFurry, BasicRobot, VoxLike] # Palmtree: allow all markings
   sprites:
     - sprite: _RMC14/Mobs/Customization/human_hair.rsi
       state: hair_hollyshaved

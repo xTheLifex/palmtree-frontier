@@ -33,6 +33,7 @@ public sealed class GunMagazineWhitelistTest
                 ("CSWeaponRifleAUGA10", "CSMagazine5mm", new[] { "CSAmmunitionBox5mm", "CSMagazine9mmUzi" }, true),
                 ("CSWeaponAssaultRifleAKM", "NFMagazineRifle30", new[] { "CSAmmunitionBox308", "CSMagazine5mm" }, true),
                 ("NFWeaponRifleAssaultNovaliteC1", "NFMagazineClipRifle20", new[] { "CSAmmunitionBox22", "CSMagazine5mm" }, true),
+                ("PSWeaponRifleAssaultNovaliteC2", "NFMagazineRifle20", new[] { "NFAmmunitionBoxRifle20", "CSMagazine5mm" }, true),
                 ("CSWeaponSubMachineGunUzi", "CSMagazine9mmUzi", new[] { "CSAmmunitionBox9mm", "CSMagazine10mmP90" }, true),
                 ("CSWeaponRifleM1Garand", "CSMagazine3006Clip", new[] { "CSAmmunitionBox3006" }, true),
                 ("CSWeaponPistolAutomag", "CSMagazine44Automag", new[] { "CSAmmunitionBox44" }, true),

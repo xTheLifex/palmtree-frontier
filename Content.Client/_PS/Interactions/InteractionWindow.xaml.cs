@@ -337,7 +337,8 @@ public sealed partial class InteractionWindow : FancyWindow
             visibility.AddItem(Loc.GetString("genital-visibility-hidden-by-jumpsuit"), (int) GenitalVisibility.HiddenByJumpsuit);
             visibility.AddItem(Loc.GetString("genital-visibility-never-hidden"), (int) GenitalVisibility.NeverHidden);
             visibility.SelectId((int) genital.Visibility);
-            visibility.Disabled = !genital.CanToggleArousal;
+            // Palmtree: visibility is independent of arousal; only the arousal toggle is limited to
+            // organs that have an aroused state.
             visibility.OnItemSelected += args =>
             {
                 visibility.SelectId(args.Id);

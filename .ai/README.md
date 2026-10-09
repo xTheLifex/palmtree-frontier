@@ -93,6 +93,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/systems/marking-and-appearance.md` | Marking system, genital markings, digitigrade, base layers, kindAllowance, ModifyUndies |
 | `.ai/systems/ps-systems.md` | Lobby screens/music/crossfade, concealable clothing implant, weapons |
 | `.ai/systems/frontier-nf-systems.md` | Bank/market/shipyard/cargo/sectors/cryo/pirates |
+| `.ai/systems/dungeons.md` | Procedural dungeons/salvage: `DungeonSystem`, dungeon configs/room packs/themes, expeditions and bluespace events |
 | `.ai/systems/hilbert-hotel.md` | Hilbert's Hotel: runtime room maps, room codes, locking, guest lists |
 | `.ai/systems/player-character-and-jobs.md` | Sessions, minds, profiles, species, jobs/loadouts, ghosts, antags |
 | `.ai/systems/consent-and-erp.md` | Consent status (not ported), ERP feature set, how to add consent later |
@@ -107,6 +108,7 @@ Fork modules are folder/namespace prefixes:
 | `.ai/guides/adding-species.md` | Adding/porting a species with body, layers, markings, speech |
 | `.ai/guides/adding-loadouts.md` | Adding loadouts, their items, and group wiring |
 | `.ai/guides/adding-hotel-rooms.md` | Adding Hilbert's Hotel room maps + archetype prototypes |
+| `.ai/guides/adding-dungeons.md` | Adding dungeon rooms, themes/room packs, `dungeonConfig` wiring and rare boss arenas |
 | `.ai/guides/changelogs.md` | Changelog YAML authoring + `:cl:` automation for this fork |
 | `.ai/ideas/README.md` | Proposed (unimplemented) feature designs, e.g. `highroller-table.md` (Buckshot Roulette) |
 
@@ -145,6 +147,10 @@ Fork modules are folder/namespace prefixes:
 6. Upstream files are patched in-place by forks (`// Frontier`, `// Coyote`, `// Palmtree` markers).
    Prefer `_PS`/`_Floof` modules and partial classes; when touching a core file, preserve marker
    comments so the patch remains identifiable and minimal.
+7. **Asset placement:** new fork assets (audio, textures, UI art) live under the matching `_PS`
+   resource folders (`Resources/Audio/_PS`, `Resources/Textures/_PS`, ...). Only content ported from
+   another source keeps that source's prefix (`_CS`, `_NF`, `_DV`, ...). Repoint references instead
+   of adding new files to upstream folders.
 
 ## 7. Most important hazards (details in `.ai/HAZARDS.md`)
 

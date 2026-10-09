@@ -15,6 +15,9 @@ targeted port of Coyote/Floof ERP + marking systems. The old base lives in a sep
 2. **New Palmtree code goes under `_PS`** (`Content.Server/_PS`, `Content.Shared/_PS`,
    `Content.Client/_PS`, `Resources/Prototypes/_PS`, ...). Ported fork code keeps its original prefix
    (`_Floof`, `_CS`, `_DEN`, `_EE`, `_White`, `_Starlight`, `_DV`).
+   **Assets follow the same law:** new audio/textures/UI go under `Resources/Audio/_PS`,
+   `Resources/Textures/_PS`, etc.; ported content keeps its source prefix (`_CS`, `_NF`, ...).
+   Never add new files to upstream resource folders — repoint references instead.
 3. **Do not commit unless the user asks.** The maintainer tests in-game first and often wants changes
    left in the working tree.
 4. `.ai/` is the repository's memory. Read it before large changes and update it in the same change

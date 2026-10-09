@@ -1,0 +1,52 @@
+# Palmtree: upgraded Novalite. Same frame and sprites as the C1 (NFWeaponRifleAssaultNovaliteC1)
+# with the CSS sound set and a widened magazine well that accepts the standard .20 rifle
+# magazines and drums in addition to the en-bloc clip.
+
+- type: entity
+  id: PSWeaponRifleAssaultNovaliteC2
+  parent: [ NFBaseWeaponRifleAssaultChamber20Clip, NFBaseWeaponFrameRifleAssaultFrontierGunsmith ]
+  name: Novalite C2
+  description: |-
+    An upgraded Novalite with a reworked magazine well. Takes en-bloc clips as well as standard .20 rifle magazines.
+  components:
+  - type: Sprite
+    sprite: _NF/Objects/Weapons/Guns/Rifles/novalitec1.rsi
+  - type: Clothing
+    sprite: _NF/Objects/Weapons/Guns/Rifles/novalitec1.rsi
+  - type: Gun
+    selectedMode: SemiAuto
+    availableModes:
+      - SemiAuto
+    fireRate: 6.4
+    soundGunshot:
+      path: /Audio/_PS/Weapons/Guns/Gunshots/m4a1.ogg
+  - type: ChamberMagazineAmmoProvider
+    soundRack:
+      path: /Audio/_PS/Weapons/Guns/Bolt/m4a1_boltpull.ogg
+    soundBoltOpened:
+      path: /Audio/_PS/Weapons/Guns/Bolt/m4a1_boltpull.ogg
+    soundBoltClosed:
+      path: /Audio/_PS/Weapons/Guns/Bolt/m4a1_boltpull.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: NFMagazineRifle20
+        insertSound: /Audio/_PS/Weapons/Guns/MagIn/m4a1_clipin.ogg
+        ejectSound: /Audio/_PS/Weapons/Guns/MagOut/m4a1_clipout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - NFMagazineClipRifle20
+          - NFMagazineRifle20
+          - NFMagazineDrumRifle20
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: NFCartridgeRifle20
+        priority: 1
+        whitelist:
+          tags:
+          - NFCartridgeRifle20
+  - type: GunDamageMultiplier
+    multiplier: 1.25

@@ -12,12 +12,12 @@
   - type: Gun # Palmtree: CSS sound set, 2x fire rate
     fireRate: 1.6
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/awp.ogg
+      path: /Audio/_PS/Weapons/Guns/Gunshots/awp.ogg
   - type: BallisticAmmoProvider # Palmtree: CSS sound set
     soundInsert:
-      path: /Audio/Weapons/Guns/MagIn/awp_clipin.ogg
+      path: /Audio/_PS/Weapons/Guns/MagIn/awp_clipin.ogg
     soundRack:
-      path: /Audio/Weapons/Guns/Bolt/awp_bolt.ogg
+      path: /Audio/_PS/Weapons/Guns/Bolt/awp_bolt.ogg
   - type: GunDamageMultiplier # Palmtree: 3.0x damage
     multiplier: 3.0
 

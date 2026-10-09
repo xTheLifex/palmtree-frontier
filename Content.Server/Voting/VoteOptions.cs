@@ -1,4 +1,5 @@
 using Content.Server.Voting.Managers;
+using Content.Shared.Voting;
 using Robust.Shared.Player;
 
 namespace Content.Server.Voting
@@ -53,6 +54,12 @@ namespace Content.Server.Voting
         ///     Whether the vote should have an entity attached to it, to be used for things like letting ghosts follow it. 
         /// </summary>
         public NetEntity? TargetEntity = null;
+
+        /// <summary>
+        ///     Palmtree: which vote sound cues to broadcast to all clients. Defaults to none so
+        ///     standard votes keep their existing sounds.
+        /// </summary>
+        public VoteSoundMode SoundMode = VoteSoundMode.None;
 
         /// <summary>
         ///     Sets <see cref="InitiatorPlayer"/> and <see cref="InitiatorText"/>

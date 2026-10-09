@@ -38,6 +38,8 @@ interaction-require-user-mouth = You need a free mouth.
 interaction-require-target-mouth = They need a free mouth.
 interaction-require-user-hands = You need hands.
 interaction-require-target-hands = They need hands.
+interaction-require-user-exposed = You need to be exposed.
+interaction-require-target-exposed = They need to be exposed.
 
 interaction-require-user-no-penis = You don't have a penis.
 interaction-require-target-no-penis = They don't have a penis.

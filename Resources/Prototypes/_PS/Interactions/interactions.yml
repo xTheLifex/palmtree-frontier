@@ -561,6 +561,8 @@
   flags:
     - OocConsent
     - SelfOrOther
+  userRequirements: # Palmtree: no climaxing while fully clothed
+    - AnyGenitalExposed
   forceClimax: true
   lust: 0
   messages:

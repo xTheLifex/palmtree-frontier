@@ -47,6 +47,7 @@ namespace Content.Client.Voting
         private Control? _popupContainer;
 
         private IAudioSource? _voteSource;
+        private readonly Dictionary<VoteSoundType, IAudioSource?> _voteSoundSources = new(); // Palmtree
 
         public bool CanCallVote { get; private set; }
 
@@ -64,10 +65,33 @@ namespace Content.Client.Voting
                 _voteSource.Global = true;
             }
 
+            // Palmtree: custom vote sound cues broadcast by the server.
+            LoadVoteSound(VoteSoundType.Started, "/Audio/_PS/Voting/vote_started.ogg");
+            LoadVoteSound(VoteSoundType.Yes, "/Audio/_PS/Voting/vote_yes.ogg");
+            LoadVoteSound(VoteSoundType.No, "/Audio/_PS/Voting/vote_no.ogg");
+            LoadVoteSound(VoteSoundType.Success, "/Audio/_PS/Voting/vote_success.ogg");
+            LoadVoteSound(VoteSoundType.Failure, "/Audio/_PS/Voting/vote_failure.ogg");
+
             _netManager.RegisterNetMessage<MsgVoteData>(ReceiveVoteData);
             _netManager.RegisterNetMessage<MsgVoteCanCall>(ReceiveVoteCanCall);
+            _netManager.RegisterNetMessage<MsgVoteSound>(ReceiveVoteSound); // Palmtree
 
             _client.RunLevelChanged += ClientOnRunLevelChanged;
+        }
+
+        private void LoadVoteSound(VoteSoundType type, string path)
+        {
+            var source = _audio.CreateAudioSource(_res.GetResource<AudioResource>(path));
+            if (source != null)
+                source.Global = true;
+
+            _voteSoundSources[type] = source;
+        }
+
+        private void ReceiveVoteSound(MsgVoteSound message)
+        {
+            if (_voteSoundSources.TryGetValue(message.Sound, out var source))
+                source?.Restart();
         }
 
         private void ClientOnRunLevelChanged(object? sender, RunLevelChangedEventArgs e)
@@ -140,7 +164,9 @@ namespace Content.Client.Voting
                     return;
                 }
 
-                _voteSource?.Restart();
+                // Palmtree: custom votes use their own broadcast start sound instead of the ding.
+                if (message.SoundMode == VoteSoundMode.None)
+                    _voteSource?.Restart();
                 @new = true;
 
                 // Refresh
@@ -186,6 +212,7 @@ namespace Content.Client.Voting
             existingVote.EndTime = _gameTiming.RealServerToLocal(message.EndTime);
             existingVote.DisplayVotes = message.DisplayVotes;
             existingVote.TargetEntity = message.TargetEntity;
+            existingVote.SoundMode = message.SoundMode; // Palmtree
 
             // Logger.Debug($"{existingVote.StartTime}, {existingVote.EndTime}, {_gameTiming.RealTime}");
 
@@ -248,6 +275,7 @@ namespace Content.Client.Voting
             public int? OurVote;
             public int Id;
             public bool DisplayVotes;
+            public VoteSoundMode SoundMode; // Palmtree: custom vote sound cues
             public int? TargetEntity; // NetEntity
             public ActiveVote(int voteId)
             {

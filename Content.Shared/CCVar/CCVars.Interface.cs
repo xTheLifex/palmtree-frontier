@@ -8,7 +8,7 @@ public sealed partial class CCVars
     /// The sound played when clicking a UI button
     /// </summary>
     public static readonly CVarDef<string> UIClickSound =
-        CVarDef.Create("interface.click_sound", "/Audio/UserInterface/click.ogg", CVar.REPLICATED);
+        CVarDef.Create("interface.click_sound", "/Audio/_PS/UserInterface/panel_open.ogg", CVar.REPLICATED); // Palmtree: panel_open
 
     /// <summary>
     /// The sound played when the mouse hovers over a clickable UI element

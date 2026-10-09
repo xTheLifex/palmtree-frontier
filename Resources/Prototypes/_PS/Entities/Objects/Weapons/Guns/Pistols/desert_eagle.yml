@@ -16,17 +16,21 @@
   - type: Gun
     examineCaliber: gun-examine-caliber-50ae
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/deagle.ogg
+      path: /Audio/_PS/Weapons/Guns/Gunshots/deagle.ogg
   - type: ChamberMagazineAmmoProvider
     soundRack:
-      path: /Audio/Weapons/Guns/Bolt/de_slideback.ogg
+      path: /Audio/_PS/Weapons/Guns/Bolt/de_slideback.ogg
+    soundBoltOpened:
+      path: /Audio/_PS/Weapons/Guns/Bolt/de_slideback.ogg
+    soundBoltClosed:
+      path: /Audio/_PS/Weapons/Guns/Bolt/de_slideback.ogg
   - type: ItemSlots
     slots:
       gun_magazine:
         name: Magazine
         startingItem: CSMagazine50AE
-        insertSound: /Audio/Weapons/Guns/MagIn/de_clipin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/de_clipout.ogg
+        insertSound: /Audio/_PS/Weapons/Guns/MagIn/de_clipin.ogg
+        ejectSound: /Audio/_PS/Weapons/Guns/MagOut/de_clipout.ogg
         priority: 2
         whitelist:
           tags:

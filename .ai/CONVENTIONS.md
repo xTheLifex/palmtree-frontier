@@ -18,6 +18,14 @@
 ## Palmtree-specific conventions
 
 - New Palmtree code goes under `_PS` in the matching project. Ported fork code keeps its prefix.
+- **Asset placement law:** any asset the fork adds — audio, textures/`.rsi`, UI art, fonts — goes
+  under the matching `_PS` resource folder (`Resources/Audio/_PS/`, `Resources/Textures/_PS/`,
+  `Resources/Locale/en-US/_PS/`, ...). Only content ported from another source keeps that source's
+  prefix (`_CS` for Coyote/coyote-bayou content, `_NF` for Frontier, `_DV`, `_EE`, `_White`,
+  `_Starlight`, ...). Never drop new files into upstream folders (`Resources/Audio/Weapons/...`,
+  `Resources/Textures/Objects/...`, etc.); repoint the reference (`path:`, `insertSound:`,
+  `soundGunshot:`, sprite `sprite:`) at the `_PS` copy instead. Move existing files with `git mv`
+  so history is preserved.
 - Core-file patches are minimal, annotated with a comment (`// Palmtree: ...`) and should not
   reorder existing code unless the feature requires it.
 - Marking prototypes are data; marking behavior changes go through `MarkingManager`/renderer, never

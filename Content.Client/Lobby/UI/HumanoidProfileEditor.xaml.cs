@@ -112,8 +112,8 @@ namespace Content.Client.Lobby.UI
         // Palmtree: genital organ editor tab.
         private BoxContainer? _genitalsTab;
         private SpinBox? _semenVolumeSpin;
-        private CheckBox? _showUndergarmentsCheck;
-        private CheckBox? _showArousedCheck;
+        private Button? _showUndergarmentsButton;
+        private Button? _showArousedButton;
         private bool _showUndergarments = true;
         private bool _showAroused;
         private bool _updatingGenitals;
@@ -624,33 +624,100 @@ namespace Content.Client.Lobby.UI
 
             var catalogs = _prototypeManager.EnumeratePrototypes<GenitalOrganPrototype>().ToList();
 
+            // Fluid per climax, at the top of the tab so it is visible without scrolling past the
+            // organ sections.
+            var semenRow = new BoxContainer
+            {
+                Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                SeparationOverride = 6,
+            };
+
+            semenRow.AddChild(new Label
+            {
+                Text = Loc.GetString("genital-editor-semen"),
+                VerticalAlignment = VAlignment.Center,
+            });
+
+            _semenVolumeSpin = new SpinBox
+            {
+                MinWidth = 100,
+                IsValid = value => value is >= GenitalOrganSettings.MinSemenVolume and <= GenitalOrganSettings.MaxSemenVolume,
+            };
+            _semenVolumeSpin.ValueChanged += _ => OnGenitalControlsChanged();
+            semenRow.AddChild(_semenVolumeSpin);
+            _genitalsTab.AddChild(semenRow);
+            _genitalsTab.AddChild(new HSeparator { Margin = new Thickness(0, 8) });
+
+            // Palmtree: preview helper rows use the same label + [Show] toggle shape as the
+            // character tab's "Show clothing" control.
+            BoxContainer MakeToggleRow(string label, bool pressed, Action<bool> onToggled, out Button button)
+            {
+                var row = new BoxContainer
+                {
+                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
+                    Margin = new Thickness(0, 0, 0, 6),
+                };
+
+                row.AddChild(new Label
+                {
+                    Text = label,
+                    VerticalAlignment = VAlignment.Center,
+                    HorizontalExpand = true,
+                });
+
+                button = new Button
+                {
+                    Text = Loc.GetString("humanoid-profile-editor-clothing-show"),
+                    ToggleMode = true,
+                    Pressed = pressed,
+                };
+                button.OnToggled += args => onToggled(args.Pressed);
+                row.AddChild(button);
+                return row;
+            }
+
+            // Mirrors the character tab's "Show clothing" toggle; the two buttons stay in sync.
+            _genitalsTab.AddChild(MakeToggleRow(
+                Loc.GetString("humanoid-profile-editor-clothing"),
+                ShowClothes.Pressed,
+                pressed =>
+                {
+                    // The Pressed setter is silent, so reload the dummy the same way the character
+                    // tab's button does.
+                    if (ShowClothes.Pressed != pressed)
+                        ShowClothes.Pressed = pressed;
+
+                    ReloadPreview();
+                },
+                out var showClothesButton));
+
+            ShowClothes.OnToggled += args =>
+            {
+                if (showClothesButton.Pressed != args.Pressed)
+                    showClothesButton.Pressed = args.Pressed;
+            };
+
             // Preview helper: hides undergarment markings on the dummy so genitals are visible.
-            _showUndergarmentsCheck = new CheckBox
-            {
-                Text = Loc.GetString("humanoid-profile-editor-show-undergarments"),
-                Pressed = _showUndergarments,
-                Margin = new Thickness(0, 0, 0, 6),
-            };
-            _showUndergarmentsCheck.OnToggled += args =>
-            {
-                _showUndergarments = args.Pressed;
-                ApplyPreviewUndergarmentVisibility();
-            };
-            _genitalsTab.AddChild(_showUndergarmentsCheck);
+            _genitalsTab.AddChild(MakeToggleRow(
+                Loc.GetString("humanoid-profile-editor-show-undergarments"),
+                _showUndergarments,
+                pressed =>
+                {
+                    _showUndergarments = pressed;
+                    ApplyPreviewUndergarmentVisibility();
+                },
+                out _showUndergarmentsButton));
 
             // Preview helper: shows the aroused render marking for every configured organ.
-            _showArousedCheck = new CheckBox
-            {
-                Text = Loc.GetString("humanoid-profile-editor-preview-aroused"),
-                Pressed = _showAroused,
-                Margin = new Thickness(0, 0, 0, 6),
-            };
-            _showArousedCheck.OnToggled += args =>
-            {
-                _showAroused = args.Pressed;
-                ApplyPreviewArousal();
-            };
-            _genitalsTab.AddChild(_showArousedCheck);
+            _genitalsTab.AddChild(MakeToggleRow(
+                Loc.GetString("humanoid-profile-editor-preview-aroused"),
+                _showAroused,
+                pressed =>
+                {
+                    _showAroused = pressed;
+                    ApplyPreviewArousal();
+                },
+                out _showArousedButton));
 
             var firstOrgan = true;
             foreach (var type in Enum.GetValues<GenitalType>())
@@ -1137,29 +1204,6 @@ namespace Content.Client.Lobby.UI
                 _genitalsTab.AddChild(organContainer);
             }
 
-            var semenRow = new BoxContainer
-            {
-                Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                SeparationOverride = 6,
-                Margin = new Thickness(0, 8, 0, 0),
-            };
-
-            _genitalsTab.AddChild(new HSeparator { Margin = new Thickness(0, 8) });
-
-            semenRow.AddChild(new Label
-            {
-                Text = Loc.GetString("genital-editor-semen"),
-                VerticalAlignment = VAlignment.Center,
-            });
-
-            _semenVolumeSpin = new SpinBox
-            {
-                MinWidth = 100,
-                IsValid = value => value is >= GenitalOrganSettings.MinSemenVolume and <= GenitalOrganSettings.MaxSemenVolume,
-            };
-            _semenVolumeSpin.ValueChanged += _ => OnGenitalControlsChanged();
-            semenRow.AddChild(_semenVolumeSpin);
-            _genitalsTab.AddChild(semenRow);
         }
 
         /// <summary>

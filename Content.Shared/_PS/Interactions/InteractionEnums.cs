@@ -63,6 +63,9 @@ public enum InteractionRequirements : uint
     AnusExposed = 1 << 10,
     AnusUnexposed = 1 << 11,
 
+    /// <summary>Any of the exposure-capable genitals (penis, balls, vagina, breasts, anus) is exposed.</summary>
+    AnyGenitalExposed = 1 << 12,
+
     /// <summary>Any state (exposed or not) is acceptable for this genital.</summary>
     AnyPenis = PenisExposed | PenisUnexposed,
     AnyVagina = VaginaExposed | VaginaUnexposed,

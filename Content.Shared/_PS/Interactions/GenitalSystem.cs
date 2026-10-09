@@ -63,11 +63,17 @@ public sealed class GenitalSystem : EntitySystem
             if (organ.Size >= 1 && organ.Size <= catalog.Sizes.Count)
                 sizeName = Loc.GetString(catalog.Sizes[organ.Size - 1].Name);
 
+            // Palmtree: show the genital type (Penis/Vagina/...) rather than only the marking-derived
+            // catalog name; the catalog style and size become the parenthesized detail.
+            var detail = string.IsNullOrEmpty(sizeName)
+                ? Loc.GetString(catalog.Name)
+                : $"{Loc.GetString(catalog.Name)}, {sizeName}";
+
             entries.Add(new InteractionGenitalUiEntry
             {
                 Type = organ.GenitalType,
-                Name = Loc.GetString(catalog.Name),
-                SizeName = sizeName,
+                Name = Loc.GetString($"genital-editor-{organ.GenitalType.ToString().ToLowerInvariant()}"),
+                SizeName = detail,
                 Aroused = organ.Aroused,
                 Visibility = organ.Visibility,
                 CanToggleArousal = isSelf && catalog.CanArouse,

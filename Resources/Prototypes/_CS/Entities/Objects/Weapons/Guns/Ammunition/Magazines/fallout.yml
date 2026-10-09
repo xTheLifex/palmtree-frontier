@@ -10,12 +10,15 @@
     tags:
     - CSMagazine9mm
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge9mm
     proto: CSCartridge9mm
     capacity: 10
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/9mm.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -37,7 +40,7 @@
     proto: CSCartridge9mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -53,7 +56,7 @@
     proto: CSCartridge9mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -69,7 +72,7 @@
     proto: CSCartridge9mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -85,7 +88,7 @@
     proto: CSCartridge9mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -101,7 +104,7 @@
     proto: CSCartridge9mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -117,7 +120,7 @@
     proto: CSCartridge9mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -142,12 +145,15 @@
     tags:
     - CSMagazine9mmDs
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge9mm
     proto: CSCartridge9mm
     capacity: 15
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/9mmDs.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -169,7 +175,7 @@
     proto: CSCartridge9mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -185,7 +191,7 @@
     proto: CSCartridge9mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -201,7 +207,7 @@
     proto: CSCartridge9mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -217,7 +223,7 @@
     proto: CSCartridge9mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -233,7 +239,7 @@
     proto: CSCartridge9mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -249,7 +255,7 @@
     proto: CSCartridge9mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -274,12 +280,15 @@
     tags:
     - CSMagazine9mmUzi
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge9mm
     proto: CSCartridge9mm
     capacity: 32
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/9mmUzi.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -301,7 +310,7 @@
     proto: CSCartridge9mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -317,7 +326,7 @@
     proto: CSCartridge9mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -333,7 +342,7 @@
     proto: CSCartridge9mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -349,7 +358,7 @@
     proto: CSCartridge9mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -365,7 +374,7 @@
     proto: CSCartridge9mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -381,7 +390,7 @@
     proto: CSCartridge9mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -406,12 +415,15 @@
     tags:
     - CSMagazine9mmPpsh
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge9mm
     proto: CSCartridge9mm
     capacity: 71
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/9mmPpsh.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -433,7 +445,7 @@
     proto: CSCartridge9mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -449,7 +461,7 @@
     proto: CSCartridge9mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -465,7 +477,7 @@
     proto: CSCartridge9mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -481,7 +493,7 @@
     proto: CSCartridge9mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -497,7 +509,7 @@
     proto: CSCartridge9mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -513,7 +525,7 @@
     proto: CSCartridge9mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -538,12 +550,15 @@
     tags:
     - CSMagazine10mm
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge10mm
     proto: CSCartridge10mm
     capacity: 12
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/10mm.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -565,7 +580,7 @@
     proto: CSCartridge10mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -581,7 +596,7 @@
     proto: CSCartridge10mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -597,7 +612,7 @@
     proto: CSCartridge10mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -613,7 +628,7 @@
     proto: CSCartridge10mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -629,7 +644,7 @@
     proto: CSCartridge10mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -645,7 +660,7 @@
     proto: CSCartridge10mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -670,12 +685,15 @@
     tags:
     - CSMagazine10mmExt
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge10mm
     proto: CSCartridge10mm
     capacity: 24
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/10mmExt.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -697,7 +715,7 @@
     proto: CSCartridge10mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -713,7 +731,7 @@
     proto: CSCartridge10mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -729,7 +747,7 @@
     proto: CSCartridge10mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -745,7 +763,7 @@
     proto: CSCartridge10mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -761,7 +779,7 @@
     proto: CSCartridge10mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -777,7 +795,7 @@
     proto: CSCartridge10mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -802,12 +820,15 @@
     tags:
     - CSMagazine10mmP90
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge10mm
     proto: CSCartridge10mm
     capacity: 50
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/10mmP90.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -829,7 +850,7 @@
     proto: CSCartridge10mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -845,7 +866,7 @@
     proto: CSCartridge10mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -861,7 +882,7 @@
     proto: CSCartridge10mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -877,7 +898,7 @@
     proto: CSCartridge10mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -893,7 +914,7 @@
     proto: CSCartridge10mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -909,7 +930,7 @@
     proto: CSCartridge10mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -934,12 +955,15 @@
     tags:
     - CSMagazine22Drum
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge22
     proto: CSCartridge22
     capacity: 180
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/22Drum.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -961,7 +985,7 @@
     proto: CSCartridge22Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -977,7 +1001,7 @@
     proto: CSCartridge22Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -993,7 +1017,7 @@
     proto: CSCartridge22Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1009,7 +1033,7 @@
     proto: CSCartridge22Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1025,7 +1049,7 @@
     proto: CSCartridge22Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1041,7 +1065,7 @@
     proto: CSCartridge22Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1066,12 +1090,15 @@
     tags:
     - CSMagazine44
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge44
     proto: CSCartridge44
     capacity: 8
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/44.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1093,7 +1120,7 @@
     proto: CSCartridge44Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1109,7 +1136,7 @@
     proto: CSCartridge44Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1125,7 +1152,7 @@
     proto: CSCartridge44Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1141,7 +1168,7 @@
     proto: CSCartridge44Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1157,7 +1184,7 @@
     proto: CSCartridge44Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1173,7 +1200,7 @@
     proto: CSCartridge44Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1198,12 +1225,15 @@
     tags:
     - CSMagazine44Automag
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge44
     proto: CSCartridge44
     capacity: 7
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/44Automag.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1225,7 +1255,7 @@
     proto: CSCartridge44Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1241,7 +1271,7 @@
     proto: CSCartridge44Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1257,7 +1287,7 @@
     proto: CSCartridge44Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1273,7 +1303,7 @@
     proto: CSCartridge44Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1289,7 +1319,7 @@
     proto: CSCartridge44Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1305,7 +1335,7 @@
     proto: CSCartridge44Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1330,12 +1360,15 @@
     tags:
     - CSMagazine357
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge357
     proto: CSCartridge357
     capacity: 8
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/357.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1357,7 +1390,7 @@
     proto: CSCartridge357Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1373,7 +1406,7 @@
     proto: CSCartridge357Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1389,7 +1422,7 @@
     proto: CSCartridge357Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1405,7 +1438,7 @@
     proto: CSCartridge357Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1421,7 +1454,7 @@
     proto: CSCartridge357Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1437,7 +1470,7 @@
     proto: CSCartridge357Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1462,12 +1495,15 @@
     tags:
     - CSMagazine50AE
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge50AE
     proto: CSCartridge50AE
     capacity: 7
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/50AE.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1489,7 +1525,7 @@
     proto: CSCartridge50AEOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1505,7 +1541,7 @@
     proto: CSCartridge50AEIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1521,7 +1557,7 @@
     proto: CSCartridge50AEUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1537,7 +1573,7 @@
     proto: CSCartridge50AEPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1553,7 +1589,7 @@
     proto: CSCartridge50AEEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1569,7 +1605,7 @@
     proto: CSCartridge50AERubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1594,12 +1630,19 @@
     tags:
     - CSMagazine5mm
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge5mm
     proto: CSCartridge5mm
     capacity: 30
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/5mm.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1621,7 +1664,7 @@
     proto: CSCartridge5mmOverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1637,7 +1680,7 @@
     proto: CSCartridge5mmIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1653,7 +1696,7 @@
     proto: CSCartridge5mmUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1669,7 +1712,7 @@
     proto: CSCartridge5mmPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1685,7 +1728,7 @@
     proto: CSCartridge5mmEmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1701,7 +1744,7 @@
     proto: CSCartridge5mmRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1726,12 +1769,19 @@
     tags:
     - CSMagazine308
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge308
     proto: CSCartridge308
     capacity: 10
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1753,7 +1803,7 @@
     proto: CSCartridge308Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1769,7 +1819,7 @@
     proto: CSCartridge308Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1785,7 +1835,7 @@
     proto: CSCartridge308Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1801,7 +1851,7 @@
     proto: CSCartridge308Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1817,7 +1867,7 @@
     proto: CSCartridge308Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1833,7 +1883,7 @@
     proto: CSCartridge308Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1858,12 +1908,19 @@
     tags:
     - CSMagazine308Ext
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge308
     proto: CSCartridge308
     capacity: 20
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Ext.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -1885,7 +1942,7 @@
     proto: CSCartridge308Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1901,7 +1958,7 @@
     proto: CSCartridge308Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1917,7 +1974,7 @@
     proto: CSCartridge308Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1933,7 +1990,7 @@
     proto: CSCartridge308Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1949,7 +2006,7 @@
     proto: CSCartridge308Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1965,7 +2022,7 @@
     proto: CSCartridge308Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -1990,12 +2047,19 @@
     tags:
     - CSMagazine308Rpd
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge308
     proto: CSCartridge308
     capacity: 40
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Rpd.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -2017,7 +2081,7 @@
     proto: CSCartridge308Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2033,7 +2097,7 @@
     proto: CSCartridge308Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2049,7 +2113,7 @@
     proto: CSCartridge308Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2065,7 +2129,7 @@
     proto: CSCartridge308Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2081,7 +2145,7 @@
     proto: CSCartridge308Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2097,7 +2161,7 @@
     proto: CSCartridge308Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2122,12 +2186,19 @@
     tags:
     - CSMagazine308Lewis
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge308
     proto: CSCartridge308
     capacity: 47
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Lewis.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -2149,7 +2220,7 @@
     proto: CSCartridge308Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2165,7 +2236,7 @@
     proto: CSCartridge308Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2181,7 +2252,7 @@
     proto: CSCartridge308Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2197,7 +2268,7 @@
     proto: CSCartridge308Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2213,7 +2284,7 @@
     proto: CSCartridge308Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2229,7 +2300,7 @@
     proto: CSCartridge308Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2254,12 +2325,19 @@
     tags:
     - CSMagazine308Belt
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge308
     proto: CSCartridge308
     capacity: 80
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Belt.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -2281,7 +2359,7 @@
     proto: CSCartridge308Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2297,7 +2375,7 @@
     proto: CSCartridge308Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2313,7 +2391,7 @@
     proto: CSCartridge308Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2329,7 +2407,7 @@
     proto: CSCartridge308Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2345,7 +2423,7 @@
     proto: CSCartridge308Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2361,7 +2439,7 @@
     proto: CSCartridge308Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2386,12 +2464,19 @@
     tags:
     - CSMagazine308Sks
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge308
     proto: CSCartridge308
     capacity: 8
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/308Sks.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -2413,7 +2498,7 @@
     proto: CSCartridge308Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2429,7 +2514,7 @@
     proto: CSCartridge308Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2445,7 +2530,7 @@
     proto: CSCartridge308Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2461,7 +2546,7 @@
     proto: CSCartridge308Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2477,7 +2562,7 @@
     proto: CSCartridge308Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2493,7 +2578,7 @@
     proto: CSCartridge308Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2518,12 +2603,19 @@
     tags:
     - CSMagazine3006Clip
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge3006
     proto: CSCartridge3006
     capacity: 8
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/3006Clip.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -2545,7 +2637,7 @@
     proto: CSCartridge3006Overpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2561,7 +2653,7 @@
     proto: CSCartridge3006Incendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2577,7 +2669,7 @@
     proto: CSCartridge3006Uranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2593,7 +2685,7 @@
     proto: CSCartridge3006Practice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2609,7 +2701,7 @@
     proto: CSCartridge3006Emp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2625,7 +2717,7 @@
     proto: CSCartridge3006Rubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2650,12 +2742,19 @@
     tags:
     - CSMagazine54RClip
   - type: BallisticAmmoProvider
+    whitelist:
+      tags:
+      - CSCartridge54R
     proto: CSCartridge54R
     capacity: 5
+  - type: MagazineVisuals
+    magState: mag
+    steps: 6
+    zeroVisible: false
   - type: Sprite
     sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/54RClip.rsi
     layers:
-    - state: base
+    - state: mag-0
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
@@ -2677,7 +2776,7 @@
     proto: CSCartridge54ROverpressure
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff8d00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2693,7 +2792,7 @@
     proto: CSCartridge54RIncendiary
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#ff0000"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2709,7 +2808,7 @@
     proto: CSCartridge54RUranium
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ff00"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2725,7 +2824,7 @@
     proto: CSCartridge54RPractice
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#dddddd"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2741,7 +2840,7 @@
     proto: CSCartridge54REmp
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00ffff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
@@ -2757,7 +2856,7 @@
     proto: CSCartridge54RRubber
   - type: Sprite
     layers:
-    - state: base
+    - state: mag-0
       color: "#00b0ff"
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1

@@ -17,17 +17,21 @@
     angleDecay: 3.6
     fireRate: 6.4
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/ak47.ogg
+      path: /Audio/_PS/Weapons/Guns/Gunshots/ak47.ogg
   - type: ChamberMagazineAmmoProvider # Palmtree: CSS sound set
     soundRack:
-      path: /Audio/Weapons/Guns/Bolt/ak47_boltpull.ogg
+      path: /Audio/_PS/Weapons/Guns/Bolt/ak47_boltpull.ogg
+    soundBoltOpened:
+      path: /Audio/_PS/Weapons/Guns/Bolt/ak47_boltpull.ogg
+    soundBoltClosed:
+      path: /Audio/_PS/Weapons/Guns/Bolt/ak47_boltpull.ogg
   - type: ItemSlots # Palmtree: CSS sound set - must mirror NFBaseWeaponRifleAssaultChamber30
     slots:
       gun_magazine:
         name: Magazine
         startingItem: NFMagazineRifle30
-        insertSound: /Audio/Weapons/Guns/MagIn/ak47_clipin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/ak47_clipout.ogg
+        insertSound: /Audio/_PS/Weapons/Guns/MagIn/ak47_clipin.ogg
+        ejectSound: /Audio/_PS/Weapons/Guns/MagOut/ak47_clipout.ogg
         priority: 2
         whitelist:
           tags:

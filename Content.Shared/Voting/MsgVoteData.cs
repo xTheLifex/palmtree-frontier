@@ -19,6 +19,7 @@ namespace Content.Shared.Voting
         public byte? YourVote;
         public bool DisplayVotes;
         public int TargetEntity;
+        public VoteSoundMode SoundMode; // Palmtree: custom vote sound cues
 
         public override void ReadFromBuffer(NetIncomingMessage buffer, IRobustSerializer serializer)
         {
@@ -35,6 +36,7 @@ namespace Content.Shared.Voting
             EndTime = TimeSpan.FromTicks(buffer.ReadInt64());
             DisplayVotes = buffer.ReadBoolean();
             TargetEntity = buffer.ReadVariableInt32();
+            SoundMode = (VoteSoundMode) buffer.ReadByte();
 
             Options = new (ushort votes, string name)[buffer.ReadByte()];
             for (var i = 0; i < Options.Length; i++)
@@ -64,6 +66,7 @@ namespace Content.Shared.Voting
             buffer.Write(EndTime.Ticks);
             buffer.Write(DisplayVotes);
             buffer.WriteVariableInt32(TargetEntity);
+            buffer.Write((byte) SoundMode);
 
             buffer.Write((byte) Options.Length);
             foreach (var (votes, name) in Options)

@@ -20,9 +20,13 @@
   sprites:
     Genital: MobHumanoidAnyMarking
     TailBehind: MobHumanoidAnyMarking
+    Special: MobHumanoidAnyMarking # Palmtree: allow all markings (cat ears etc.)
     Head: MobDionaHead
     HeadTop: MobHumanoidAnyMarking
     HeadSide: MobHumanoidAnyMarking
+    Hair: MobHumanoidAnyMarking # Palmtree: allow all markings
+    FacialHair: MobHumanoidAnyMarking # Palmtree: allow all markings
+    Snout: MobHumanoidAnyMarking # Palmtree: allow all markings
     UndergarmentTop: MobHumanoidAnyMarking
     UndergarmentBottom: MobHumanoidAnyMarking
     Chest: MobDionaTorso
@@ -35,6 +39,7 @@
     RLeg: MobDionaRLeg
     LFoot: MobDionaLFoot
     RFoot: MobDionaRFoot
+    Tail: MobHumanoidAnyMarking # Palmtree: allow all markings
     TailOversuit: MobHumanoidAnyMarking
     UndershirtUnderclothes: MobHumanoidAnyMarking
     UndershirtOverclothes: MobHumanoidAnyMarking
@@ -55,6 +60,21 @@
     HeadSide:
       points: 1
       required: false
+    Hair: # Palmtree: allow all markings
+      points: 35
+      required: false
+    FacialHair: # Palmtree: allow all markings
+      points: 35
+      required: false
+    Snout: # Palmtree: allow all markings
+      points: 35
+      required: false
+    Special: # Palmtree: allow all markings (cat ears etc.)
+      points: 35
+      required: false
+    Tail: # Palmtree: allow all markings
+      points: 35
+      required: false
     UndergarmentTop:
       points: 1
       required: false
@@ -74,6 +94,43 @@
       points: 1
       required: true
       defaultMarkings: [ DionaVineOverlay ]
+    # Palmtree: base-layer adaptor markings (Synth-style body replacement)
+    BaseChest:
+      points: 35
+      required: false
+    BaseHead:
+      points: 35
+      required: false
+    BaseLArm:
+      points: 35
+      required: false
+    BaseLFoot:
+      points: 35
+      required: false
+    BaseLHand:
+      points: 35
+      required: false
+    BaseLLeg:
+      points: 35
+      required: false
+    BaseRArm:
+      points: 35
+      required: false
+    BaseRFoot:
+      points: 35
+      required: false
+    BaseRHand:
+      points: 35
+      required: false
+    BaseRLeg:
+      points: 35
+      required: false
+    BaseArms:
+      points: 35
+      required: false
+    BaseLegs:
+      points: 35
+      required: false
 
 - type: humanoidBaseSprite
   id: MobDionaEyes

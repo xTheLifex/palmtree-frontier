@@ -87,17 +87,21 @@
     - FullAuto
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/aug.ogg
+      path: /Audio/_PS/Weapons/Guns/Gunshots/aug.ogg
   - type: ChamberMagazineAmmoProvider # Palmtree: CSS sound set
     soundRack:
-      path: /Audio/Weapons/Guns/Bolt/aug_boltpull.ogg
+      path: /Audio/_PS/Weapons/Guns/Bolt/aug_boltpull.ogg
+    soundBoltOpened:
+      path: /Audio/_PS/Weapons/Guns/Bolt/aug_boltpull.ogg
+    soundBoltClosed:
+      path: /Audio/_PS/Weapons/Guns/Bolt/aug_boltslap.ogg
   - type: ItemSlots # Palmtree: CSS sound set - must mirror CSBaseWeaponRifleChamber5mm
     slots:
       gun_magazine:
         name: Magazine
         startingItem: CSMagazine5mm
-        insertSound: /Audio/Weapons/Guns/MagIn/aug_clipin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/aug_clipout.ogg
+        insertSound: /Audio/_PS/Weapons/Guns/MagIn/aug_clipin.ogg
+        ejectSound: /Audio/_PS/Weapons/Guns/MagOut/aug_clipout.ogg
         priority: 2
         whitelist:
           tags:

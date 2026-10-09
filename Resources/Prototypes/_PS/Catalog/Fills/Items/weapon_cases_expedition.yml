@@ -34,3 +34,16 @@
       amount: 1
     - id: NFMagazineHighCapacityPistol35
       amount: 2
+
+- type: entity
+  parent: [WeaponCaseLong, RareWeaponCase]
+  id: WeaponCaseLongNovaliteC2
+  suffix: Dungeon, Novalite C2
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: PSWeaponRifleAssaultNovaliteC2
+      amount: 1
+    - id: NFMagazineRifle20
+      amount: 2

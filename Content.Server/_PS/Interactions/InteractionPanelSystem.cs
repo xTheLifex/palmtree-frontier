@@ -57,6 +57,16 @@ public sealed partial class InteractionPanelSystem : EntitySystem
     /// <summary>Panel speed options in seconds, matching Sandstorm's GLOB.interaction_speeds.</summary>
     public static readonly float[] Speeds = { 4f, 2f, 1f, 0.8f, 0.5f };
 
+    /// <summary>Genitals consulted by <see cref="InteractionRequirements.AnyGenitalExposed"/>.</summary>
+    private static readonly GenitalType[] ExposureGenitalTypes =
+    {
+        GenitalType.Penis,
+        GenitalType.Balls,
+        GenitalType.Vagina,
+        GenitalType.Breasts,
+        GenitalType.Anus,
+    };
+
     private const float InteractionRange = 6f;
     private const float SoundRange = 4f;
 
@@ -231,6 +241,24 @@ public sealed partial class InteractionPanelSystem : EntitySystem
 
         if (requirements.HasFlag(InteractionRequirements.Hands) && !HasComp<HandsComponent>(subject))
             return FailRequirement(actor, subject, popup, isTarget, "hands");
+
+        // Palmtree: any one exposed genital is enough (used by the manual Climax action so it is
+        // unavailable while fully clothed, matching the other lewd interactions).
+        if (requirements.HasFlag(InteractionRequirements.AnyGenitalExposed))
+        {
+            var anyExposed = false;
+            foreach (var type in ExposureGenitalTypes)
+            {
+                if (_genitals.GetExposure(subject, type) == GenitalExposure.Exposed)
+                {
+                    anyExposed = true;
+                    break;
+                }
+            }
+
+            if (!anyExposed)
+                return FailRequirement(actor, subject, popup, isTarget, "exposed");
+        }
 
         if (!CheckGenitalRequirement(requirements, subject, actor, popup, isTarget, GenitalType.Penis))
             return false;

@@ -55,6 +55,7 @@ namespace Content.Server.Voting.Managers
         {
             _netManager.RegisterNetMessage<MsgVoteData>();
             _netManager.RegisterNetMessage<MsgVoteCanCall>();
+            _netManager.RegisterNetMessage<MsgVoteSound>(); // Palmtree
             _netManager.RegisterNetMessage<MsgVoteMenu>(ReceiveVoteMenu);
 
             _playerManager.PlayerStatusChanged += PlayerManagerOnPlayerStatusChanged;
@@ -131,11 +132,29 @@ namespace Content.Server.Voting.Managers
 
             v.VotesDirty.Add(player);
             v.Dirty = true;
+
+            // Palmtree: question-only custom votes announce every Yes/No cast to the whole server.
+            if (v.SoundMode == VoteSoundMode.Binary && option is 0 or 1)
+                BroadcastVoteSound(v.Id, option == 0 ? VoteSoundType.Yes : VoteSoundType.No);
         }
 
         private bool IsValidOption(VoteReg voteReg, int? option)
         {
             return option == null || option >= 0 && option < voteReg.Entries.Length;
+        }
+
+        /// <summary>
+        /// Palmtree: plays a vote sound cue on every connected client.
+        /// </summary>
+        private void BroadcastVoteSound(int voteId, VoteSoundType sound)
+        {
+            var msg = new MsgVoteSound
+            {
+                VoteId = voteId,
+                Sound = sound,
+            };
+
+            _netManager.ServerSendToAll(msg);
         }
 
         public void Update()
@@ -211,12 +230,16 @@ namespace Content.Server.Voting.Managers
             var start = _timing.RealTime;
             var end = start + options.Duration;
             var reg = new VoteReg(id, entries, options.Title, options.InitiatorText,
-                options.InitiatorPlayer, start, end, options.VoterEligibility, options.DisplayVotes, options.TargetEntity);
+                options.InitiatorPlayer, start, end, options.VoterEligibility, options.DisplayVotes, options.TargetEntity, options.SoundMode);
 
             var handle = new VoteHandle(this, reg);
 
             _votes.Add(id, reg);
             _voteHandles.Add(id, handle);
+
+            // Palmtree: custom votes broadcast their start sound to everyone.
+            if (options.SoundMode != VoteSoundMode.None)
+                BroadcastVoteSound(id, VoteSoundType.Started);
 
             if (options.InitiatorPlayer != null)
             {
@@ -265,6 +288,10 @@ namespace Content.Server.Voting.Managers
                 {
                     msg.TargetEntity = v.TargetEntity.Value.Id;
                 }
+
+                // Palmtree: binary custom votes mute the option buttons' default click so only the
+                // broadcast Yes/No cue is heard.
+                msg.SoundMode = v.SoundMode;
             }
 
             if (v.CastVotes.TryGetValue(player, out var cast))
@@ -411,6 +438,14 @@ namespace Content.Server.Voting.Managers
             var args = new VoteFinishedEventArgs(winners.Length == 1 ? winners[0] : null, winners, voteTally);
             v.OnFinished?.Invoke(_voteHandles[v.Id], args);
             DirtyCanCallVoteAll();
+
+            // Palmtree: pass/fail cue for question-only custom votes (Yes is option 0, No is option 1).
+            if (v.SoundMode == VoteSoundMode.Binary)
+            {
+                var yesVotes = v.Entries.Length > 0 ? v.Entries[0].Votes : 0;
+                var noVotes = v.Entries.Length > 1 ? v.Entries[1].Votes : 0;
+                BroadcastVoteSound(v.Id, yesVotes > noVotes ? VoteSoundType.Success : VoteSoundType.Failure);
+            }
         }
 
         private void CancelVote(VoteReg v)
@@ -506,6 +541,7 @@ namespace Content.Server.Voting.Managers
             public readonly VoterEligibility VoterEligibility;
             public readonly bool DisplayVotes;
             public readonly NetEntity? TargetEntity;
+            public readonly VoteSoundMode SoundMode; // Palmtree
 
             public bool Cancelled;
             public bool Finished;
@@ -516,7 +552,8 @@ namespace Content.Server.Voting.Managers
             public ICommonSession? Initiator { get; }
 
             public VoteReg(int id, VoteEntry[] entries, string title, string initiatorText,
-                ICommonSession? initiator, TimeSpan start, TimeSpan end, VoterEligibility voterEligibility, bool displayVotes, NetEntity? targetEntity)
+                ICommonSession? initiator, TimeSpan start, TimeSpan end, VoterEligibility voterEligibility, bool displayVotes, NetEntity? targetEntity,
+                VoteSoundMode soundMode = VoteSoundMode.None)
             {
                 Id = id;
                 Entries = entries;
@@ -528,6 +565,7 @@ namespace Content.Server.Voting.Managers
                 VoterEligibility = voterEligibility;
                 DisplayVotes = displayVotes;
                 TargetEntity = targetEntity;
+                SoundMode = soundMode;
             }
         }
 

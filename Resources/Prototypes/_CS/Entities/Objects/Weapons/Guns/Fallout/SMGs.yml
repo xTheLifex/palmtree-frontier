@@ -65,17 +65,21 @@
     shotsPerBurst: 3
     burstFireRate: 10.75
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/p90.ogg
+      path: /Audio/_PS/Weapons/Guns/Gunshots/p90.ogg
   - type: ChamberMagazineAmmoProvider # Palmtree: CSS sound set
     soundRack:
-      path: /Audio/Weapons/Guns/Bolt/p90_boltpull.ogg
+      path: /Audio/_PS/Weapons/Guns/Bolt/p90_boltpull.ogg
+    soundBoltOpened:
+      path: /Audio/_PS/Weapons/Guns/Bolt/p90_boltpull.ogg
+    soundBoltClosed:
+      path: /Audio/_PS/Weapons/Guns/Bolt/p90_boltpull.ogg
   - type: ItemSlots # Palmtree: CSS sound set - must mirror CSBaseWeaponSubMachineGunChamber10mm
     slots:
       gun_magazine:
         name: Magazine
         startingItem: CSMagazine10mmP90
-        insertSound: /Audio/Weapons/Guns/MagIn/p90_clipin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/p90_clipout.ogg
+        insertSound: /Audio/_PS/Weapons/Guns/MagIn/p90_clipin.ogg
+        ejectSound: /Audio/_PS/Weapons/Guns/MagOut/p90_clipout.ogg
         priority: 2
         whitelist:
           tags:

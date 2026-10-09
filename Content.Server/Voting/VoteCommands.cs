@@ -78,9 +78,9 @@ namespace Content.Server.Voting
 
         public override void Execute(IConsoleShell shell, string argStr, string[] args)
         {
-            if (args.Length < 3 || args.Length > MaxArgCount)
+            if (args.Length < 1 || args.Length > MaxArgCount)
             {
-                shell.WriteError(Loc.GetString("shell-need-between-arguments",("lower", 3), ("upper", 10)));
+                shell.WriteError(Loc.GetString("shell-need-between-arguments",("lower", 1), ("upper", 10)));
                 return;
             }
 
@@ -92,9 +92,25 @@ namespace Content.Server.Voting
                 Duration = TimeSpan.FromSeconds(30),
             };
 
-            for (var i = 1; i < args.Length; i++)
+            if (args.Length == 1)
             {
-                options.Options.Add((args[i], i));
+                // Palmtree: a question with no answers defaults to Yes/No and gets the binary sound
+                // cues (vote_yes/vote_no on casts, vote_success/vote_failure on finish).
+                var yes = Loc.GetString("ui-vote-yes");
+                var no = Loc.GetString("ui-vote-no");
+                options.Options.Add((yes, yes));
+                options.Options.Add((no, no));
+                options.SoundMode = VoteSoundMode.Binary;
+            }
+            else
+            {
+                for (var i = 1; i < args.Length; i++)
+                {
+                    options.Options.Add((args[i], i));
+                }
+
+                // Palmtree: with custom answers only the start sound plays.
+                options.SoundMode = VoteSoundMode.StartedOnly;
             }
 
             options.SetInitiatorOrServer(shell.Player);
@@ -110,16 +126,25 @@ namespace Content.Server.Voting
 
             vote.OnFinished += (_, eventArgs) =>
             {
+                // Palmtree: question-only votes carry the option text as data instead of an arg index.
+                string OptionName(object data)
+                {
+                    return data is int index && index >= 0 && index < args.Length
+                        ? args[index]
+                        : data.ToString() ?? string.Empty;
+                }
+
                 if (eventArgs.Winner == null)
                 {
-                    var ties = string.Join(", ", eventArgs.Winners.Select(c => args[(int) c]));
+                    var ties = string.Join(", ", eventArgs.Winners.Select(OptionName));
                     _adminLogger.Add(LogType.Vote, LogImpact.Medium, $"Custom vote {options.Title} finished as tie: {ties}");
                     _chatManager.DispatchServerAnnouncement(Loc.GetString("cmd-customvote-on-finished-tie", ("title", options.Title), ("ties", ties)));
                 }
                 else
                 {
-                    _adminLogger.Add(LogType.Vote, LogImpact.Medium, $"Custom vote {options.Title} finished: {args[(int) eventArgs.Winner]}");
-                    _chatManager.DispatchServerAnnouncement(Loc.GetString("cmd-customvote-on-finished-win", ("title", options.Title), ("winner", args[(int) eventArgs.Winner])));
+                    var winner = OptionName(eventArgs.Winner);
+                    _adminLogger.Add(LogType.Vote, LogImpact.Medium, $"Custom vote {options.Title} finished: {winner}");
+                    _chatManager.DispatchServerAnnouncement(Loc.GetString("cmd-customvote-on-finished-win", ("title", options.Title), ("winner", winner)));
                 }
 
                 _voteWebhooks.UpdateWebhookIfConfigured(webhookState, eventArgs);
