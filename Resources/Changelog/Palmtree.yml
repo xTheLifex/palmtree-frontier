@@ -550,3 +550,42 @@ Entries:
   time: '2026-10-09T02:34:52.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/68030f78a7f77df6e1e5acaa34f0aad9652b219f
+- author: TheLife
+  changes:
+    - type: Add
+      message: Diona can now use tails, ears, hair and base-layer adaptor markings.
+    - type: Fix
+      message: >-
+        Lizards and other whitelisted species can now pick all hair and facial
+        hair markings.
+    - type: Fix
+      message: >-
+        CSS-sounded guns now play their bolt sounds for the open and close bolt
+        actions.
+    - type: Fix
+      message: >-
+        The interaction panel now shows genital names, and visibility no longer
+        depends on arousal.
+    - type: Fix
+      message: >-
+        A manual climax now requires exposed genitals instead of being usable
+        while clothed.
+    - type: Add
+      message: >-
+        customvote can be called with just a question and defaults to Yes/No
+        with vote sound cues; UI clicks use the new panel open sound.
+    - type: Fix
+      message: >-
+        Coyote-bayou magazines can be refilled with their cartridges and show
+        their empty sprite again.
+    - type: Tweak
+      message: .50 shell ammo drums now hold 24 shells.
+    - type: Tweak
+      message: >-
+        The Novalite C1 is back to stock; a new Novalite C2 with custom sounds
+        and wider magazine compatibility spawns in dungeon loot and prints at
+        lathes.
+  id: 90033
+  time: '2026-10-09T17:07:48.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/2f307becc506b28fb2deb1a2ef8a12d09c2de367
