@@ -589,3 +589,39 @@ Entries:
   time: '2026-10-09T17:07:48.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/2f307becc506b28fb2deb1a2ef8a12d09c2de367
+- author: TheLife
+  changes:
+    - type: Fix
+      message: Taurus Judge now fires real .50 shells instead of duds
+    - type: Fix
+      message: Mosin stripper clips now eject when spent
+    - type: Fix
+      message: BAR sprite no longer has a chopped-off muzzle and shows its box magazine
+    - type: Fix
+      message: >-
+        Uzi, MP5, RPD, PPSh and M1919 magazine sprites now appear and disappear
+        when loading and ejecting
+    - type: Tweak
+      message: M1919 is belt-fed and its .308 ammo belt now holds 100 rounds
+    - type: Tweak
+      message: >-
+        .308 and 9mm guns only accept their own magazines now (no more SKS clips
+        in an RPD)
+    - type: Tweak
+      message: >-
+        weapons now show their source in the name (Palmtree, Coyote Bayou,
+        Coyote Frontier, Sandstorm)
+  id: 90034
+  time: '2026-10-09T19:18:09.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/c0c968a390b40680a853c18ced9f576960904cbd
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        dual-wielded firearms now swap hands when fired, so akimbo pistols and
+        SMGs alternate automatically
+  id: 90035
+  time: '2026-10-09T19:18:09.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/1db453f73b2a7f83406a9571a1da49cb656615d2
