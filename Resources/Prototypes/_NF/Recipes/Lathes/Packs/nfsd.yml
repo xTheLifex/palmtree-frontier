@@ -8,6 +8,18 @@
   - NFAmmunitionBoxShellShotgunPractice
   - NFWeaponEnergyPistolDisablerPractice
   - NFWeaponEnergyRifleCarbinePractice
+  # Fallout practice ammo (Palmtree)
+  - CSAmmunitionBox9mmPractice
+  - CSAmmunitionBox10mmPractice
+  - CSAmmunitionBox22Practice
+  - CSAmmunitionBox44Practice
+  - CSAmmunitionBox357Practice
+  - CSAmmunitionBox50AEPractice
+  - CSAmmunitionBox45LCPractice
+  - CSAmmunitionBox5mmPractice
+  - CSAmmunitionBox308Practice
+  - CSAmmunitionBox3006Practice
+  - CSAmmunitionBox54RPractice
 
 - type: latheRecipePack
   id: NfsdAmmoStatic

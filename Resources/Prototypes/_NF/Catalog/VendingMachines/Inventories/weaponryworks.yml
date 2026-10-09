@@ -19,6 +19,7 @@
   emaggedInventory:
     NFWeaponPistolViper: 1
     PSWeaponPistolStechkinAPS: 1 # Palmtree/Sandstorm: Stechkin APS
+    PSWeaponPistolDesertEagle: 1 # Palmtree: Desert Eagle
 
 - type: vendingMachineInventory
   id: WeaponryWorksVendPOIInventory
@@ -43,3 +44,4 @@
   emaggedInventory:
     NFWeaponPistolViper: 1
     PSWeaponPistolStechkinAPS: 1 # Palmtree/Sandstorm: Stechkin APS
+    PSWeaponPistolDesertEagle: 1 # Palmtree: Desert Eagle

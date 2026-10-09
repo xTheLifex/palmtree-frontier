@@ -318,6 +318,12 @@
     #   - id: PKAUpgradeFireRate # Frontier
     - id: PowerCellAntiqueProto # Frontier
     - id: NFShovel # Frontier
+    - !type:NestedSelector # Palmtree: Fallout weapon ports
+      weight: 0.5
+      tableId: TableDungeonLootWeaponsFallout
+    - !type:NestedSelector # Palmtree: previously added weapons
+      weight: 0.3
+      tableId: TableDungeonLootWeaponsPalmtree
 
 - type: entityTable
   id: RandomGeneratorTable

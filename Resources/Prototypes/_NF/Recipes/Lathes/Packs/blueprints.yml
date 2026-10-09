@@ -524,6 +524,61 @@
   - NFMagazineGrenadeEmpty
   # NFPortableMicrofusionWeaponry
   - NFPortableRecharger
+  # Fallout ammo (Palmtree)
+  - CSAmmunitionBox9mm
+  - CSAmmunitionBox10mm
+  - CSAmmunitionBox22
+  - CSAmmunitionBox44
+  - CSAmmunitionBox357
+  - CSAmmunitionBox50AE
+  - CSAmmunitionBox45LC
+  - CSAmmunitionBox5mm
+  - CSAmmunitionBox308
+  - CSAmmunitionBox3006
+  - CSAmmunitionBox54R
+  - CSMagazine9mmEmpty
+  - CSMagazine9mmDsEmpty
+  - CSMagazine9mmUziEmpty
+  - CSMagazine9mmPpshEmpty
+  - CSMagazine10mmEmpty
+  - CSMagazine10mmExtEmpty
+  - CSMagazine10mmP90Empty
+  - CSMagazine22DrumEmpty
+  - CSMagazine44Empty
+  - CSMagazine44AutomagEmpty
+  - CSMagazine357Empty
+  - CSMagazine50AEEmpty
+  - CSMagazine5mmEmpty
+  - CSMagazine308Empty
+  - CSMagazine308ExtEmpty
+  - CSMagazine308RpdEmpty
+  - CSMagazine308LewisEmpty
+  - CSMagazine308BeltEmpty
+  - CSMagazine308SksEmpty
+  - CSMagazine3006ClipEmpty
+  - CSMagazine54RClipEmpty
+  - CSAmmunitionBox9mmOverpressure
+  - CSAmmunitionBox10mmOverpressure
+  - CSAmmunitionBox22Overpressure
+  - CSAmmunitionBox44Overpressure
+  - CSAmmunitionBox357Overpressure
+  - CSAmmunitionBox50AEOverpressure
+  - CSAmmunitionBox45LCOverpressure
+  - CSAmmunitionBox5mmOverpressure
+  - CSAmmunitionBox308Overpressure
+  - CSAmmunitionBox3006Overpressure
+  - CSAmmunitionBox54ROverpressure
+  - CSAmmunitionBox9mmRubber
+  - CSAmmunitionBox10mmRubber
+  - CSAmmunitionBox22Rubber
+  - CSAmmunitionBox44Rubber
+  - CSAmmunitionBox357Rubber
+  - CSAmmunitionBox50AERubber
+  - CSAmmunitionBox45LCRubber
+  - CSAmmunitionBox5mmRubber
+  - CSAmmunitionBox308Rubber
+  - CSAmmunitionBox3006Rubber
+  - CSAmmunitionBox54RRubber
 
 # region Engineering & Science
 - type: latheRecipePack

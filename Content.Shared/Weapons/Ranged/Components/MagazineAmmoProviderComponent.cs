@@ -19,4 +19,15 @@ public partial class MagazineAmmoProviderComponent : AmmoProviderComponent
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), DataField("autoEject")]
     public bool AutoEject = false;
+
+    // Palmtree begin - defer auto-eject until the chambered round has been fired too
+    /// <summary>
+    /// Normally auto-ejection happens as soon as the magazine runs dry, even though its last
+    /// round has just been moved into the chamber. If true, ejection (and
+    /// <see cref="SoundAutoEject"/>) waits until that chambered round has been fired as well -
+    /// the M1 Garand's en-bloc clip should only eject and ping after the final shot.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite), DataField("autoEjectDeferChambered")]
+    public bool AutoEjectDeferChambered = false;
+    // Palmtree end
 }

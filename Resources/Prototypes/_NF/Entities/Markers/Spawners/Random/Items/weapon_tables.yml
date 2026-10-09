@@ -267,6 +267,9 @@
       - id: WeaponCaseLongTemperatureGunExpedition
       - id: WeaponCaseShortEnergyRevolverExpedition # Palmtree/Coyote: EG-4 energy revolver
       - id: WeaponCaseShortAnacondaExpedition # Palmtree/Coyote: Anaconda
+      - !type:NestedSelector # Palmtree: Fallout weapon ports
+        weight: 0.15
+        tableId: TableDungeonLootWeaponsFallout
     - !type:NestedSelector
       weight: 0.05
       tableId: TableDungeonLootWeaponsRangedTier5
@@ -287,6 +290,9 @@
       - id: WeaponCaseHeavyAsmgtExpeditions
       - id: WeaponCaseLongPrototypePulseRifleExpedition # Palmtree/Coyote: prototype pulse rifle
       - id: WeaponCaseLongC19r # Palmtree/Coyote: C-19r
+      - !type:NestedSelector # Palmtree: Fallout weapon ports
+        weight: 0.15
+        tableId: TableDungeonLootWeaponsFallout
 
 # region explosives
 - type: entityTable

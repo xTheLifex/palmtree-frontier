@@ -194,5 +194,30 @@
     selectedMode: SemiAuto
     availableModes:
       - SemiAuto
+    fireRate: 6.4
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/ltrifle.ogg
+      path: /Audio/Weapons/Guns/Gunshots/m4a1.ogg
+  - type: ChamberMagazineAmmoProvider
+    soundRack:
+      path: /Audio/Weapons/Guns/Bolt/m4a1_boltpull.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: NFMagazineClipRifle20
+        insertSound: /Audio/Weapons/Guns/MagIn/m4a1_clipin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/m4a1_clipout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - NFMagazineClipRifle20
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: NFCartridgeRifle20
+        priority: 1
+        whitelist:
+          tags:
+          - NFCartridgeRifle20
+  - type: GunDamageMultiplier
+    multiplier: 1.25

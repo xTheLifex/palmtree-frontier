@@ -424,3 +424,117 @@ Palmtree splash logo, non-`_PS` lobby backgrounds/music disabled.
 - **Obtainable**: `WeaponCaseShortStechkinAPS` dungeon case (expedition variant
   `PSWeaponPistolStechkinAPSExpedition`, T2 ranged loot next to the Viper) and both WeaponryWorks
   (emagged black market) inventories, plus the DEBUG guns vendor.
+
+## 17. 2026-10 Desert Eagle (ammo-fed Anaconda sibling)
+
+- **`PSWeaponPistolDesertEagle`** (`_PS/Entities/Objects/Weapons/Guns/Pistols/desert_eagle.yml`):
+  a normal magazine-fed heavy pistol using the Anaconda sprite (the Anaconda itself is a
+  battery-fabricated gun). Parent `[NFBaseWeaponPistolChamber45, CSBaseWeaponFrameHeavyPistolCybersun]`;
+  takes `NFMagazinePistol45` (8 rounds) and `NFCartridgePistol45`, inheriting the heavy pistol class,
+  C2 contraband and Cybersun manufacturer details.
+- **Sprites**: `_PS/Objects/Weapons/Guns/Pistols/desert_eagle.rsi`, copied from the Anaconda RSI with
+  added `base`/`bolt-open` (icon copies) and a transparent `mag-0` state so the magazine-fed gun
+  renders (the Anaconda has no mag/bolt states).
+- **Sounds**: `Gunshots/deagle.ogg`, `MagIn/de_clipin.ogg`, `MagOut/de_clipout.ogg` and
+  `Bolt/de_slideback.ogg` (rack). `Cock/de_clipin.ogg` is a byte-identical duplicate of the MagIn
+  file and is currently unused.
+- **Obtainable**: both WeaponryWorks emagged (black market) inventories, the DEBUG guns vendor and
+  (since §18) dungeon/asteroid loot.
+- **Ammo (updated in §18)**: the Desert Eagle now accepts `.50 AE`, `.44 Magnum` and `.357 Magnum`
+  magazines (`CSMagazine50AE`, `CSMagazine44`/`CSMagazine44Automag`, `CSMagazine357`) as well as
+  those cartridges in the chamber; those calibers were added natively in §18.
+
+## 18. 2026-10 Fallout weapon port (coyote-bayou, 29 weapons + 11 calibers)
+
+### Weapons
+
+Ported from `BYOND/coyote-bayou` under the `_CS` prefix, one file per class in
+`_CS/Entities/Objects/Weapons/Guns/Fallout/`:
+
+- **Pistols**: `CSWeaponPistolAutomag` (.44 Mag), `CSWeaponPistolM93R` (9mm, burst),
+  `CSWeaponPistolM9FS`, `CSWeaponPistolHiPower`, `CSWeaponPistolM1911` (.45 pistol),
+  `CSWeaponPistolMakarov`, `CSWeaponPistolSkorpion` (9mm, full auto).
+- **Revolvers**: `CSWeaponRevolverColtSAA` (.45 LC), `CSWeaponRevolver44` (.44 Mag),
+  `CSWeaponRevolverTaurusJudge` (3x .50 shells), `CSWeaponRevolverSW45` (.45 pistol, 7 rounds).
+- **SMGs**: `CSWeaponSubMachineGunUzi`, `...American180` (.22, integrally suppressed),
+  `...P90` (10mm), `...MP5`, `...PPSh`.
+- **Rifles**: `CSWeaponRifleM1Garand` (.30-06), `...M1A1` (10mm), `...ScarL` (5mm),
+  `...AUGA10` (5mm), `...Mosin` (7.62x54R), `...SKS` (.308).
+- **LMGs**: `CSWeaponLightMachineGunBAR`, `...M1919`, `...RPD`, `...DP27` (all .308).
+- **Shotgun**: `CSWeaponShotgunSaiga12` (.50 shells, 8-round magazine).
+- **Bows**: `CSWeaponBowComposite` (arrows), `CSWeaponCrossbowMarksman` (bolts).
+
+- Sprites in `_CS/Objects/Weapons/Guns/Fallout/<Name>.rsi` (`icon`/`base`, `bolt-open`, `mag-0`,
+  4-dir inhands and equipped sprites). Extracted from the coyote-bayou DMIs with the
+  zTXt/Pillow method; `bolt-open` uses the source `-e`/`-open` state when present, equipped-back
+  sprites come from `modular_coyote/icons/objects/back.dmi` when available and the shared SS14
+  rifle art otherwise, belt/suit storage from the shared SS14 pistol art.
+- Sounds copied from `sound/f13weapons/` into `Resources/Audio/_CS/Weapons/Fallout/`.
+- Chamber bases (`CSBaseWeapon...Chamber...`) in `.../Fallout/bases.yml` set the magazine
+  whitelist (`CSMagazine*` tags), examine caliber and revolver chambers.
+- Fire modes/rates adapted from the BYOND rpm values (rpm / 60 = SS14 `fireRate`).
+
+### Calibers
+
+11 new native calibers under `_CS/Entities/Objects/Weapons/Guns/Ammunition/`:
+**9mm, 10mm, .22 LR, .44 Magnum, .357 Magnum, .50 AE, .45 Long Colt, 5mm, .308, .30-06, 7.62x54R**.
+
+- Full 7-variant families (Standard, Overpressure, Incendiary, Uranium, Practice, Rubber, EMP) for
+  cartridges, projectiles and ammo boxes; magazines ship in standard, empty and all 6 variant
+  versions, matching the Frontier convention.
+- Cartridges reuse the upstream pistol/magnum/rifle casing RSIs with tinted tips.
+- Magazine sprites extracted from `icons/fallout/objects/guns/ammo.dmi`; box sprites from the
+  same DMI (one box per caliber). Magazine fill levels use the source's ammo-count states
+  (`mag-0` = the source `-0` empty sprite, `mag-5` = the full sprite, intermediate counts where
+  the source has them, e.g. `uzi9mm-4..32`, `762belt-20..80`, `enbloc-0..8`). The PPSh drum,
+  American 180 drum and Saiga magazine have pixel-identical empty/full sprites in the source, so
+  those look the same regardless of fill.
+- `.45 ACP` reuses the existing `.45 pistol` family, 12 gauge reuses `.50 shells`, and the
+  SCAR-L/AUG use the source's 5mm (not 5.56). Arrows/bolts reuse the existing bow ammunition.
+- Tags in `_CS/tags.yml`, examine-caliber locale in `Resources/Locale/en-US/_CS/weapons/gun-examine.ftl`,
+  lathe recipes (ammo boxes + empty magazines) in `_CS/Recipes/Lathes/fallout_ammo.yml`.
+- **Recipe exposure** (mirrors how Frontier exposes its own ammo): standard boxes + empty
+  magazines added to the `NFBasicAmmunitionProduction` tech node, pistol overpressure to
+  `NFImprovedPistolAmmo`, rifle overpressure to `NFImprovedRifleAmmo`, rubber to
+  `NFNonlethalAmmunition`; the same recipes added to the `NFBlueprintsMercenaryNfsd` blueprint
+  pack; overpressure/incendiary/uranium boxes added to the mercenary/syndicate ammo blueprint
+  disks; practice boxes added to the `NfsdPracticeStatic` lathe pack. EMP boxes stay
+  research-locked exactly like Frontier's own EMP ammo.
+
+### Loot
+
+- `_CS/Catalog/Fills/Items/weapon_cases_fallout.yml`: one `RareWeaponCase` per gun (30, including
+  the Desert Eagle) with magazines/ammunition.
+- `_CS/Entities/Markers/Spawners/Random/weapon_tables_fallout.yml`: `TableDungeonLootWeaponsFallout`
+  (all Fallout ports) and `TableDungeonLootWeaponsPalmtreePrevious` (AKM, C-19r, Anaconda, pulse
+  rifle, energy revolver, Stechkin APS).
+- Nested into dungeon ranged T4 (weight 0.15) and T5 (weight 0.15) and into
+  `SalvageEquipmentLegendary` (asteroid salvage, weights 0.5/0.3).
+
+## 19. 2026-10 Balance + polish pass (CSS sounds, fire rates, per-gun damage)
+
+- **Garand ping**: `CSWeaponRifleM1Garand` auto-ejects its en-bloc clip with
+  `Audio/_CS/Weapons/Fallout/garand_ping.ogg`. Vanilla auto-eject triggers the moment the magazine
+  drains - which is one shot early, because that last round is moved into the chamber - so
+  `MagazineAmmoProviderComponent.autoEjectDeferChambered` (new field, shared) defers both the eject
+  and the sound until the chambered round has been fired too. Only enabled on the Garand, so the
+  C-20r/C-19r auto-eject behaviour is unchanged.
+- **Bows**: the composite bow was invisible because `BaseBow` defines no sprite layers; it now has
+  `unwielded`/`wielded` layers (source `composite_unloaded`/`composite_loaded` states) plus a
+  `GenericVisualizer` for wielding. The marksman crossbow was missing `icon-string-drawn`
+  (ERROR sprite when drawn); the state now exists and the crossbow spawns with a loaded
+  `CrossbowBolt` (`ItemSlots.projectiles.startingItem`).
+- **CSS sound sets**: user-provided sounds copied into `Resources/Audio/Weapons/Guns/`
+  (`Gunshots/{ak47,aug,awp,m4a1,p90}.ogg` plus MagIn/MagOut/Bolt/Misc extras) and wired to
+  `CSWeaponAssaultRifleAKM` (ak47), `CSWeaponRifleAUGA10` (aug), `NFWeaponRifleSniperHristov`
+  (awp), `NFWeaponRifleAssaultNovaliteC1` (m4a1) and `CSWeaponSubMachineGunP90` (p90) - gunshot,
+  magazine in/out and rack sounds (insert/rack for the Hristov's internal magazine). No gun
+  variants were created; the sounds simply replace the old ones.
+- **Fire rates**: ported LMGs x4 (BAR 10, M1919 13.2, RPD 6.68, DP-27 10), rifles x2 (M1 Garand 3,
+  M1A1 6, SCAR-L 3.34, AUG 3.34, Mosin 1.6, SKS 4), SMGs x2.5 (Uzi/MP5/P90 8.25, American 180/PPSh
+  12.5; P90 burst 10.75); previously added AKM 6.4, Novalite 6.4 and Hristov 1.6.
+- **Per-gun damage**: new `GunDamageMultiplierComponent` (`Content.Shared/_PS/Weapons`) and
+  `GunDamageMultiplierSystem` (`Content.Server/_PS/Weapons`) scale projectile damage at hit time
+  based on the firing weapon (`ProjectileComponent.Weapon`). Applied to AKM, AUG, Novalite and P90
+  (x1.25) and Hristov (x3). Needed because SS14 damage lives on the ammunition and those guns share
+  calibers with Frontier weapons.

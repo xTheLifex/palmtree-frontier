@@ -1,0 +1,48 @@
+# Palmtree: loot tables for the ported Fallout weapons.
+# Nested into the dungeon ranged T4/T5 tables and the asteroid salvage legendary table.
+
+- type: entityTable
+  id: TableDungeonLootWeaponsFallout
+  table: !type:GroupSelector
+    children:
+    - id: WeaponCaseShortFalloutAutomag
+    - id: WeaponCaseShortFalloutM93R
+    - id: WeaponCaseShortFalloutM9FS
+    - id: WeaponCaseShortFalloutHiPower
+    - id: WeaponCaseShortFalloutM1911
+    - id: WeaponCaseShortFalloutMakarov
+    - id: WeaponCaseShortFalloutSkorpion
+    - id: WeaponCaseShortFalloutColtSAA
+    - id: WeaponCaseShortFalloutRevolver44
+    - id: WeaponCaseShortFalloutTaurusJudge
+    - id: WeaponCaseShortFalloutSW45
+    - id: WeaponCaseShortFalloutDesertEagle
+    - id: WeaponCaseLongFalloutUzi
+    - id: WeaponCaseLongFalloutAmerican180
+    - id: WeaponCaseLongFalloutP90
+    - id: WeaponCaseLongFalloutMP5
+    - id: WeaponCaseLongFalloutPPSh
+    - id: WeaponCaseLongFalloutBAR
+    - id: WeaponCaseLongFalloutM1919
+    - id: WeaponCaseLongFalloutM1Garand
+    - id: WeaponCaseLongFalloutM1A1
+    - id: WeaponCaseLongFalloutScarL
+    - id: WeaponCaseLongFalloutRPD
+    - id: WeaponCaseLongFalloutSaiga12
+    - id: WeaponCaseLongFalloutAUGA10
+    - id: WeaponCaseLongFalloutDP27
+    - id: WeaponCaseLongFalloutMosin
+    - id: WeaponCaseLongFalloutSKS
+    - id: WeaponCaseLongFalloutCompositeBow
+    - id: WeaponCaseLongFalloutMarksmanCrossbow
+
+- type: entityTable
+  id: TableDungeonLootWeaponsPalmtree
+  table: !type:GroupSelector
+    children:
+    - id: WeaponCaseLongAkm
+    - id: WeaponCaseLongC19r
+    - id: WeaponCaseShortAnacondaExpedition
+    - id: WeaponCaseShortEnergyRevolverExpedition
+    - id: WeaponCaseLongPrototypePulseRifleExpedition
+    - id: WeaponCaseShortStechkinAPS

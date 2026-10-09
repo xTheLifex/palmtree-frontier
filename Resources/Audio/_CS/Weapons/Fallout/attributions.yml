@@ -1,0 +1,7 @@
+- files: ["10mm_fire_01.ogg", "10mm_fire_03.ogg", "44mag.ogg", "44revolver.ogg", "45revolver.ogg", "9mm.ogg",
+         "american180.ogg", "assault_carbine.ogg", "assaultrifle_fire.ogg", "auto5.ogg", "automaticrifle_BAR.ogg",
+         "boltfire.ogg", "bowfire.wav", "bozar_fire.ogg", "caravan_shotgun.ogg", "garand_ping.ogg",
+         "hunting_rifle.ogg", "ninemil.ogg", "varmint_rifle.ogg"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Taken from coyote-bayou (Fallout 13 codebase, derivative of /tg/station 13)"
+  source: "https://github.com/Tropica1Owl/coyote-bayou"

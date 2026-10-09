@@ -149,6 +149,12 @@ public abstract partial class SharedGunSystem
     {
         // If no ammo then check for autoeject
         var ejectMag = component.AutoEject && count == 0;
+        // Palmtree begin - optionally wait until the chambered round has been fired too
+        if (ejectMag && component.AutoEjectDeferChambered && GetChamberEntity(uid) != null)
+        {
+            ejectMag = false;
+        }
+        // Palmtree end
         if (ejectMag)
         {
             EjectMagazine(uid, component);

@@ -1,0 +1,46 @@
+# Palmtree: Desert Eagle — an ammo-fed heavy pistol using the Anaconda sprite.
+# The Anaconda (same sprite) is a battery-fabricated gun; this one takes .50 AE, .44 Magnum
+# or .357 Magnum magazines like a normal firearm.
+
+- type: entity
+  id: PSWeaponPistolDesertEagle
+  parent: [ NFBaseWeaponPistolChamber45, CSBaseWeaponFrameHeavyPistolCybersun ]
+  name: Desert Eagle
+  description: |-
+    A heavy, high-caliber semi-automatic pistol. Takes .50 AE, .44 Magnum or .357 Magnum magazines.
+  components:
+  - type: Sprite
+    sprite: _PS/Objects/Weapons/Guns/Pistols/desert_eagle.rsi
+  - type: Clothing
+    sprite: _PS/Objects/Weapons/Guns/Pistols/desert_eagle.rsi
+  - type: Gun
+    examineCaliber: gun-examine-caliber-50ae
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/deagle.ogg
+  - type: ChamberMagazineAmmoProvider
+    soundRack:
+      path: /Audio/Weapons/Guns/Bolt/de_slideback.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: CSMagazine50AE
+        insertSound: /Audio/Weapons/Guns/MagIn/de_clipin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/de_clipout.ogg
+        priority: 2
+        whitelist:
+          tags:
+            - CSMagazine50AE
+            - CSMagazine44
+            - CSMagazine44Automag
+            - CSMagazine357
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CSCartridge50AE
+        priority: 1
+        whitelist:
+          tags:
+            - CSCartridge50AE
+            - CSCartridge44
+            - CSCartridge357

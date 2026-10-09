@@ -264,6 +264,17 @@
     - NFAmmunitionBoxRifle20Overpressure
     - NFAmmunitionBoxRifle30Overpressure
     - NFAmmunitionBoxShellShotgunOverpressure
+    - CSAmmunitionBox9mmOverpressure
+    - CSAmmunitionBox10mmOverpressure
+    - CSAmmunitionBox22Overpressure
+    - CSAmmunitionBox44Overpressure
+    - CSAmmunitionBox357Overpressure
+    - CSAmmunitionBox50AEOverpressure
+    - CSAmmunitionBox45LCOverpressure
+    - CSAmmunitionBox5mmOverpressure
+    - CSAmmunitionBox308Overpressure
+    - CSAmmunitionBox3006Overpressure
+    - CSAmmunitionBox54ROverpressure
 
 - type: entity
   parent: NFBaseBlueprintExpeditionMercenary
@@ -658,6 +669,17 @@
     - NFAmmunitionBoxRifle20Overpressure
     - NFAmmunitionBoxRifle30Overpressure
     - NFAmmunitionBoxShellShotgunOverpressure
+    - CSAmmunitionBox9mmOverpressure
+    - CSAmmunitionBox10mmOverpressure
+    - CSAmmunitionBox22Overpressure
+    - CSAmmunitionBox44Overpressure
+    - CSAmmunitionBox357Overpressure
+    - CSAmmunitionBox50AEOverpressure
+    - CSAmmunitionBox45LCOverpressure
+    - CSAmmunitionBox5mmOverpressure
+    - CSAmmunitionBox308Overpressure
+    - CSAmmunitionBox3006Overpressure
+    - CSAmmunitionBox54ROverpressure
 
 - type: entity
   parent: NFBaseBlueprintExpeditionSyndicate
@@ -673,6 +695,17 @@
     - NFAmmunitionBoxRifle20Incendiary
     - NFAmmunitionBoxRifle30Incendiary
     - NFAmmunitionBoxShellShotgunIncendiary
+    - CSAmmunitionBox9mmIncendiary
+    - CSAmmunitionBox10mmIncendiary
+    - CSAmmunitionBox22Incendiary
+    - CSAmmunitionBox44Incendiary
+    - CSAmmunitionBox357Incendiary
+    - CSAmmunitionBox50AEIncendiary
+    - CSAmmunitionBox45LCIncendiary
+    - CSAmmunitionBox5mmIncendiary
+    - CSAmmunitionBox308Incendiary
+    - CSAmmunitionBox3006Incendiary
+    - CSAmmunitionBox54RIncendiary
 
 - type: entity
   parent: NFBaseBlueprintExpeditionSyndicate
@@ -688,6 +721,17 @@
     - NFAmmunitionBoxRifle20Uranium
     - NFAmmunitionBoxRifle30Uranium
     - NFAmmunitionBoxShellShotgunUranium
+    - CSAmmunitionBox9mmUranium
+    - CSAmmunitionBox10mmUranium
+    - CSAmmunitionBox22Uranium
+    - CSAmmunitionBox44Uranium
+    - CSAmmunitionBox357Uranium
+    - CSAmmunitionBox50AEUranium
+    - CSAmmunitionBox45LCUranium
+    - CSAmmunitionBox5mmUranium
+    - CSAmmunitionBox308Uranium
+    - CSAmmunitionBox3006Uranium
+    - CSAmmunitionBox54RUranium
 
 - type: entity
   parent: NFBaseBlueprintExpeditionSyndicate

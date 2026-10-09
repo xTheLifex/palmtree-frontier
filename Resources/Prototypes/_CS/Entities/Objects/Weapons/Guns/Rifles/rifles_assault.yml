@@ -15,6 +15,31 @@
   - type: Gun
     angleIncrease: 0.9
     angleDecay: 3.6
-    fireRate: 3.2
+    fireRate: 6.4
     soundGunshot:
-      path: /Audio/_Mono/Weapons/Guns/SmallArms/Gunshots/ak_fire.ogg
+      path: /Audio/Weapons/Guns/Gunshots/ak47.ogg
+  - type: ChamberMagazineAmmoProvider # Palmtree: CSS sound set
+    soundRack:
+      path: /Audio/Weapons/Guns/Bolt/ak47_boltpull.ogg
+  - type: ItemSlots # Palmtree: CSS sound set - must mirror NFBaseWeaponRifleAssaultChamber30
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: NFMagazineRifle30
+        insertSound: /Audio/Weapons/Guns/MagIn/ak47_clipin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ak47_clipout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - NFMagazineRifle30
+          - NFMagazineLowCapacityRifle30
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: NFCartridgeRifle30
+        priority: 1
+        whitelist:
+          tags:
+          - NFCartridgeRifle30
+  - type: GunDamageMultiplier # Palmtree: 1.25x damage
+    multiplier: 1.25

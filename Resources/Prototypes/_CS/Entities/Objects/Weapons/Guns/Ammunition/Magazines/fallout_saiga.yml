@@ -1,0 +1,23 @@
+
+- type: entity
+  id: CSMagazineSaiga
+  name: shotgun magazine (.50 shells)
+  parent: NFBaseMagazineShotgunDrum
+  components:
+  - type: BallisticAmmoProvider
+    proto: NFShellShotgunBuckshot
+  - type: Sprite
+    sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/Saiga.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    sprite: _CS/Objects/Weapons/Guns/Ammunition/Magazines/Saiga.rsi
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
+
