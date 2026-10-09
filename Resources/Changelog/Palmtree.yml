@@ -625,3 +625,55 @@ Entries:
   time: '2026-10-09T19:18:09.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/1db453f73b2a7f83406a9571a1da49cb656615d2
+- author: TheLife
+  changes:
+    - type: Fix
+      message: lobby soundtrack now shows the correct track title and artist
+    - type: Fix
+      message: lobby music no longer starts mid-round for players already in the game
+  id: 90036
+  time: '2026-10-09T22:18:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/dba88adb685225eff690de759fa579cba688991b
+- author: TheLife
+  changes:
+    - type: Fix
+      message: gun magazines no longer disappear after firing the first round
+    - type: Fix
+      message: >-
+        the Mosin now has an internal magazine - stripper clips load it in one
+        action and never enter the gun
+    - type: Fix
+      message: the DP-27 no longer shows a magazine sprite
+    - type: Tweak
+      message: PPSh drum holds 71 rounds again
+    - type: Tweak
+      message: >-
+        the M1919 and RPD share a 100-round .308 drum (the separate ammo belt is
+        gone)
+  id: 90037
+  time: '2026-10-09T22:18:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/2e501e70d1f4b08b3808d4ca856d57d989211a14
+- author: TheLife
+  changes:
+    - type: Add
+      message: synths can be repaired with synthetic repair patches and sprays
+    - type: Add
+      message: >-
+        dead synths can be rebooted (Reboot verb) unless their chassis is too
+        damaged
+    - type: Add
+      message: synths can eat and drink, but still never need to
+    - type: Fix
+      message: food, medicine and poisons no longer affect synths
+    - type: Fix
+      message: synths no longer take pressure damage in space
+    - type: Fix
+      message: >-
+        lava and liquid plasma no longer damage synths, and being on fire is
+        visual only
+  id: 90038
+  time: '2026-10-09T22:18:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/597042695558f562a3932e6672d196331861657e
