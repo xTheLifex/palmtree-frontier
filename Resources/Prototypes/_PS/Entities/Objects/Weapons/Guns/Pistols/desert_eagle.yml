@@ -4,6 +4,7 @@
 
 - type: entity
   id: PSWeaponPistolDesertEagle
+  suffix: Palmtree
   parent: [ NFBaseWeaponPistolChamber45, CSBaseWeaponFrameHeavyPistolCybersun ]
   name: Desert Eagle
   description: |-

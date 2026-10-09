@@ -8,6 +8,7 @@
   name: taser
   parent: [ BaseWeaponBatterySmall, BaseC2ContrabandUnredeemable ]
   id: PSWeaponTaser
+  suffix: Palmtree
   description: A low-capacity, energy-based stun gun used by security teams to subdue targets at close range. On the handle is a label that says 'for authorized use only.'
   components:
   - type: Tag
@@ -44,7 +45,7 @@
   name: elite taser
   parent: PSWeaponTaser
   id: PSWeaponTaserSuper
-  suffix: ADMEME
+  suffix: ADMEME, Palmtree
   description: A low-capacity, energy-based stun gun used by elite security teams to disable even the toughest of targets.
   components:
   - type: Gun
@@ -61,6 +62,7 @@
   name: tesla gun
   parent: [BaseWeaponBattery, BaseC3Contraband]
   id: PSWeaponTeslaGun
+  suffix: Palmtree
   description: The power of the primordial element of lightning in your hands. An experimental and illegal weapon.
   components:
   - type: Item
@@ -94,6 +96,7 @@
   name: energy shotgun
   parent: [BaseWeaponBattery, BaseGunWieldable, BaseC2ContrabandUnredeemable]
   id: PSWeaponEnergyShotgun
+  suffix: Palmtree
   description: A one-of-a-kind prototype energy weapon that uses various shotgun configurations. It offers the possibility of both lethal and non-lethal shots, making it a versatile weapon.
   components:
   - type: Sprite

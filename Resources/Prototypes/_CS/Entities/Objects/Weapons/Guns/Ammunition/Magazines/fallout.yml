@@ -2329,7 +2329,7 @@
       tags:
       - CSCartridge308
     proto: CSCartridge308
-    capacity: 80
+    capacity: 100
   - type: MagazineVisuals
     magState: mag
     steps: 6

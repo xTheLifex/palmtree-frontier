@@ -3,6 +3,7 @@
 
 - type: entity
   id: CSWeaponShotgunSaiga12
+  suffix: Coyote Bayou
   parent: [ NFBaseWeaponShotgunChamber50Magazine, NFBaseWeaponFrameShotgunWieldable ]
   name: Saiga12
   description: A 12g Saiga-12 shotgun. Manufactured in Russia, this shotgun is as reliable as they get. 8 shot capacity, decent firerate.

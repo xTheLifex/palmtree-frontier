@@ -159,10 +159,9 @@
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2
-        whitelist:
+        whitelist: # Palmtree: Uzi/MP5 magazine; the PPSh overrides this with its own drum
           tags:
           - CSMagazine9mmUzi
-          - CSMagazine9mmPpsh
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
@@ -301,14 +300,10 @@
         insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
         ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
         priority: 2
-        whitelist:
+        whitelist: # Palmtree: default box mags; the LMGs and the SKS override this with their own mags
           tags:
           - CSMagazine308
           - CSMagazine308Ext
-          - CSMagazine308Rpd
-          - CSMagazine308Lewis
-          - CSMagazine308Belt
-          - CSMagazine308Sks
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
@@ -354,6 +349,9 @@
   components:
   - type: Gun
     examineCaliber: gun-examine-caliber-54r
+  - type: ChamberMagazineAmmoProvider # Palmtree: the stripper clip ejects (disappears) once spent
+    autoEject: true
+    autoEjectDeferChambered: true
   - type: ItemSlots
     slots:
       gun_magazine:
@@ -441,5 +439,5 @@
     whitelist:
       tags:
         - ShellShotgun
-    proto: ShellShotgun
+    proto: NFShellShotgunBuckshot # Palmtree: upstream ShellShotgun fires duds (projectile commented out)
 

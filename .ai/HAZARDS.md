@@ -291,3 +291,23 @@ value line.
   test is reported as skipped, not failed.
 - **`_DV/Recipes/Lathes/misc.yml` already existed** (CassetteTape/TapeRecorder recipes); adding the
   water vapor tank recipe required appending, not overwriting (the lathe packs reference those ids).
+
+## 20. BYOND gun sprites and `MagazineVisuals` (2026-10)
+
+- **BYOND encodes ammo/bolt in the `icon_state` name**: `<name>[-<max_ammo>][-e][-f]` plus `_open`
+  hand sprites (`-e` = no chambered round, `-<max_ammo>` = magazine attached, `-f` = folded stock).
+  Examples: `rpd` (drum, chambered), `rpd-e` (open/empty), `rpd-100`, `uzi-30`, `M38closed80`.
+  World art lives in `icons/fallout/objects/guns/{ballistic,bar,ammo}.dmi` and
+  `modular_coyote/icons/objects/{automatic,mgs,rifles}.dmi` (the `gen_guns.py` port script is not
+  in this repo). Parse sheet states with `state = "([^"]+)"\s*\n\s*dirs = (\d+)...`.
+- **The port cropped instead of scaling.** `bar.dmi` is 40x32, the `.rsi` frame is 32x32, so the
+  generator chopped the barrel off (BAR "kinda broken"). When a source is wider than the frame,
+  resize the `.rsi` `size` (and pad the 32x32 inhand/equipped cells symmetrically so the center - and
+  the held position - does not shift).
+- **`MagazineVisuals` mapping**: `base`/`bolt-open` must use the *magazine-less* states, the
+  `mag-N` overlay uses the *with-magazine* states, and `zeroVisible: false` unless `mag-0` really
+  draws an empty magazine. A child prototype can add `- type: MagazineVisuals` with its own
+  `steps`/`zeroVisible` (fields merge). If `base` has the mag and `bolt-open` does not, the magazine
+  only appears when the player racks the gun (RPD bug); if the `mag-0` art is blank the gun never
+  shows a magazine at all even with `zeroVisible: true`.
+

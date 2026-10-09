@@ -3,6 +3,7 @@
 
 - type: entity
   id: CSWeaponPistolAutomag
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponPistolChamber44, NFBaseWeaponFramePistol ]
   name: Automag
   description: A long-barreled .44 Magnum semi-automatic handgun.
@@ -24,6 +25,7 @@
 
 - type: entity
   id: CSWeaponPistolM93R
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponPistolChamber9mm, NFBaseWeaponFrameMachinePistol ]
   name: M93R
   description: An uncommon model of the M9 pistol that's capable of burst fire. It has a built in foregrip allowing for incredibly accurate shots.
@@ -48,6 +50,7 @@
 
 - type: entity
   id: CSWeaponPistolM9FS
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponPistolChamber9mm, NFBaseWeaponFramePistol ]
   name: M9FS
   description: One of the more common 9mm pistols, the Beretta is popular due to its reliability, 15 round magazine and good looks.
@@ -69,6 +72,7 @@
 
 - type: entity
   id: CSWeaponPistolHiPower
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponPistolChamber9mm, NFBaseWeaponFramePistol ]
   name: HiPower
   description: A mass produced Pre-Fall Browning Hi-power 9mm pistol.
@@ -90,6 +94,7 @@
 
 - type: entity
   id: CSWeaponPistolM1911
+  suffix: Coyote Bayou
   parent: [ NFBaseWeaponPistolChamber45, NFBaseWeaponFramePistol ]
   name: M1911
   description: A classic .45 handgun with a small magazine capacity.
@@ -111,6 +116,7 @@
 
 - type: entity
   id: CSWeaponPistolMakarov
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponPistolChamber9mm, NFBaseWeaponFramePistol ]
   name: Makarov
   description: An easy to conceal Makarov pistol chambered in 9mm. Compact, easy to use, and stylish.
@@ -132,6 +138,7 @@
 
 - type: entity
   id: CSWeaponPistolSkorpion
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponPistolChamber9mm, NFBaseWeaponFrameMachinePistol ]
   name: Skorpion
   description: A Czech machine pistol developed in the 60s.

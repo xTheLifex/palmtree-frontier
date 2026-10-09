@@ -4,6 +4,7 @@
 
 - type: entity
   id: PSWeaponRifleAssaultNovaliteC2
+  suffix: Palmtree
   parent: [ NFBaseWeaponRifleAssaultChamber20Clip, NFBaseWeaponFrameRifleAssaultFrontierGunsmith ]
   name: Novalite C2
   description: |-

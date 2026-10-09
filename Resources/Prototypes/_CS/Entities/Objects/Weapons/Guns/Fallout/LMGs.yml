@@ -3,6 +3,7 @@
 
 - type: entity
   id: CSWeaponLightMachineGunBAR
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber308, NFBaseWeaponFrameLightMachineGun ]
   name: BAR
   description: An ancient machine gun that looks outdated even by Pre-Fall standards. It is alarmingly heavy for a rifle.
@@ -19,12 +20,17 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/automaticrifle_BAR.ogg
+  - type: MagazineVisuals # Palmtree: magazine art from the BYOND source
+    magState: mag
+    steps: 3
+    zeroVisible: false
   - type: StaticPrice
     price: 4800
 
 
 - type: entity
   id: CSWeaponLightMachineGunM1919
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber308, NFBaseWeaponFrameLightMachineGun ]
   name: M1919
   description: This ancient machine gun has been dug up and put into working order by the Dallas Militia. It's loud, heavy and terrifying.
@@ -40,12 +46,36 @@
     - FullAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/assaultrifle_fire.ogg
+  - type: MagazineVisuals # Palmtree: belt art from the BYOND source
+    magState: mag
+    steps: 5
+    zeroVisible: false
+  - type: ItemSlots # Palmtree: M1919 is belt-fed; spawns with the .308 ammo belt
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: CSMagazine308Belt
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist: # Palmtree: belts only - box mags, drums, pans and clips do not fit
+          tags:
+          - CSMagazine308Belt
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CSCartridge308
+        priority: 1
+        whitelist:
+          tags:
+          - CSCartridge308
   - type: StaticPrice
     price: 6000
 
 
 - type: entity
   id: CSWeaponLightMachineGunRPD
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber308, NFBaseWeaponFrameLightMachineGun ]
   name: RPD
   description: A soviet made Russian LMG. Known as the RPK, this LMG was chambered in 7.62 Soviet, now rechambered to .308 with a 40 round drum mag.
@@ -61,12 +91,36 @@
     - FullAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/assaultrifle_fire.ogg
+  - type: MagazineVisuals # Palmtree: drum art from the BYOND source; gun is magless while empty
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: ItemSlots # Palmtree: feeds from its 40-round drum, not from other .308 magazines
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: CSMagazine308Rpd
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - CSMagazine308Rpd
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CSCartridge308
+        priority: 1
+        whitelist:
+          tags:
+          - CSCartridge308
   - type: StaticPrice
     price: 5200
 
 
 - type: entity
   id: CSWeaponLightMachineGunDP27
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber308, NFBaseWeaponFrameLightMachineGun ]
   name: DP27
   description: An old Soviet light machinegun with a high capacity pan magazine.
@@ -83,6 +137,25 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/bozar_fire.ogg
+  - type: ItemSlots # Palmtree: feeds from its pan magazine, not from other .308 magazines
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: CSMagazine308Lewis
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - CSMagazine308Lewis
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CSCartridge308
+        priority: 1
+        whitelist:
+          tags:
+          - CSCartridge308
   - type: StaticPrice
     price: 4800
 

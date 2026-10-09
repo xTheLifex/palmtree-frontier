@@ -42,6 +42,10 @@
   rather than inventing new restrictions.
 - `hidden: true` keeps helper markings out of the editor list; `altSprites` marks leg variants.
 - Comments in ported files sometimes carry provenance (`# Coyote:`, `# Palmtree/Floof`); keep them.
+- Weapon prototypes carry a `suffix:` naming their source: fork-made guns use `Palmtree`, ports use
+  `Coyote Bayou` (BYOND `coyote-bayou` Fallout set), `Coyote Frontier` (SS14 `COYOTE` additions),
+  or `Sandstorm`; upstream Frontier guns keep the inherited `Frontier`. When porting a weapon, set
+  the suffix in the same commit.
 
 ## Observed inconsistencies / quirks
 

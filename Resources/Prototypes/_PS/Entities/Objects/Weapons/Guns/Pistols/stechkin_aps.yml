@@ -4,6 +4,7 @@
 
 - type: entity
   id: PSWeaponPistolStechkinAPS
+  suffix: Sandstorm
   parent: [ NFBaseWeaponPistolChamber35HighCapacity, NFBaseWeaponFrameMachinePistolGorlex ]
   name: Stechkin APS
   description: |-

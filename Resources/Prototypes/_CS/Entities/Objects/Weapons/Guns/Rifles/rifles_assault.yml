@@ -1,5 +1,6 @@
 - type: entity
   id: CSWeaponAssaultRifleAKM
+  suffix: Coyote Frontier
   parent: [ NFBaseWeaponRifleAssaultChamber30, NFBaseWeaponFrameRifleAssaultCybersun ]
   name: AKM
   description: An old AKM, or is it brand new? It's hard to tell these days.

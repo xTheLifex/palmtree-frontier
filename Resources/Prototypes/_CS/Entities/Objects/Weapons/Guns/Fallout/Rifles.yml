@@ -3,6 +3,7 @@
 
 - type: entity
   id: CSWeaponRifleM1Garand
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber3006, NFBaseWeaponFrameRifle ]
   name: M1Garand
   description: The WWII American classic. Still has that satisfying ping.
@@ -29,6 +30,7 @@
 
 - type: entity
   id: CSWeaponRifleM1A1
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber10mm, NFBaseWeaponFrameRifleAssault ]
   name: M1A1
   description: The M1A1 carbine is an improvement of the original, with this particular model having a folding stock allowing for greater mobility. Chambered in 10mm.
@@ -50,6 +52,7 @@
 
 - type: entity
   id: CSWeaponRifleScarL
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber5mm, NFBaseWeaponFrameRifleAssault ]
   name: ScarL
   description: A Scar-L assault rifle, manufactured by FN Herstal in the early 2100s. Versatile, functional, and good. Chambered in 5mm.
@@ -72,8 +75,9 @@
 
 - type: entity
   id: CSWeaponRifleAUGA10
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber5mm, NFBaseWeaponFrameRifleAssault ]
-  name: AUGA10
+  name: Steyr AUGA10
   description: An AUG A10 assault rifle, manufactured by Steyr in the 2100s. This rifle saw extensive usage by the Pre-Fall Austrian forces. Comes with a built in scope. Chambered in 5mm.
   components:
   - type: Sprite
@@ -122,6 +126,7 @@
 
 - type: entity
   id: CSWeaponRifleMosin
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber54R, NFBaseWeaponFrameRifle ]
   name: Mosin
   description: A rusty old Russian bolt action chambered in 7.62x54R.
@@ -143,6 +148,7 @@
 
 - type: entity
   id: CSWeaponRifleSKS
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRifleChamber308, NFBaseWeaponFrameRifle ]
   name: SKS
   description: An old, semi-automatic rifle of communist origin. Still, it packs a punch and has a bayonet lug.
@@ -158,6 +164,24 @@
     - SemiAuto
     soundGunshot:
       path: /Audio/_CS/Weapons/Fallout/hunting_rifle.ogg
+  - type: ItemSlots # Palmtree: feeds from its 8-round clip, not from other .308 magazines
+    slots:
+      gun_magazine:
+        name: Magazine
+        startingItem: CSMagazine308Sks
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - CSMagazine308Sks
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        name: Chamber
+        startingItem: CSCartridge308
+        priority: 1
+        whitelist:
+          tags:
+          - CSCartridge308
   - type: StaticPrice
     price: 3000
-

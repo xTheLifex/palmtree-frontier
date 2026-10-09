@@ -3,6 +3,7 @@
 
 - type: entity
   id: CSWeaponBowComposite
+  suffix: Coyote Bayou
   parent: BaseBow
   name: composite bow
   description: An amalgamation of different materials - wood, animal horn and string - makes it faster to use. Can be stored within bags.
@@ -34,6 +35,7 @@
 
 - type: entity
   id: CSWeaponCrossbowMarksman
+  suffix: Coyote Bayou
   parent: BaseCrossbowWieldable
   name: marksman crossbow
   description: A compact crossbow with a precision scope.

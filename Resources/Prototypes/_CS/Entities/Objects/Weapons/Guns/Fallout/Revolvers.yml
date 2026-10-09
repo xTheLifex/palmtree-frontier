@@ -3,6 +3,7 @@
 
 - type: entity
   id: CSWeaponRevolverColtSAA
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRevolverChamber45LC, NFBaseWeaponFrameRevolver ]
   name: ColtSAA
   description: A Colt Single Action Army, chambered in the archaic .45 Long Colt cartridge.
@@ -24,6 +25,7 @@
 
 - type: entity
   id: CSWeaponRevolver44
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRevolverChamber44, NFBaseWeaponFrameRevolver ]
   name: Revolver44
   description: A .44 Magnum single-action revolver. There on his hip was a moderately sized iron...
@@ -45,6 +47,7 @@
 
 - type: entity
   id: CSWeaponRevolverTaurusJudge
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRevolverChamberShotgun, NFBaseWeaponFrameRevolver ]
   name: TaurusJudge
   description: A Taurus manufactured Judge. This model specifically takes 3 shotgun shells, useful for unloading hell upon the enemy. Do they feel lucky?
@@ -66,6 +69,7 @@
 
 - type: entity
   id: CSWeaponRevolverSW45
+  suffix: Coyote Bayou
   parent: [ CSBaseWeaponRevolverChamber45, NFBaseWeaponFrameRevolver ]
   name: SW45
   description: Smith and Wesson revolver firing .45 from a seven round cylinder.

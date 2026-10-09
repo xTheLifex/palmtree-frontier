@@ -4,6 +4,7 @@
 
 - type: entity
   id: CSWeaponSubMachineGunC19r
+  suffix: Coyote Frontier
   parent: [ NFBaseWeaponSubMachineGunChamber35, NFBaseWeaponFrameSubMachineGunGorlex ]
   name: C-19r
   description: |-

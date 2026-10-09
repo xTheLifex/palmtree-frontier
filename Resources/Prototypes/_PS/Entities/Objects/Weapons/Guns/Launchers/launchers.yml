@@ -1,6 +1,6 @@
 - type: entity
   parent: NFWeaponLauncherChinaLake
-  suffix: Flash
+  suffix: Flash, Palmtree
   id: PalmWeaponLauncherChinaLakeFlashbang
   components:
   - type: BallisticAmmoProvider
@@ -8,7 +8,7 @@
 
 - type: entity
   parent: PalmWeaponLauncherChinaLakeFlashbang
-  suffix: Flash, Admeme
+  suffix: Flash, Admeme, Palmtree
   id: PalmWeaponLauncherChinaLakeFlashbangAdmeme
   components:
   - type: BallisticAmmoProvider
