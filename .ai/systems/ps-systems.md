@@ -94,6 +94,28 @@ Guns with a capacity below 2, no room for two shells, or fewer than two availabl
 fill verbs entirely. Shell labels strip the "shell (...)" wrapper from `Name()`; update the
 `ammo-fill-*` locale keys if the naming changes.
 
+## Akimbo hand swap (2026-10)
+
+`Content.Shared/_PS/Weapons/GunHandSwapSystem.cs` swaps the active hand after a gun is fired when
+the other hand also holds a gun (`GunComponent`), so dual pistols/SMGs can be fired alternately
+without manual hand switching. It runs on client and server (predicted).
+
+- Selecting a hand normally applies a full hand-select cooldown (`SharedGunSystem.OnGunSelected`,
+  `SharedMeleeWeaponSystem.OnMeleeSelected`) - this is what blocked akimbo. Rather than keeping that
+  penalty or clearing cooldowns, an akimbo swap copies the just-fired gun's `GunComponent.NextFire`
+  onto the partner (never shortening its own remaining cooldown) and shortens
+  `MeleeWeaponComponent.NextAttack` to the same instant, so the pair alternates at the weapon's fire
+  rate while ignoring the hand-select penalty. Manual hand switches and single-gun play keep normal
+  cooldowns; `GunComponent`'s `[Access]` attribute lists `GunHandSwapSystem` so it may write
+  `NextFire`.
+- Knives/melee (no `GunComponent`) and unwielded two-handed guns (`GunRequiresWieldComponent`
+  without `WieldableComponent.Wielded`) never trigger a swap; in-progress bursts are not
+  interrupted. Covered by `GunHandSwapTest`.
+- `.308` and 9mm SMG magazines are per-gun: BAR takes `CSMagazine308`/`CSMagazine308Ext`, M1919
+  the belt, RPD its drum, DP27 the pan, SKS its clip, and the PPSh only its drum. The shared
+  `CSBaseWeaponRifleChamber308`/`CSBaseWeaponSubMachineGunChamber9mm` whitelists only seed the
+  default; concrete guns override them. Covered by `GunMagazineWhitelistTest`/`GunAmmoTest`.
+
 ## Synth species (IPC replacement)
 
 `Synth` is Palmtree's replacement for the IPC species. It is a humanoid species that uses the
