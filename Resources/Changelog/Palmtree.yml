@@ -506,3 +506,47 @@ Entries:
   time: '2026-10-08T22:32:29.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/d137d08b81d3bdd4ef85054f8e82e4967cc53d20
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        29 new Fallout weapons: Automag, M93R, M9FS, Hi-Power, M1911, Makarov,
+        Skorpion, Colt SAA, .44 revolver, Taurus Judge, S&W .45, Uzi, American
+        180, P90, MP5, PPSh, BAR, M1919, M1 Garand, M1A1, SCAR-L, RPD, Saiga-12,
+        AUG A10, DP-27, Mosin-Nagant, SKS, the composite bow and the marksman
+        crossbow.
+    - type: Add
+      message: >-
+        11 new ammunition types: 9mm, 10mm, .22 LR, .44 Magnum, .357 Magnum, .50
+        AE, .45 Long Colt, 5mm, .308, .30-06 and 7.62x54R, with magazines, ammo
+        boxes and printable recipes.
+    - type: Add
+      message: >-
+        Incendiary and uranium ammo blueprints for the new calibers, and
+        practice ammo printed at NFSD lathes.
+    - type: Add
+      message: >-
+        The new weapons and the previously added Palmtree weapons now spawn in
+        dungeon loot and asteroid salvage as rare, valuable finds.
+    - type: Tweak
+      message: The Desert Eagle now takes .50 AE, .44 Magnum and .357 Magnum magazines.
+    - type: Tweak
+      message: >-
+        Ported LMGs, rifles and SMGs fire faster; the AKM, AUG, Hristov,
+        Novalite and P90 have new sounds.
+    - type: Tweak
+      message: >-
+        The AKM, AUG, Novalite and P90 deal 25% more damage, and the Hristov
+        deals triple damage.
+    - type: Fix
+      message: The M1 Garand now pings only after its last round is fired.
+    - type: Fix
+      message: >-
+        The composite bow renders, and the marksman crossbow spawns with a bolt
+        and no longer shows an error sprite when drawn.
+    - type: Fix
+      message: Guns no longer accept ammo boxes or magazines from another caliber.
+  id: 90032
+  time: '2026-10-09T02:34:52.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/68030f78a7f77df6e1e5acaa34f0aad9652b219f
