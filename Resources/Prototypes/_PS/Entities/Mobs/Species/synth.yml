@@ -53,6 +53,14 @@
     damage:
       types:
         Heat: 0
+  # Palmtree: strong chassis - forces doors open bare-handed, powered and bolted alike.
+  # Welded doors and canPry: false doors (e.g. blast doors) still stop them.
+  - type: Prying
+    pryPowered: true
+    force: true
+    speedModifier: 32.0
+    useSound:
+      path: /Audio/Items/jaws_pry.ogg
   # Twice the speed of a normal person (defaults are 2.5 / 4.5).
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.75

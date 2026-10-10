@@ -49,6 +49,12 @@ public sealed class PryingSystem : EntitySystem
         if (!TryComp<PryingComponent>(args.User, out _))
             return;
 
+        if (TryComp<DoorComponent>(uid, out var door))
+        {
+            if (!door.CanPry)
+                return;
+        }
+
         args.Verbs.Add(new AlternativeVerb()
         {
             Text = Loc.GetString("door-pry"),
@@ -161,6 +167,10 @@ public sealed class PryingSystem : EntitySystem
 
         TryComp<PryingComponent>(args.Used, out var comp);
 
+        // Palmtree: bare-handed prying has no tool, so take the prying component from the user.
+        if (comp == null)
+            TryComp<PryingComponent>(args.User, out comp);
+
         if (!CanPry(uid, args.User, out var message, comp))
         {
             if (!string.IsNullOrWhiteSpace(message))
@@ -168,12 +178,13 @@ public sealed class PryingSystem : EntitySystem
             return;
         }
 
-        if (args.Used != null && comp != null)
+        if (comp != null)
         {
-            _audioSystem.PlayPredicted(comp.UseSound, args.Used.Value, args.User);
+            // Palmtree: hand-prying plays the sound at the door (there is no tool entity to play it on).
+            _audioSystem.PlayPredicted(comp.UseSound, args.Used ?? uid, args.User);
         }
 
-        var ev = new PriedEvent(args.User);
+        var ev = new PriedEvent(args.User, comp?.Force ?? false);
         RaiseLocalEvent(uid, ref ev);
     }
 }

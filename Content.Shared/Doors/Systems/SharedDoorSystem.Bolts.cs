@@ -37,7 +37,8 @@ public abstract partial class SharedDoorSystem
 
     private void OnBeforeDoorClosed(EntityUid uid, DoorBoltComponent component, BeforeDoorClosedEvent args)
     {
-        if (component.BoltsDown)
+        // Palmtree: a forced close (started by a forced pry) ignores the bolts.
+        if (component.BoltsDown && !args.Forced)
             args.Cancel();
     }
 

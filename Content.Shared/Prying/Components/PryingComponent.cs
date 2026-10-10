@@ -72,9 +72,14 @@ public record struct BeforePryEvent(EntityUid User, bool PryPowered, bool Force,
 /// Raised directed on an entity that has been pried.
 /// </summary>
 [ByRefEvent]
-public readonly record struct PriedEvent(EntityUid User)
+public readonly record struct PriedEvent(EntityUid User, bool Force)
 {
     public readonly EntityUid User = User;
+
+    /// <summary>
+    /// Palmtree: whether the pry was forced (e.g. by a synth), letting a forced pry close bolted doors.
+    /// </summary>
+    public readonly bool Force = Force;
 }
 
 /// <summary>

@@ -75,6 +75,12 @@ public sealed partial class DoorComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public bool Partial;
+
+    /// <summary>
+    /// Palmtree: transient flag - set when a forced pry starts closing this door, letting that close
+    /// bypass bolts. Consumed by <see cref="SharedDoorSystem.OnPartialClose"/>.
+    /// </summary>
+    public bool ForcedClose;
     #endregion
 
     #region Sounds

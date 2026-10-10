@@ -2,7 +2,9 @@
 using System;
 using System.Linq;
 using Content.Server.Atmos.Components;
+using Content.Server.Doors.Systems;
 using Content.Shared.Atmos.Components;
+using Content.Shared.Doors.Components;
 using Content.Shared.FixedPoint;
 using Content.Shared._PS.Synth;
 using Content.Shared._PS.Synth.DeadStartupButton;
@@ -12,6 +14,8 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.DoAfter;
 using Content.Shared.Medical.Healing;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Prying.Components;
+using Content.Shared.Prying.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
@@ -94,6 +98,111 @@ public sealed class SynthTest
             entMan.DeleteEntity(synth);
             entMan.DeleteEntity(wreck);
             entMan.DeleteEntity(medic);
+        });
+
+        await pair.CleanReturnAsync();
+    }
+
+    /// <summary>
+    /// Palmtree: synths have a built-in jaws of life - they can force doors open bare-handed,
+    /// including powered and bolted airlocks, while a normal human cannot.
+    /// </summary>
+    [Test]
+    public async Task SynthCanForceDoorsOpen()
+    {
+        await using var pair = await PoolManager.GetServerClient();
+        var server = pair.Server;
+        var entMan = server.ResolveDependency<IEntityManager>();
+        var map = await pair.CreateTestMap();
+
+        EntityUid airlock = default;
+        EntityUid synth = default;
+        EntityUid human = default;
+
+        await server.WaitPost(() =>
+        {
+            // The test map only has one tile; add two more so the pry users stand next to the
+            // door (at tile centers) instead of inside it - a closed door opens for bumping mobs.
+            var mapSys = entMan.System<SharedMapSystem>();
+            var tileDef = server.ResolveDependency<ITileDefinitionManager>()["Plating"];
+            mapSys.SetTile(map.Grid.Owner, map.Grid.Comp,
+                new EntityCoordinates(map.Grid.Owner, 1f, 0f), new Tile(tileDef.TileId));
+            mapSys.SetTile(map.Grid.Owner, map.Grid.Comp,
+                new EntityCoordinates(map.Grid.Owner, 2f, 0f), new Tile(tileDef.TileId));
+
+            synth = entMan.SpawnEntity("MobSynth", new EntityCoordinates(map.Grid.Owner, 1.5f, 0.5f));
+            human = entMan.SpawnEntity("MobHuman", new EntityCoordinates(map.Grid.Owner, 2.5f, 0.5f));
+
+            // Powered airlock - only a PryPowered user may force it.
+            airlock = entMan.SpawnEntity("Airlock", map.GridCoords);
+            entMan.SpawnEntity("APCBasic", map.GridCoords);
+        });
+
+        await pair.RunTicksSync(5);
+
+        var pry = entMan.System<PryingSystem>();
+        var door = entMan.System<DoorSystem>();
+
+        await server.WaitAssertion(() =>
+        {
+            // Powered airlocks take 9x longer to pry (and bolted ones 3x on top); shorten the
+            // door's base pry time so the test checks the allow/deny logic, not the wait.
+            entMan.GetComponent<DoorComponent>(airlock).PryTime = 0.01f;
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(entMan.GetComponent<AirlockComponent>(airlock).Powered, Is.True,
+                    "airlock should be powered for this test");
+                Assert.That(entMan.HasComponent<PryingComponent>(synth), Is.True,
+                    "synths should have built-in prying");
+                Assert.That(entMan.HasComponent<PryingComponent>(human), Is.False,
+                    "humans should not have built-in prying");
+            });
+        });
+
+        // Control: a human cannot force a powered airlock open.
+        await server.WaitPost(() => pry.TryPry(airlock, human, out _, human));
+        await pair.RunTicksSync(15);
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.EqualTo(DoorState.Closed),
+                "a human should not be able to force a powered airlock open");
+        });
+
+        // The synth forces the powered airlock open.
+        await server.WaitPost(() => pry.TryPry(airlock, synth, out _, synth));
+        await pair.RunTicksSync(15);
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.Not.EqualTo(DoorState.Closed),
+                "a synth should force a powered airlock open");
+        });
+
+        // And a bolted one, thanks to Force.
+        await server.WaitPost(() =>
+        {
+            door.SetState(airlock, DoorState.Closed);
+            door.SetBoltsDown((airlock, entMan.GetComponent<DoorBoltComponent>(airlock)), true);
+            pry.TryPry(airlock, synth, out _, synth);
+        });
+        await pair.RunTicksSync(60); // let it finish opening
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.EqualTo(DoorState.Open),
+                "a synth should force a bolted airlock open");
+        });
+
+        // And it can force the bolted door closed again.
+        await server.WaitPost(() => pry.TryPry(airlock, synth, out _, synth));
+        await pair.RunTicksSync(60);
+        await server.WaitAssertion(() =>
+        {
+            Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.EqualTo(DoorState.Closed),
+                "a synth should force a bolted airlock closed");
+
+            entMan.DeleteEntity(airlock);
+            entMan.DeleteEntity(synth);
+            entMan.DeleteEntity(human);
         });
 
         await pair.CleanReturnAsync();

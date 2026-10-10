@@ -55,6 +55,11 @@ namespace Content.Shared.Doors
         public bool Partial;
         public bool PerformCollisionCheck;
 
+        /// <summary>
+        /// Palmtree: whether this close is forced (started by a forced pry), which bypasses bolts.
+        /// </summary>
+        public bool Forced;
+
         public BeforeDoorClosedEvent(bool performCollisionCheck, bool partial = false)
         {
             Partial = partial;

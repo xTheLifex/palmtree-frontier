@@ -256,11 +256,14 @@ public abstract partial class SharedDoorSystem : EntitySystem
     {
         if (door.State == DoorState.Closed)
         {
+            door.ForcedClose = false; // Palmtree: clear any stale forced-close flag
             _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(args.User)} pried {ToPrettyString(uid)} open");
             StartOpening(uid, door, args.User, true);
         }
         else if (door.State == DoorState.Open)
         {
+            // Palmtree: a forced pry (e.g. a synth) can force bolted doors closed as well.
+            door.ForcedClose = args.Force;
             _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(args.User)} pried {ToPrettyString(uid)} closed");
             StartClosing(uid, door, args.User, true);
         }
@@ -452,7 +455,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
     /// <param name="uid"> The uid of the door</param>
     /// <param name="door"> The doorcomponent of the door</param>
     /// <param name="user"> The user (if any) opening the door</param>
-    public bool CanClose(EntityUid uid, DoorComponent? door = null, EntityUid? user = null, bool partial = false)
+    public bool CanClose(EntityUid uid, DoorComponent? door = null, EntityUid? user = null, bool partial = false, bool forced = false)
     {
         if (!Resolve(uid, ref door))
             return false;
@@ -462,7 +465,10 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (door.State is DoorState.Welded or DoorState.Closed)
             return false;
 
-        var ev = new BeforeDoorClosedEvent(door.PerformCollisionCheck, partial);
+        var ev = new BeforeDoorClosedEvent(door.PerformCollisionCheck, partial)
+        {
+            Forced = forced, // Palmtree: forced closes (from forced pries) bypass bolts
+        };
         RaiseLocalEvent(uid, ev);
         if (ev.Cancelled)
             return false;
@@ -496,8 +502,12 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (!Resolve(uid, ref door, ref physics))
             return false;
 
+        // Palmtree: consume the forced-close flag for this close attempt (set by a forced pry).
+        var forced = door.ForcedClose;
+        door.ForcedClose = false;
+
         // Make sure no entity walked into the airlock when it started closing.
-        if (!CanClose(uid, door, partial: true))
+        if (!CanClose(uid, door, partial: true, forced: forced))
         {
             door.NextStateChange = GameTiming.CurTime + door.OpenTimeTwo;
             door.State = DoorState.Open;
