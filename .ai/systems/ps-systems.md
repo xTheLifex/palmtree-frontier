@@ -197,10 +197,11 @@ Properties:
   coyote-bayou). It applies a small repair first (like a defib zap) and revives the synth if the
   remaining damage is below the death threshold, otherwise the chassis is "way too damaged".
 - **Built-in jaws of life**: `BaseMobSynth` has a `Prying` component (`pryPowered: true`,
-  `force: true`, `speedModifier: 32.0`) so synths can force doors open bare-handed via the "Pry door"
-  verb (or by clicking a door that refuses to open) in ~1s. Powered and bolted airlocks included, in
-  both directions - a forced pry can also force an open bolted door shut (the door safety check
-  still refuses to close on someone standing in the doorway). Welded doors and `canPry: false` doors
+  `force: true`, `flatPryTime: 0.5`) so synths can force doors open bare-handed via the "Pry door"
+  verb (or by clicking a door that refuses to open) in exactly 0.5s - the airlock's powered (x9) and
+  bolted (x3) pry-time multipliers are ignored, while crowbars, jaws and other pryers are
+  unaffected. A forced pry can also force an open bolted door shut (the door safety check still
+  refuses to close on someone standing in the doorway). Welded doors and `canPry: false` doors
   (e.g. blast doors) still stop them. No item needed. Hand-prying also plays the pry sound.
 - **Silicon parts**: the Synth body uses `_EE/Mobs/Species/IPC/parts.rsi` sprites (robot limbs/head),
   `Inorganic` damage container on parts, and synthetic organs (`OrganSynthEyes`, `OrganSynthPump`,

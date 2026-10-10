@@ -58,7 +58,7 @@
   - type: Prying
     pryPowered: true
     force: true
-    speedModifier: 32.0
+    flatPryTime: 0.5 # Palmtree: always 0.5s, ignoring powered/bolted pry-time multipliers
     useSound:
       path: /Audio/Items/jaws_pry.ogg
   # Twice the speed of a normal person (defaults are 2.5 / 4.5).

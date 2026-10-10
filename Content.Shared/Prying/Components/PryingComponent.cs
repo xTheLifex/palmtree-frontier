@@ -26,6 +26,13 @@ public sealed partial class PryingComponent : Component
     public float SpeedModifier = 1.0f;
 
     /// <summary>
+    /// Palmtree: if set, prying takes exactly this many seconds, ignoring the target's pry-time
+    /// modifiers (e.g. an airlock's powered/bolted multipliers) and the speed modifier.
+    /// </summary>
+    [DataField]
+    public float? FlatPryTime;
+
+    /// <summary>
     /// What sound to play when prying is finished.
     /// </summary>
     [DataField]

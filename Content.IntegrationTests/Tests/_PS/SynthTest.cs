@@ -145,10 +145,6 @@ public sealed class SynthTest
 
         await server.WaitAssertion(() =>
         {
-            // Powered airlocks take 9x longer to pry (and bolted ones 3x on top); shorten the
-            // door's base pry time so the test checks the allow/deny logic, not the wait.
-            entMan.GetComponent<DoorComponent>(airlock).PryTime = 0.01f;
-
             Assert.Multiple(() =>
             {
                 Assert.That(entMan.GetComponent<AirlockComponent>(airlock).Powered, Is.True,
@@ -162,7 +158,7 @@ public sealed class SynthTest
 
         // Control: a human cannot force a powered airlock open.
         await server.WaitPost(() => pry.TryPry(airlock, human, out _, human));
-        await pair.RunTicksSync(15);
+        await pair.RunTicksSync(30);
         await server.WaitAssertion(() =>
         {
             Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.EqualTo(DoorState.Closed),
@@ -171,7 +167,7 @@ public sealed class SynthTest
 
         // The synth forces the powered airlock open.
         await server.WaitPost(() => pry.TryPry(airlock, synth, out _, synth));
-        await pair.RunTicksSync(15);
+        await pair.RunTicksSync(30);
         await server.WaitAssertion(() =>
         {
             Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.Not.EqualTo(DoorState.Closed),
@@ -185,7 +181,7 @@ public sealed class SynthTest
             door.SetBoltsDown((airlock, entMan.GetComponent<DoorBoltComponent>(airlock)), true);
             pry.TryPry(airlock, synth, out _, synth);
         });
-        await pair.RunTicksSync(60); // let it finish opening
+        await pair.RunTicksSync(90); // let it finish opening
         await server.WaitAssertion(() =>
         {
             Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.EqualTo(DoorState.Open),
@@ -194,7 +190,7 @@ public sealed class SynthTest
 
         // And it can force the bolted door closed again.
         await server.WaitPost(() => pry.TryPry(airlock, synth, out _, synth));
-        await pair.RunTicksSync(60);
+        await pair.RunTicksSync(90);
         await server.WaitAssertion(() =>
         {
             Assert.That(entMan.GetComponent<DoorComponent>(airlock).State, Is.EqualTo(DoorState.Closed),
