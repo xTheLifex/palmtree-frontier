@@ -687,3 +687,11 @@ Entries:
   time: '2026-10-10T00:09:29.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/93040a5871db81ebd187176c4cb93d923beae879
+- author: TheLife
+  changes:
+    - type: Tweak
+      message: synths force doors open and shut in a flat half second
+  id: 90040
+  time: '2026-10-10T00:23:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/77191ae0ed96017e231196c2b9eae2cc3a674eac
