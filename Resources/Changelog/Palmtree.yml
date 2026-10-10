@@ -677,3 +677,13 @@ Entries:
   time: '2026-10-09T22:18:29.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/597042695558f562a3932e6672d196331861657e
+- author: TheLife
+  changes:
+    - type: Add
+      message: >-
+        synths can force doors open and shut bare-handed, powered and bolted
+        alike
+  id: 90039
+  time: '2026-10-10T00:09:29.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/93040a5871db81ebd187176c4cb93d923beae879
