@@ -1,0 +1,10 @@
+- type: entity
+  parent: ClothingOuterBase
+  id: ClothingOuterKudzuDress
+  name: Kudzu Dress
+  description: Barely decent.
+  components:
+  - type: Sprite
+    sprite: _PS/Clothing/OuterClothing/Coats/kudzu_dress.rsi
+  - type: Clothing
+    sprite: _PS/Clothing/OuterClothing/Coats/kudzu_dress.rsi

@@ -1,0 +1,11 @@
+- type: loadout
+  id: ContractorKudzuDress
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: ContractorT1
+  hideEffects:
+  - !type:GroupLoadoutEffect
+    proto: NFCoatCapable
+  equipment:
+    outerClothing: ClothingOuterKudzuDress
+  groupBy: "OuterJackets"
