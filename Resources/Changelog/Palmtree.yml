@@ -695,3 +695,10 @@ Entries:
   time: '2026-10-10T00:23:29.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/77191ae0ed96017e231196c2b9eae2cc3a674eac
+- author: Tropica1Owl
+  changes:
+    - type: Add
+      message: Kudzu dress as a suit on the loadout, doesn't take the jumpsuit slot.
+  id: 90041
+  time: '2026-10-11T00:25:42.0000000+00:00'
+  url: https://github.com/xTheLifex/palmtree-frontier/pull/1
