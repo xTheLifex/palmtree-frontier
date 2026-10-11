@@ -414,6 +414,7 @@
   - ContractorWetFloorSign
   - ContractorClothingOuterCoatExpensive
   - ContractorClothingOuterCoatSpaceAsshole
+  - ContractorKudzuDress # Palmtree
 
 - type: loadoutGroup
   id: ContractorBelt
