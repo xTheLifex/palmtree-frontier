@@ -651,13 +651,40 @@ so these fail only in CI:
   the placement point that includes `PlacementOffset` — the server does not know the admin offset,
   so using it made the ghost and the built pipe disagree when the `ps.placement.offset_*` CVars
   were set.
-- **`Unstackable` is the atmos no-stacking marker.** `RCDSystem.IsConstructionLocationValid`
-  applies the check only when the *built* prototype has the tag (all atmos piping via
-  `GasPipeSansLayers`, plus the devices) and compares
-  `AtmosPipeLayersComponent.CurrentPipeLayer`; entities without alternative prototypes count as
-  primary. Pipes have no fixtures, so the collision check cannot catch them — this is why the RCD
-  could "place one anyway" after the popup from `PipeRestrictOverlapSystem` (which only runs on
-  anchoring).
+- **`Unstackable` is for devices only; pipes use node-aware overlap.** `GasPipeSansLayers` must
+  *not* carry the tag: `NoUnstackableInTile` (construction) is layer-agnostic, so tagging pipes
+  blocks every vent/pump built on the pipe that feeds it. `RCDSystem.IsConstructionLocationValid`
+  keeps the tag check for the built *device* (same-layer `AtmosPipeLayersComponent.CurrentPipeLayer`)
+  and additionally raises `RCDAtmosOverlapAttemptEvent` for any prototype with a `NodeContainer`.
+  `PipeRestrictOverlapSystem` handles it on the server: it resolves the mirror/RPD-layer prototype,
+  then compares `PipeNode.OriginalPipeDirection` rotated by the placement angle against the
+  anchored nodes' directions and layers. The client has no node data (`Nodes` is `serverOnly`, on
+  entities *and* prototypes), so it uses the networked
+  `AtmosPipeNodeDirectionsComponent` for anchored entities and caches the prototype's nodes through
+  `AtmosPipeNodeInfoRequestEvent` / `AtmosPipeNodeInfoResponseEvent`; both sides then share the same
+  comparison. Pipes have no fixtures, which is why the collision check cannot catch them — the node
+  check is what prevents the RCD from spawning an overlapping pipe that
+  `PipeRestrictOverlapSystem` would immediately unanchor.
+- **Component-specific `ComponentStartup` subscriptions are single-handler.** The directed event bus
+  stores one subscription per (component, event) pair, so a second
+  `SubscribeLocalEvent<NodeContainerComponent, ComponentStartup>` throws
+  `Duplicate Subscriptions` during system initialization. `NodeContainerSystem` owns that pair; add
+  a broadcast hook instead (`NodeContainerStartedEvent` was added for the pipe-node summary).
+- **The pipe-node summary must not be created on uninitialized maps.**
+  `PrototypeSaveTest.UninitializedSaveTest` spawns every map-savable prototype on an uninitialized
+  map and fails if spawning adds components, so `AtmosPipeNodeInfoSystem` skips `Refresh` unless
+  `SharedMapSystem.IsInitialized(transform.MapID)` and fills the summary from a
+  `NodeContainerComponent/MapInitEvent` hook when the map is initialized. Do **not** move the hook
+  to `MapInitEvent` alone: live ship saves skip `MapInitEvent` for `mapInit: true` entities, and
+  their map is initialized before the entities start, so the `NodeContainerStartedEvent` path is
+  what supplies the summary there.
+- **RPD compressed matter is not 1:1.** `RCDAmmoSystem` treats one cartridge charge as two tool
+  charges when `RCDComponent.IsRpd` is set. It consumes only the cartridge charges needed for the
+  missing tool charges, and rounds the consumption up when the multiplier does not divide evenly,
+  so a partially filled tool can leave a partial cartridge behind. The RCD stays 1:1; don't apply
+  the multiplier in the deconstruction refund path without deciding whether recovered matter
+  should also be worth double.
+
 - **`RCDComponent.SpeedMultiplier` divides delays, so >1 is faster.** It is applied in
   `OnAfterInteract` to prototype and per-entity deconstruct delays; a non-positive value is ignored
   (var-edit safety) and `InstantConstruction` still forces 0.
