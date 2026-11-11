@@ -286,6 +286,10 @@ value line.
 
 - **Species Head/Chest base sprites require sex-morph variants** (`HeadMale`/`HeadFemale`/
   `TorsoMale`/`TorsoFemale`) or they render wrong/invisible.
+- **Child `UserInterface` components replace the inherited `interfaces` dictionary.** Any mob that
+  declares its own `UserInterface` (slime storage, harpy instrument) must also list
+  `enum.InteractionUiKey.Key`, or the interaction panel silently refuses to open. Regression test:
+  `AllPlayableSpeciesHaveInteractionPanel`.
 - **`MarkingPoints.Required` is effectively unused.**
 - **Dungeon rooms are copied by prototype ID only** — atlas entity DataFields are lost.
 - **Salvage-magnet asteroid configs are commented out** while code still references them; only debris
