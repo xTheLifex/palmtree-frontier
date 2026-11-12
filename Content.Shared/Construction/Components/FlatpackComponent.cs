@@ -7,8 +7,10 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.Construction.Components;
 
 /// <summary>
-/// This is used for an object that can instantly create a machine upon having a tool applied to it.
+/// This is used for an object that unpacks into a machine (or a whole reactor site) when a tool is applied. <see cref="UnpackDelay"/> can make the job take time.
 /// </summary>
+// Palmtree: the delayed-unpack field and the (reactor deployment) site wording are fork additions;
+// everything else in this component is upstream.
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 [Access(typeof(SharedFlatpackSystem))]
 public sealed partial class FlatpackComponent : Component
@@ -24,6 +26,14 @@ public sealed partial class FlatpackComponent : Component
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
     public EntProtoId? Entity;
+
+    /// <summary>
+    /// How long unpacking takes. Zero keeps the original instant unpack.
+    /// </summary>
+    // Palmtree: added for reactor deployment flatpacks; default zero means upstream flatpacks keep
+    // their instant behaviour without any YAML change.
+    [DataField, ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+    public TimeSpan UnpackDelay = TimeSpan.Zero;
 
     /// <summary>
     /// Sound effect played upon the object being unpacked.

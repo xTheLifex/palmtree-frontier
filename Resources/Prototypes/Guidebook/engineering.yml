@@ -51,6 +51,9 @@
   - AtmosTools
   - Gasses
   - OffshoreGasMining # Frontier
+  - HypertorusFusionReactor # Funky
+  - GasTurbine # Funky
+  - AtmosMachines # Funky
 
 - type: guideEntry
   id: GasManipulation
@@ -309,11 +312,13 @@
   children:
   - PortableGenerator
   - AME
+  - Rbmk # Palmtree
   - SingularityTeslaEngine
   - TEG
   - RTG
   - SolarPanels
   - Supermatter # EE/Coyote
+  - Stormdrive # Palmtree
 
 - type: guideEntry
   id: AME
