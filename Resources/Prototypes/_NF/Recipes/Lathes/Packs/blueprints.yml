@@ -109,6 +109,9 @@
   # AtmosphericTech
   - ThermomachineFreezerMachineCircuitBoard
   - GasRecyclerMachineCircuitboard
+  - ElectrolyzerMachineCircuitboard # Funky
+  - CrystallizerMachineCircuitboard # Funky
+  - SmallGasTurbineFlatpack # Funky
   # RipleyAPLU
   - RipleyHarness
   - RipleyLArm
@@ -133,10 +136,19 @@
   - TegCirculatorFlatpack # Palmtree
   - TegCenterFlatpack # Palmtree
   - PortableScrubberMachineCircuitBoard
+  - PipeScrubberMachineCircuitBoard # Funky
+  - GasTurbineFlatpack # Funky
   - HolofanProjector
   - AlertsComputerCircuitboard
   - AtmosMonitoringComputerCircuitboard
   - SupermatterComputerCircuitboard # Palmtree
+  # HypertorusFusionReactor (Funky)
+  - HFRCoreBox
+  - HFRCornerBox
+  - HFRFuelBox
+  - HFRModeratorBox
+  - HFRWasteBox
+  - HFRConsoleBox
   # AdvancedToolsTechnology
   - WelderExperimental
   - PowerDrill
