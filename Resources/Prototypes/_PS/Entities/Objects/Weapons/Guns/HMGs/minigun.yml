@@ -6,12 +6,9 @@
   name: minigun
   id: PSWeaponMinigun
   suffix: Palmtree
-  parent: [ BaseWeaponHeavyMachineGun, BaseC3Contraband ]
+  parent: [ BaseWeaponHeavyMachineGun, BaseC5Contraband ]
   description: Vzzzzzt! Rahrahrahrah! Vrrrrr! Uses .10 rifle ammo. Illegal for use in the Frontier sector.
   components:
-  - type: Contraband
-    severity: Class4
-    allowedDepartments: [ Security, Command ]
   - type: Sprite
     sprite: Objects/Weapons/Guns/HMGs/minigun.rsi
     layers:

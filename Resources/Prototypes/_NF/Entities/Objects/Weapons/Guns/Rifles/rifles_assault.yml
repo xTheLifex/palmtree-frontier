@@ -6,6 +6,8 @@
   description: |-
     An iconic weapon of war. An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Clothing
     sprite: _NF/Objects/Weapons/Guns/Rifles/solandmoss.rsi
   - type: Sprite
@@ -22,6 +24,8 @@
   description: |-
     An older bullpup carbine model, with an attached underbarrel grenade launcher. An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class4
   - type: Clothing
     sprite: Objects/Weapons/Guns/Rifles/carbine.rsi
   - type: Sprite
@@ -56,6 +60,8 @@
   description: |-
     A designated marksman rifle, favored for medium-to-long range engagements. Uses .20 rifle ammo.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Clothing
     sprite: Objects/Weapons/Guns/Rifles/estoc.rsi
   - type: Sprite
@@ -149,6 +155,8 @@
   description: |-
     Yarrr, a retrofitted Vulcan befitting of a pirate!
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Sprite
     sprite: _NF/Objects/Weapons/Guns/Rifles/romulan.rsi
   - type: Clothing

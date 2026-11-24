@@ -60,6 +60,13 @@ default (`rules: []` in upstream presets).
   Class 5. The NFSD/SR amnesty, turnover-receipt, permit and Writ forms describe tiers 1-4 as
   permit/amnesty-eligible and state that tier 5 is strictly military and cannot be permitted or
   amnestied.
+  Conventional ballistic small arms are tiered by role, not by manufacturer: civilian pistols,
+  revolvers, shotguns and hunting rifles are Class 2; assault rifles, SMGs, machine pistols, DMRs
+  and combat shotguns are Class 3; grenade/rocket launchers and LMGs are Class 4. The re-enabled
+  minigun is Class 5. Cybersun/Gorlex/Steelbolt frames do not by themselves make a conventional gun
+  Class 5; actual Syndicate, pirate, cult and wizard antag gear keeps its Class 5 base. The
+  syndicate/pirate expedition bases list the expedition tier before the faction parent, so loot
+  stays at its Class 2/3 expedition severity instead of inheriting Class 5.
 - Shuttle console extras (`_NF/Shuttles`, plus core `Shuttles` patches): inertia dampening, service
   flags, target tracking, and the Palmtree/Coyote radar proximity alert (`.ai/PORTING.md` §20).
 - Expedition auto-recovery (Palmtree/Coyote): dead or left-behind bodies are returned to the

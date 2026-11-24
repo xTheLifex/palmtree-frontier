@@ -10,6 +10,8 @@
   description: |-
     The original Russian version of a widely used Syndicate sidearm. Uses .35 auto ammo.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Gun
     selectedMode: SemiAuto
     availableModes:

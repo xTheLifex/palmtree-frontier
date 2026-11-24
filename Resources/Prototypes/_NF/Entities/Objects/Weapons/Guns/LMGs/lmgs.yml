@@ -7,6 +7,8 @@
   description: |-
     A rather traditionally made LMG with a pleasantly lacquered wooden pistol grip. An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class4
   - type: Sprite
     sprite: Objects/Weapons/Guns/LMGs/l6.rsi
   - type: Clothing
@@ -23,6 +25,8 @@
   description: |-
     A GSW LMG-6 for use by cyborgs. Creates rifle ammo on the fly from an internal ammo fabricator, which slowly self-charges. An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class4
   - type: Gun
     examineCaliber: gun-examine-caliber-20
     soundGunshot:

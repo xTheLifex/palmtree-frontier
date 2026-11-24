@@ -42,53 +42,55 @@
   - type: StaticPrice
     price: 10000
 
-# For syndicate/pirate labeled guns
+# For syndicate/pirate labeled guns.
+# Palmtree: the expedition tier wins over the faction base so loot keeps its Class 2/3
+# expedition classification instead of inheriting the faction's Class 5.
 - type: entity
   parent:
-  - BaseC3SyndicateContraband
   - BaseExpeditionWeaponTier1
+  - BaseC3SyndicateContraband
   id: BaseExpeditionWeaponTier1Syndicate
   abstract: true
 
 - type: entity
   parent:
-  - BaseC3PirateContraband
   - BaseExpeditionWeaponTier2
+  - BaseC3PirateContraband
   id: BaseExpeditionWeaponTier2Pirate
   abstract: true
 
 - type: entity
   parent:
-  - BaseC3PirateContraband
   - BaseExpeditionWeaponTier3
+  - BaseC3PirateContraband
   id: BaseExpeditionWeaponTier3Pirate
   abstract: true
 
 - type: entity
   parent:
-  - BaseC3SyndicateContraband
   - BaseExpeditionWeaponTier2
+  - BaseC3SyndicateContraband
   id: BaseExpeditionWeaponTier2Syndicate
   abstract: true
 
 - type: entity
   parent:
-  - BaseC3SyndicateContraband
   - BaseExpeditionWeaponTier3
+  - BaseC3SyndicateContraband
   id: BaseExpeditionWeaponTier3Syndicate
   abstract: true
 
 - type: entity
   parent:
-  - BaseC3SyndicateContraband
   - BaseExpeditionWeaponTier4
+  - BaseC3SyndicateContraband
   id: BaseExpeditionWeaponTier4Syndicate
   abstract: true
 
 - type: entity
   parent:
-  - BaseC3SyndicateContraband
   - BaseExpeditionWeaponTier5
+  - BaseC3SyndicateContraband
   id: BaseExpeditionWeaponTier5Syndicate
   abstract: true
 

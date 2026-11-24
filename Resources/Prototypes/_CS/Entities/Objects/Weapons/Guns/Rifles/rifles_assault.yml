@@ -5,6 +5,8 @@
   name: AKM
   description: An old AKM, or is it brand new? It's hard to tell these days.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Clothing
     sprite: _CS/Objects/Weapons/Guns/Rifles/akm.rsi
   - type: Sprite

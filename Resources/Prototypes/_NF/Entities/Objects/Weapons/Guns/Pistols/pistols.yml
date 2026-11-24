@@ -36,6 +36,8 @@
   description: |-
     A rugged, robust operator handgun with inbuilt silencer. An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Gun
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/silenced.ogg

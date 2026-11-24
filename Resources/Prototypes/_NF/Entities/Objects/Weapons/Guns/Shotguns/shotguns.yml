@@ -9,6 +9,8 @@
   description: |-
     An automatic magazine-fed shotgun for close-quarters combat. Kicks like a mule on steroids.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Sprite
     sprite: Objects/Weapons/Guns/Shotguns/bulldog.rsi
   - type: Clothing
@@ -178,6 +180,8 @@
   description: |-
     Deadly at close range, an illegal shotgun often found at the side of a pirate.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Sprite
     sprite: Objects/Weapons/Guns/Shotguns/blunderbuss.rsi
   - type: Clothing

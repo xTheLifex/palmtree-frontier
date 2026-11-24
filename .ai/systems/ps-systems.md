@@ -121,7 +121,8 @@ Re-enabled Frontier-disabled guns: Frontier deletes whole upstream weapon direct
 (`Resources/IgnoredPrototypes/ignoredPrototypes.yml`), so the upstream taser, elite taser, tesla
 gun, energy shotgun, minigun and AKMS were copied into `_PS` with `PS` ids
 (`_PS/Entities/Objects/Weapons/Guns/.../reenabled_upstream_guns.yml`, `HMGs/minigun.yml`,
-`Rifles/akms.yml` plus the `_PS` projectiles/cartridge they need). Pulse/laser/x-ray/advanced/antique
+`Rifles/akms.yml` plus the `_PS` projectiles/cartridge they need; the minigun is Class 5 contraband,
+the AKMS is Class 3). Pulse/laser/x-ray/advanced/antique
 energy weapons were not copied - Frontier already ships enabled NF versions of them. Practice ammo
 cases/crates/table/spawner were un-commented and nested back into the dungeon ammo tables. Coyote
 ports in the same batch: prototype pulse rifle, EG-4 energy revolver, Anaconda, lollypop dispensers

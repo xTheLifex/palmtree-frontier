@@ -10,6 +10,8 @@
   description: |-
     A rare and early variant of the iconic weapon used often by syndicate operatives. A label on its receiver has long since faded. Uses .35 ammo.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Gun
     projectileSpeed: 35
     minAngle: 3.7

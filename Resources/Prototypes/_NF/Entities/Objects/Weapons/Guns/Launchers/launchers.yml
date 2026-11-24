@@ -5,6 +5,8 @@
   name: GP-40 grenade launcher
   description: PLOOP.
   components:
+  - type: Contraband
+    severity: Class4
   - type: Sprite
     sprite: Objects/Weapons/Guns/Launchers/china_lake.rsi
     layers:
@@ -26,6 +28,8 @@
   name: GSW rocket launcher mk4
   description: A modified ancient rocket-propelled grenade launcher.
   components:
+  - type: Contraband
+    severity: Class4
   - type: Sprite
     sprite: Objects/Weapons/Guns/Launchers/rocket.rsi
     layers:
@@ -51,6 +55,8 @@
   name: pirate cannon
   description: Kaboom!
   components:
+    - type: Contraband
+      severity: Class4
     - type: Sprite
       sprite: Objects/Weapons/Guns/Launchers/pirate_cannon.rsi
       layers:

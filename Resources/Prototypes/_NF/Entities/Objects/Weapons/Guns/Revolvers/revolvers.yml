@@ -62,6 +62,8 @@
   description: |-
     An illegal revolver favoured by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Sprite
     sprite: Objects/Weapons/Guns/Revolvers/python.rsi
   - type: Clothing
@@ -74,6 +76,8 @@
   description: |-
     An odd, illegal, old-looking revolver, favoured by pirate crews.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Sprite
     sprite: Objects/Weapons/Guns/Revolvers/pirate_revolver.rsi
   - type: Clothing
@@ -88,6 +92,8 @@
   description: |-
     A pirate's companion. Yarrr! An illegal weapon often used by pirates.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Sprite
     sprite: _NF/Objects/Weapons/Guns/Revolvers/flintlock.rsi
   - type: Clothing

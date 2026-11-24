@@ -6,6 +6,8 @@
   description: |-
     A viper for use by cyborgs. Creates .35 ammo on the fly from an internal ammo fabricator, which slowly self-charges.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Gun
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
@@ -30,6 +32,8 @@
   description: |-
     A small, easily concealable machine pistol. An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Sprite
     sprite: Objects/Weapons/Guns/Pistols/viper.rsi
   - type: Clothing

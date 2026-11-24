@@ -6,6 +6,8 @@
   description: |-
     Pla-ket-ket-ket-ket! An illegal firearm often used by Syndicate agents.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Gun
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
@@ -21,6 +23,8 @@
   description: |-
     An illegal firearm that is often used by the infamous nuclear operatives.
   components:
+  - type: Contraband
+    severity: Class3General
   - type: Gun
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/c-20r.ogg

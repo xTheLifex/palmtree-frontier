@@ -5,6 +5,8 @@
   name: Hristov
   description: A portable anti-materiel rifle.
   components:
+  - type: Contraband
+    severity: Class4
   - type: Sprite
     sprite: Objects/Weapons/Guns/Snipers/heavy_sniper.rsi
   - type: Clothing

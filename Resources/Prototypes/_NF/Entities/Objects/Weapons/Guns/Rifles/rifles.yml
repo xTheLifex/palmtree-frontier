@@ -5,6 +5,8 @@
   name: Barlows bolt-action rifle # Renamed: real brand name
   description: A weapon for hunting, or endless trench warfare. Equipped with bayonet.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Sprite
     sprite: Objects/Weapons/Guns/Snipers/bolt_gun_wood.rsi
   - type: Clothing
@@ -18,6 +20,8 @@
   name: musket
   description: This should've been in a museum long before you were born. Equipped with bayonet.
   components:
+  - type: Contraband
+    severity: Class2
   - type: Sprite
     sprite: Objects/Weapons/Guns/Snipers/musket.rsi
   - type: Clothing
