@@ -527,11 +527,15 @@ client-side preference that scales every jukebox stream, separate from master vo
   `AudioComponent.Volume` every audio frame, so setting the live volume does not stick. The system
   stores each stream's server-provided base volume (copy the `AudioParams` struct out before reading
   `.Volume`, or the access analyzer flags it as an execute access) and reapplies base + offset.
-- The work runs in `FrameUpdate`, ordered `UpdatesBefore` the engine `AudioSystem`, not in `Update`.
-  `Update` runs during prediction: dirtying the networked `AudioComponent` there makes the client
-  reset it to the server state (full volume) and a new stream can play a frame or two before the
-  slider is applied. Frame updates run before audio processing and outside prediction, so the first
-  audible frame is already at the user's volume.
+- The work runs in `FrameUpdate`, ordered `UpdatesBefore` the engine `AudioSystem`, not in `Update`:
+  the first audible frame of a new stream is already at the user's volume.
+- `ClientGameTiming.InPrediction` is true for most of gameplay, including frame updates. Calling
+  `SetVolume` there dirties the networked `AudioComponent`; the next `ResetPredictedEntities` pass
+  restores the server's full volume, the system lowers it again, and the resulting loop is audible
+  as constant pops. `JukeboxVolumeSystem` sets `AudioComponent.NetSyncEnabled = false` around the
+  `SetVolume` call (restoring it immediately) so the local value never enters the predicted dirty
+  set. This is the same trick client-only light/color components use. Do not remove it: without the
+  suppression, every server state resets the jukebox volume.
 - UI: `SliderVolumeJukebox` in `Content.Client/Options/UI/Tabs/AudioTab.xaml(.cs)`; locale in
   `Resources/Locale/en-US/_PS/audio.ftl`.
 

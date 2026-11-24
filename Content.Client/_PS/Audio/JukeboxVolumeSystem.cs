@@ -59,17 +59,35 @@ public sealed class JukeboxVolumeSystem : EntitySystem
                 continue;
             }
 
+            // Copy the struct out first: reading a field off Params directly is treated as an
+            // execute access by the access analyzer.
+            var parameters = audio.Params;
+
             if (!_baseVolumes.TryGetValue(stream, out var baseVolume))
             {
-                // Copy the struct out first: reading a field off Params directly is treated as
-                // an execute access by the access analyzer.
-                var parameters = audio.Params;
                 baseVolume = parameters.Volume;
                 _baseVolumes[stream] = baseVolume;
             }
 
-            // SetVolume is a no-op when the value is unchanged, so this is safe to call every frame.
-            _audio.SetVolume(stream, baseVolume + _volumeOffset, audio);
+            var target = baseVolume + _volumeOffset;
+            if (parameters.Volume.Equals(target))
+                continue;
+
+            // SetVolume dirties the networked AudioComponent while the client is predicting, and
+            // the next predicted-entity reset then restores the server's full volume. That loop
+            // makes the music jump between volumes (audible as pops), so keep this local change
+            // out of the prediction dirty set. The component is still synced normally once we
+            // restore the flag.
+            var sync = audio.NetSyncEnabled;
+            audio.NetSyncEnabled = false;
+            try
+            {
+                _audio.SetVolume(stream, target, audio);
+            }
+            finally
+            {
+                audio.NetSyncEnabled = sync;
+            }
         }
     }
 
