@@ -15,6 +15,9 @@
                 <CheckBox Name="ViewportLowResCheckBox" Text="{Loc 'ui-options-vp-low-res'}" />
                 <CheckBox Name="ParallaxLowQualityCheckBox" Text="{Loc 'ui-options-parallax-low-quality'}" />
                 <CheckBox Name="AmbientOcclusionCheckBox" Text="{Loc 'ui-options-ambient-occlusion'}" />
+                <ui:OptionSlider Name="BloomSlider"
+                                 Title="{Loc 'ui-options-bloom'}"
+                                 ToolTip="{Loc 'ui-options-bloom-tooltip'}" />
 
                 <!-- Interface -->
                 <Label Text="{Loc 'ui-options-interface-label'}" StyleClasses="LabelKeyText"/>

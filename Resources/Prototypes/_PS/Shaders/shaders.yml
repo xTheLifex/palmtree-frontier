@@ -1,0 +1,4 @@
+- type: shader
+  id: PSBloom
+  kind: source
+  path: "/Textures/_PS/Shaders/bloom.swsl"

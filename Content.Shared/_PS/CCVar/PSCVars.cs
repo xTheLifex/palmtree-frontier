@@ -114,4 +114,20 @@ public sealed partial class PSCVars
     /// </summary>
     public static readonly CVarDef<float> JukeboxVolume =
         CVarDef.Create("ps.audio.jukebox_volume", 1f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Palmtree: maximum strength written by the Bloom slider. The slider maps 0-100% onto
+    /// 0-<see cref="BloomMax"/>; this is deliberately a fraction of the shader's full range, so
+    /// 100% is a gentle bloom rather than the old full-strength effect.
+    /// </summary>
+    public const float BloomMax = 0.1f;
+
+    /// <summary>
+    /// Palmtree: strength of the optional soft bloom effect, 0-<see cref="BloomMax"/>. 0 disables
+    /// it. The bloom shader samples the light render target so lights glow and bleed, without the
+    /// distortion of the welding eye-damage effect. See
+    /// <c>Content.Client/_PS/Graphics/BloomOverlay.cs</c>.
+    /// </summary>
+    public static readonly CVarDef<float> Bloom =
+        CVarDef.Create("ps.client.bloom", 0f, CVar.CLIENTONLY | CVar.ARCHIVE);
 }

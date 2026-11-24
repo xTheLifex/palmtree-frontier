@@ -535,6 +535,34 @@ client-side preference that scales every jukebox stream, separate from master vo
 - UI: `SliderVolumeJukebox` in `Content.Client/Options/UI/Tabs/AudioTab.xaml(.cs)`; locale in
   `Resources/Locale/en-US/_PS/audio.ftl`.
 
+## Bloom graphics option (2026-11)
+
+The **Graphics** options tab has a **Bloom** slider (`ui-options-bloom`, 0-100%, default 0/off).
+It is a client-side rendering preference, not a gameplay effect. It is modelled on the light-glare
+half of the welding eye-damage effect (`Cataracts` shader), but lives in its own fork-owned shader
+so it can be tuned without touching the welding effect.
+
+- CVar: `PSCVars.Bloom` (`ps.client.bloom`, client-only/archived, default `0`). The slider maps
+  0-100% onto 0-`PSCVars.BloomMax` (`0.1`), so 100% is the deliberately gentle ceiling; do not
+  raise the shader constants to compensate unless the whole scale is meant to change.
+- Overlay: `Content.Client/_PS/Graphics/BloomOverlay.cs`, registered for the whole session by
+  `BloomSystem.cs`. `BeforeDraw` returns false while the setting is 0 (so no screen-texture copy or
+  shader pass), when there is no local player mob, when the local eye does not match the viewport,
+  or when the player is fully blind. It also requires `BlindableComponent`, which keeps the effect
+  out of the lobby.
+- Shader: `Resources/Textures/_PS/Shaders/bloom.swsl`, prototype `PSBloom` in
+  `Resources/Prototypes/_PS/Shaders/shaders.yml`. Like the cataracts shader it samples
+  `LightRenderTarget` and adds the light back on top of the screen, but it uses a golden-angle disc
+  blur instead of screen distortion, plus a small four-tap screen soften.
+- Why not reuse `Cataracts` directly: that shader's distortion is part of the welding eye-damage
+  effect, and the requested Bloom look is the light glare without the wavy warp. The fork copy
+  keeps the light-add behaviour and leaves `cataracts.swsl` untouched.
+- Tuning constants in `bloom.swsl`: `SampleCount` (quality), `BaseRadius`/`MaxRadius` (glow size),
+  `LightIntensity` (glow brightness), `Softness` (base-image blur). They do not affect the welding
+  effect.
+- UI: `BloomSlider` in `Content.Client/Options/UI/Tabs/GraphicsTab.xaml(.cs)`; locale in
+  `Resources/Locale/en-US/_PS/ui/options-menu.ftl`.
+
 ## Theobromine intolerance trait (2026-10)
 
 Theobromine (chocolate/coffee/tea) used to poison any species whose organs carry the `Animal`

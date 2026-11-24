@@ -1,0 +1,56 @@
+// Palmtree: soft bloom for the Bloom graphics option.
+// This is deliberately a fork-owned copy of the light-glare half of cataracts.swsl: it samples
+// the light render target and adds a blurred, brightened version on top of the screen. There is
+// no screen distortion, so it is safe as a permanent, optional graphics setting.
+// Tune the constants below to make the effect wider, tighter, brighter or dimmer.
+
+uniform sampler2D SCREEN_TEXTURE;
+uniform sampler2D LIGHT_TEXTURE;
+
+uniform highp float BloomStrength; // 0-0.1; the slider's 100% maps to 0.1
+uniform highp float Zoom;
+
+const highp int SampleCount = 16;
+const highp float GoldenAngle = 2.39996323; // radians
+const highp float BaseRadius = 18.0; // screen pixels at zoom 1 and full strength
+const highp float MaxRadius = 48.0; // screen pixels, keeps very zoomed-out views sane
+const highp float LightIntensity = 0.45; // how much of the blurred lightmap is added at 100%
+const highp float Softness = 0.10; // how much of the base image is softened at 100%
+
+void fragment() {
+    highp vec3 screen = zTextureSpec(SCREEN_TEXTURE, UV).rgb;
+
+    // Wider glow as the slider rises, and keep it visually stable when the camera zooms.
+    highp float radius = clamp(BaseRadius * (0.5 + BloomStrength * 0.5) / max(Zoom, 0.25),
+        BaseRadius * 0.5,
+        MaxRadius);
+
+    highp vec3 light = vec3(0.0);
+    highp vec3 soft = screen * 4.0;
+
+    // Golden-angle spiral: evenly spreads the taps over a disc without visible rings.
+    for (int i = 0; i < SampleCount; i++)
+    {
+        highp float t = (float(i) + 0.5) / float(SampleCount);
+        highp float dist = sqrt(t) * radius;
+        highp float angle = float(i) * GoldenAngle;
+        highp vec2 offset = vec2(cos(angle), sin(angle)) * dist * SCREEN_PIXEL_SIZE;
+
+        light += texture2D(LIGHT_TEXTURE, UV + offset).rgb;
+
+        // A cheap four-tap cross-blur of the screen itself. Keeps the image a little soft
+        // instead of only adding glow on top of a perfectly sharp picture.
+        if (i < 4)
+        {
+            highp float softAngle = float(i) * 1.5707963;
+            highp vec2 softOffset = vec2(cos(softAngle), sin(softAngle)) * (radius * 0.35) * SCREEN_PIXEL_SIZE;
+            soft += zTextureSpec(SCREEN_TEXTURE, UV + softOffset).rgb;
+        }
+    }
+
+    light /= float(SampleCount);
+    soft /= 8.0;
+
+    screen = mix(screen, soft, Softness * BloomStrength);
+    COLOR = vec4(screen + light * LightIntensity * BloomStrength, 1.0);
+}
