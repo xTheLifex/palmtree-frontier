@@ -1101,7 +1101,8 @@ local `attributions.yml` in the audio folder records the YouTube source of every
 
 - Track definitions: `Resources/Prototypes/_PS/Jukebox/Standard.yml`; the record prototypes
   (`PalmtreeRecord` shown as "Palm Record", `StarjunkRecord`, `TunesOfAnarchyRecord`,
-  `PeopleOfEarthRecord`, `EclecticBoogalooRecord` and `DrSteelRecord`) are
+  `PeopleOfEarthRecord`, `EclecticBoogalooRecord`, `DrSteelRecord`, `AcrylMadnessRecord` and
+  `SovietRecord`) are
   `Resources/Prototypes/_PS/Jukebox/records.yml`.
 - `Content.Server/_PS/Audio/JukeboxLocalTracksSystem.cs` injects `PalmtreeRecord` into every
   jukebox on map init and adds the other records to the `NFJukeboxRecordSpawner` dungeon loot pool,

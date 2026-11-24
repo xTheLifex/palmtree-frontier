@@ -16,7 +16,7 @@ namespace Content.Server._PS.Audio;
 public sealed class JukeboxLocalTracksSystem : EntitySystem
 {
     private const string DefaultRecordPrototype = "PalmtreeRecord";
-    private static readonly string[] DungeonRecordPrototypes = ["StarjunkRecord", "TunesOfAnarchyRecord", "PeopleOfEarthRecord", "EclecticBoogalooRecord", "DrSteelRecord"];
+    private static readonly string[] DungeonRecordPrototypes = ["StarjunkRecord", "TunesOfAnarchyRecord", "PeopleOfEarthRecord", "EclecticBoogalooRecord", "DrSteelRecord", "AcrylMadnessRecord", "SovietRecord"];
     private const string DungeonRecordSpawner = "NFJukeboxRecordSpawner";
 
     [Dependency] private readonly IPrototypeManager _prototypes = default!;
