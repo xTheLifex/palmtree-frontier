@@ -2313,3 +2313,13 @@ Entries:
   time: '2026-11-24T03:28:18.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/915491e2f88f4b126a0ec3beb0ee7e52a9521825
+- author: xTheLifex
+  changes:
+    - type: Add
+      message: >-
+        Added a Bloom slider to the Graphics settings. It is off by default and
+        makes lights glow softly when enabled.
+  id: 90155
+  time: '2026-11-24T03:55:38.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/66d9fe55a722fc11c3876865ff695725c1a84b92
