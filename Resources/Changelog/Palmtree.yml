@@ -2341,3 +2341,11 @@ Entries:
   time: '2026-11-24T04:31:28.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/e9ba81c5050894bf43aea3d093a2d1bf7a1b6aa5
+- author: xTheLifex
+  changes:
+    - type: Fix
+      message: Fixed digitigrade tails rendering behind the body when facing north.
+  id: 90158
+  time: '2026-11-24T18:33:28.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/c2bac11505283d9c6ad482d1f4401a6ce10d4893
