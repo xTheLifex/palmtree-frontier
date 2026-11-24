@@ -2323,3 +2323,11 @@ Entries:
   time: '2026-11-24T03:55:38.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/66d9fe55a722fc11c3876865ff695725c1a84b92
+- author: xTheLifex
+  changes:
+    - type: Fix
+      message: Fixed jukebox volume popping and repeatedly jumping back to full volume.
+  id: 90156
+  time: '2026-11-24T04:29:02.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/36380d656b390768ea787544c1223fe267bfb8e0
