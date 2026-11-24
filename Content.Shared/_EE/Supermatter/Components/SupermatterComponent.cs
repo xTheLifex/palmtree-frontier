@@ -298,7 +298,9 @@ public sealed partial class SupermatterComponent : Component
     /// <summary>
     /// Last time a supermatter accent sound was triggered
     /// </summary>
-    [DataField]
+    // Palmtree: runtime clock, not saved. It is compared against IGameTiming.CurTime, so a value
+    // carried over a save/load would silence accents until the new clock caught up.
+    [ViewVariables]
     public TimeSpan AccentLastTime;
 
     /// <summary>
@@ -307,7 +309,8 @@ public sealed partial class SupermatterComponent : Component
     [DataField]
     public float AccentMinCooldown = 2f;
 
-    [DataField]
+    // Palmtree: runtime clock, not saved. See AccentLastTime.
+    [ViewVariables]
     public TimeSpan ZapLast;
 
     #endregion
@@ -497,10 +500,20 @@ public static class SupermatterGasData
         { Gas.Ammonia,       new(0f,     1f,    1f,  1f) },
         { Gas.NitrousOxide,  new(0f,     -5f,   -1f, 6f) },
         { Gas.Frezon,        new(-3f,    -10f,  -1f, 2f) },
-        // Triad: dropped upstream Gas.Helium and Gas.Respiron entries; those are
-        // Einstein Engines custom gases absent from this fork's Gas enum.
-        // They can never appear in a mixture here, and CalculateGasMixModifier defaults
-        // missing gases to a zero SupermatterGasFact, so this is behavior-neutral.
+        // Assmos - /tg/ gases, ported from Funky Station.
+        { Gas.BZ,            new(0f,    5f,    1f,  1f) },
+        { Gas.Healium,       new(2.4f,  4f,    1f,  1f) },
+        { Gas.Pluoxium,      new(0f,    -2.5f, -1f, 1f) },
+        { Gas.Nitrium,       new(30f,   10f,   1f,  1f) },
+        { Gas.Hydrogen,      new(25f,   10f,   1f,  1f) },
+        { Gas.HyperNoblium,  new(30f,   -9f,   -1f, 6f) },
+        { Gas.ProtoNitrate,  new(15f,   -4f,   1f,  4f) },
+        { Gas.Zauker,        new(2f,    4f,    2f,  1f) },
+        { Gas.Halon,         new(0.1f,  0.1f,  0.1f, 0.1f) },
+        { Gas.Helium,        new(0.1f,  0.1f,  0.1f, 0.1f) },
+        { Gas.AntiNoblium,   new(-0.5f, 14f,   1f,  1f) },
+        // Respiron has no upstream coefficient here; CalculateGasMixModifier defaults
+        // gases missing from this table to a zero SupermatterGasFact.
     };
 
     public static float CalculateGasMixModifier(GasMixture mix, Func<SupermatterGasFact, float> getModifier)

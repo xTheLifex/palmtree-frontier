@@ -1,7 +1,10 @@
 using Content.Shared.Construction.Components;
+using Content.Shared._PS.Construction; // Palmtree: multi-tile flatpack footprint checks
+using Content.Shared._PS.Construction.Components; // Palmtree
 using Content.Shared.Administration.Logs;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Database;
+using Content.Shared.DoAfter;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Materials;
@@ -36,6 +39,7 @@ public abstract partial class SharedFlatpackSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<FlatpackComponent, InteractUsingEvent>(OnFlatpackInteractUsing);
+        SubscribeLocalEvent<FlatpackComponent, FlatpackUnpackDoAfterEvent>(OnUnpackDoAfter);
         SubscribeLocalEvent<FlatpackComponent, ExaminedEvent>(OnFlatpackExamined);
 
         SubscribeLocalEvent<FlatpackCreatorComponent, ItemSlotInsertAttemptEvent>(OnInsertAttempt);
@@ -61,12 +65,52 @@ public abstract partial class SharedFlatpackSystem : EntitySystem
         if (!_tool.HasQuality(args.Used, comp.QualityNeeded) || _container.IsEntityInContainer(ent))
             return;
 
+        args.Handled = true;
+
+        // Palmtree: flatpacks with an unpack delay run a do-after before spawning their machine.
+        if (comp.UnpackDelay > TimeSpan.Zero)
+        {
+            _tool.UseTool(args.Used,
+                args.User,
+                uid,
+                (float) comp.UnpackDelay.TotalSeconds,
+                new[] { comp.QualityNeeded.Id },
+                new FlatpackUnpackDoAfterEvent());
+            return;
+        }
+
+        TryUnpack(ent, args.User);
+    }
+
+    private void OnUnpackDoAfter(Entity<FlatpackComponent> ent, ref FlatpackUnpackDoAfterEvent args)
+    {
+        if (args.Cancelled)
+            return;
+
+        TryUnpack(ent, args.User);
+    }
+
+    /// <summary>
+    ///     Checks that the flatpack has somewhere to go and, on the server, spawns its contents.
+    /// </summary>
+    // Palmtree: split out of the interaction handler so the delayed unpack do-after can share it,
+    // and so multi-tile flatpacks can veto the placement through FlatpackUnpackAttemptEvent.
+    private void TryUnpack(Entity<FlatpackComponent> ent, EntityUid user)
+    {
+        var (uid, comp) = ent;
+
+        // Two players can finish their do-afters on the same tick. By the time the second runs, the
+        // first has already queued the flatpack for deletion, so it must not spawn a second copy.
+        if (TerminatingOrDeleted(uid) || EntityManager.IsQueuedForDeletion(uid))
+            return;
+
+        if (_container.IsEntityInContainer(ent))
+            return;
+
         var xform = Transform(ent);
 
         if (xform.GridUid is not { } grid || !TryComp<MapGridComponent>(grid, out var gridComp))
             return;
-
-        args.Handled = true;
 
         if (comp.Entity == null)
         {
@@ -83,29 +127,41 @@ public abstract partial class SharedFlatpackSystem : EntitySystem
         // TODO FLATPAK
         // Make this logic smarter. This should eventually allow for shit like building microwaves on tables and such.
         // Also: make it ignore ghosts
-        if (_entityLookup.AnyEntitiesIntersecting(coords, LookupFlags.Dynamic | LookupFlags.Static))
+        // Multi-tile flatpacks run their own footprint check instead, which also covers this tile
+        // and deliberately allows cables and lower-layer pipes underneath the machine.
+        if (!HasComp<FlatpackFootprintComponent>(uid) &&
+            _entityLookup.AnyEntitiesIntersecting(coords, LookupFlags.Dynamic | LookupFlags.Static))
         {
             // this popup is on the server because the predicts on the intersection is crazy
             if (_net.IsServer)
-                _popup.PopupEntity(Loc.GetString("flatpack-unpack-no-room"), uid, args.User);
+                _popup.PopupEntity(Loc.GetString("flatpack-unpack-no-room"), uid, user);
             return;
         }
 
-        if (_net.IsServer)
+        var attempt = new FlatpackUnpackAttemptEvent(uid, user, grid, buildPos);
+        RaiseLocalEvent(uid, ref attempt);
+        if (attempt.Cancelled)
         {
-            var spawn = Spawn(comp.Entity, _map.GridTileToLocal(grid, gridComp, buildPos));
-            if (TryComp(spawn, out TransformComponent? spawnXform)) // Frontier: rotatable flatpacks
-                spawnXform.LocalRotation = xform.LocalRotation.GetCardinalDir().ToAngle(); // Frontier: rotatable flatpacks
-            if (TryComp<StationBoundObjectComponent>(uid, out var bound)) // Frontier: station binding
-                BindToStation(spawn, bound); // Frontier: station binding
-
-            _adminLogger.Add(LogType.Construction,
-                LogImpact.Low,
-                $"{ToPrettyString(args.User):player} unpacked {ToPrettyString(spawn):entity} at {xform.Coordinates} from {ToPrettyString(uid):entity}");
-            QueueDel(uid);
+            if (_net.IsServer && attempt.Message != null)
+                _popup.PopupEntity(attempt.Message, uid, user);
+            return;
         }
 
-        _audio.PlayPredicted(comp.UnpackSound, args.Used, args.User);
+        if (!_net.IsServer)
+            return;
+
+        var spawn = Spawn(comp.Entity, _map.GridTileToLocal(grid, gridComp, buildPos));
+        if (TryComp(spawn, out TransformComponent? spawnXform)) // Frontier: rotatable flatpacks
+            spawnXform.LocalRotation = xform.LocalRotation.GetCardinalDir().ToAngle(); // Frontier: rotatable flatpacks
+        if (TryComp<StationBoundObjectComponent>(uid, out var bound)) // Frontier: station binding
+            BindToStation(spawn, bound); // Frontier: station binding
+
+        _adminLogger.Add(LogType.Construction,
+            LogImpact.Low,
+            $"{ToPrettyString(user):player} unpacked {ToPrettyString(spawn):entity} at {xform.Coordinates} from {ToPrettyString(uid):entity}");
+        RaiseLocalEvent(spawn, new FlatpackUnpackedEvent(uid, user, spawn), true);
+        QueueDel(uid);
+        _audio.PlayPredicted(comp.UnpackSound, uid, user);
     }
 
     private void OnFlatpackExamined(Entity<FlatpackComponent> ent, ref ExaminedEvent args)
