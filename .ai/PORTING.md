@@ -1128,21 +1128,23 @@ the maintainer's request, so the set is admin-spawn only with no crate or vendor
   `maxTargets`).
 - **Palmtree rework (2026-11)**: whips are now long-ranged Castlevania-style lashes and can be
   used outside combat mode. Out-of-combat lashes do no health damage but still apply 10 stamina
-  (split across targets); in combat mode they deal Slash 10 (regular whips) or Slash 50
-  (`WhipPinkHardy`/`WhipTealHardy`, the "hardy" pink/teal variants) and 50 stamina. The attack
-  input is let through by `MeleeWeaponComponent.RequiresCombatMode`, while
-  `WhipComponent`/`WhipSystem` (`Content.Shared/_PS/Weapons/Melee/`) handle the combat-mode damage
-  and stamina split. Left-click (light) attacks use the full long range (`range: 6`, or `12` for
-  the hardy variants), draw a short-lived rope line from the wielder to the actual strike point,
-  and are single-target. Right-click (heavy) attacks keep the old whip sweep behavior: the default
-  1.5-tile melee reach via `MeleeWeaponComponent.HeavyRangeOverride`, the old 120° wide attack,
-  multi-target hits, the standard wide-attack animation, and no rope. The rope is a black copy of
-  the grappling gun's `rope` state at `Resources/Textures/_PS/Objects/Weapons/Melee/whip_rope.rsi`
-  (the original grappling-gun asset is untouched); it is drawn by the client-only
-  `Content.Client/_PS/Weapons/Melee/*` code and relayed to other clients with `WhipLashEvent`.
-  The local lash is spawned only on the first client prediction; the server relay is ignored for
-  the local player and deduped per wielder, because shared attack hooks run again on prediction
-  replay and would otherwise play the rope twice (see `.ai/HAZARDS.md` §30).
+  (split across targets) and disarm a target's held item; in combat mode they deal Slash 10
+  (regular whips) or Slash 50 (`WhipPinkHardy`/`WhipTealHardy`, the "hardy" pink/teal variants) and
+  50 stamina. The attack input is let through by `MeleeWeaponComponent.RequiresCombatMode`, while
+  `WhipComponent`/`WhipSystem` (`Content.Shared/_PS/Weapons/Melee/`) handle the combat-mode damage,
+  stamina split and server-authoritative out-of-combat disarm (`DisarmedEvent`, so the normal
+  `HandsSystem` throw/item-drop path is reused). Left-click (light) attacks use the full long range
+  (`range: 6`, or `12` for the hardy variants), draw a short-lived rope line from the wielder to the
+  actual strike point, and are single-target. Right-click (heavy) attacks keep the old whip sweep
+  behavior: the default 1.5-tile melee reach via `MeleeWeaponComponent.HeavyRangeOverride`, the old
+  120° wide attack, multi-target hits, the standard wide-attack animation, and no rope. The rope is
+  a black copy of the grappling gun's `rope` state at
+  `Resources/Textures/_PS/Objects/Weapons/Melee/whip_rope.rsi` (the original grappling-gun asset is
+  untouched); it is drawn by the client-only `Content.Client/_PS/Weapons/Melee/*` code and relayed
+  to other clients with `WhipLashEvent`. The local lash is spawned only on the first client
+  prediction; the server relay is ignored for the local player and deduped per wielder, because
+  shared attack hooks run again on prediction replay and would otherwise play the rope twice (see
+  `.ai/HAZARDS.md` §30).
 - **Validation**: `Content.YAMLLinter` reports no errors; `EntityTest` passes.
 
 ## 31. 2026-11 Rings on gloves (Sandstorm / old SPLURT)
