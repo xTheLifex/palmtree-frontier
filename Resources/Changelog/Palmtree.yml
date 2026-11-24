@@ -2331,3 +2331,13 @@ Entries:
   time: '2026-11-24T04:29:02.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/36380d656b390768ea787544c1223fe267bfb8e0
+- author: xTheLifex
+  changes:
+    - type: Tweak
+      message: >-
+        Out-of-combat whip lashes now disarm targets by throwing their held
+        item.
+  id: 90157
+  time: '2026-11-24T04:31:28.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/e9ba81c5050894bf43aea3d093a2d1bf7a1b6aa5
