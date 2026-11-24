@@ -142,6 +142,10 @@ undershirts) so hiding a parent hides its sublayers.
    `altSprites` for the current `LegStyle` (base-layer variant), then `SetLayerData`.
 3. `ApplyMarkingSet` iterates every marking; for each:
    - `GetMarkingForLegStyle` swaps in an `altSprites` variant when one matches the leg style.
+     Layer IDs use the **resolved** prototype ID, so `RemoveMarking` must remove the base
+     prototype and every `altSprites` variant. Removing only `Marking.MarkingId` leaves stale
+     alternate layers behind on sprite rebuilds (for example, a digitigrade tail stuck on
+     `TailBehind` after turning north).
    - `ApplyMarking` computes per-sprite `layerSlot` (BodyPart or `layering` override), creates layers
      named `<markingId>-<state>`, applies scale/offset, color (with `colorLinks`), visibility and
      displacement, and clamps genital layers below `jumpsuit`/`outerClothing`.

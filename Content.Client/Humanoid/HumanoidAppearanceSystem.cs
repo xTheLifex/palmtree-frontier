@@ -447,13 +447,12 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
     private void ClearAllMarkings(Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
     {
         var humanoid = entity.Comp1;
-        var sprite = entity.Comp2;
 
         foreach (var markingList in humanoid.ClientOldMarkings.Markings.Values)
         {
             foreach (var marking in markingList)
             {
-                RemoveMarking(marking, (entity, sprite));
+                RemoveMarking(marking, entity);
             }
         }
 
@@ -463,18 +462,31 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         {
             foreach (var marking in markingList)
             {
-                RemoveMarking(marking, (entity, sprite));
+                RemoveMarking(marking, entity);
             }
         }
     }
 
-    private void RemoveMarking(Marking marking, Entity<SpriteComponent> spriteEnt)
+    private void RemoveMarking(Marking marking, Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
     {
         if (!_markingManager.TryGetMarking(marking, out var prototype))
         {
             return;
         }
 
+        // Palmtree/Coyote: layer IDs use the prototype selected for the current leg style. Remove
+        // the base prototype and every alternate so changing leg style cannot leave stale layers.
+        RemoveMarkingLayers(prototype.ID, prototype, (entity, entity.Comp2));
+
+        foreach (var alternate in prototype.AlternateSprites.Values)
+        {
+            if (_prototypeManager.TryIndex(alternate, out MarkingPrototype? alternatePrototype))
+                RemoveMarkingLayers(alternatePrototype.ID, alternatePrototype, (entity, entity.Comp2));
+        }
+    }
+
+    private void RemoveMarkingLayers(string prototypeId, MarkingPrototype prototype, Entity<SpriteComponent> spriteEnt)
+    {
         foreach (var sprite in prototype.Sprites)
         {
             if (sprite is not SpriteSpecifier.Rsi rsi)
@@ -482,7 +494,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
                 continue;
             }
 
-            var layerId = $"{marking.MarkingId}-{rsi.RsiState}";
+            var layerId = $"{prototypeId}-{rsi.RsiState}";
             if (!_sprite.LayerMapTryGet(spriteEnt.AsNullable(), layerId, out var index, false))
             {
                 continue;

@@ -115,4 +115,94 @@ public sealed class TailLayerOrderTest
         await pair.RunTicksSync(5);
         await pair.CleanReturnAsync();
     }
+
+    /// <summary>
+    /// Palmtree/Coyote: digitigrade tails are swapped to an alternate marking prototype. Rebuilding
+    /// the sprite must remove those alternate layers using the alternate prototype ID; otherwise a
+    /// south-facing tail stays on TailBehind when the character turns north.
+    /// </summary>
+    [Test]
+    public async Task DigitigradeAlternateTailFollowsDirection()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            DummyTicker = false,
+        });
+
+        var server = pair.Server;
+        var client = pair.Client;
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var attached = serverPlayers.Sessions.Single().AttachedEntity;
+            Assert.That(attached, Is.Not.Null);
+
+            var appearance = HumanoidCharacterAppearance.DefaultWithSpecies("Vulpkanin");
+            appearance = appearance.WithLegs(HumanoidLegStyle.Digitigrade);
+            appearance.Markings.Add(new Marking("VulpTailFoxWagTip", 2));
+
+            server.System<SharedHumanoidAppearanceSystem>().LoadProfile(attached.Value,
+                HumanoidCharacterProfile.DefaultWithSpecies("Vulpkanin").WithCharacterAppearance(appearance));
+        });
+
+        await pair.RunTicksSync(10);
+
+        await client.WaitAssertion(() =>
+        {
+            var clientEntMan = client.ResolveDependency<IEntityManager>();
+            var attached = client.Session.AttachedEntity;
+            Assert.That(attached, Is.Not.Null);
+
+            var appearance = client.System<HumanoidAppearanceSystem>();
+            var direction = clientEntMan.EnsureComponent<HumanoidLayerDirectionComponent>(attached.Value);
+
+            var sprite = clientEntMan.GetComponent<SpriteComponent>(attached.Value);
+            var spriteSystem = client.System<SpriteSystem>();
+
+            direction.Direction = RsiDirection.South;
+            appearance.RefreshSprite(attached.Value);
+
+            Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                "DigiVulpTailFoxWagTip-fox_wag", out var southTail, false), Is.True,
+                "the digitigrade alternate tail must exist");
+            Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                HumanoidVisualLayers.Chest, out var southBody, false), Is.True);
+
+            Assert.That(southTail, Is.LessThan(southBody),
+                "the south-facing tail belongs behind the body");
+
+            direction.Direction = RsiDirection.North;
+            appearance.RefreshSprite(attached.Value);
+
+            Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                "DigiVulpTailFoxWagTip-fox_wag", out var northTail, false), Is.True,
+                "the rebuilt north view must keep the alternate tail");
+            Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                HumanoidVisualLayers.Chest, out var northBody, false), Is.True);
+            Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                HumanoidVisualLayers.Tail, out var northTailLayer, false), Is.True);
+
+            Assert.That(northTail, Is.GreaterThan(northBody),
+                "a north-facing tail sits in front of the body");
+            Assert.That(northTail, Is.GreaterThan(northTailLayer),
+                "the marking must be rebuilt above the base tail layer");
+
+            clientEntMan.RemoveComponent<HumanoidLayerDirectionComponent>(attached.Value);
+        });
+
+        await server.WaitAssertion(() =>
+        {
+            var attached = serverPlayers.Sessions.Single().AttachedEntity;
+            if (attached != null)
+            {
+                server.System<SharedHumanoidAppearanceSystem>().LoadProfile(attached.Value,
+                    HumanoidCharacterProfile.DefaultWithSpecies("Human"));
+            }
+        });
+
+        await pair.RunTicksSync(5);
+        await pair.CleanReturnAsync();
+    }
 }
