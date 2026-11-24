@@ -2296,3 +2296,20 @@ Entries:
   time: '2026-11-24T03:08:54.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/cdf9b90c61d6e6ee088ba933337ffccf76414e28
+- author: xTheLifex
+  changes:
+    - type: Tweak
+      message: >-
+        Re-tiered conventional ballistic guns: civilian pistols and rifles are
+        tier 2, military-style rifles and SMGs are tier 3, and heavy launchers
+        and LMGs are tier 4.
+    - type: Tweak
+      message: The minigun is now tier 5 contraband.
+    - type: Fix
+      message: >-
+        Syndicate and pirate expedition weapons no longer inherit tier 5 from
+        their faction base.
+  id: 90154
+  time: '2026-11-24T03:28:18.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/915491e2f88f4b126a0ec3beb0ee7e52a9521825
