@@ -2282,3 +2282,17 @@ Entries:
   time: '2026-11-24T02:58:25.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/99cef5ff53fb333ef1718eb0135920b954a769df
+- author: xTheLifex
+  changes:
+    - type: Add
+      message: >-
+        Added the Acryl Madness and Soviet jukebox records to salvage wreck
+        loot.
+    - type: Tweak
+      message: >-
+        Moved the existing Soviet tracks into the new Soviet record and added
+        Nine Is God to the Palm Record.
+  id: 90153
+  time: '2026-11-24T03:08:54.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/cdf9b90c61d6e6ee088ba933337ffccf76414e28
