@@ -2349,3 +2349,15 @@ Entries:
   time: '2026-11-24T18:33:28.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/c2bac11505283d9c6ad482d1f4401a6ce10d4893
+- author: xTheLifex
+  changes:
+    - type: Fix
+      message: Fixed belly markings rendering above exposed breasts.
+    - type: Fix
+      message: Scarves and cloaks now cover exposed breasts when facing south.
+    - type: Fix
+      message: Fixed genital organ ordering being dependent on insertion order.
+  id: 90159
+  time: '2026-11-25T20:53:11.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/f7230c12931385636773b1fae5aa88cf06dd3965
