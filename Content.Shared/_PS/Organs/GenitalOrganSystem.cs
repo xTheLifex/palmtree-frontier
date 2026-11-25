@@ -269,10 +269,9 @@ public sealed class GenitalOrganSystem : EntitySystem
 
         humanoid.MarkingSet.RemoveCategory(MarkingCategories.Genital);
 
-        // Marking layers inserted at the same index render newest-first, so add the organs in
-        // reverse priority order. The final stack is still butt, vagina, balls, penis, belly,
-        // breasts (bottom to top): the penis draws over the balls, the belly draws over the groin,
-        // and the breasts are the only organ drawn over the belly.
+        // Each organ carries an explicit RenderPriority; the client sorts the exposed stack.
+        // Add in reverse priority here too so the server-side marking list matches that order:
+        // butt, vagina, balls, penis, belly, breasts (bottom to top).
         foreach (var (_, organ) in GetOrgans(mob).OrderByDescending(o => GetRenderPriority(o.Comp.GenitalType)))
         {
             // The visibility rule controls rendering directly: covered organs are not drawn at all
@@ -310,7 +309,7 @@ public sealed class GenitalOrganSystem : EntitySystem
                 OtherCanToggleVisible = false,
                 RenderOverClothing = organ.Visibility == GenitalVisibility.NeverHidden,
                 RenderUnderTopUndergarment = organ.GenitalType == GenitalType.Breasts,
-                RenderBelowNeck = organ.GenitalType == GenitalType.Butt,
+                RenderPriority = GetRenderPriority(organ.GenitalType),
             };
 
             if (organ.Offset != Vector2.Zero)

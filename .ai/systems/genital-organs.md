@@ -113,10 +113,12 @@ queries).
 
    Palmtree: layer order follows the direction the sprite is drawn in **on the local client**
    (`world rotation + eye rotation`, see `Content.Client/_PS/Humanoid/DirectionalLayerOrderSystem`).
-   Facing south puts exposed genitals above hair and tail layers (unless a jumpsuit/outer garment
-   actually covers them); facing east/west tucks tail markings under the hair layer and puts snout
-   and snout-cover markings above it when the character's `SnoutAboveHair` option is enabled
-   (default off keeps them under hair). Sprite
+   Facing south routes the whole exposed genital organ group to `GenitalUnder`, below `neck`
+   and `hair`, so neckwear covers exposed breasts while hair stays above the neckwear. The
+   tradeoff is that exposed organs are below hair/tails; south tails are separately routed to
+   `TailBehind`, so the practical effect is long hair over the groin. Facing east/west tucks tail
+   markings under the hair layer and puts snout and snout-cover markings above it when the
+   character's `SnoutAboveHair` option is enabled (default off keeps them under hair). Sprite
    direction changes raise no event, so the system rebuilds the humanoid sprite when the cardinal
    direction changes. The lobby editor sets <c>HumanoidLayerDirectionComponent</c> on its preview
    dummy so its rotation buttons use the same rules despite rendering through
@@ -128,14 +130,12 @@ queries).
    `UndergarmentBottom` and render below `UndergarmentTop`. The anchor includes the marking's
    per-sprite offset, so a breast's nipple sprite still renders above the breast sprite and a
    butt's front/mid sprites stay ordered. A visible relevant undergarment forces this clamp in
-   every direction (south included); without one, south keeps the genitals-over-hair rule.
-   The client also inserts uncovered breast markings below the neck clothing layer in every
-   direction, so scarves and cloaks cover breasts while hair and the head remain above the cloak.
-   `GenitalUnder` sits immediately before `neck`; exposed south-facing butt markings go there so
-   breasts draw over the butt without dropping it onto the leg/body layers. `GenitalLow` sits after
-   `LLeg` and before `UndergarmentBottom`; under-clothing bottom organs anchor there so leg markings
-   cannot draw over them. See `marking-and-appearance.md` for the option-3 explicit render-priority
-   design if this needs to be replaced.
+   every direction (south included). The client sorts the exposed group by the explicit
+   `Marking.RenderPriority`: butt < vagina < balls < penis < belly < breasts. Clothed and
+   undergarment states clamp the organs and keep neckwear above the breasts.
+   `GenitalUnder` sits immediately before `neck`; the exposed south organ stack goes there.
+   `GenitalLow` sits after `LLeg` and before `UndergarmentBottom`; under-clothing bottom organs
+   anchor there so leg markings cannot draw over them.
 
 ## Cum, drip and washing
 

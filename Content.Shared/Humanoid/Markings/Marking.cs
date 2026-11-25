@@ -67,7 +67,7 @@ namespace Content.Shared.Humanoid.Markings
             Forced = other.Forced;
             RenderOverClothing = other.RenderOverClothing;
             RenderUnderTopUndergarment = other.RenderUnderTopUndergarment;
-            RenderBelowNeck = other.RenderBelowNeck;
+            RenderPriority = other.RenderPriority;
             // Palmtree/Coyote Start
             _markingScale = other._markingScale;
             _markingOffsetX = other._markingOffsetX;
@@ -177,12 +177,12 @@ namespace Content.Shared.Humanoid.Markings
         public bool RenderUnderTopUndergarment;
 
         /// <summary>
-        ///     Palmtree: render this genital marking on the GenitalUnder sublayer when exposed while
-        ///     facing south. Used by butt sprites so breasts render above them without dropping the
-        ///     butt below body/leg markings.
+        ///     Palmtree: explicit bottom-to-top order inside the exposed genital stack. Higher
+        ///     values render above lower values. Set by <c>GenitalOrganSystem.SyncRender</c> from
+        ///     the organ type; non-organ markings keep the default and sort underneath.
         /// </summary>
-        [DataField("renderBelowNeck")]
-        public bool RenderBelowNeck;
+        [DataField("renderPriority")]
+        public int RenderPriority = -1;
 
         public void SetColor(int colorIndex, Color color) =>
             _markingColors[colorIndex] = color;
@@ -255,7 +255,7 @@ namespace Content.Shared.Humanoid.Markings
                 && Forced.Equals(other.Forced)
                 && RenderOverClothing == other.RenderOverClothing
                 && RenderUnderTopUndergarment == other.RenderUnderTopUndergarment
-                && RenderBelowNeck == other.RenderBelowNeck
+                && RenderPriority == other.RenderPriority
                 // Palmtree/Coyote Start
                 && _markingScale == other._markingScale
                 && _markingOffsetX == other._markingOffsetX

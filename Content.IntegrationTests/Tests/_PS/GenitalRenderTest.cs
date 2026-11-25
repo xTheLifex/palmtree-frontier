@@ -7,6 +7,7 @@ using Content.Shared._PS.Interactions;
 using Content.Shared._PS.Organs;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
+using Content.Shared.Inventory;
 using Content.Shared.Preferences;
 using Robust.Client.GameObjects;
 using Robust.Server.Player;
@@ -211,6 +212,188 @@ public sealed class GenitalRenderTest
             finally
             {
                 clientEntMan.RemoveComponent<HumanoidLayerDirectionComponent>(mob.Value);
+                NsfwGate.SetState(previousNsfwState);
+            }
+        });
+
+        await server.WaitAssertion(() =>
+        {
+            var attached = serverPlayers.Sessions.Single().AttachedEntity;
+            if (attached != null)
+            {
+                server.System<SharedHumanoidAppearanceSystem>().LoadProfile(attached.Value,
+                    HumanoidCharacterProfile.DefaultWithSpecies("Human"));
+            }
+        });
+
+        await pair.RunTicksSync(5);
+        await pair.CleanReturnAsync();
+    }
+
+    /// <summary>
+    /// Palmtree: an exposed south-facing belly is a torso organ and must stay below the breasts.
+    /// It used to remain on the raw Genital layer while uncovered breasts moved below the neck.
+    /// </summary>
+    [Test]
+    [NonParallelizable] // NsfwGate is a process-wide static.
+    public async Task ExposedSouthBellyRendersBelowBreasts()
+    {
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            DummyTicker = false,
+            Dirty = true, // This test strips the dummy's clothing/undergarments.
+        });
+
+        var server = pair.Server;
+        var client = pair.Client;
+        var serverPlayers = server.ResolveDependency<IPlayerManager>();
+
+        await server.WaitAssertion(() =>
+        {
+            var attached = serverPlayers.Sessions.Single().AttachedEntity;
+            Assert.That(attached, Is.Not.Null);
+
+            var settings = new GenitalOrganSettings();
+            settings.Set(GenitalType.Breasts, new GenitalOrganData
+            {
+                Prototype = "BreastsSplurt",
+                Size = 1,
+                Visibility = GenitalVisibility.VisibleUnderClothes,
+            });
+            settings.Set(GenitalType.Belly, new GenitalOrganData
+            {
+                Prototype = "BellyTummy",
+                Size = 1,
+                Visibility = GenitalVisibility.VisibleUnderClothes,
+            });
+            settings.Set(GenitalType.Vagina, new GenitalOrganData
+            {
+                Prototype = "VaginaHuman",
+                Size = 1,
+                Visibility = GenitalVisibility.VisibleUnderClothes,
+            });
+            settings.Set(GenitalType.Butt, new GenitalOrganData
+            {
+                Prototype = "ButtStandard",
+                Size = 1,
+                Visibility = GenitalVisibility.VisibleUnderClothes,
+            });
+            settings.Set(GenitalType.Balls, new GenitalOrganData
+            {
+                Prototype = "BallsSingle",
+                Size = 1,
+                Visibility = GenitalVisibility.VisibleUnderClothes,
+            });
+            settings.Set(GenitalType.Penis, new GenitalOrganData
+            {
+                Prototype = "PenisHuman",
+                Size = 3,
+                Visibility = GenitalVisibility.VisibleUnderClothes,
+            });
+
+            var serverEntMan = server.ResolveDependency<IEntityManager>();
+            server.System<SharedHumanoidAppearanceSystem>().LoadProfile(attached.Value,
+                HumanoidCharacterProfile.DefaultWithSpecies("Human").WithGenitals(settings));
+
+            var humanoid = serverEntMan.GetComponent<HumanoidAppearanceComponent>(attached.Value);
+            humanoid.UndergarmentTop = null;
+            humanoid.UndergarmentBottom = null;
+            humanoid.MarkingSet.RemoveCategory(MarkingCategories.UndergarmentTop);
+            humanoid.MarkingSet.RemoveCategory(MarkingCategories.UndergarmentBottom);
+            serverEntMan.Dirty(attached.Value, humanoid);
+
+            // The test dummy spawns with a jumpsuit; remove it so the exposed-south path is used.
+            if (serverEntMan.TryGetComponent<InventoryComponent>(attached.Value, out var inventory))
+            {
+                var inventorySystem = server.System<InventorySystem>();
+                foreach (var slot in new[] { "jumpsuit", "outerClothing" })
+                {
+                    if (inventorySystem.TryGetSlotEntity(attached.Value, slot, out var worn, inventory))
+                        serverEntMan.QueueDeleteEntity(worn.Value);
+                }
+            }
+        });
+
+        await pair.RunTicksSync(10);
+
+        await client.WaitAssertion(() =>
+        {
+            var clientEntMan = client.ResolveDependency<IEntityManager>();
+            var attached = client.Session.AttachedEntity;
+            Assert.That(attached, Is.Not.Null);
+
+            var appearance = client.System<HumanoidAppearanceSystem>();
+            var direction = clientEntMan.EnsureComponent<HumanoidLayerDirectionComponent>(attached.Value);
+
+            var sprite = clientEntMan.GetComponent<SpriteComponent>(attached.Value);
+            var spriteSystem = client.System<SpriteSystem>();
+
+            var previousNsfwState = NsfwGate.State;
+            NsfwGate.SetState(NsfwConsentState.Allowed);
+
+            try
+            {
+                direction.Direction = RsiDirection.South;
+                appearance.RefreshSprite(attached.Value);
+
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "GenitalBellyTummy1-belly_1_tummy", out var bellyLayer, false), Is.True,
+                    "the belly marking must render");
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "PSGenitalBreasts0-m_breasts_pair_0_FRONT_primary", out var breastLayer, false), Is.True,
+                    "the breast marking must render");
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "GenitalVaginaHuman-vagina_human_1_0_FRONT", out var vaginaLayer, false), Is.True,
+                    "the vagina marking must render");
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "GenitalButt1-butt_pair_2_0_FRONT", out var buttLayer, false), Is.True,
+                    "the butt marking must render");
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "Genital-Balls-Single1-testicles_single_1_0_FRONT", out var ballsLayer, false), Is.True,
+                    "the balls marking must render");
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "Genital-Penis-Human-3-0-penis_human_3_0_FRONT", out var penisLayer, false), Is.True,
+                    "the penis marking must render");
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    HumanoidVisualLayers.LArm, out var armLayer, false), Is.True);
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    HumanoidVisualLayers.LHand, out var handLayer, false), Is.True);
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    HumanoidVisualLayers.LFoot, out var footLayer, false), Is.True);
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    HumanoidVisualLayers.Chest, out var bodyLayer, false), Is.True);
+                Assert.That(spriteSystem.LayerMapTryGet((attached.Value, sprite),
+                    "neck", out var neckLayer, false), Is.True);
+
+                Assert.That(buttLayer, Is.LessThan(bellyLayer),
+                    "the belly must cover the butt");
+                Assert.That(vaginaLayer, Is.LessThan(bellyLayer),
+                    "the belly must cover the vagina");
+                Assert.That(vaginaLayer, Is.LessThan(ballsLayer),
+                    "the vagina must render below the balls");
+                Assert.That(ballsLayer, Is.LessThan(penisLayer),
+                    "the balls must render below the penis");
+                Assert.That(penisLayer, Is.LessThan(bellyLayer),
+                    "the penis must render below the belly");
+                Assert.That(bellyLayer, Is.GreaterThan(armLayer),
+                    "the belly must render above the arms");
+                Assert.That(bellyLayer, Is.GreaterThan(handLayer),
+                    "the belly must render above the hands");
+                Assert.That(bellyLayer, Is.GreaterThan(footLayer),
+                    "the belly must render above the feet");
+                Assert.That(bellyLayer, Is.GreaterThan(bodyLayer),
+                    "the belly must render above the body");
+                Assert.That(bellyLayer, Is.LessThan(breastLayer),
+                    "the belly must render below the breasts when facing south");
+                Assert.That(breastLayer, Is.LessThan(neckLayer),
+                    "exposed breasts must stay below neckwear so scarves cover them");
+                Assert.That(bellyLayer, Is.LessThan(neckLayer),
+                    "the exposed organ stack must stay below neckwear");
+            }
+            finally
+            {
+                clientEntMan.RemoveComponent<HumanoidLayerDirectionComponent>(attached.Value);
                 NsfwGate.SetState(previousNsfwState);
             }
         });

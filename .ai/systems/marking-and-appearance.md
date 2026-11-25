@@ -129,6 +129,10 @@ Layer maps must exist in two places for a species to render a marking on that la
 2. The species' `speciesBaseSprites` prototype (`Genital: MobHumanoidAnyMarking`, etc.). The client
    requires `BaseLayers[layer].AllowsMarkings` to render markings there.
 
+Keep the relative organ order identical across every species map: `GenitalLow` after `LLeg`,
+`GenitalUnder` before `neck`, and `Genital` after `HeadTop`/`Tail` and before `mask`. Moth and
+Arachnid used to place `Genital` before `GenitalUnder`, which put exposed butts above bellies.
+
 `HumanoidVisualLayersExtension.Sublayers` ties related layers together (behind legs, tail layers,
 undershirts) so hiding a parent hides its sublayers.
 
@@ -162,8 +166,10 @@ undershirts) so hiding a parent hides its sublayers.
      render above the left leg instead of being buried under it. Facing west the left leg is already
      the uppermost leg layer. A client system
      (`DirectionalLayerOrderSystem`) rebuilds the sprite when the cardinal or side-facing state
-     changes. Uncovered breast markings are inserted below the neck clothing layer in every
-     direction, so scarves/cloaks cover breasts while hair and the head remain above the cloak.
+     changes. When naked and facing south the whole organ stack is routed to `GenitalUnder`, below
+     `neck` and `hair`, in explicit priority order (butt < vagina < balls < penis < belly <
+     breasts). Neckwear therefore covers exposed breasts, and hair stays above the neckwear.
+     Clothed or undergarment states clamp the organs instead, with neckwear above the breasts.
      Under-clothing genital insertions anchor to stable layers, not `jumpsuit`/`outerClothing`:
      bottom organs (butt, vagina, balls, penis, belly) anchor above `LLeg` so they render below
      `UndergarmentBottom`, while breast markings anchor above `UndergarmentBottom` so they render
@@ -185,19 +191,25 @@ undershirts) so hiding a parent hides its sublayers.
 5. Genital markings are hidden by default (`AddMarking` sets `Visible = false` for the Genital
    category) and toggled at runtime through `ModifyUndies`.
 
-## Design note: explicit genital render priority (option 3)
+## Explicit genital render priority
 
-If the `GenitalUnder` approach proves insufficient, the next option is an explicit per-marking
-render sort key instead of relying on insertion anchors:
+Genital organ order is explicit rather than dependent on insertion anchors:
 
-- Add a transient `Marking.RenderPriority` (int) set by `GenitalOrganSystem.SyncRender` from
-  `GenitalType`: butt = 0, vagina = 1, balls = 2, penis = 3, belly = 4, breasts = 5 (current
-  reverse-priority add order already encodes this).
-- In `ApplyMarkingSet`, collect genital render layers, then insert them in a direction-aware order:
-  south = butt < breasts < other organs; north = breasts < butt; east/west = breasts < butt (current
-  clamped order).
-- Always insert the group at the `GenitalUnder`/`Genital` region above body markings, never at the
-  `LLeg` undergarment anchor, so leg/body markings cannot draw over genitals.
+- `Marking.RenderPriority` (int) is set by `GenitalOrganSystem.SyncRender` from `GenitalType`:
+  butt = 0, vagina = 1, balls = 2, penis = 3, belly = 4, breasts = 5. Non-organ markings default
+  to -1 and sort underneath.
+- `ApplyMarkingSet` orders the Genital category by `RenderPriority` descending before applying.
+  Because layers inserted at the same index render newest-first, the final bottom-to-top stack is
+  butt < vagina < balls < penis < belly < breasts.
+- Exposed south (no jumpsuit/outer clothing and no visible bottom undergarment): the whole Genital
+  group is routed to `GenitalUnder`, which is before `neck` and `hair`. The chosen policy is
+  lower organs < belly < breasts < neckwear < hair. Scarves and cloaks therefore cover exposed
+  breasts, while hair remains above the neckwear.
+- Covered/undergarment states keep the `Genital` layer clamp: bottom organs at `GenitalLow`,
+  breasts between `UndergarmentBottom` and `UndergarmentTop`, with neckwear above.
+- The cyclic constraint is resolved in favour of neckwear-over-breasts; exposed organs are below
+  hair/tails. South tails are separately routed to `TailBehind`, so the practical effect is long
+  hair over the groin.
 - Keep the per-sprite offset for multi-sprite organs and test all four directions plus covered
   (jumpsuit/undergarment) cases.
 
