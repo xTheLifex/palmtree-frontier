@@ -515,6 +515,12 @@ so these fail only in CI:
   registers `cash_slot` there; `ItemSlotsComponent.Slots` is read-only and not serialized, so a
   retrieved machine had the container but no item slot and could not use a beaker/cash. Both are
   re-registered on load in `RestoreMapInitRegistration`.
+- Ship weapons are the runtime-state variant of the same trap: `ShipWeaponComponent.BaseAngle` is
+  the placement angle that centres a turret's firing arc and idle sweep, captured in
+  `ShipWeaponSystem.OnMapInit`. It is now a `[DataField]` so the ship file carries it, and
+  `RestoreWeaponState` (called from the load sweep) re-captures it from the saved rotation for
+  files written before that. Without either half, a retrieved turret's arc re-centres on zero and
+  it swings to face east; a placement angle that was never saved cannot be recovered exactly.
 - **Never "fix" this by re-raising `MapInitEvent` on the loaded entities.** Live entities already
   had their spawn-time init; running it again re-fires every `StorageFill`/`ContainerFill` and
   duplicates (or spills) whatever players have in their containers. The bluespace dock test

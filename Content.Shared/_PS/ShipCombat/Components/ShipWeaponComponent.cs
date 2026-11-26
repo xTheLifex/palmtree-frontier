@@ -48,8 +48,21 @@ public sealed partial class ShipWeaponComponent : Component
     [DataField]
     public float FixedFireAngle = 45f;
 
-    /// <summary>The angle the weapon was placed at; its arc is centred on this (runtime).</summary>
+    /// <summary>
+    /// The angle the weapon was placed at; its arc is centred on this. Captured on MapInit and
+    /// saved with the entity so a bluespace-dock round trip keeps it: a loaded ship skips MapInit,
+    /// and without the saved value every turret's arc re-centred on zero and swung to face east.
+    /// </summary>
+    [DataField]
     public Angle BaseAngle;
+
+    /// <summary>
+    /// True once <see cref="BaseAngle"/> has been captured. Saved so a loaded ship can tell a real
+    /// zero (a weapon placed facing east) from a file written before the angle was serialized; the
+    /// dock load re-captures the angle from the saved rotation for those files.
+    /// </summary>
+    [DataField]
+    public bool BaseAngleCaptured;
 
     /// <summary>Idle sweep direction (runtime).</summary>
     public bool IdleClockwise = true;

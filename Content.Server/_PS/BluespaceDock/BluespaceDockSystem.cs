@@ -160,6 +160,7 @@ public sealed class BluespaceDockSystem : EntitySystem
     [Dependency] private readonly SharedRadarConsoleSystem _radar = default!;
     [Dependency] private readonly ExtensionCableSystem _extensionCable = default!;
     [Dependency] private readonly ShipCombatSystem _shipCombat = default!;
+    [Dependency] private readonly ShipWeaponSystem _shipWeapon = default!;
     [Dependency] private readonly SmartFridgeSystem _smartFridge = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly AmeControllerSystem _ameController = default!;
@@ -2442,6 +2443,13 @@ public sealed class BluespaceDockSystem : EntitySystem
         // state itself is saved on the grid, so this is idempotent.
         if (HasComp<ShipTargetingConsoleComponent>(uid) || HasComp<BluespacePowerSinkComponent>(uid))
             _shipCombat.TryEnsureShipCombat(uid, out _);
+
+        // ShipWeaponSystem.OnMapInit: capture the angle the turret was placed at. It centres the
+        // turret's firing arc and idle sweep, and MapInit is skipped for a loaded ship - without
+        // this the arc re-centres on zero and every turret swings to face east. The angle is saved
+        // with the ship now; files written before that fall back to the saved rotation.
+        if (TryComp<ShipWeaponComponent>(uid, out var shipWeapon))
+            _shipWeapon.RestoreWeaponState(uid, shipWeapon);
     }
 
     /// <summary>

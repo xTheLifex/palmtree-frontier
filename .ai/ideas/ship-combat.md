@@ -245,6 +245,10 @@ bypass it:
 
 - Console runtime references are never `[DataField]`s (locks, contacts, torpedo targets) — they
   are dropped by the engine on save.
+- Turret placement angles **are** saved: `ShipWeaponComponent.BaseAngle` is a `[DataField]`
+  (captured on MapInit), because a live save skips MapInit on load and a missing angle re-centres
+  every turret's arc on zero/east. `ShipWeaponSystem.RestoreWeaponState` in the load sweep
+  re-captures the angle from the saved rotation for files written before the field existed.
 - Torpedoes are projectiles → the existing `DeleteProjectiles` save/load cleanup applies.
 - `RestoreMapInitRegistration` gets a step that ensures `ShipCombatComponent` and re-registers
   sink/thruster/shield devices for grids saved before/around this feature.

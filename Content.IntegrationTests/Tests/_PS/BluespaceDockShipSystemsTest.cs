@@ -8,6 +8,7 @@ using Content.Server.Shuttles.Systems;
 using Content.Server.Station.Systems;
 using Content.Server.Weapons.Ranged.Systems;
 using Content.Shared._PS.BluespaceDock;
+using Content.Shared._PS.ShipCombat.Components;
 using Content.Shared.Access.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Light.Components;
@@ -42,6 +43,8 @@ public sealed class BluespaceDockShipSystemsTest
     private const string EmitterProto = "Emitter";
     private const string ApeBoltProto = "NFAnomalousParticleDelta";
     private const string EmitterBoltProto = "NFEmitterBolt";
+    private const string TurretProto = "ShipTurret";
+    private const string LegacyTurretProto = "ShipTurretBeam";
 
     [Test]
     public async Task SavedShipSystemsWorkAfterUndock()
@@ -119,6 +122,8 @@ public sealed class BluespaceDockShipSystemsTest
                     (new Vector2i(2, 0), new Tile(1)),
                     (new Vector2i(3, 0), new Tile(1)),
                     (new Vector2i(4, 0), new Tile(1)),
+                    (new Vector2i(1, 1), new Tile(1)),
+                    (new Vector2i(2, 1), new Tile(1)),
                 });
 
             // A magazine gun with exactly 7 rounds, chambered and ready to fire.
@@ -144,6 +149,11 @@ public sealed class BluespaceDockShipSystemsTest
             entMan.SpawnEntity(ApeProto, new EntityCoordinates(shipGrid, new Vector2(3.5f, 0.5f)));
             entMan.SpawnEntity(EmitterProto, new EntityCoordinates(shipGrid, new Vector2(4.5f, 0.5f)));
 
+            // A turret placed facing north (its arc is centred on 90 degrees), and a second one that
+            // will stand in for a ship file written before that placement angle was serialized.
+            entMan.SpawnEntity(TurretProto, new EntityCoordinates(shipGrid, new Vector2(1.5f, 1.5f)));
+            entMan.SpawnEntity(LegacyTurretProto, new EntityCoordinates(shipGrid, new Vector2(2.5f, 1.5f)));
+
             // The ship has its own docking port (it was undocked before being stored, so nothing is
             // attached). There is deliberately no free port on the station: the retrieval then
             // places the ship next to the station instead of FTL-docking it, which keeps the client
@@ -164,10 +174,13 @@ public sealed class BluespaceDockShipSystemsTest
         {
             var dock = server.System<BluespaceDockSystem>();
             var gunSystem = server.System<GunSystem>();
+            var xformSystem = server.System<SharedTransformSystem>();
 
             // Sanity: the setup works before storing.
             EntityUid? preGun = null;
             EntityUid? preLight = null;
+            EntityUid? preTurret = null;
+            EntityUid? preLegacyTurret = null;
             foreach (var uid in FindOnGrid(entMan, dock, shipGrid))
             {
                 var proto = entMan.GetComponent<MetaDataComponent>(uid).EntityPrototype?.ID;
@@ -175,13 +188,35 @@ public sealed class BluespaceDockShipSystemsTest
                     preGun = uid;
                 else if (proto == LightProto)
                     preLight = uid;
+                else if (proto == TurretProto)
+                    preTurret = uid;
+                else if (proto == LegacyTurretProto)
+                    preLegacyTurret = uid;
             }
 
             Assert.That(preGun, Is.Not.Null, "The gun was not spawned.");
             Assert.That(preLight, Is.Not.Null, "The light was not spawned.");
+            Assert.That(preTurret, Is.Not.Null, "The turret was not spawned.");
+            Assert.That(preLegacyTurret, Is.Not.Null, "The legacy turret was not spawned.");
             Assert.That(entMan.GetComponent<PoweredLightComponent>(preLight!.Value).On, Is.False,
                 "The button did not switch the light off before storing.");
             Assert.That(GetTotalAmmo(entMan, preGun!.Value), Is.EqualTo(7), "The gun should still have 7 rounds.");
+
+            // The turret was placed facing north (90 degrees) but is aiming elsewhere when stored.
+            // Its firing arc is centred on the placement angle, not on where the barrel happens to
+            // point, so that angle has to survive the round trip.
+            var turretWeapon = entMan.GetComponent<ShipWeaponComponent>(preTurret!.Value);
+            xformSystem.SetLocalRotationNoLerp(preTurret.Value, Angle.FromDegrees(10));
+            turretWeapon.BaseAngle = Angle.FromDegrees(90);
+            turretWeapon.BaseAngleCaptured = true;
+
+            // Ship files written before the placement angle was saved carry neither field. Reset
+            // them here so the serializer omits both, exactly like a legacy file; the loader must
+            // fall back to the saved rotation (90 degrees).
+            var legacyWeapon = entMan.GetComponent<ShipWeaponComponent>(preLegacyTurret!.Value);
+            xformSystem.SetLocalRotationNoLerp(preLegacyTurret.Value, Angle.FromDegrees(90));
+            legacyWeapon.BaseAngle = Angle.Zero;
+            legacyWeapon.BaseAngleCaptured = false;
 
             // Sanity: the gun fires before storing, leaving 5 in the magazine and 1 chambered.
             FireGun(entMan, gunSystem, preGun.Value, playerMob);
@@ -218,6 +253,8 @@ public sealed class BluespaceDockShipSystemsTest
         EntityUid foundMagazine = default;
         EntityUid foundApe = default;
         EntityUid foundEmitter = default;
+        EntityUid foundTurret = default;
+        EntityUid foundLegacyTurret = default;
 
         await server.WaitAssertion(() =>
         {
@@ -262,6 +299,12 @@ public sealed class BluespaceDockShipSystemsTest
                     case EmitterProto:
                         foundEmitter = uid;
                         break;
+                    case TurretProto:
+                        foundTurret = uid;
+                        break;
+                    case LegacyTurretProto:
+                        foundLegacyTurret = uid;
+                        break;
                 }
             }
 
@@ -269,6 +312,24 @@ public sealed class BluespaceDockShipSystemsTest
             Assert.That(foundLight, Is.Not.EqualTo(default(EntityUid)), "The retrieved ship has no light.");
             Assert.That(foundApe, Is.Not.EqualTo(default(EntityUid)), "The retrieved ship has no A.P.E.");
             Assert.That(foundEmitter, Is.Not.EqualTo(default(EntityUid)), "The retrieved ship has no emitter.");
+            Assert.That(foundTurret, Is.Not.EqualTo(default(EntityUid)), "The retrieved ship has no turret.");
+            Assert.That(foundLegacyTurret, Is.Not.EqualTo(default(EntityUid)),
+                "The retrieved ship has no legacy turret.");
+
+            // The turret's arc is centred on the angle it was placed at. A loaded ship skips
+            // MapInit, so without the saved angle it would re-centre on zero (east) and swing there.
+            var turretWeapon = entMan.GetComponent<ShipWeaponComponent>(foundTurret);
+            Assert.That(turretWeapon.BaseAngle.Degrees, Is.EqualTo(90).Within(0.1),
+                "The retrieved turret lost the placement angle its firing arc is centred on.");
+            Assert.That(turretWeapon.BaseAngleCaptured, Is.True,
+                "The retrieved turret does not know its base angle was captured.");
+
+            // A file without the saved angle falls back to the rotation saved on the turret.
+            var legacyTurretWeapon = entMan.GetComponent<ShipWeaponComponent>(foundLegacyTurret);
+            Assert.That(legacyTurretWeapon.BaseAngle.Degrees, Is.EqualTo(90).Within(0.1),
+                "A ship file without a saved base angle did not fall back to the saved rotation.");
+            Assert.That(legacyTurretWeapon.BaseAngleCaptured, Is.True,
+                "The fallback did not mark the base angle as captured.");
 
             // Mid-flight projectiles must never be saved: one would come back frozen in place.
             Assert.That(retrievedEntities.Any(uid => entMan.HasComponent<ProjectileComponent>(uid)), Is.False,

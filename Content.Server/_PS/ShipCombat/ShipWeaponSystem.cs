@@ -100,6 +100,25 @@ public sealed class ShipWeaponSystem : EntitySystem
     {
         _combat.TryEnsureShipCombat(uid, out _);
         component.BaseAngle = Transform(uid).LocalRotation;
+        component.BaseAngleCaptured = true;
+    }
+
+    /// <summary>
+    /// Palmtree: restores the state <see cref="OnMapInit"/> would have set for a weapon loaded from
+    /// a stored ship (live ship files skip MapInit, so the bluespace dock calls this after loading).
+    /// </summary>
+    public void RestoreWeaponState(EntityUid uid, ShipWeaponComponent component)
+    {
+        _combat.TryEnsureShipCombat(uid, out _);
+
+        // Ship files written before the base angle was saved carry no captured angle. The saved
+        // local rotation (where the turret happened to be aiming when the ship was stored) is the
+        // closest thing left to the placement angle; the next store writes the exact one.
+        if (!component.BaseAngleCaptured)
+        {
+            component.BaseAngle = Transform(uid).LocalRotation;
+            component.BaseAngleCaptured = true;
+        }
     }
 
     /// <summary>

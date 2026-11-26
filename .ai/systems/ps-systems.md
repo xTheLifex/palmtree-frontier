@@ -827,7 +827,11 @@ Two admin/SR consoles that give player-built ships a persistence path, plus a li
   `GunSignalControlComponent` (cannons), and `RefreshModifiers` for every `GunComponent`; it also
   re-registers the `beakerSlot` of reagent dispensers and the `cash_slot` of vending machines
   (2026-10-24 - both are MapInit `AddItemSlot` calls and `ItemSlotsComponent.Slots` is not saved, so
-  retrieved coffee/vending machines could not use their slots). Do **not** replace this with a
+  retrieved coffee/vending machines could not use their slots). A **ship weapon's placement angle**
+  (`ShipWeaponComponent.BaseAngle`, the centre of its firing arc and idle sweep) is now a
+  `[DataField]` saved with the ship; `ShipWeaponSystem.RestoreWeaponState` re-captures it from the
+  saved rotation for files written before that, because otherwise the arc re-centred on zero and
+  every turret swung to face east after retrieval. Do **not** replace this with a
   blanket MapInit re-raise - inventories depend on it. Also note device network
   packets are processed **one tick later** (`DeviceNetworkSystem.SwapQueues`), so a button's effect
   is never visible in the same tick.
