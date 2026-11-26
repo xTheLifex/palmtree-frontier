@@ -130,8 +130,10 @@ Layer maps must exist in two places for a species to render a marking on that la
    requires `BaseLayers[layer].AllowsMarkings` to render markings there.
 
 Keep the relative organ order identical across every species map: `GenitalLow` after `LLeg`,
-`GenitalUnder` before `neck`, and `Genital` after `HeadTop`/`Tail` and before `mask`. Moth and
-Arachnid used to place `Genital` before `GenitalUnder`, which put exposed butts above bellies.
+`GenitalUnder` before `back` (and therefore before `neck`), and `Genital` after `HeadTop`/`Tail`
+and before `mask`. Moth and Arachnid used to place `Genital` before `GenitalUnder`, which put
+exposed butts above bellies; `GenitalUnder` after `back` buried satchel straps under exposed
+breasts.
 
 `HumanoidVisualLayersExtension.Sublayers` ties related layers together (behind legs, tail layers,
 undershirts) so hiding a parent hides its sublayers.
@@ -153,8 +155,10 @@ undershirts) so hiding a parent hides its sublayers.
    - `ApplyMarking` computes per-sprite `layerSlot` (BodyPart or `layering` override), creates layers
      named `<markingId>-<state>`, applies scale/offset, color (with `colorLinks`), visibility and
      displacement, and clamps genital layers below `jumpsuit`/`outerClothing`.
-     Layer order is direction-aware on the client (screen direction = world + eye rotation):
-     south-facing exposed genitals sit above hair/tails when no garment covers them,
+     Layer order is direction-aware on the client (screen direction = world + eye rotation). That
+     angle must be normalized with `Reduced().FlipPositive()` before `GetDirection`, exactly like
+     the renderer, or negative/>2π angles fall through to `West` and north-facing characters are
+     treated as west. South-facing exposed genitals sit above hair/tails when no garment covers them,
      south-facing `Tail`/`TailExtras` sprites are routed to `TailBehind` so the body, underwear and
      clothing occlude them (split tails already put their `_BEHIND_` sprites there; their `_FRONT_`
      sprites are empty from the south), side-facing (including diagonal) tail markings are inserted
@@ -169,7 +173,14 @@ undershirts) so hiding a parent hides its sublayers.
      changes. When naked and facing south the whole organ stack is routed to `GenitalUnder`, below
      `neck` and `hair`, in explicit priority order (butt < vagina < balls < penis < belly <
      breasts). Neckwear therefore covers exposed breasts, and hair stays above the neckwear.
-     Clothed or undergarment states clamp the organs instead, with neckwear above the breasts.
+     Exposed east/west views put the same stack between the hand groups. East uses the base order
+     (far `LHand` below, near `RHand` above); west swaps the hand layers so far `RHand` stays below
+     and near `LHand` stays above. Hand/arm adaptor markings add layers, so the stack is moved to
+     the near-hand base after all markings are applied. Clothed or undergarment states clamp the
+     organs instead, with neckwear above the breasts. Every front-mounted organ except the butt
+     (including `NeverHidden` breasts) is moved behind the body in the north/back view, so the body
+     occludes it while sideboob stays visible; an idempotent per-frame pass reapplies that move
+     while facing north in case another system re-applies a marking layer.
      Under-clothing genital insertions anchor to stable layers, not `jumpsuit`/`outerClothing`:
      bottom organs (butt, vagina, balls, penis, belly) anchor above `LLeg` so they render below
      `UndergarmentBottom`, while breast markings anchor above `UndergarmentBottom` so they render
@@ -177,9 +188,10 @@ undershirts) so hiding a parent hides its sublayers.
      so multi-sprite markings (e.g. breast + nipple, butt front + mid) stay ordered. If a visible
      relevant undergarment is worn, this clamp applies in every direction (so panties cover the
      butt even when facing south); without one, south keeps the exposed-genitals-over-hair rule.
-     `GenitalUnder` is a dedicated sublayer immediately before `neck` (above body/leg markings but
-     below breasts/neck clothing). Exposed south-facing butt markings are routed there so breasts
-     render above the butt without dropping it onto the leg/body layers. `GenitalLow` sits after
+     `GenitalUnder` is a dedicated sublayer immediately before `back` (above body/leg markings but
+     below back-slot clothing, undershirts and neckwear). Exposed south-facing organ markings are
+     routed there; a satchel/backpack strap therefore draws over the exposed breasts instead of
+     being buried under them. `GenitalLow` sits after
      `LLeg` and before `UndergarmentBottom`; clamped bottom organs anchor there so leg markings stay
      below them while clothing still covers them.
      When a color's glow is > 0 it also creates a companion `<markingId>-<state>-glow` layer with the
@@ -202,9 +214,9 @@ Genital organ order is explicit rather than dependent on insertion anchors:
   Because layers inserted at the same index render newest-first, the final bottom-to-top stack is
   butt < vagina < balls < penis < belly < breasts.
 - Exposed south (no jumpsuit/outer clothing and no visible bottom undergarment): the whole Genital
-  group is routed to `GenitalUnder`, which is before `neck` and `hair`. The chosen policy is
-  lower organs < belly < breasts < neckwear < hair. Scarves and cloaks therefore cover exposed
-  breasts, while hair remains above the neckwear.
+  group is routed to `GenitalUnder`, which is before `back`, `neck` and `hair`. The chosen policy
+  is lower organs < belly < breasts < back-slot clothing < neckwear < hair. Satchel/backpack
+  straps and scarves/cloaks therefore cover exposed breasts, while hair remains above them.
 - Covered/undergarment states keep the `Genital` layer clamp: bottom organs at `GenitalLow`,
   breasts between `UndergarmentBottom` and `UndergarmentTop`, with neckwear above.
 - The cyclic constraint is resolved in favour of neckwear-over-breasts; exposed organs are below

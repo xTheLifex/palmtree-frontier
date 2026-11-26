@@ -18,7 +18,6 @@ namespace Content.Client._PS.Humanoid;
 public sealed class DirectionalLayerOrderSystem : EntitySystem
 {
     [Dependency] private readonly HumanoidAppearanceSystem _appearance = default!;
-
     private readonly Dictionary<EntityUid, (RsiDirection Direction, bool SideFacing)> _lastDirection = new();
 
     public override void Initialize()
@@ -31,6 +30,7 @@ public sealed class DirectionalLayerOrderSystem : EntitySystem
     private void OnShutdown(EntityUid uid, HumanoidAppearanceComponent component, ComponentShutdown args)
     {
         _lastDirection.Remove(uid);
+        _appearance.ForgetNorthOrganLayers(uid);
     }
 
     public override void FrameUpdate(float frameTime)
@@ -38,30 +38,33 @@ public sealed class DirectionalLayerOrderSystem : EntitySystem
         base.FrameUpdate(frameTime);
 
         var query = EntityQueryEnumerator<HumanoidAppearanceComponent, SpriteComponent>();
-        while (query.MoveNext(out var uid, out var humanoid, out _))
+        while (query.MoveNext(out var uid, out var humanoid, out var sprite))
         {
             var direction = _appearance.GetScreenDirection(uid);
             var sideFacing = _appearance.IsSideFacing(uid);
 
-            if (_lastDirection.TryGetValue(uid, out var last)
-                && last == (direction, sideFacing))
+            if (!_lastDirection.TryGetValue(uid, out var last)
+                || last != (direction, sideFacing))
             {
-                continue;
+                _lastDirection[uid] = (direction, sideFacing);
+
+                // Without direction-sensitive markings the direction has no effect on layer order.
+                if (NeedsDirectionalOrder(uid, humanoid))
+                    _appearance.RefreshSprite(uid);
             }
 
-            _lastDirection[uid] = (direction, sideFacing);
-
-            // Without direction-sensitive markings the direction has no effect on layer order.
-            if (!NeedsDirectionalOrder(humanoid))
-                continue;
-
-            _appearance.RefreshSprite(uid);
+            // Palmtree: front-mounted organs must stay behind the body in the north view. Another
+            // system can re-apply a marking layer after the rebuild (for example a visibility
+            // toggle), which would put a breast back over the body until the next rotation. This
+            // check is idempotent and only does a few layer-map lookups while facing north.
+            if (direction == RsiDirection.North)
+                _appearance.EnsureNorthBreastsBehindBody(uid, humanoid, sprite, direction);
         }
     }
 
-    private static bool NeedsDirectionalOrder(HumanoidAppearanceComponent humanoid)
+    private bool NeedsDirectionalOrder(EntityUid uid, HumanoidAppearanceComponent humanoid)
     {
-        return HasMarkings(humanoid, MarkingCategories.Genital)
+        return _appearance.HasNorthOrganMarkings(uid, humanoid)
                || HasMarkings(humanoid, MarkingCategories.Tail)
                || HasMarkings(humanoid, MarkingCategories.TailExtras)
                || (humanoid.SnoutAboveHair

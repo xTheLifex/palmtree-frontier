@@ -11,6 +11,7 @@ using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Inventory;
+using Content.Shared.Inventory.Events;
 using Content.Shared.Preferences;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -34,11 +35,17 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
     [Dependency] private SharedTransformSystem _transform = default!;
     [Dependency] private InventorySystem _inventory = default!;
 
+    // Palmtree: resolved north-view organ layer ids per humanoid. Building them requires prototype
+    // lookups, but the per-frame north safety pass only needs a few layer-map lookups.
+    private readonly Dictionary<EntityUid, string[]> _northOrganLayerIds = new();
+
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<HumanoidAppearanceComponent, AfterAutoHandleStateEvent>(OnHandleState);
+        SubscribeLocalEvent<InventoryComponent, DidEquipEvent>(OnClothingEquipped);
+        SubscribeLocalEvent<InventoryComponent, DidUnequipEvent>(OnClothingUnequipped);
         Subs.CVar(_configurationManager, CCVars.AccessibilityClientCensorNudity, OnCvarChanged, true);
         Subs.CVar(_configurationManager, CCVars.AccessibilityServerCensorNudity, OnCvarChanged, true);
         NsfwGate.Changed += OnNsfwGateChanged; // Palmtree
@@ -55,6 +62,20 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         UpdateSprite((uid, component, Comp<SpriteComponent>(uid)));
     }
 
+    // Palmtree: exposure (and therefore organ layer position) changes with clothing even when the
+    // marking set itself is unchanged. Rebuild locally so undressing does not wait for a rotation.
+    private void OnClothingEquipped(EntityUid uid, InventoryComponent component, DidEquipEvent args)
+    {
+        if (args.Slot is "jumpsuit" or "outerClothing")
+            RefreshSprite(uid);
+    }
+
+    private void OnClothingUnequipped(EntityUid uid, InventoryComponent component, DidUnequipEvent args)
+    {
+        if (args.Slot is "jumpsuit" or "outerClothing")
+            RefreshSprite(uid);
+    }
+
     /// <summary>
     /// Palmtree: rebuilds the sprite layers from the current marking set. Local visibility toggles
     /// (lobby preview undergarments) do not go through component state, so the editor calls this
@@ -66,6 +87,21 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
             return;
 
         UpdateSprite((uid, component, sprite));
+    }
+
+    /// <summary>Palmtree: drop the cached north-view organ layer ids for a removed humanoid.</summary>
+    public void ForgetNorthOrganLayers(EntityUid uid)
+    {
+        _northOrganLayerIds.Remove(uid);
+    }
+
+    /// <summary>Palmtree: whether this humanoid has any resolved front-mounted organ layers.</summary>
+    public bool HasNorthOrganMarkings(EntityUid uid, HumanoidAppearanceComponent humanoid)
+    {
+        if (!_northOrganLayerIds.TryGetValue(uid, out var layerIds))
+            TryResolveNorthOrganLayerIds(uid, humanoid, out layerIds);
+
+        return layerIds.Length > 0;
     }
 
     /// <summary>
@@ -81,7 +117,9 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         if (!TryComp<TransformComponent>(uid, out var xform))
             return RsiDirection.South;
 
-        var angle = _transform.GetWorldRotation(xform) + _eyeManager.CurrentEye.Rotation;
+        // Match the renderer exactly: it normalizes the on-screen angle before selecting the RSI
+        // direction. Without this, a negative or >2pi angle makes GetDirection fall through to West.
+        var angle = (_transform.GetWorldRotation(xform) + _eyeManager.CurrentEye.Rotation).Reduced().FlipPositive();
         return SpriteComponent.Layer.GetDirection(RsiDirectionType.Dir4, angle);
     }
 
@@ -97,7 +135,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         if (!TryComp<TransformComponent>(uid, out var xform))
             return false;
 
-        var angle = _transform.GetWorldRotation(xform) + _eyeManager.CurrentEye.Rotation;
+        var angle = (_transform.GetWorldRotation(xform) + _eyeManager.CurrentEye.Rotation).Reduced().FlipPositive();
         return angle.GetDir() is Direction.East
             or Direction.West
             or Direction.NorthEast
@@ -165,7 +203,12 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
 
     private void UpdateSprite(Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
     {
+        _northOrganLayerIds.Remove(entity.Owner);
         UpdateLayers(entity);
+        // Clear old marking layers before reordering the hand base layers. Otherwise stale
+        // markings sitting between the hands are shifted when the hands are swapped.
+        ClearAllMarkings(entity);
+        UpdateHandLayerOrder(entity.Owner, entity.Comp2);
         ApplyMarkingSet(entity);
         UpdateLayersAgain(entity); // Palmtree/Floof: hide base layers replaced by base markings
 
@@ -266,6 +309,59 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
             }
 
             _sprite.LayerSetSprite((entity.Owner, sprite), layerIndex, appropriateSprite);
+        }
+    }
+
+    /// <summary>
+    /// Palmtree: the base map orders LHand then RHand. East already has the near RHand above the
+    /// far LHand; west needs the opposite so the near LHand stays in front of the belly and the
+    /// far RHand stays behind it.
+    /// </summary>
+    private void UpdateHandLayerOrder(EntityUid uid, SpriteComponent sprite)
+    {
+        if (!_sprite.LayerMapTryGet((uid, sprite), HumanoidVisualLayers.LHand, out var leftIndex, false)
+            || !_sprite.LayerMapTryGet((uid, sprite), HumanoidVisualLayers.RHand, out var rightIndex, false))
+        {
+            return;
+        }
+
+        var wantSwapped = GetScreenDirection(uid) == RsiDirection.West;
+        var isSwapped = leftIndex > rightIndex;
+        if (wantSwapped == isSwapped)
+            return;
+
+        if (!_sprite.TryGetLayer((uid, sprite), leftIndex, out var leftLayer, false)
+            || !_sprite.TryGetLayer((uid, sprite), rightIndex, out var rightLayer, false))
+        {
+            return;
+        }
+
+        var low = Math.Min(leftIndex, rightIndex);
+        var high = Math.Max(leftIndex, rightIndex);
+        if (high != low + 1)
+            return;
+
+        if (!_sprite.RemoveLayer((uid, sprite), high, out _, false)
+            || !_sprite.RemoveLayer((uid, sprite), low, out _, false))
+        {
+            return;
+        }
+
+        if (wantSwapped)
+        {
+            // West: far RHand below, near LHand above.
+            var right = _sprite.AddLayer((uid, sprite), rightLayer, low);
+            var left = _sprite.AddLayer((uid, sprite), leftLayer, low + 1);
+            _sprite.LayerMapSet((uid, sprite), HumanoidVisualLayers.RHand, right);
+            _sprite.LayerMapSet((uid, sprite), HumanoidVisualLayers.LHand, left);
+        }
+        else
+        {
+            // East/non-side: base order, far LHand below, near RHand above.
+            var left = _sprite.AddLayer((uid, sprite), leftLayer, low);
+            var right = _sprite.AddLayer((uid, sprite), rightLayer, low + 1);
+            _sprite.LayerMapSet((uid, sprite), HumanoidVisualLayers.LHand, left);
+            _sprite.LayerMapSet((uid, sprite), HumanoidVisualLayers.RHand, right);
         }
     }
 
@@ -433,22 +529,218 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
 
             foreach (var marking in markings)
             {
-                if (_markingManager.TryGetMarking(marking, out var markingPrototype))
-                {
-                    // Palmtree/Coyote: swap the marking for its alternate-leg-style version if one exists.
-                    markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing, marking.RenderUnderTopUndergarment);
-                    if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
-                        applyUndergarmentTop = false;
-                    else if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentBottom)
-                        applyUndergarmentBottom = false;
-                }
+                if (!_markingManager.TryGetMarking(marking, out var markingPrototype))
+                    continue;
+
+                // Palmtree/Coyote: swap the marking for its alternate-leg-style version if one exists.
+                markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
+                ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing, marking.RenderUnderTopUndergarment);
+                if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
+                    applyUndergarmentTop = false;
+                else if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentBottom)
+                    applyUndergarmentBottom = false;
             }
         }
 
         humanoid.ClientOldMarkings = new MarkingSet(humanoid.MarkingSet);
 
         AddUndergarments(entity, applyUndergarmentTop, applyUndergarmentBottom);
+        MoveExposedGenitalStackToNearHand(entity);
+        EnsureNorthBreastsBehindBody(entity.Owner, entity.Comp1, entity.Comp2);
+    }
+
+    /// <summary>
+    /// Palmtree: exposed east/west views put the whole genital stack between the hand groups. Hand
+    /// and arm adaptor markings can add several layers above/below the base hands, so insert the
+    /// stack provisionally during normal marking application and move it here, after every hand
+    /// marking exists. The stack keeps its priority order and lands above the far hand group and
+    /// below the near hand group.
+    /// </summary>
+    private void MoveExposedGenitalStackToNearHand(Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
+    {
+        var direction = GetScreenDirection(entity.Owner);
+        if (direction is not (RsiDirection.East or RsiDirection.West))
+            return;
+
+        if (HasCoveringClothing(entity.Owner)
+            || HasVisibleUndergarment(entity.Comp1, MarkingCategories.UndergarmentTop)
+            || HasVisibleUndergarment(entity.Comp1, MarkingCategories.UndergarmentBottom))
+        {
+            return;
+        }
+
+        if (!entity.Comp1.MarkingSet.TryGetCategory(MarkingCategories.Genital, out var genitalMarkings))
+            return;
+
+        var layerIds = new HashSet<string>();
+        foreach (var marking in genitalMarkings)
+        {
+            if (!_markingManager.TryGetMarking(marking, out var markingPrototype))
+                continue;
+
+            markingPrototype = GetMarkingForLegStyle(entity.Comp1, markingPrototype);
+            foreach (var sprite in markingPrototype.Sprites)
+            {
+                if (sprite is not SpriteSpecifier.Rsi rsi)
+                    continue;
+
+                var layerId = $"{markingPrototype.ID}-{rsi.RsiState}";
+                layerIds.Add(layerId);
+                layerIds.Add($"{layerId}-glow");
+            }
+        }
+
+        var layers = new List<(string Id, int Index, SpriteComponent.Layer Layer)>();
+        foreach (var layerId in layerIds)
+        {
+            if (_sprite.LayerMapTryGet((entity.Owner, entity.Comp2), layerId, out var index, false)
+                && _sprite.TryGetLayer((entity.Owner, entity.Comp2), index, out var layer, false))
+            {
+                layers.Add((layerId, index, layer));
+            }
+        }
+
+        if (layers.Count == 0)
+            return;
+
+        // East's near hand is RHand; west's is LHand after UpdateHandLayerOrder. Resolve the anchor
+        // before removing anything so a species without that hand does not lose the organ layers.
+        var nearHand = direction == RsiDirection.East
+            ? HumanoidVisualLayers.RHand
+            : HumanoidVisualLayers.LHand;
+
+        if (!_sprite.LayerMapTryGet((entity.Owner, entity.Comp2), nearHand, out var anchor, false))
+            return;
+
+        layers.Sort((a, b) => a.Index.CompareTo(b.Index));
+
+        foreach (var (_, index, _) in layers.OrderByDescending(layer => layer.Index))
+        {
+            _sprite.RemoveLayer((entity.Owner, entity.Comp2), index, out _, false);
+            if (index <= anchor)
+                anchor--;
+        }
+
+        for (var i = 0; i < layers.Count; i++)
+        {
+            var (layerId, _, layer) = layers[i];
+            var index = _sprite.AddLayer((entity.Owner, entity.Comp2), layer, anchor + i);
+            _sprite.LayerMapSet((entity.Owner, entity.Comp2), layerId, index);
+        }
+    }
+
+    /// <summary>
+    /// Palmtree: every genital organ except the butt is front-mounted. In the north/back view those
+    /// layers belong behind the body, which keeps sideboob visible around the silhouette without
+    /// drawing a breast over the back. Also called every frame for humanoids facing north so a
+    /// layer that another system re-applied above the body is corrected without a rotation.
+    /// </summary>
+    public void EnsureNorthBreastsBehindBody(
+        EntityUid uid,
+        HumanoidAppearanceComponent humanoid,
+        SpriteComponent sprite,
+        RsiDirection? screenDirection = null)
+    {
+        if ((screenDirection ?? GetScreenDirection(uid)) != RsiDirection.North)
+            return;
+
+        if (!_northOrganLayerIds.TryGetValue(uid, out var layerIds))
+        {
+            if (!TryResolveNorthOrganLayerIds(uid, humanoid, out layerIds))
+                return;
+        }
+
+        if (layerIds.Length == 0)
+            return;
+
+        var layers = new List<(string Id, int Index, SpriteComponent.Layer Layer)>(layerIds.Length);
+        foreach (var layerId in layerIds)
+        {
+            if (_sprite.LayerMapTryGet((uid, sprite), layerId, out var index, false)
+                && _sprite.TryGetLayer((uid, sprite), index, out var layer, false))
+            {
+                layers.Add((layerId, index, layer));
+            }
+        }
+
+        if (layers.Count == 0)
+            return;
+
+        layers.Sort((a, b) => a.Index.CompareTo(b.Index));
+
+        // Anchor on the body itself instead of TailBehind. The body is always in front of the back
+        // of a front-mounted organ, while TailBehind's position relative to Chest can differ per
+        // species sprite map.
+        if (!_sprite.LayerMapTryGet((uid, sprite), HumanoidVisualLayers.Chest, out var chestIndex, false))
+            return;
+
+        // Already behind the body? Nothing to do. This keeps the per-frame pass read-only in the
+        // normal case.
+        if (layers[^1].Index < chestIndex)
+            return;
+
+        // Remove everything first and track how the body index shifts, then re-insert the organs
+        // immediately before the body. Resolve the anchor before removing so a missing body layer
+        // cannot drop the organ layers entirely.
+        foreach (var (_, index, _) in layers.OrderByDescending(layer => layer.Index))
+        {
+            _sprite.RemoveLayer((uid, sprite), index, out _, false);
+            if (index < chestIndex)
+                chestIndex--;
+        }
+
+        for (var i = 0; i < layers.Count; i++)
+        {
+            var (layerId, _, layer) = layers[i];
+            var index = _sprite.AddLayer((uid, sprite), layer, chestIndex + i);
+            _sprite.LayerMapSet((uid, sprite), layerId, index);
+        }
+    }
+
+    /// <summary>
+    /// Palmtree: resolves the sprite layer ids of every front-mounted genital marking and caches
+    /// them. The butt is excluded because it is drawn on the back side. Direction and exposure do
+    /// not matter here: the cached ids are only used to find the layers, and the caller decides
+    /// when to move them.
+    /// </summary>
+    private bool TryResolveNorthOrganLayerIds(EntityUid uid, HumanoidAppearanceComponent humanoid, out string[] layerIds)
+    {
+        var ids = new HashSet<string>();
+
+        // Scan every category. Organ render markings normally live in the Genital category, but
+        // legacy or server-generated markings can end up elsewhere while still being front-mounted.
+        foreach (var (category, markingList) in humanoid.MarkingSet.Markings)
+        {
+            foreach (var marking in markingList)
+            {
+                if (marking.MarkingId.Contains("Butt", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                if (!_markingManager.TryGetMarking(marking, out var markingPrototype))
+                    continue;
+
+                if (category != MarkingCategories.Genital
+                    && markingPrototype.BodyPart != HumanoidVisualLayers.Genital)
+                {
+                    continue;
+                }
+
+                markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
+                foreach (var spriteSpec in markingPrototype.Sprites)
+                {
+                    if (spriteSpec is not SpriteSpecifier.Rsi rsi)
+                        continue;
+
+                    var layerId = $"{markingPrototype.ID}-{rsi.RsiState}";
+                    ids.Add(layerId);
+                    ids.Add($"{layerId}-glow");
+                }
+            }
+        }
+
+        layerIds = ids.ToArray();
+        _northOrganLayerIds[uid] = layerIds;
+        return layerIds.Length > 0;
     }
 
     private void ClearAllMarkings(Entity<HumanoidAppearanceComponent, SpriteComponent> entity)
@@ -664,6 +956,8 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
             {
                 layerSlot = HumanoidVisualLayers.GenitalUnder;
             }
+
+
 
             // Palmtree: in the front view the body sits between the camera and a tail hanging from
             // the back, so a tail using the general Tail layer must render behind the body instead

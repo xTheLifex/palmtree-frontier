@@ -113,14 +113,31 @@ queries).
 
    Palmtree: layer order follows the direction the sprite is drawn in **on the local client**
    (`world rotation + eye rotation`, see `Content.Client/_PS/Humanoid/DirectionalLayerOrderSystem`).
-   Facing south routes the whole exposed genital organ group to `GenitalUnder`, below `neck`
-   and `hair`, so neckwear covers exposed breasts while hair stays above the neckwear. The
-   tradeoff is that exposed organs are below hair/tails; south tails are separately routed to
-   `TailBehind`, so the practical effect is long hair over the groin. Facing east/west tucks tail
+   Facing south routes the whole exposed genital organ group to `GenitalUnder`, below `back`
+   (satchel/backpack straps), `neck` and `hair`, so back-slot clothing and neckwear cover exposed
+   breasts while hair stays above them. The tradeoff is that exposed organs are below hair/tails;
+   south tails are separately routed to `TailBehind`, so the practical effect is long hair over the
+   groin. Facing east/west tucks tail
    markings under the hair layer and puts snout and snout-cover markings above it when the
    character's `SnoutAboveHair` option is enabled (default off keeps them under hair). Sprite
    direction changes raise no event, so the system rebuilds the humanoid sprite when the cardinal
-   direction changes. The lobby editor sets <c>HumanoidLayerDirectionComponent</c> on its preview
+   direction changes. The on-screen angle (`worldRotation + eyeRotation`) must be normalized with
+   `Reduced().FlipPositive()` before `GetDirection`, exactly as the renderer does; a negative or
+   >2π angle otherwise makes the engine's modulo fall through to `West` and a north-facing
+   character is treated as west. Exposed east/west views put the organ stack between the hand groups: east
+   keeps the base order (far `LHand` below, near `RHand` above), while west swaps the hand layers
+   so far `RHand` stays below and near `LHand` stays above. Hand/arm adaptor markings add extra
+   layers, so the stack is moved to the near-hand base after every marking is applied rather than
+   anchored by a guessed index. Covered and undergarment side views keep the clamp. Every
+   front-mounted organ (everything except the butt, including `NeverHidden` breasts) is moved
+   behind the body in the north/back view; the body occludes the front-facing organ while sideboob
+   stays visible around the silhouette. A cheap idempotent per-frame pass also re-applies that
+   move while facing north, because another system can re-apply a marking layer after the rebuild.
+   Equipping or unequipping a jumpsuit or outer garment calls `RefreshSprite` on the
+   client (InventoryComponent equip/unequip events) because exposure changes the organ layer
+   position even when the marking set is unchanged; otherwise undressing leaves the clothed stack
+   (and backpack straps) in place until a rotation.
+   The lobby editor sets <c>HumanoidLayerDirectionComponent</c> on its preview
    dummy so its rotation buttons use the same rules despite rendering through
    <c>SpriteView.OverrideDirection</c>.
 
@@ -133,7 +150,8 @@ queries).
    every direction (south included). The client sorts the exposed group by the explicit
    `Marking.RenderPriority`: butt < vagina < balls < penis < belly < breasts. Clothed and
    undergarment states clamp the organs and keep neckwear above the breasts.
-   `GenitalUnder` sits immediately before `neck`; the exposed south organ stack goes there.
+   `GenitalUnder` sits immediately before `back` (and therefore before `neck`); the exposed south
+   organ stack goes there, which keeps satchel/backpack straps and neckwear above the breasts.
    `GenitalLow` sits after `LLeg` and before `UndergarmentBottom`; under-clothing bottom organs
    anchor there so leg markings cannot draw over them.
 
