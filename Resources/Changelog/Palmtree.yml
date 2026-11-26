@@ -2361,3 +2361,27 @@ Entries:
   time: '2026-11-25T20:53:11.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/f7230c12931385636773b1fae5aa88cf06dd3965
+- author: xTheLifex
+  changes:
+    - type: Fix
+      message: >-
+        Fixed breasts and other exposed organs rendering over the body when
+        facing north.
+    - type: Fix
+      message: >-
+        Fixed exposed organ layers using the wrong facing for certain camera
+        angles.
+    - type: Fix
+      message: >-
+        Satchels and backpacks now draw over exposed breasts instead of being
+        buried under them.
+    - type: Fix
+      message: >-
+        Undressing now updates exposed organ layers immediately instead of
+        waiting for a rotation.
+    - type: Fix
+      message: Fixed exposed organ and hand layer order when facing west.
+  id: 90160
+  time: '2026-11-26T03:03:16.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/1086eb6c14d480be3d02a1ef0052750008a4ab70
