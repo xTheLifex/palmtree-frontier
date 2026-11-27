@@ -751,14 +751,24 @@ profile:
                 Size = 3,
                 Offset = new Vector2(0.25f, -0.5f),
                 Scale = 1.5f,
+                ScaleY = 0.75f,
                 Glow = 0.5f,
                 DetailGlow = 0.25f,
             });
             var parsed = GenitalOrganSettings.FromDbString(dbSettings.ToDbString());
             Assert.That(parsed.Get(GenitalType.Penis)?.Offset, Is.EqualTo(new Vector2(0.25f, -0.5f)));
             Assert.That(parsed.Get(GenitalType.Penis)?.Scale, Is.EqualTo(1.5f));
+            Assert.That(parsed.Get(GenitalType.Penis)?.ScaleY, Is.EqualTo(0.75f));
             Assert.That(parsed.Get(GenitalType.Penis)?.Glow, Is.EqualTo(0.5f));
             Assert.That(parsed.Get(GenitalType.Penis)?.DetailGlow, Is.EqualTo(0.25f));
+
+            // Old single-value scale entries still render uniformly on both axes.
+            var legacyScale = GenitalOrganSettings.FromDbString(
+                "Penis:PenisHuman:1:HiddenByUnderwear:-:-:-:1.5:-:0");
+            var legacyData = legacyScale.Get(GenitalType.Penis);
+            Assert.That(legacyData?.Scale, Is.EqualTo(1.5f));
+            Assert.That(legacyData?.ScaleY, Is.EqualTo(0f));
+            Assert.That(legacyData?.ScaleVector, Is.EqualTo(new Vector2(1.5f, 1.5f)));
         });
 
         await pair.CleanReturnAsync();

@@ -42,9 +42,21 @@ public sealed partial class GenitalOrganComponent : Component
     [DataField, AutoNetworkedField]
     public Vector2 Offset;
 
-    /// <summary>Sprite scale multiplier applied to the organ's render marking (like marking scale).</summary>
+    /// <summary>
+    /// Horizontal sprite scale multiplier applied to the organ's render marking (like marking
+    /// scale). This is also the uniform scale when <see cref="ScaleY"/> is zero.
+    /// </summary>
     [DataField, AutoNetworkedField]
     public float Scale = 1f;
+
+    /// <summary>
+    /// Independent vertical sprite scale multiplier; zero follows <see cref="Scale"/>.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float ScaleY;
+
+    /// <summary>The effective render scale, with the legacy uniform fallback.</summary>
+    public Vector2 ScaleVector => new(Scale, ScaleY > 0f ? ScaleY : Scale);
 
     /// <summary>Glow level (0-1) for the primary color group.</summary>
     [DataField, AutoNetworkedField]

@@ -18,6 +18,10 @@ namespace Content.Shared.Humanoid.Markings
         [DataField("scale")]
         private float _markingScale = 1.0f;
 
+        // Palmtree: independent Y scale. 0 means "follow _markingScale" (legacy/uniform).
+        [DataField("scaleY")]
+        private float _markingScaleY;
+
         [DataField("offsetX")]
         private float _markingOffsetX;
 
@@ -70,6 +74,7 @@ namespace Content.Shared.Humanoid.Markings
             RenderPriority = other.RenderPriority;
             // Palmtree/Coyote Start
             _markingScale = other._markingScale;
+            _markingScaleY = other._markingScaleY;
             _markingOffsetX = other._markingOffsetX;
             _markingOffsetY = other._markingOffsetY;
             _markingGlow = new(other.MarkingGlow);
@@ -118,6 +123,13 @@ namespace Content.Shared.Humanoid.Markings
         // Palmtree/Coyote Start: advanced marking editor
         [ViewVariables]
         public float MarkingScale => _markingScale;
+
+        /// <summary>
+        /// Palmtree: per-axis render scale. A zero Y value follows <see cref="MarkingScale"/>
+        /// (legacy/uniform markings), while organ render markings may set both axes independently.
+        /// </summary>
+        [ViewVariables]
+        public Vector2 MarkingScaleVector => new(_markingScale, EffectiveScaleY);
 
         [ViewVariables]
         public Vector2 MarkingOffset => new(_markingOffsetX, _markingOffsetY);
@@ -191,6 +203,16 @@ namespace Content.Shared.Humanoid.Markings
         public void SetScale(float scale)
         {
             _markingScale = Math.Clamp(scale, 0.1f, 4.0f);
+            _markingScaleY = 0f;
+        }
+
+        /// <summary>Palmtree: sets independent X/Y scale. Equal axes fall back to the uniform path.</summary>
+        public void SetScale(Vector2 scale)
+        {
+            _markingScale = Math.Clamp(scale.X, 0.1f, 4.0f);
+            _markingScaleY = Math.Abs(scale.X - scale.Y) < 0.0001f
+                ? 0f
+                : Math.Clamp(scale.Y, 0.1f, 4.0f);
         }
 
         public void SetOffset(float x, float y)
@@ -258,6 +280,7 @@ namespace Content.Shared.Humanoid.Markings
                 && RenderPriority == other.RenderPriority
                 // Palmtree/Coyote Start
                 && _markingScale == other._markingScale
+                && EffectiveScaleY == other.EffectiveScaleY
                 && _markingOffsetX == other._markingOffsetX
                 && _markingOffsetY == other._markingOffsetY
                 && CustomName == other.CustomName
@@ -379,6 +402,8 @@ namespace Content.Shared.Humanoid.Markings
         }
 
         // Palmtree/Coyote: glow helpers.
+        private float EffectiveScaleY => _markingScaleY <= 0f ? _markingScale : _markingScaleY;
+
         private static List<float> CreateGlowLevels(int count)
         {
             var glowLevels = new List<float>(count);

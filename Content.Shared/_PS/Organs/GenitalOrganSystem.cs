@@ -201,6 +201,7 @@ public sealed class GenitalOrganSystem : EntitySystem
                 organ.Comp.DetailColor = data.DetailColor;
                 organ.Comp.Offset = data.Offset;
                 organ.Comp.Scale = data.Scale;
+                organ.Comp.ScaleY = data.ScaleY;
                 organ.Comp.Glow = data.Glow;
                 organ.Comp.DetailGlow = data.DetailGlow;
                 organ.Comp.SkinTone = data.SkinTone;
@@ -245,6 +246,7 @@ public sealed class GenitalOrganSystem : EntitySystem
             comp.DetailColor = data.DetailColor;
             comp.Offset = data.Offset;
             comp.Scale = data.Scale;
+            comp.ScaleY = data.ScaleY;
             comp.Glow = data.Glow;
             comp.DetailGlow = data.DetailGlow;
             comp.SkinTone = data.SkinTone;
@@ -315,8 +317,8 @@ public sealed class GenitalOrganSystem : EntitySystem
             if (organ.Offset != Vector2.Zero)
                 marking.SetOffset(organ.Offset.X, organ.Offset.Y);
 
-            if (organ.Scale != 1f)
-                marking.SetScale(organ.Scale);
+            if (organ.ScaleVector != Vector2.One)
+                marking.SetScale(organ.ScaleVector);
 
             // Glow follows the same color groups as the colors (0 = primary, 1 = detail).
             var groups = GetColorGroups(markingProto);

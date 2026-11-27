@@ -1,10 +1,19 @@
-humanoid-profile-editor-genitals-tab = Genitals
+humanoid-profile-editor-body-tab = Body
 
+genital-editor-preview = Preview
+genital-editor-preview-only = Preview only; these toggles are not saved.
+genital-editor-clothes = Clothes
+genital-editor-undergarments = Undergarments
+genital-editor-aroused = Aroused
+genital-editor-organs = Organs
+genital-editor-enabled = Enabled
+genital-editor-not-set = Not configured
+genital-editor-appearance = Appearance
 genital-editor-type = Type:
 genital-editor-size = Size:
 genital-editor-visibility = Visibility:
 genital-editor-semen = Fluid per climax:
-genital-editor-colors = Colors
+genital-editor-fluid-hint = Applies to all climaxes.
 genital-editor-primary-color = Color
 genital-editor-detail-color = Detail color
 genital-editor-nipple-color = Nipple color
@@ -13,13 +22,32 @@ genital-editor-skin-tone = Skin tone
 genital-editor-skin-tone-tooltip = Draw the skin-shaded sprite variant instead of the tinted one (breasts).
 genital-editor-transform = Transform
 genital-editor-scale = Scale:
+genital-editor-scale-x = Scale X:
+genital-editor-scale-y = Scale Y:
+genital-editor-scale-lock-tooltip = Lock X and Y scale together
+genital-editor-scale-unlock-tooltip = Unlock separate X and Y scale
 genital-editor-glow = Glow:
 genital-editor-detail-glow = Detail glow:
 genital-editor-offset-x = Offset X
 genital-editor-offset-y = Offset Y
-genital-editor-offset-reset = Reset transform
+genital-editor-reset-organ = Reset organ
+genital-editor-remove-organ = Remove organ
+genital-editor-reset-all = Reset all organs
+genital-editor-reset-all-confirm = Click again to reset all organs
 humanoid-profile-editor-show-undergarments = Show undergarments in preview
 humanoid-profile-editor-preview-aroused = Preview aroused organs
+
+genital-editor-visibility-always-hidden = Never shown
+genital-editor-visibility-hidden-by-underwear = Covered by underwear
+genital-editor-visibility-hidden-by-jumpsuit = Covered by jumpsuit
+genital-editor-visibility-visible-under-clothes = Drawn under clothing
+genital-editor-visibility-never-hidden = Always drawn on top
+
+genital-editor-visibility-help-always-hidden = Hidden at all times. Interactions still know the organ exists.
+genital-editor-visibility-help-hidden-by-underwear = Shown only when no jumpsuit and no matching undergarment are worn.
+genital-editor-visibility-help-hidden-by-jumpsuit = Shown unless a jumpsuit is worn; undergarments do not hide it.
+genital-editor-visibility-help-visible-under-clothes = Always active, but clothing draws over it normally.
+genital-editor-visibility-help-never-hidden = Always active and drawn above outer clothing.
 
 genital-visibility-always-hidden = Always hidden
 genital-visibility-hidden-by-underwear = Hidden by underwear

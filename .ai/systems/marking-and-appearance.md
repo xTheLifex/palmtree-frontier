@@ -74,6 +74,11 @@ Old strings remain valid and default to self-toggleable, not other-toggleable. `
 scale/offset/glow/visible and the visibility settings. Change `ToString` and `ParseFromDbString`
 together.
 
+Palmtree per-axis scale: `Marking` also carries `[DataField("scaleY")]`; zero means "follow
+`MarkingScale`" (legacy/uniform). `MarkingScaleVector` returns the effective `(x, y)` used by the
+renderer. The marking DB string keeps the uniform `scale` format; independent X/Y organ scale is
+persisted in `GenitalOrganData` and re-applied by `GenitalOrganSystem.SyncRender`.
+
 `HumanoidAppearanceComponent` additions: `HiddenBaseLayers` (`List<HumanoidVisualLayers>`) and
 `LegStyle`. `HumanoidCharacterAppearance` adds `LegStyle` (persisted in the profile and exported
 characters).

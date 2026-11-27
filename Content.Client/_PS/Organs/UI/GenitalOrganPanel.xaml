@@ -1,0 +1,84 @@
+<BoxContainer xmlns="https://spacestation14.io"
+              xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
+              Orientation="Vertical"
+              HorizontalExpand="True"
+              SeparationOverride="6">
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+        <Label Name="TitleLabel" StyleClasses="LabelHeading" VerticalAlignment="Center" />
+        <Control HorizontalExpand="True" />
+        <CheckBox Name="EnabledCheck" Text="{Loc 'genital-editor-enabled'}" />
+    </BoxContainer>
+
+    <Label Name="SummaryLabel" StyleClasses="LabelSubText" />
+
+    <cc:HSeparator Margin="0 2" />
+
+    <GridContainer Columns="2" HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="0 0 6 0">
+            <Label Text="{Loc 'genital-editor-type'}" />
+            <OptionButton Name="TypeButton" HorizontalExpand="True" />
+        </BoxContainer>
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="6 0 0 0">
+            <Label Text="{Loc 'genital-editor-size'}" />
+            <OptionButton Name="SizeButton" HorizontalExpand="True" />
+        </BoxContainer>
+    </GridContainer>
+
+    <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+        <Label Text="{Loc 'genital-editor-visibility'}" />
+        <OptionButton Name="VisibilityButton" HorizontalExpand="True" />
+        <RichTextLabel Name="VisibilityHelpLabel"
+                       StyleClasses="LabelSubText"
+                       HorizontalExpand="True" />
+    </BoxContainer>
+
+    <Label Text="{Loc 'genital-editor-appearance'}" StyleClasses="LabelHeading" Margin="0 6 0 0" />
+
+    <CheckBox Name="UseSkinCheck" Text="{Loc 'genital-editor-use-skin'}" />
+
+    <Label Name="PrimaryColorLabel" Text="{Loc 'genital-editor-primary-color'}" />
+    <BoxContainer Name="PrimaryColorContainer" Orientation="Vertical" HorizontalExpand="True" />
+
+    <Label Name="DetailColorLabel" Text="{Loc 'genital-editor-detail-color'}" />
+    <BoxContainer Name="DetailColorContainer" Orientation="Vertical" HorizontalExpand="True" />
+
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+        <Label Text="{Loc 'genital-editor-glow'}" MinWidth="80" VerticalAlignment="Center" />
+        <BoxContainer Name="GlowContainer" Orientation="Horizontal" HorizontalExpand="True" />
+    </BoxContainer>
+
+    <CheckBox Name="SkinToneCheck"
+              Text="{Loc 'genital-editor-skin-tone'}"
+              ToolTip="{Loc 'genital-editor-skin-tone-tooltip'}" />
+
+    <Label Text="{Loc 'genital-editor-transform'}" StyleClasses="LabelHeading" Margin="0 6 0 0" />
+
+    <GridContainer Columns="2" HorizontalExpand="True">
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="0 0 6 0">
+            <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="4">
+                <Label Name="ScaleLabel" Text="{Loc 'genital-editor-scale'}" VerticalAlignment="Center" />
+                <TextureButton Name="ScaleLockButton"
+                               TexturePath="/Textures/Interface/VerbIcons/lock.svg.192dpi.png"
+                               Scale="0.3 0.3"
+                               MinSize="20 20"
+                               VerticalAlignment="Center"
+                               ToolTip="{Loc 'genital-editor-scale-unlock-tooltip'}" />
+            </BoxContainer>
+            <BoxContainer Name="ScaleContainer" Orientation="Vertical" HorizontalExpand="True" />
+            <Label Name="ScaleYLabel" Text="{Loc 'genital-editor-scale-y'}" Visible="False" />
+            <BoxContainer Name="ScaleYContainer" Orientation="Vertical" HorizontalExpand="True" Visible="False" />
+        </BoxContainer>
+        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="6 0 0 0">
+            <Label Text="{Loc 'genital-editor-offset-x'}" />
+            <BoxContainer Name="OffsetXContainer" Orientation="Vertical" HorizontalExpand="True" />
+            <Label Text="{Loc 'genital-editor-offset-y'}" Margin="0 4 0 0" />
+            <BoxContainer Name="OffsetYContainer" Orientation="Vertical" HorizontalExpand="True" />
+        </BoxContainer>
+    </GridContainer>
+
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+        <Button Name="ResetButton" Text="{Loc 'genital-editor-reset-organ'}" />
+        <Control HorizontalExpand="True" />
+        <Button Name="RemoveButton" Text="{Loc 'genital-editor-remove-organ'}" />
+    </BoxContainer>
+</BoxContainer>

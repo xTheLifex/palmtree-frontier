@@ -534,7 +534,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
 
                 // Palmtree/Coyote: swap the marking for its alternate-leg-style version if one exists.
                 markingPrototype = GetMarkingForLegStyle(humanoid, markingPrototype);
-                ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing, marking.RenderUnderTopUndergarment);
+                ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, entity, marking.MarkingScaleVector, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing, marking.RenderUnderTopUndergarment);
                 if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentTop)
                     applyUndergarmentTop = false;
                 else if (markingPrototype.BodyPart == HumanoidVisualLayers.UndergarmentBottom)
@@ -843,7 +843,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         bool visible,
         Entity<HumanoidAppearanceComponent, SpriteComponent> entity,
         // Palmtree/Coyote Start: advanced marking editor
-        float scale = 1.0f,
+        Vector2? scale = null,
         Vector2? offset = null,
         IReadOnlyList<float>? glowLevels = null,
         bool renderOverClothing = false,
@@ -852,6 +852,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
     {
         var humanoid = entity.Comp1;
         var sprite = entity.Comp2;
+        var markingScale = scale ?? Vector2.One;
         var markingOffset = offset ?? Vector2.Zero;
         var screenDirection = GetScreenDirection(entity.Owner); // Palmtree: direction-aware layers
         var isSideFacing = IsSideFacing(entity.Owner); // Palmtree: includes diagonals
@@ -1096,7 +1097,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
 
             _sprite.LayerSetVisible((entity.Owner, sprite), layerId, layerVisible);
             // Palmtree/Coyote Start: advanced marking editor
-            sprite.LayerSetScale(layerId, new Vector2(scale, scale));
+            sprite.LayerSetScale(layerId, markingScale);
             sprite.LayerSetOffset(layerId, markingOffset);
             // Palmtree/Coyote End
 
@@ -1142,7 +1143,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
                 sprite.LayerSetShader(glowLayerId, "unshaded");
                 _sprite.LayerSetVisible((entity.Owner, sprite), glowLayerId, layerVisible);
                 _sprite.LayerSetColor((entity.Owner, sprite), glowLayerId, color.WithAlpha(glowAlpha));
-                sprite.LayerSetScale(glowLayerId, new Vector2(scale, scale));
+                sprite.LayerSetScale(glowLayerId, markingScale);
                 sprite.LayerSetOffset(glowLayerId, markingOffset);
             }
             else if (_sprite.LayerMapTryGet((entity.Owner, sprite), glowLayerId, out var glowIndex, false))
@@ -1241,7 +1242,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
             foreach (var marking in markingList)
             {
                 if (_markingManager.TryGetMarking(marking, out var markingPrototype) && markingPrototype.BodyPart == layer)
-                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScale, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing, marking.RenderUnderTopUndergarment);
+                    ApplyMarking(markingPrototype, marking.MarkingColors, marking.Visible, (ent, ent.Comp, sprite), marking.MarkingScaleVector, marking.MarkingOffset, marking.MarkingGlow, marking.RenderOverClothing, marking.RenderUnderTopUndergarment);
             }
         }
     }

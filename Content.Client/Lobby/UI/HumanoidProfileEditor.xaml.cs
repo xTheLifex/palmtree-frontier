@@ -4,6 +4,7 @@ using System.Numerics;
 using Content.Client.Administration.UI.CustomControls; // Palmtree: HSeparator
 using Content.Client._PS.Consent; // Palmtree: NSFW age gate
 using Content.Client._PS.Humanoid; // Palmtree: direction-aware layer ordering
+using Content.Client._PS.Organs.UI; // Palmtree: Body tab
 using Content.Client._PS.UserInterface; // Palmtree: color clipboard
 using Content.Client.Humanoid;
 using Content.Client.Lobby.UI.Loadouts;
@@ -14,7 +15,6 @@ using Content.Client.Sprite;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Systems.Guidebook;
 using Content.Shared.CCVar;
-using Content.Shared._PS.Interactions; // Palmtree
 using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Clothing;
 using Content.Shared.GameTicking;
@@ -114,41 +114,12 @@ namespace Content.Client.Lobby.UI
         // Palmtree: selectable voice barks, indexed by option id - 1 (0 is "Default").
         private readonly List<ProtoId<SpeechSoundsPrototype>> _voiceBarks = new();
 
-        // Palmtree: genital organ editor tab.
-        private BoxContainer? _genitalsTab;
-        private SpinBox? _semenVolumeSpin;
-        private Button? _showUndergarmentsButton;
-        private Button? _showArousedButton;
+        // Palmtree: Body tab (genital organs).
+        private GenitalEditorControl? _genitalEditor;
+        private Control? _genitalsPage;
         private bool _showUndergarments = true;
         private bool _showAroused;
-        private bool _updatingGenitals;
         private bool _updatingSnoutAboveHair; // Palmtree
-        private readonly Dictionary<GenitalType, GenitalControls> _genitalControls = new();
-
-        private sealed class GenitalControls
-        {
-            public CheckBox Enabled = default!;
-            public OptionButton TypeButton = default!;
-            public OptionButton SizeButton = default!;
-            public OptionButton VisibilityButton = default!;
-            public Label DetailColorLabel = default!;
-            public ColorSelectorWithClipboard PrimaryColor = default!;
-            public ColorSelectorWithClipboard DetailColor = default!;
-            public Slider OffsetXSlider = default!;
-            public Slider OffsetYSlider = default!;
-            public SpinBox OffsetXBox = default!;
-            public SpinBox OffsetYBox = default!;
-            public Slider ScaleSlider = default!;
-            public SpinBox ScaleBox = default!;
-            public Slider GlowSlider = default!;
-            public SpinBox GlowBox = default!;
-            public BoxContainer DetailGlowRow = default!;
-            public Slider DetailGlowSlider = default!;
-            public SpinBox DetailGlowBox = default!;
-            public CheckBox SkinTone = default!;
-            public bool ColorsCustomized;
-            public List<GenitalOrganPrototype> Catalogs = new();
-        }
 
         private List<(string, RequirementsSelector)> _jobPriorities = new();
 
@@ -554,6 +525,7 @@ namespace Content.Client.Lobby.UI
 
             ShowClothes.OnToggled += args =>
             {
+                _genitalEditor?.SetClothesPressed(args.Pressed);
                 ReloadPreview();
             };
 
@@ -595,9 +567,9 @@ namespace Content.Client.Lobby.UI
         }
 
         /// <summary>
-        /// Palmtree: builds (once) and refreshes the genital organ tab. The tab (and therefore all
-        /// organ editing) only exists while the account has NSFW content enabled; organs already
-        /// saved in a profile are left untouched and simply hidden.
+        /// Palmtree: builds (once) and refreshes the Body tab. The tab (and therefore all organ
+        /// editing) only exists while the account has NSFW content enabled; organs already saved
+        /// in a profile are left untouched and simply hidden.
         /// </summary>
         public void RefreshGenitals()
         {
@@ -607,683 +579,102 @@ namespace Content.Client.Lobby.UI
                 return;
             }
 
-            if (_genitalsTab == null)
+            if (_genitalEditor == null)
             {
-                _genitalsTab = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Vertical,
-                    Margin = new Thickness(10),
-                };
+                _genitalEditor = new GenitalEditorControl(_prototypeManager);
+                _genitalEditor.SettingsChanged += OnGenitalSettingsChanged;
+                _genitalEditor.ClothesToggled += OnGenitalClothesToggled;
+                _genitalEditor.UndergarmentsToggled += OnGenitalUndergarmentsToggled;
+                _genitalEditor.ArousedToggled += OnGenitalArousedToggled;
 
-                // The tab has six organ sections plus color pickers; wrap it so it can scroll
-                // like the other editor tabs.
                 var scroll = new ScrollContainer
                 {
                     VerticalExpand = true,
                     HScrollEnabled = false,
                     ReserveScrollbarSpace = false,
                 };
-                scroll.AddChild(_genitalsTab);
+                scroll.AddChild(_genitalEditor);
 
+                _genitalsPage = scroll;
                 TabContainer.AddChild(scroll);
-                TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("humanoid-profile-editor-genitals-tab"));
-                BuildGenitalControls();
+                TabContainer.SetTabTitle(scroll, Loc.GetString("humanoid-profile-editor-body-tab"));
             }
 
-            UpdateGenitalControls();
+            if (Profile == null)
+                return;
+
+            _genitalEditor.SetSettings(Profile.Genitals, Profile.Appearance.SkinColor);
+            _genitalEditor.SetPreviewState(ShowClothes.Pressed, _showUndergarments, _showAroused);
         }
 
         /// <summary>
-        /// Palmtree: removes the genital organ tab (NSFW disabled). The tab page is the
-        /// ScrollContainer wrapping the organ box, always the last page in the TabContainer.
+        /// Palmtree: removes the Body tab (NSFW disabled). Uses the stored page control instead of
+        /// assuming the tab is the last child, so dynamic Flavor Text/Body pages can change order.
         /// </summary>
         private void RemoveGenitalsTab()
         {
-            if (_genitalsTab == null)
+            if (_genitalEditor == null || _genitalsPage == null)
                 return;
-
-            var page = (Control) _genitalsTab.Parent!;
 
             // Move the selection off the page before removing it so the TabContainer's index
             // bookkeeping stays valid.
-            if (TabContainer.CurrentTab == TabContainer.ChildCount - 1)
-                TabContainer.CurrentTab = 0;
+            for (var i = 0; i < TabContainer.ChildCount; i++)
+            {
+                if (TabContainer.GetChild(i) != _genitalsPage)
+                    continue;
 
-            TabContainer.RemoveChild(page);
+                if (TabContainer.CurrentTab == i)
+                    TabContainer.CurrentTab = 0;
+
+                break;
+            }
+
+            TabContainer.RemoveChild(_genitalsPage);
+
+            _genitalEditor.SettingsChanged -= OnGenitalSettingsChanged;
+            _genitalEditor.ClothesToggled -= OnGenitalClothesToggled;
+            _genitalEditor.UndergarmentsToggled -= OnGenitalUndergarmentsToggled;
+            _genitalEditor.ArousedToggled -= OnGenitalArousedToggled;
+            _genitalEditor.Dispose();
+
+            _genitalEditor = null;
+            _genitalsPage = null;
 
             // Reset the preview-only state so the dummy does not keep NSFW preview toggles on.
             _showAroused = false;
             _showUndergarments = true;
             ApplyPreviewArousal();
             ApplyPreviewUndergarmentVisibility();
-
-            _genitalsTab = null;
-            _semenVolumeSpin = null;
-            _showUndergarmentsButton = null;
-            _showArousedButton = null;
-            _updatingGenitals = false;
-            _genitalControls.Clear();
         }
 
-        private void BuildGenitalControls()
+        private void OnGenitalSettingsChanged(GenitalOrganSettings settings)
         {
-            if (_genitalsTab == null)
+            if (Profile == null)
                 return;
 
-            var catalogs = _prototypeManager.EnumeratePrototypes<GenitalOrganPrototype>().ToList();
-
-            // Fluid per climax, at the top of the tab so it is visible without scrolling past the
-            // organ sections.
-            var semenRow = new BoxContainer
-            {
-                Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                SeparationOverride = 6,
-            };
-
-            semenRow.AddChild(new Label
-            {
-                Text = Loc.GetString("genital-editor-semen"),
-                VerticalAlignment = VAlignment.Center,
-            });
-
-            _semenVolumeSpin = new SpinBox
-            {
-                MinWidth = 100,
-                IsValid = value => value is >= GenitalOrganSettings.MinSemenVolume and <= GenitalOrganSettings.MaxSemenVolume,
-            };
-            _semenVolumeSpin.ValueChanged += _ => OnGenitalControlsChanged();
-            semenRow.AddChild(_semenVolumeSpin);
-            _genitalsTab.AddChild(semenRow);
-            _genitalsTab.AddChild(new HSeparator { Margin = new Thickness(0, 8) });
-
-            // Palmtree: preview helper rows use the same label + [Show] toggle shape as the
-            // character tab's "Show clothing" control.
-            BoxContainer MakeToggleRow(string label, bool pressed, Action<bool> onToggled, out Button button)
-            {
-                var row = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                    Margin = new Thickness(0, 0, 0, 6),
-                };
-
-                row.AddChild(new Label
-                {
-                    Text = label,
-                    VerticalAlignment = VAlignment.Center,
-                    HorizontalExpand = true,
-                });
-
-                button = new Button
-                {
-                    Text = Loc.GetString("humanoid-profile-editor-clothing-show"),
-                    ToggleMode = true,
-                    Pressed = pressed,
-                };
-                button.OnToggled += args => onToggled(args.Pressed);
-                row.AddChild(button);
-                return row;
-            }
-
-            // Mirrors the character tab's "Show clothing" toggle; the two buttons stay in sync.
-            _genitalsTab.AddChild(MakeToggleRow(
-                Loc.GetString("humanoid-profile-editor-clothing"),
-                ShowClothes.Pressed,
-                pressed =>
-                {
-                    // The Pressed setter is silent, so reload the dummy the same way the character
-                    // tab's button does.
-                    if (ShowClothes.Pressed != pressed)
-                        ShowClothes.Pressed = pressed;
-
-                    ReloadPreview();
-                },
-                out var showClothesButton));
-
-            ShowClothes.OnToggled += args =>
-            {
-                if (showClothesButton.Pressed != args.Pressed)
-                    showClothesButton.Pressed = args.Pressed;
-            };
-
-            // Preview helper: hides undergarment markings on the dummy so genitals are visible.
-            _genitalsTab.AddChild(MakeToggleRow(
-                Loc.GetString("humanoid-profile-editor-show-undergarments"),
-                _showUndergarments,
-                pressed =>
-                {
-                    _showUndergarments = pressed;
-                    ApplyPreviewUndergarmentVisibility();
-                },
-                out _showUndergarmentsButton));
-
-            // Preview helper: shows the aroused render marking for every configured organ.
-            _genitalsTab.AddChild(MakeToggleRow(
-                Loc.GetString("humanoid-profile-editor-preview-aroused"),
-                _showAroused,
-                pressed =>
-                {
-                    _showAroused = pressed;
-                    ApplyPreviewArousal();
-                },
-                out _showArousedButton));
-
-            var firstOrgan = true;
-            foreach (var type in Enum.GetValues<GenitalType>())
-            {
-                var typeCatalogs = catalogs
-                    .Where(c => c.GenitalType == type)
-                    .OrderBy(c => Loc.GetString(c.Name))
-                    .ToList();
-
-                if (typeCatalogs.Count == 0)
-                    continue;
-
-                // One separator per organ so the sections read as distinct blocks.
-                if (!firstOrgan)
-                    _genitalsTab.AddChild(new HSeparator { Margin = new Thickness(0, 8) });
-                firstOrgan = false;
-
-                var row = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                    SeparationOverride = 6,
-                    Margin = new Thickness(0, 2),
-                };
-
-                var enabled = new CheckBox
-                {
-                    Text = Loc.GetString($"genital-editor-{type.ToString().ToLowerInvariant()}"),
-                    MinWidth = 130,
-                };
-
-                var typeButton = new OptionButton { MinWidth = 140 };
-                for (var i = 0; i < typeCatalogs.Count; i++)
-                {
-                    typeButton.AddItem(Loc.GetString(typeCatalogs[i].Name), i);
-                }
-
-                var sizeButton = new OptionButton { MinWidth = 120 };
-
-                var visibilityButton = new OptionButton { MinWidth = 150 };
-                visibilityButton.AddItem(Loc.GetString("genital-visibility-always-hidden"), (int) GenitalVisibility.AlwaysHidden);
-                visibilityButton.AddItem(Loc.GetString("genital-visibility-hidden-by-underwear"), (int) GenitalVisibility.HiddenByUnderwear);
-                visibilityButton.AddItem(Loc.GetString("genital-visibility-hidden-by-jumpsuit"), (int) GenitalVisibility.HiddenByJumpsuit);
-                visibilityButton.AddItem(Loc.GetString("genital-visibility-never-hidden"), (int) GenitalVisibility.NeverHidden);
-                visibilityButton.AddItem(Loc.GetString("genital-visibility-visible-under-clothes"), (int) GenitalVisibility.VisibleUnderClothes);
-
-                // Modern SPLURT: breasts (and any other organ with a skin-toned variant) can use
-                // baked-in skin shading instead of a tinted sprite.
-                var skinToneCheck = new CheckBox
-                {
-                    Text = Loc.GetString("genital-editor-skin-tone"),
-                    ToolTip = Loc.GetString("genital-editor-skin-tone-tooltip"),
-                    Visible = typeCatalogs.Any(c => c.CanSkinTone),
-                    VerticalAlignment = VAlignment.Center,
-                };
-                skinToneCheck.OnToggled += _ =>
-                {
-                    if (_updatingGenitals)
-                        return;
-
-                    OnGenitalControlsChanged();
-                };
-
-                var controls = new GenitalControls
-                {
-                    Enabled = enabled,
-                    TypeButton = typeButton,
-                    SizeButton = sizeButton,
-                    VisibilityButton = visibilityButton,
-                    SkinTone = skinToneCheck,
-                    Catalogs = typeCatalogs,
-                };
-
-                var primaryColor = new ColorSelectorWithClipboard
-                {
-                    SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
-                    IsAlphaVisible = true, // Palmtree: per-organ alpha
-                };
-                var detailColor = new ColorSelectorWithClipboard
-                {
-                    SelectorType = ColorSelectorSliders.ColorSelectorType.Hsv,
-                    IsAlphaVisible = true, // Palmtree: per-organ alpha
-                };
-                controls.PrimaryColor = primaryColor;
-                controls.DetailColor = detailColor;
-
-                primaryColor.OnColorChanged += _ =>
-                {
-                    if (_updatingGenitals)
-                        return;
-
-                    controls.ColorsCustomized = true;
-                    OnGenitalControlsChanged();
-                };
-
-                detailColor.OnColorChanged += _ =>
-                {
-                    if (_updatingGenitals)
-                        return;
-
-                    controls.ColorsCustomized = true;
-                    OnGenitalControlsChanged();
-                };
-
-                var useSkinButton = new Button
-                {
-                    Text = Loc.GetString("genital-editor-use-skin"),
-                };
-                useSkinButton.OnPressed += _ =>
-                {
-                    if (_updatingGenitals)
-                        return;
-
-                    controls.ColorsCustomized = false;
-                    OnGenitalControlsChanged();
-                };
-
-                var detailColorLabel = new Label
-                {
-                    Text = Loc.GetString("genital-editor-detail-color"),
-                };
-                controls.DetailColorLabel = detailColorLabel;
-
-                // Glow rows (0-100%), mirroring the marking picker's glow slider.
-                (BoxContainer Row, Slider Slider, SpinBox Box) CreateGlowRow(string labelKey)
-                {
-                    var glowSlider = new Slider
-                    {
-                        HorizontalExpand = true,
-                        MinValue = 0f,
-                        MaxValue = 1f,
-                        Rounded = false,
-                    };
-                    var glowBox = new SpinBox
-                    {
-                        MinWidth = 70,
-                        IsValid = value => value is >= 0 and <= 100,
-                    };
-                    glowBox.InitDefaultButtons();
-
-                    var glowRow = new BoxContainer
-                    {
-                        Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                        SeparationOverride = 6,
-                    };
-                    glowRow.AddChild(new Label
-                    {
-                        Text = Loc.GetString(labelKey),
-                        MinWidth = 80,
-                        VerticalAlignment = VAlignment.Center,
-                    });
-                    glowRow.AddChild(glowSlider);
-                    glowRow.AddChild(glowBox);
-                    return (glowRow, glowSlider, glowBox);
-                }
-
-                var (glowRow, glowSlider, glowBox) = CreateGlowRow("genital-editor-glow");
-                var (detailGlowRow, detailGlowSlider, detailGlowBox) = CreateGlowRow("genital-editor-detail-glow");
-
-                controls.GlowSlider = glowSlider;
-                controls.GlowBox = glowBox;
-                controls.DetailGlowRow = detailGlowRow;
-                controls.DetailGlowSlider = detailGlowSlider;
-                controls.DetailGlowBox = detailGlowBox;
-
-                var settingGlowFromInput = false;
-                var settingGlowFromSlider = false;
-
-                glowSlider.OnValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingGlowFromInput)
-                        return;
-
-                    settingGlowFromSlider = true;
-                    glowBox.Value = (int) MathF.Round(Math.Clamp(glowSlider.Value, 0f, 1f) * 100f);
-                    settingGlowFromSlider = false;
-                    OnGenitalControlsChanged();
-                };
-
-                glowBox.ValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingGlowFromSlider)
-                        return;
-
-                    settingGlowFromInput = true;
-                    glowSlider.SetValueWithoutEvent(Math.Clamp(glowBox.Value, 0, 100) / 100f);
-                    settingGlowFromInput = false;
-                    OnGenitalControlsChanged();
-                };
-
-                var settingDetailGlowFromInput = false;
-                var settingDetailGlowFromSlider = false;
-
-                detailGlowSlider.OnValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingDetailGlowFromInput)
-                        return;
-
-                    settingDetailGlowFromSlider = true;
-                    detailGlowBox.Value = (int) MathF.Round(Math.Clamp(detailGlowSlider.Value, 0f, 1f) * 100f);
-                    settingDetailGlowFromSlider = false;
-                    OnGenitalControlsChanged();
-                };
-
-                detailGlowBox.ValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingDetailGlowFromSlider)
-                        return;
-
-                    settingDetailGlowFromInput = true;
-                    detailGlowSlider.SetValueWithoutEvent(Math.Clamp(detailGlowBox.Value, 0, 100) / 100f);
-                    settingDetailGlowFromInput = false;
-                    OnGenitalControlsChanged();
-                };
-
-                // CollapsibleBody stretches its direct children to fill; wrap everything in a box.
-                var colorsContainer = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Vertical,
-                    SeparationOverride = 4,
-                };
-                colorsContainer.AddChild(new Label { Text = Loc.GetString("genital-editor-primary-color") });
-                colorsContainer.AddChild(primaryColor);
-                colorsContainer.AddChild(glowRow);
-                colorsContainer.AddChild(detailColorLabel);
-                colorsContainer.AddChild(detailColor);
-                colorsContainer.AddChild(detailGlowRow);
-                colorsContainer.AddChild(useSkinButton);
-                colorsContainer.AddChild(skinToneCheck);
-
-                var colorsBody = new CollapsibleBody();
-                colorsBody.AddChild(colorsContainer);
-
-                var colorSection = new Collapsible(Loc.GetString("genital-editor-colors"), colorsBody)
-                {
-                    Margin = new Thickness(0, 2, 0, 4),
-                };
-
-                // Position section: offset sliders mirroring the marking picker's transform controls.
-                var offsetXSlider = new Slider
-                {
-                    HorizontalExpand = true,
-                    MinValue = -1.0f,
-                    MaxValue = 1.0f,
-                    Rounded = false,
-                };
-                var offsetYSlider = new Slider
-                {
-                    HorizontalExpand = true,
-                    MinValue = -1.0f,
-                    MaxValue = 1.0f,
-                    Rounded = false,
-                };
-                var offsetXBox = new SpinBox
-                {
-                    MinWidth = 70,
-                    IsValid = value => value is >= -100 and <= 100,
-                };
-                var offsetYBox = new SpinBox
-                {
-                    MinWidth = 70,
-                    IsValid = value => value is >= -100 and <= 100,
-                };
-                offsetXBox.InitDefaultButtons();
-                offsetYBox.InitDefaultButtons();
-
-                var scaleSlider = new Slider
-                {
-                    HorizontalExpand = true,
-                    MinValue = GenitalOrganSettings.MinScale,
-                    MaxValue = GenitalOrganSettings.MaxScale,
-                    Rounded = false,
-                };
-                var scaleBox = new SpinBox
-                {
-                    MinWidth = 70,
-                    IsValid = value => value is >= 25 and <= 300,
-                };
-                scaleBox.InitDefaultButtons();
-
-                controls.OffsetXSlider = offsetXSlider;
-                controls.OffsetYSlider = offsetYSlider;
-                controls.OffsetXBox = offsetXBox;
-                controls.OffsetYBox = offsetYBox;
-                controls.ScaleSlider = scaleSlider;
-                controls.ScaleBox = scaleBox;
-
-                var settingScaleFromInput = false;
-                var settingScaleFromSlider = false;
-                var settingOffsetFromInput = false;
-                var settingOffsetFromSlider = false;
-
-                scaleSlider.OnValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingScaleFromInput)
-                        return;
-
-                    settingScaleFromSlider = true;
-                    scaleBox.Value = (int) MathF.Round(Math.Clamp(scaleSlider.Value,
-                        GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale) * 100f);
-                    settingScaleFromSlider = false;
-                    OnGenitalControlsChanged();
-                };
-
-                scaleBox.ValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingScaleFromSlider)
-                        return;
-
-                    settingScaleFromInput = true;
-                    scaleSlider.SetValueWithoutEvent(Math.Clamp(scaleBox.Value, 25, 300) / 100f);
-                    settingScaleFromInput = false;
-                    OnGenitalControlsChanged();
-                };
-
-                offsetXSlider.OnValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingOffsetFromInput)
-                        return;
-
-                    settingOffsetFromSlider = true;
-                    offsetXBox.Value = (int) MathF.Round(Math.Clamp(offsetXSlider.Value, -1f, 1f) * 100f);
-                    settingOffsetFromSlider = false;
-                    OnGenitalControlsChanged();
-                };
-
-                offsetYSlider.OnValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingOffsetFromInput)
-                        return;
-
-                    settingOffsetFromSlider = true;
-                    offsetYBox.Value = (int) MathF.Round(Math.Clamp(offsetYSlider.Value, -1f, 1f) * 100f);
-                    settingOffsetFromSlider = false;
-                    OnGenitalControlsChanged();
-                };
-
-                offsetXBox.ValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingOffsetFromSlider)
-                        return;
-
-                    settingOffsetFromInput = true;
-                    offsetXSlider.SetValueWithoutEvent(Math.Clamp(offsetXBox.Value, -100, 100) / 100f);
-                    settingOffsetFromInput = false;
-                    OnGenitalControlsChanged();
-                };
-
-                offsetYBox.ValueChanged += _ =>
-                {
-                    if (_updatingGenitals || settingOffsetFromSlider)
-                        return;
-
-                    settingOffsetFromInput = true;
-                    offsetYSlider.SetValueWithoutEvent(Math.Clamp(offsetYBox.Value, -100, 100) / 100f);
-                    settingOffsetFromInput = false;
-                    OnGenitalControlsChanged();
-                };
-
-                var resetOffsetButton = new Button
-                {
-                    Text = Loc.GetString("genital-editor-offset-reset"),
-                    HorizontalAlignment = HAlignment.Left,
-                };
-                resetOffsetButton.OnPressed += _ =>
-                {
-                    if (_updatingGenitals)
-                        return;
-
-                    offsetXSlider.SetValueWithoutEvent(0f);
-                    offsetYSlider.SetValueWithoutEvent(0f);
-                    offsetXBox.Value = 0;
-                    offsetYBox.Value = 0;
-                    scaleSlider.SetValueWithoutEvent(1f);
-                    scaleBox.Value = 100;
-                    OnGenitalControlsChanged();
-                };
-
-                var positionContainer = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Vertical,
-                    SeparationOverride = 4,
-                };
-
-                var offsetXRow = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                    SeparationOverride = 6,
-                };
-                offsetXRow.AddChild(new Label
-                {
-                    Text = Loc.GetString("genital-editor-offset-x"),
-                    MinWidth = 60,
-                    VerticalAlignment = VAlignment.Center,
-                });
-                offsetXRow.AddChild(offsetXSlider);
-                offsetXRow.AddChild(offsetXBox);
-
-                var offsetYRow = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                    SeparationOverride = 6,
-                };
-                offsetYRow.AddChild(new Label
-                {
-                    Text = Loc.GetString("genital-editor-offset-y"),
-                    MinWidth = 60,
-                    VerticalAlignment = VAlignment.Center,
-                });
-                offsetYRow.AddChild(offsetYSlider);
-                offsetYRow.AddChild(offsetYBox);
-
-                var scaleRow = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Horizontal,
-                    SeparationOverride = 6,
-                };
-                scaleRow.AddChild(new Label
-                {
-                    Text = Loc.GetString("genital-editor-scale"),
-                    MinWidth = 60,
-                    VerticalAlignment = VAlignment.Center,
-                });
-                scaleRow.AddChild(scaleSlider);
-                scaleRow.AddChild(scaleBox);
-
-                positionContainer.AddChild(scaleRow);
-                positionContainer.AddChild(offsetXRow);
-                positionContainer.AddChild(offsetYRow);
-                positionContainer.AddChild(resetOffsetButton);
-
-                var positionBody = new CollapsibleBody();
-                positionBody.AddChild(positionContainer);
-
-                var positionSection = new Collapsible(Loc.GetString("genital-editor-transform"), positionBody)
-                {
-                    Margin = new Thickness(0, 2, 0, 4),
-                };
-
-                _genitalControls[type] = controls;
-
-                enabled.OnToggled += _ =>
-                {
-                    typeButton.Disabled = !enabled.Pressed;
-                    sizeButton.Disabled = !enabled.Pressed;
-                    visibilityButton.Disabled = !enabled.Pressed;
-                    OnGenitalControlsChanged();
-                };
-
-                typeButton.OnItemSelected += args =>
-                {
-                    typeButton.SelectId(args.Id);
-                    RebuildGenitalSizes(type);
-                    RefreshGenitalDetailVisibility(type);
-                    OnGenitalControlsChanged();
-                };
-
-                sizeButton.OnItemSelected += args =>
-                {
-                    sizeButton.SelectId(args.Id);
-                    RefreshGenitalDetailVisibility(type);
-                    OnGenitalControlsChanged();
-                };
-
-                visibilityButton.OnItemSelected += args =>
-                {
-                    visibilityButton.SelectId(args.Id);
-                    OnGenitalControlsChanged();
-                };
-
-                row.AddChild(enabled);
-                row.AddChild(new Label { Text = Loc.GetString("genital-editor-type"), VerticalAlignment = VAlignment.Center });
-                row.AddChild(typeButton);
-                row.AddChild(new Label { Text = Loc.GetString("genital-editor-size"), VerticalAlignment = VAlignment.Center });
-                row.AddChild(sizeButton);
-                row.AddChild(new Label { Text = Loc.GetString("genital-editor-visibility"), VerticalAlignment = VAlignment.Center });
-                row.AddChild(visibilityButton);
-
-                var organContainer = new BoxContainer
-                {
-                    Orientation = BoxContainer.LayoutOrientation.Vertical,
-                };
-                organContainer.AddChild(row);
-                organContainer.AddChild(colorSection);
-                organContainer.AddChild(positionSection);
-                _genitalsTab.AddChild(organContainer);
-            }
-
+            Profile = Profile.WithGenitals(settings);
+            SetDirty();
+            ReloadProfilePreview();
         }
 
-        /// <summary>
-        /// Shows the detail color picker only when the selected marking actually has a second color
-        /// group (e.g. Splurt breasts have separate nipples; Coyote breasts do not).
-        /// </summary>
-        private void RefreshGenitalDetailVisibility(GenitalType type)
+        private void OnGenitalClothesToggled(bool pressed)
         {
-            if (!_genitalControls.TryGetValue(type, out var controls) || controls.Catalogs.Count == 0)
-                return;
+            if (ShowClothes.Pressed != pressed)
+                ShowClothes.Pressed = pressed;
 
-            var detailVisible = false;
-            var typeIndex = Math.Clamp(controls.TypeButton.SelectedId, 0, controls.Catalogs.Count - 1);
-            var catalog = controls.Catalogs[typeIndex];
+            ReloadPreview();
+        }
 
-            if (catalog.Sizes.Count > 0)
-            {
-                var sizeIndex = Math.Clamp(controls.SizeButton.SelectedId, 0, catalog.Sizes.Count - 1);
-                if (catalog.Sizes[sizeIndex].Flaccid is { } flaccidId &&
-                    _prototypeManager.TryIndex<MarkingPrototype>(flaccidId, out var markingProto))
-                {
-                    detailVisible = GenitalOrganSystem.CountColorGroups(markingProto) > 1;
-                }
-            }
+        private void OnGenitalUndergarmentsToggled(bool pressed)
+        {
+            _showUndergarments = pressed;
+            ApplyPreviewUndergarmentVisibility();
+        }
 
-            controls.DetailColorLabel.Visible = detailVisible;
-            controls.DetailColor.Visible = detailVisible;
-            controls.DetailGlowRow.Visible = detailVisible;
-            controls.DetailColorLabel.Text = Loc.GetString(type == GenitalType.Breasts
-                ? "genital-editor-nipple-color"
-                : "genital-editor-detail-color");
+        private void OnGenitalArousedToggled(bool pressed)
+        {
+            _showAroused = pressed;
+            ApplyPreviewArousal();
         }
 
         /// <summary>
@@ -1337,149 +728,17 @@ namespace Content.Client.Lobby.UI
                 return;
 
             var organSystem = _entManager.System<GenitalOrganSystem>();
-            foreach (var type in _genitalControls.Keys)
+            if (_genitalEditor != null)
             {
-                organSystem.SetAroused(PreviewDummy, type, _showAroused);
+                foreach (var type in _genitalEditor.OrganTypes)
+                {
+                    organSystem.SetAroused(PreviewDummy, type, _showAroused);
+                }
             }
 
             // SyncRender only updates the marking set; local preview entities need an explicit
             // sprite rebuild or the aroused/flaccid switch never shows.
             _entManager.System<HumanoidAppearanceSystem>().RefreshSprite(PreviewDummy, humanoid);
-        }
-
-        private void RebuildGenitalSizes(GenitalType type)
-        {            if (!_genitalControls.TryGetValue(type, out var controls) || controls.Catalogs.Count == 0)
-                return;
-
-            var typeIndex = Math.Clamp(controls.TypeButton.SelectedId, 0, controls.Catalogs.Count - 1);
-            var catalog = controls.Catalogs[typeIndex];
-
-            controls.SizeButton.Clear();
-            for (var i = 0; i < catalog.Sizes.Count; i++)
-            {
-                controls.SizeButton.AddItem(Loc.GetString(catalog.Sizes[i].Name), i);
-            }
-
-            controls.SizeButton.SelectId(0);
-        }
-
-        private void UpdateGenitalControls()
-        {
-            if (Profile == null)
-                return;
-
-            _updatingGenitals = true;
-
-            var settings = Profile.Genitals;
-            foreach (var (type, controls) in _genitalControls)
-            {
-                if (controls.Catalogs.Count == 0)
-                    continue;
-
-                var data = settings.Get(type);
-                var enabled = data != null;
-
-                controls.Enabled.Pressed = enabled;
-                controls.TypeButton.Disabled = !enabled;
-                controls.SizeButton.Disabled = !enabled;
-                controls.VisibilityButton.Disabled = !enabled;
-                controls.SkinTone.Pressed = data?.SkinTone ?? false;
-                controls.SkinTone.Disabled = !enabled;
-
-                var typeIndex = 0;
-                if (data != null)
-                {
-                    var found = controls.Catalogs.FindIndex(c => c.ID == data.Prototype);
-                    if (found >= 0)
-                        typeIndex = found;
-                }
-
-                controls.TypeButton.SelectId(typeIndex);
-                controls.SizeButton.Clear();
-
-                var catalog = controls.Catalogs[typeIndex];
-                for (var i = 0; i < catalog.Sizes.Count; i++)
-                {
-                    controls.SizeButton.AddItem(Loc.GetString(catalog.Sizes[i].Name), i);
-                }
-
-                var sizeIndex = data != null ? Math.Clamp(data.Size - 1, 0, catalog.Sizes.Count - 1) : 0;
-                controls.SizeButton.SelectId(sizeIndex);
-                controls.VisibilityButton.SelectId((int) (data?.Visibility ?? GenitalVisibility.HiddenByUnderwear));
-
-                // Palmtree: null colors follow the skin; track whether this organ uses custom colors.
-                var skin = Profile.Appearance.SkinColor;
-                controls.ColorsCustomized = data != null && (data.Color != null || data.DetailColor != null);
-                controls.PrimaryColor.Color = data?.Color ?? skin;
-                controls.DetailColor.Color = data?.DetailColor ?? data?.Color ?? skin;
-
-                var offset = data?.Offset ?? Vector2.Zero;
-                controls.OffsetXSlider.SetValueWithoutEvent(Math.Clamp(offset.X, -1f, 1f));
-                controls.OffsetYSlider.SetValueWithoutEvent(Math.Clamp(offset.Y, -1f, 1f));
-                controls.OffsetXBox.Value = (int) MathF.Round(Math.Clamp(offset.X, -1f, 1f) * 100f);
-                controls.OffsetYBox.Value = (int) MathF.Round(Math.Clamp(offset.Y, -1f, 1f) * 100f);
-
-                var scale = Math.Clamp(data?.Scale ?? 1f, GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale);
-                controls.ScaleSlider.SetValueWithoutEvent(scale);
-                controls.ScaleBox.Value = (int) MathF.Round(scale * 100f);
-
-                var glow = Math.Clamp(data?.Glow ?? 0f, 0f, 1f);
-                var detailGlow = Math.Clamp(data?.DetailGlow ?? 0f, 0f, 1f);
-                controls.GlowSlider.SetValueWithoutEvent(glow);
-                controls.GlowBox.Value = (int) MathF.Round(glow * 100f);
-                controls.DetailGlowSlider.SetValueWithoutEvent(detailGlow);
-                controls.DetailGlowBox.Value = (int) MathF.Round(detailGlow * 100f);
-
-                RefreshGenitalDetailVisibility(type);
-            }
-
-            _semenVolumeSpin?.OverrideValue(settings.SemenVolume);
-            _updatingGenitals = false;
-        }
-
-        private void OnGenitalControlsChanged()
-        {
-            if (_updatingGenitals || Profile == null)
-                return;
-
-            var settings = new GenitalOrganSettings
-            {
-                SemenVolume = Math.Clamp(
-                    _semenVolumeSpin?.Value ?? GenitalOrganSettings.DefaultSemenVolume,
-                    GenitalOrganSettings.MinSemenVolume,
-                    GenitalOrganSettings.MaxSemenVolume),
-            };
-
-            foreach (var (type, controls) in _genitalControls)
-            {
-                if (!controls.Enabled.Pressed || controls.Catalogs.Count == 0)
-                    continue;
-
-                var typeIndex = Math.Clamp(controls.TypeButton.SelectedId, 0, controls.Catalogs.Count - 1);
-                var catalog = controls.Catalogs[typeIndex];
-                var size = Math.Clamp(controls.SizeButton.SelectedId + 1, 1, catalog.Sizes.Count);
-
-                settings.Set(type, new GenitalOrganData
-                {
-                    Prototype = catalog.ID,
-                    Size = size,
-                    Visibility = (GenitalVisibility) controls.VisibilityButton.SelectedId,
-                    Color = controls.ColorsCustomized ? controls.PrimaryColor.Color : null,
-                    DetailColor = controls.ColorsCustomized ? controls.DetailColor.Color : null,
-                    Offset = new Vector2(
-                        Math.Clamp(controls.OffsetXSlider.Value, -1f, 1f),
-                        Math.Clamp(controls.OffsetYSlider.Value, -1f, 1f)),
-                    Scale = Math.Clamp(controls.ScaleSlider.Value,
-                        GenitalOrganSettings.MinScale, GenitalOrganSettings.MaxScale),
-                    Glow = Math.Clamp(controls.GlowSlider.Value, 0f, 1f),
-                    DetailGlow = Math.Clamp(controls.DetailGlowSlider.Value, 0f, 1f),
-                    SkinTone = controls.SkinTone.Pressed,
-                });
-            }
-
-            Profile = Profile.WithGenitals(settings);
-            SetDirty();
-            ReloadProfilePreview();
         }
 
         /// <summary>

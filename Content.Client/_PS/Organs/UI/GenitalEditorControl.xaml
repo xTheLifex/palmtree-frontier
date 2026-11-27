@@ -1,0 +1,52 @@
+<BoxContainer xmlns="https://spacestation14.io"
+              xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
+              xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+              Orientation="Vertical"
+              HorizontalExpand="True"
+              Margin="10"
+              SeparationOverride="6">
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="6">
+        <Label Text="{Loc 'genital-editor-preview'}" StyleClasses="LabelHeading" VerticalAlignment="Center" />
+        <Control HorizontalExpand="True" />
+        <Button Name="ClothesButton"
+                ToggleMode="True"
+                Text="{Loc 'genital-editor-clothes'}"
+                ToolTip="{Loc 'humanoid-profile-editor-clothing'}" />
+        <Button Name="UndergarmentsButton"
+                ToggleMode="True"
+                Text="{Loc 'genital-editor-undergarments'}"
+                ToolTip="{Loc 'humanoid-profile-editor-show-undergarments'}" />
+        <Button Name="ArousedButton"
+                ToggleMode="True"
+                Text="{Loc 'genital-editor-aroused'}"
+                ToolTip="{Loc 'humanoid-profile-editor-preview-aroused'}" />
+    </BoxContainer>
+
+    <Label Text="{Loc 'genital-editor-preview-only'}" StyleClasses="LabelSubText" />
+
+    <cc:HSeparator Margin="0 2" />
+
+    <Label Text="{Loc 'genital-editor-organs'}" StyleClasses="LabelHeading" />
+    <GridContainer Name="OrganSelector" Columns="3" HorizontalExpand="True" />
+
+    <cc:HSeparator Margin="0 2" />
+
+    <BoxContainer Name="PanelHost" Orientation="Vertical" HorizontalExpand="True" />
+
+    <cc:HSeparator Margin="0 2" />
+
+    <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="4">
+        <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="6">
+            <Label Text="{Loc 'genital-editor-semen'}" VerticalAlignment="Center" />
+            <SpinBox Name="FluidSpin" MinWidth="100" />
+            <Label Text="{Loc 'genital-editor-fluid-hint'}"
+                   StyleClasses="LabelSubText"
+                   VerticalAlignment="Center"
+                   HorizontalExpand="True" />
+        </BoxContainer>
+        <controls:ConfirmButton Name="ResetAllButton"
+                                Text="{Loc 'genital-editor-reset-all'}"
+                                ConfirmationText="{Loc 'genital-editor-reset-all-confirm'}"
+                                HorizontalAlignment="Left" />
+    </BoxContainer>
+</BoxContainer>

@@ -53,6 +53,19 @@ public sealed class MarkingSerializationTest
     }
 
     [Test]
+    public void PerAxisScaleRespectsLegacyUniformFallback()
+    {
+        var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White });
+        marking.SetScale(new System.Numerics.Vector2(1.5f, 0.5f));
+
+        Assert.That(marking.MarkingScale, Is.EqualTo(1.5f).Within(0.0001f));
+        Assert.That(marking.MarkingScaleVector, Is.EqualTo(new System.Numerics.Vector2(1.5f, 0.5f)));
+
+        marking.SetScale(2f);
+        Assert.That(marking.MarkingScaleVector, Is.EqualTo(new System.Numerics.Vector2(2f, 2f)));
+    }
+
+    [Test]
     public void DbStringRoundTripGlow()
     {
         var marking = new Marking("GenitalVaginaHuman", new List<Color> { Color.White, Color.Red });

@@ -23,7 +23,8 @@
 | Profile data | `Content.Shared/_PS/Organs/GenitalOrganSettings.cs` |
 | Profile field | `Content.Shared/Preferences/HumanoidCharacterProfile.cs` (`Genitals`) |
 | Organ entities | `Resources/Prototypes/_PS/Entities/Organs/genital_organs.yml` |
-| Editor tab | `Content.Client/Lobby/UI/HumanoidProfileEditor.xaml.cs` (`RefreshGenitals`, `BuildGenitalControls`, `OnGenitalControlsChanged`) |
+| Editor tab | `Content.Client/_PS/Organs/UI/GenitalEditorControl.xaml(.cs)`, `GenitalOrganPanel.xaml(.cs)`; `HumanoidProfileEditor.RefreshGenitals` |
+| Editor slider/spin pair | `Content.Client/_PS/UserInterface/Controls/SliderSpinBox.cs` |
 | Catalog generator | `Tools/gen_genital_organ_catalog.py` |
 | DB | `Profile.Genitals` string column (`Content.Server.Database/Model.cs`), migrations `*_GenitalOrgans`, `ServerDbBase.ConvertProfiles` |
 | Tests | `Content.IntegrationTests/Tests/_PS/InteractionPanelTest.cs`, `Content.IntegrationTests/Tests/_PS/GenitalRenderTest.cs`, `ServerDbSqliteTests` round-trip |
@@ -32,16 +33,18 @@
 
 `GenitalOrganSettings` (profile + network): one `GenitalOrganData { GenitalType Type; string
 Prototype; int Size; GenitalVisibility Visibility; Color? Color; Color? DetailColor; Vector2 Offset;
-float Scale; float Glow; float DetailGlow }` per organ (at most one per type) plus `SemenVolume`
-(1-300, default 30; the editor labels it "Fluid per climax" and it applies to female climaxes too).
+float Scale; float ScaleY; float Glow; float DetailGlow }` per organ (at most one per type) plus
+`SemenVolume` (1-500, default 30; the editor labels it "Fluid per climax" and it applies to female
+climaxes too). `Scale` is the X scale and the uniform scale when `ScaleY` is zero; `ScaleVector`
+is the effective render vector, so old profiles with only `scale` keep rendering uniformly.
 Persisted as a compact string via `ToDbString`/`FromDbString` in a plain text column, e.g.
-`Penis:PenisHuman:3:NeverHidden:#f2c9a0:-:0.25,-0.5:1.5:0.5,0;Vagina:VaginaHuman:1:HiddenByUnderwear;semen=42`
+`Penis:PenisHuman:3:NeverHidden:#f2c9a0:-:0.25,-0.5:1.5,0.75:0.5,0;Vagina:VaginaHuman:1:HiddenByUnderwear;semen=42`
 (older 3/4-part entries parse as `HiddenByUnderwear`, the current default, with skin colors; `-`
 means "follow skin"/default; the
-7th/8th/9th segments are the optional `offsetX,offsetY`, `scale` and `glow,detailGlow`). Offset,
-scale and glow are applied to the organ's render marking via
-`Marking.SetOffset`/`SetScale`/`SetGlow`, so organs can be transformed like markings. Organ color
-pickers expose alpha (`IsAlphaVisible`).
+7th/8th/9th segments are the optional `offsetX,offsetY`, `scale[,scaleY]` and `glow,detailGlow`).
+A single scale keeps the old format; independent axes add `,scaleY`. Offset, scale and glow are
+applied to the organ's render marking via `Marking.SetOffset`/`SetScale`/`SetGlow`, so organs can
+be transformed like markings. Organ color pickers expose alpha (`IsAlphaVisible`).
 
 `GenitalOrganPrototype` (catalog): `genitalType`, localized `name`, and an ordered `sizes` list.
 Each size maps to a `flaccid` render marking and an optional `aroused` one. `CanArouse` is false
@@ -63,7 +66,7 @@ queries).
 
 ## Flow
 
-1. The editor's **Genitals** tab builds dropdowns from the catalog and stores choices in
+1. The editor's **Body** tab builds dropdowns from the catalog and stores choices in
    `HumanoidCharacterProfile.Genitals` via `WithGenitals`. `EnsureValid` validates prototypes and
    sizes and clamps semen volume.
 2. `SharedHumanoidAppearanceSystem.LoadProfile` raises `HumanoidProfileAppliedEvent` after applying
@@ -211,20 +214,42 @@ queries).
 
 ## Editor tab
 
-Dynamic `Genitals` tab (like Flavor Text, so upstream tab indices do not change). Per organ type:
-enable checkbox, Type dropdown (catalog prototypes), Size dropdown (catalog sizes), Visibility
-dropdown (Always hidden / Hidden by underwear / Hidden by jumpsuit / Never hidden / Visible under
-clothes), a **Skin tone**
-checkbox for organs whose catalog has skin-shaded variants (breasts), a collapsible **Colors**
-section with primary + detail `ColorSelectorSliders` (alpha enabled) and a "Use skin
-color" reset (null colors follow the skin), plus Glow/Detail glow sliders (0-100%) in the same
-section; a collapsible **Transform** section with Scale and Offset X/Y sliders + spin boxes (scale
-0.25-3, offset ±1, mirroring the marking picker's transform controls) and a reset button; plus a
-`Fluid per climax` SpinBox. Changing anything calls `WithGenitals`, marks the profile dirty and
-reloads the preview.
+The tab is titled **Body** (`humanoid-profile-editor-body-tab`), not "Genitals". It is still a
+dynamic page appended by `HumanoidProfileEditor.RefreshGenitals`, so the upstream tab indices do
+not change, and it still only exists while the NSFW account gate is open. The page control is
+stored explicitly (`_genitalsPage`) so NSFW-off removal does not assume it is the last child.
 
-The MarkingPicker ignores the `Genital` category; profiles with old genital markings are converted
-to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
+`GenitalEditorControl` is a two-part layout:
+
+1. **Preview strip** — compact `Clothes`, `Undergarments` and `Aroused` toggles with a "preview
+   only; not saved" hint. `Clothes` stays in sync with the Appearance tab's `ShowClothes`
+   checkbox. The other two call the existing preview helpers in `HumanoidProfileEditor`.
+2. **Organ selector** — one toggle button per `GenitalType` that has a catalog, ordered Penis,
+   Vagina, Balls, Breasts, Butt, Belly. `Anus` is omitted while it has no organ art. A filled dot
+   (`●`) means the organ is enabled; a hollow dot (`○`) means it is not. `ButtonGroup` enforces a
+   single selection, and only the selected `GenitalOrganPanel` is visible.
+3. **Detail card** — `GenitalOrganPanel` groups the controls:
+   - Basics: Enable checkbox, Type, Size, Visibility with a live help line explaining the rule.
+   - Appearance: `Use skin color` checkbox (the pickers hide while it is on), primary color,
+     detail/nipple color and detail glow only when the selected marking has a second color group,
+     primary glow, and Skin tone only for catalogs with skin-shaded variants.
+   - Transform: Scale X (25-300%) with a lock button that reveals a separate Scale Y, Offset X/Y
+     (-100..100) and `Reset organ`.
+   - Footer: `Remove organ` (unchecks Enable).
+   Changing type keeps the current size number where the new catalog supports it, rather than
+   always resetting to size 1.
+4. **Global card** — `Fluid per climax` (1-500) with a hint that it applies to all climaxes, plus
+   `Reset all organs` (a `ConfirmButton`).
+
+The editor builds one panel per organ type and toggles `Visible`, so switching organs preserves
+each panel's state and does not rebuild the tree. `GenitalOrganPanel.SetData` and
+`GenitalEditorControl.SetSettings` are silent (they do not raise `SettingsChanged`); user edits
+flow through a single `SettingsChanged` event, which `HumanoidProfileEditor` turns into
+`WithGenitals` + `SetDirty` + `ReloadProfilePreview`. The five slider/spin-box pairs use the
+shared `SliderSpinBox` control instead of per-control `_setting...From...` flags.
+
+The MarkingPicker still ignores the `Genital` category; profiles with old genital markings are
+converted to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
 `HumanoidCharacterProfile.EnsureValid`.
 
 - Colors: each organ stores `Color`/`DetailColor` (null = skin). The detail color maps to the second
@@ -232,24 +257,25 @@ to organs (`GenitalOrganSettings.TryConvertMarking`) and stripped in
   shows the detail picker when the selected marking actually has a second group (Coyote breasts
   don't). `GenitalOrganSystem.CountColorGroups` resolves `colorLinks`.
 - Transform: each organ stores a `Vector2 Offset` (applied via `Marking.SetOffset`, clamped ±2) and
-  a `float Scale` (applied via `Marking.SetScale`, 0.25-3 in the editor), so organs can be nudged
-  and scaled exactly like markings. The DB string keeps them in optional 7th/8th segments
-  (`type:proto:size:visibility:color:detail:ox,oy:scale:glow,detailGlow:skintone`, `-` for null
-  colors/zero offset/zero glow); old 4/5/6/9-segment strings still parse.
+  a `float Scale` plus optional `float ScaleY` (applied via `Marking.SetScale(Vector2)`, 0.25-3 in
+  the editor), so organs can be nudged and scaled exactly like markings. `ScaleY = 0` means
+  "same as Scale"; the lock button in the editor writes that form. The DB string keeps them in
+  optional 7th/8th segments
+  (`type:proto:size:visibility:color:detail:ox,oy:scale[,scaleY]:glow,detailGlow:skintone`, `-` for
+  null colors/zero offset/zero glow); old 4/5/6/9-segment strings and single-value scale fields
+  still parse.
 - Legacy conversion: `TryConvertMarking` walks the organ catalog and matches the marking id against
   each size's flaccid/aroused/skintoned render marking (e.g. `PSGenitalBreasts7` -> `BreastsSplurt`
   size 8, `GenitalVaginaHuman` -> `VaginaHuman`, `GenitalButt1` -> `ButtStandard` size 1; matching a
   skintoned marking also sets `SkinTone`). An organ type that is already configured is never
   overwritten.
-- Preview: the Genitals tab has a **Show undergarments in preview** checkbox that toggles
-  undergarment marking visibility on the preview dummy only (not saved), so organs can be inspected.
-  A **Preview aroused organs** checkbox switches every configured organ on the dummy to its aroused
-  render marking (also preview-only, re-applied after profile reloads). Both preview toggles must
-  call `HumanoidAppearanceSystem.RefreshSprite` afterwards — `SyncRender` only updates the local
-  marking set, which does not rebuild sprite layers by itself. Organ sections are split by
-  `HSeparator`s. The tab is wrapped in a `ScrollContainer` (the six organ sections overflow the
-  window). Local visibility toggles call `HumanoidAppearanceSystem.RefreshSprite` because the event
-  bus only allows one `MarkingVisibilityChangedEvent` subscriber (owned by `GenitalOrganSystem`).
+- Preview: the Body tab has compact **Undergarments** and **Aroused** toggles. Undergarments toggles
+  undergarment marking visibility on the preview dummy only (not saved); Aroused calls
+  `GenitalOrganSystem.SetAroused` for every organ type in the editor (also preview-only, re-applied
+  after profile reloads). Both preview toggles must call `HumanoidAppearanceSystem.RefreshSprite`
+  afterwards — `SyncRender` only updates the local marking set, which does not rebuild sprite layers
+  by itself. Local visibility toggles also call `RefreshSprite` because the event bus only allows one
+  `MarkingVisibilityChangedEvent` subscriber (owned by `GenitalOrganSystem`).
 
 ## Hazards
 

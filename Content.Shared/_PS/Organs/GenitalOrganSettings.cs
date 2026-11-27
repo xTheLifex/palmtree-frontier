@@ -112,6 +112,12 @@ public sealed partial class GenitalOrganSettings
 
             organ.Offset = new Vector2(Math.Clamp(organ.Offset.X, -2f, 2f), Math.Clamp(organ.Offset.Y, -2f, 2f));
             organ.Scale = Math.Clamp(organ.Scale, MinScale, MaxScale);
+            if (organ.ScaleY > 0f)
+            {
+                organ.ScaleY = Math.Clamp(organ.ScaleY, MinScale, MaxScale);
+                if (Math.Abs(organ.ScaleY - organ.Scale) < 0.0001f)
+                    organ.ScaleY = 0f;
+            }
             organ.Glow = Math.Clamp(organ.Glow, 0f, 1f);
             organ.DetailGlow = Math.Clamp(organ.DetailGlow, 0f, 1f);
 
@@ -165,7 +171,8 @@ public sealed partial class GenitalOrganSettings
             // colors and zero values become '-' placeholders so later segments can still be written.
             var hasColors = organ.Color != null || organ.DetailColor != null;
             var hasOffset = organ.Offset != Vector2.Zero;
-            var hasScale = organ.Scale != 1f;
+            var scaleY = organ.ScaleY > 0f ? organ.ScaleY : organ.Scale;
+            var hasScale = organ.Scale != 1f || scaleY != 1f;
             var hasGlow = organ.Glow > 0f || organ.DetailGlow > 0f;
 
             if (hasColors || hasOffset || hasScale || hasGlow || organ.SkinTone)
@@ -175,7 +182,13 @@ public sealed partial class GenitalOrganSettings
                     ? organ.Offset.X.ToString(CultureInfo.InvariantCulture) + ","
                         + organ.Offset.Y.ToString(CultureInfo.InvariantCulture)
                     : "-");
-                part += ":" + (hasScale ? organ.Scale.ToString(CultureInfo.InvariantCulture) : "-");
+
+                // Uniform scales keep the old single-number format; independent axes add ',Y'.
+                var scaleText = organ.Scale.ToString(CultureInfo.InvariantCulture);
+                if (Math.Abs(scaleY - organ.Scale) >= 0.0001f)
+                    scaleText += "," + scaleY.ToString(CultureInfo.InvariantCulture);
+
+                part += ":" + (hasScale ? scaleText : "-");
                 part += ":" + (hasGlow
                     ? organ.Glow.ToString(CultureInfo.InvariantCulture) + ","
                         + organ.DetailGlow.ToString(CultureInfo.InvariantCulture)
@@ -243,10 +256,23 @@ public sealed partial class GenitalOrganSettings
             }
 
             var scale = 1f;
-            if (halves.Length >= 8 && halves[7] != "-" &&
-                float.TryParse(halves[7], NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedScale))
+            var scaleY = 0f;
+            if (halves.Length >= 8 && halves[7] != "-")
             {
-                scale = parsedScale;
+                var scaleParts = halves[7].Split(',');
+                if (scaleParts.Length == 1 &&
+                    float.TryParse(scaleParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedScale))
+                {
+                    scale = parsedScale;
+                }
+                else if (scaleParts.Length == 2 &&
+                         float.TryParse(scaleParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedScaleX) &&
+                         float.TryParse(scaleParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var parsedScaleY))
+                {
+                    scale = parsedScaleX;
+                    if (Math.Abs(parsedScaleY - parsedScaleX) >= 0.0001f)
+                        scaleY = parsedScaleY;
+                }
             }
 
             var glow = 0f;
@@ -273,6 +299,7 @@ public sealed partial class GenitalOrganSettings
                 DetailColor = detailColor,
                 Offset = offset,
                 Scale = scale,
+                ScaleY = scaleY,
                 Glow = glow,
                 DetailGlow = detailGlow,
                 SkinTone = skinTone,
@@ -341,9 +368,22 @@ public sealed partial class GenitalOrganData
     [DataField("offset")]
     public Vector2 Offset;
 
-    /// <summary>Sprite scale multiplier applied to the organ's render marking (like marking scale).</summary>
+    /// <summary>
+    /// Horizontal sprite scale multiplier applied to the organ's render marking (like marking
+    /// scale). This is also the uniform scale when <see cref="ScaleY"/> is zero.
+    /// </summary>
     [DataField("scale")]
     public float Scale = 1f;
+
+    /// <summary>
+    /// Independent vertical sprite scale multiplier; zero follows <see cref="Scale"/>. Older
+    /// exported profiles only contain <c>scale</c>, so they keep rendering uniformly.
+    /// </summary>
+    [DataField("scaleY")]
+    public float ScaleY;
+
+    /// <summary>The effective render scale, with the legacy uniform fallback.</summary>
+    public Vector2 ScaleVector => new(Scale, ScaleY > 0f ? ScaleY : Scale);
 
     /// <summary>Glow level (0-1) for the primary color group, like marking glow.</summary>
     [DataField("glow")]
@@ -372,6 +412,7 @@ public sealed partial class GenitalOrganData
             DetailColor = DetailColor,
             Offset = Offset,
             Scale = Scale,
+            ScaleY = ScaleY,
             Glow = Glow,
             DetailGlow = DetailGlow,
             SkinTone = SkinTone,
@@ -389,6 +430,7 @@ public sealed partial class GenitalOrganData
                Nullable.Equals(DetailColor, other.DetailColor) &&
                Offset.Equals(other.Offset) &&
                Scale.Equals(other.Scale) &&
+               ScaleY.Equals(other.ScaleY) &&
                Glow.Equals(other.Glow) &&
                DetailGlow.Equals(other.DetailGlow) &&
                SkinTone == other.SkinTone;
