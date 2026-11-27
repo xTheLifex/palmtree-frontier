@@ -221,12 +221,71 @@ Implementation notes:
 
 ### Wave 2 — MarkingPicker
 
-- Reuse `SliderSpinBox` for marking glow and transform.
-- Replace the bare category `OptionButton` with category chips or a counts list; keep the search
-  box next to it.
-- Move the selected marking's colors/settings into a persistent side card instead of a block that
-  appears under the two lists, so the list does not jump.
-- Keep the existing two-list "unused / used" workflow; it is functional and familiar.
+The Markings tab is the last dense editor surface. It currently uses a category `OptionButton`, two
+fixed lists and a color/settings block that appears under them, so selecting a marking changes the
+height of the whole tab. The plan keeps the familiar available/applied workflow but makes the
+layout stable.
+
+Target layout (left-pane friendly; the character preview stays on the right):
+
+```
+┌ Markings ────────────────────────────────────────────────────────────────┐
+│ [Chest 3/10] [Head 0/10] [Tail 5/10] ...   [Search................] [x]   │
+│ 8/10 markings · 5 points left                                            │
+│                                                                          │
+│ Available                          Applied                               │
+│ [icon] Ahoge                       [1] [icon] Fox tail                   │
+│ [icon] ...                         [2] [icon] ...                        │
+│ ...                                ...                                   │
+│ [Add]                              [▲] [▼] [Remove]                      │
+│                                                                          │
+│ ┌ Selected: Fox tail (Tail) ──────────────────────────────── [Remove] ─┐ │
+│ │ [large icon] Colors                                                   │ │
+│ │  Color 1 [picker]  Glow [slider] [0]%                                 │ │
+│ │  Color 2 [picker]  Glow [slider] [0]%                                 │ │
+│ │ Transform  Scale [slider] [100]%  Offset X [slider] [0]  [Reset]      │ │
+│ │ Advanced   [ ] Self toggle  [ ] Others can toggle  Name [.........]   │ │
+│ └───────────────────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+Concrete work:
+
+1. **Category chips** — replace `CMarkingCategoryButton` with a `GridContainer` of toggle
+   buttons (3–4 columns, selected via `ButtonGroup`). Each shows the localized category and its
+   applied/limit count (`Tail 5/10`); show only categories that have markings for the current
+   species/sex and are not in `IgnoreCategories`. Keep the search field and add a compact
+   `Applied x/y · N points left` summary. This removes the hidden dropdown and makes navigation
+   one click.
+2. **Stable detail card** — move the current `CMarkingColors` block into a dedicated
+   `MarkingDetailPanel` below the two lists. It shows the selected marking's name, category,
+   larger icon and a forced badge; the lists do not move when it opens. Empty states:
+   "Select a marking to edit" and "No markings in this category".
+3. **Color groups, not sprites** — show one color picker/glow pair per independent color group
+   resolved through `MarkingPrototype.ColorLinks`, instead of one per sprite. The renderer already
+   copies the parent color to linked child states, so the current extra pickers are misleading and
+   make complex markings huge. Extract the existing root-resolution logic from
+   `GenitalOrganSystem` into a shared `MarkingColorGroups` helper and use it in both places.
+4. **Transform and settings** — reuse `SliderSpinBox` for scale/offset/glow, then expose
+   `Scale`, `Offset X`, `Offset Y` in one compact transform row. Keep the collapsible custom
+   name/self-toggle/other-toggle settings, but show a "modified" marker when they differ from
+   defaults. Add **Reset marking** (colors, glow, transform and settings) next to Remove.
+5. **Exact marking binding** — the current detail panel resolves the selected marking with
+   `FindIndexOf(category, prototype.ID)`. Store the actual `Marking` instance/index in the used
+   list item metadata so duplicate IDs or rank moves cannot edit the wrong entry.
+6. **Lists** — keep the two-list add/remove workflow and rank buttons. Add headers with counts,
+   empty states, and keep the selected used marking highlighted after add/rank. Do not add
+   drag-and-drop: `ItemList` has no reliable reorder gesture and the rank buttons already work.
+7. **Unchanged contracts** — `OnMarkingAdded`/`OnMarkingRemoved`/`OnMarkingColorChange`/
+   `OnMarkingRankChange`, `SetData` overloads, `Forced`, `IgnoreSpecies`, `ShowSnoutAboveHair`,
+   leg-style events and the `HumanoidMarkingModifierWindow` admin use must all keep working.
+   This is UI-only; no profile, DB or marking serialization changes.
+
+Risks/verification: color grouping must match `HumanoidAppearanceSystem`'s `colorLinks` pass
+(unit-test the helper); duplicate marking IDs; points at the cap and `Forced` mode; switching
+species/sex; search with a selection; import/export; the admin modifier window at its 700 px
+minimum; narrow editor widths and 1.5 UI scale.
+
 
 ### Wave 3 — polish
 
