@@ -2407,3 +2407,17 @@ Entries:
   time: '2026-11-27T16:29:19.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/1ac6b761db394b3baa1dc1c7d4fa3fd1b165051b
+- author: xTheLifex
+  changes:
+    - type: Fix
+      message: >-
+        Fixed SlimePerson legs staying plantigrade when the digitigrade leg
+        style was selected.
+    - type: Fix
+      message: >-
+        Digitigrade is no longer offered for species that have no digitigrade
+        leg sprites.
+  id: 90163
+  time: '2026-11-27T16:30:48.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/55d6f539ea92aafaedade824159d680f7e624569
