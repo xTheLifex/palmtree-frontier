@@ -98,12 +98,19 @@ characters).
 ## Digitigrade legs & clothing displacement
 
 - `HumanoidCharacterAppearance.LegStyle` is chosen in the marking picker (`Plantigrade`/`Digitigrade`)
-  and persisted/exported with the profile.
+  and persisted/exported with the profile. The picker only lists styles the species actually has
+  art for: `SharedHumanoidAppearanceSystem.SupportsLegStyle` checks `altSprites` on the species'
+  `LLeg` base sprite. Loading an unsupported style or switching to a species without it coerces the
+  profile back to `Plantigrade` instead of silently saving a no-op.
 - Species base sprites use `altSprites` (e.g. `MobSynthLLeg → DigilegSynthlizLegLeft`); markings use
   their own `altSprites` (species adaptors → `DigilegPaw*`/`DigilegFurry*`) via
   `HumanoidAppearanceSystem.GetMarkingForLegStyle` (client). Anthromorph/Reptilian species base
   sprites were missing `altSprites` entirely (digitigrade did nothing) and got them for torso, legs
-  and feet; the vulpkanin tail markings got their `altSprites → DigiVulpTail*` mappings.
+  and feet; the vulpkanin tail markings got their `altSprites → DigiVulpTail*` mappings. SlimePerson
+  was the same: `MobSlimeTorso*`, `LLeg`, `RLeg`, `LFoot` and `RFoot` now point at
+  `DigilegSlimeTorso*` / `DigilegPawSlime*`. Any species that exposes the leg-style picker needs
+  `altSprites` on every torso/leg/foot base sprite or the bare legs will not change even though
+  clothing displacement does.
 - The shared `BaseMobSpeciesOrganic` `Sprite` layer list was missing the behind-leg layers
   (`RLegBehind`/`LLegBehind`/`LFootBehind`/`RFootBehind`); they were added in the correct draw
   order. `LayerMapReserve` appends unknown layers at the end otherwise, so the digitigrade behind

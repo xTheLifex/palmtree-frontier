@@ -168,11 +168,17 @@
     sprite: Mobs/Species/Slime/parts.rsi
     state: torso_m
 
+  altSprites:
+    Digitigrade: DigilegSlimeTorsoMale
+
 - type: humanoidBaseSprite
   id: MobSlimeTorsoMale
   baseSprite:
     sprite: Mobs/Species/Slime/parts.rsi
     state: torso_m
+
+  altSprites:
+    Digitigrade: DigilegSlimeTorsoMale
 
 - type: humanoidBaseSprite
   id: MobSlimeTorsoFemale
@@ -180,11 +186,17 @@
     sprite: Mobs/Species/Slime/parts.rsi
     state: torso_f
 
+  altSprites:
+    Digitigrade: DigilegSlimeTorsoFemale
+
 - type: humanoidBaseSprite
   id: MobSlimeLLeg
   baseSprite:
     sprite: Mobs/Species/Slime/parts.rsi
     state: l_leg
+
+  altSprites:
+    Digitigrade: DigilegPawSlimeLegLeft
 
 - type: humanoidBaseSprite
   id: MobSlimeLArm
@@ -204,11 +216,17 @@
     sprite: Mobs/Species/Slime/parts.rsi
     state: l_foot
 
+  altSprites:
+    Digitigrade: DigilegPawSlimeFootLeft
+
 - type: humanoidBaseSprite
   id: MobSlimeRLeg
   baseSprite:
     sprite: Mobs/Species/Slime/parts.rsi
     state: r_leg
+
+  altSprites:
+    Digitigrade: DigilegPawSlimeLegRight
 
 - type: humanoidBaseSprite
   id: MobSlimeRArm
@@ -227,3 +245,6 @@
   baseSprite:
     sprite: Mobs/Species/Slime/parts.rsi
     state: r_foot
+
+  altSprites:
+    Digitigrade: DigilegPawSlimeFootRight

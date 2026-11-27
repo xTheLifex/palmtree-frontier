@@ -46,6 +46,30 @@ public abstract partial class SharedHumanoidAppearanceSystem : EntitySystem
 
     public static readonly ProtoId<SpeciesPrototype> DefaultSpecies = "Human";
 
+    /// <summary>
+    /// Palmtree/Coyote: whether a species has base art for the given leg style. The marking picker
+    /// hides unsupported styles so players cannot select a no-op (the bare legs would stay
+    /// plantigrade while only clothing displacement changed).
+    /// </summary>
+    public static bool SupportsLegStyle(
+        IPrototypeManager prototypeManager,
+        string species,
+        HumanoidLegStyle legStyle)
+    {
+        if (legStyle == HumanoidLegStyle.Plantigrade)
+            return true;
+
+        if (!prototypeManager.TryIndex<SpeciesPrototype>(species, out var speciesProto)
+            || !prototypeManager.TryIndex<HumanoidSpeciesBaseSpritesPrototype>(speciesProto.SpriteSet, out var baseSprites))
+        {
+            return false;
+        }
+
+        return baseSprites.Sprites.TryGetValue(HumanoidVisualLayers.LLeg, out var legSprite)
+               && prototypeManager.TryIndex<HumanoidSpeciesSpriteLayer>(legSprite, out var legProto)
+               && legProto.AltSprites.ContainsKey(legStyle);
+    }
+
     public override void Initialize()
     {
         base.Initialize();

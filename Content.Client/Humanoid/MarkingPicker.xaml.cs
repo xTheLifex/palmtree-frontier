@@ -49,7 +49,6 @@ public sealed partial class MarkingPicker : Control
     private readonly HashSet<HumanoidLegStyle> _availableLegStyles = new()
     {
         HumanoidLegStyle.Plantigrade,
-        HumanoidLegStyle.Digitigrade,
     };
 
     private ItemList.Item? _selectedMarking;
@@ -120,9 +119,8 @@ public sealed partial class MarkingPicker : Control
         CurrentSkinColor = skinColor;
         CurrentEyeColor = eyeColor;
 
-        // Palmtree/Coyote
-        CurrentLegStyle = _availableLegStyles.Contains(legStyle) ? legStyle : HumanoidLegStyle.Plantigrade;
-        SetupLegStyleButtons();
+        // Palmtree/Coyote: only offer leg styles the species actually has art for.
+        RefreshLegStyles(species, legStyle);
 
         Populate(CMarkingSearch.Text);
         PopulateUsed();
@@ -188,6 +186,25 @@ public sealed partial class MarkingPicker : Control
     {
         get => CSnoutAboveHair.Pressed;
         set => CSnoutAboveHair.Pressed = value;
+    }
+
+    // Palmtree/Coyote: rebuild the available leg styles for the current species. If the profile
+    // still carries an unsupported style (old save or a species switch), notify the editor so the
+    // profile is coerced back to plantigrade instead of silently saving a no-op.
+    private void RefreshLegStyles(string species, HumanoidLegStyle desired)
+    {
+        _availableLegStyles.Clear();
+        _availableLegStyles.Add(HumanoidLegStyle.Plantigrade);
+
+        if (SharedHumanoidAppearanceSystem.SupportsLegStyle(_prototypeManager, species, HumanoidLegStyle.Digitigrade))
+            _availableLegStyles.Add(HumanoidLegStyle.Digitigrade);
+
+        var next = _availableLegStyles.Contains(desired) ? desired : HumanoidLegStyle.Plantigrade;
+        CurrentLegStyle = next;
+        SetupLegStyleButtons();
+
+        if (next != desired)
+            OnLegStyleChanged?.Invoke(next);
     }
 
     // Palmtree/Coyote: leg style selector
@@ -406,6 +423,7 @@ public sealed partial class MarkingPicker : Control
     public void SetSpecies(string species)
     {
         _currentSpecies = species;
+        RefreshLegStyles(species, CurrentLegStyle);
         var markingList = _currentMarkings.GetForwardEnumerator().ToList();
 
         var speciesPrototype = _prototypeManager.Index<SpeciesPrototype>(species);
