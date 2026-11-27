@@ -47,6 +47,12 @@ namespace Content.Shared.Preferences
         };
 
         /// <summary>
+        /// Palmtree: optional custom ID card job titles, keyed by job prototype.
+        /// </summary>
+        [DataField]
+        private Dictionary<ProtoId<JobPrototype>, string> _jobCustomTitles = new();
+
+        /// <summary>
         /// Antags we have opted in to.
         /// </summary>
         [DataField]
@@ -166,6 +172,11 @@ namespace Content.Shared.Preferences
         public IReadOnlyDictionary<ProtoId<JobPrototype>, JobPriority> JobPriorities => _jobPriorities;
 
         /// <summary>
+        /// Palmtree: optional custom ID card job titles, keyed by job prototype.
+        /// </summary>
+        public IReadOnlyDictionary<ProtoId<JobPrototype>, string> JobCustomTitles => _jobCustomTitles;
+
+        /// <summary>
         /// <see cref="_antagPreferences"/>
         /// </summary>
         public IReadOnlySet<ProtoId<AntagPrototype>> AntagPreferences => _antagPreferences;
@@ -234,6 +245,7 @@ namespace Content.Shared.Preferences
             Height = other.Height; // Palmtree
             Width = other.Width; // Palmtree
             SnoutAboveHair = other.SnoutAboveHair; // Palmtree
+            _jobCustomTitles = new Dictionary<ProtoId<JobPrototype>, string>(other._jobCustomTitles); // Palmtree
         }
 
         /// <summary>Copy constructor</summary>
@@ -260,6 +272,7 @@ namespace Content.Shared.Preferences
             Height = other.Height; // Palmtree
             Width = other.Width; // Palmtree
             SnoutAboveHair = other.SnoutAboveHair; // Palmtree
+            _jobCustomTitles = new Dictionary<ProtoId<JobPrototype>, string>(other._jobCustomTitles); // Palmtree
         }
 
         /// <summary>
@@ -486,9 +499,11 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithJobPriority(ProtoId<JobPrototype> jobId, JobPriority priority)
         {
             var dictionary = new Dictionary<ProtoId<JobPrototype>, JobPriority>(_jobPriorities);
+            var customTitles = new Dictionary<ProtoId<JobPrototype>, string>(_jobCustomTitles);
             if (priority == JobPriority.Never)
             {
                 dictionary.Remove(jobId);
+                customTitles.Remove(jobId);
             }
             else if (priority == JobPriority.High)
             {
@@ -509,12 +524,45 @@ namespace Content.Shared.Preferences
             return new(this)
             {
                 _jobPriorities = dictionary,
+                _jobCustomTitles = customTitles,
             };
         }
 
         public HumanoidCharacterProfile WithPreferenceUnavailable(PreferenceUnavailableMode mode)
         {
             return new(this) { PreferenceUnavailable = mode };
+        }
+
+        /// <summary>
+        /// Palmtree: sets or clears the optional ID card title for one job.
+        /// </summary>
+        public HumanoidCharacterProfile WithJobCustomTitle(ProtoId<JobPrototype> jobId, string? title)
+        {
+            var dictionary = new Dictionary<ProtoId<JobPrototype>, string>(_jobCustomTitles);
+            if (string.IsNullOrWhiteSpace(title))
+                dictionary.Remove(jobId);
+            else
+                dictionary[jobId] = title;
+
+            return new(this)
+            {
+                _jobCustomTitles = dictionary,
+            };
+        }
+
+        /// <summary>Palmtree: replaces every custom job title, used by the DB converter.</summary>
+        public HumanoidCharacterProfile WithJobCustomTitles(IReadOnlyDictionary<ProtoId<JobPrototype>, string> titles)
+        {
+            return new(this)
+            {
+                _jobCustomTitles = new Dictionary<ProtoId<JobPrototype>, string>(titles),
+            };
+        }
+
+        /// <summary>Palmtree: returns the custom title for a job, if one is set.</summary>
+        public string? GetJobCustomTitle(ProtoId<JobPrototype> jobId)
+        {
+            return _jobCustomTitles.GetValueOrDefault(jobId);
         }
 
         public HumanoidCharacterProfile WithAntagPreferences(IEnumerable<ProtoId<AntagPrototype>> antagPreferences)
@@ -630,6 +678,12 @@ namespace Content.Shared.Preferences
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
             if (!_jobPriorities.SequenceEqual(other._jobPriorities)) return false;
+            if (_jobCustomTitles.Count != other._jobCustomTitles.Count) return false; // Palmtree
+            foreach (var (job, title) in _jobCustomTitles) // Palmtree
+            {
+                if (!other._jobCustomTitles.TryGetValue(job, out var otherTitle) || title != otherTitle)
+                    return false;
+            } // Palmtree
             if (!_antagPreferences.SequenceEqual(other._antagPreferences)) return false;
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
             if (!_hiddenEmoteCategories.SequenceEqual(other._hiddenEmoteCategories)) return false; // Palmtree/Coyote
@@ -841,6 +895,36 @@ namespace Content.Shared.Preferences
             foreach (var (job, priority) in priorities)
             {
                 _jobPriorities.Add(job, priority);
+            }
+
+            // Palmtree: only keep custom ID titles for opt-in jobs, and clamp them to the ID card limit.
+            var maxIdJobLength = configManager.GetCVar(CCVars.MaxIdJobLength);
+            var customJobTitles = new Dictionary<ProtoId<JobPrototype>, string>();
+            foreach (var (jobId, title) in _jobCustomTitles)
+            {
+                if (string.IsNullOrWhiteSpace(title) ||
+                    !prototypeManager.TryIndex(jobId, out var job) ||
+                    !job.AllowCustomTitle)
+                {
+                    continue;
+                }
+
+                var trimmed = title
+                    .Replace('\r', ' ')
+                    .Replace('\n', ' ')
+                    .Trim();
+
+                if (trimmed.Length > maxIdJobLength)
+                    trimmed = trimmed[..maxIdJobLength];
+
+                if (trimmed.Length > 0)
+                    customJobTitles[jobId] = trimmed;
+            }
+
+            _jobCustomTitles.Clear();
+            foreach (var (job, title) in customJobTitles)
+            {
+                _jobCustomTitles[job] = title;
             }
 
             PreferenceUnavailable = prefsUnavailableMode;

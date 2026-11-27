@@ -444,6 +444,9 @@ namespace Content.Server.Database
 
         public string JobName { get; set; } = null!;
         public DbJobPriority Priority { get; set; }
+
+        /// <summary>Palmtree: optional custom ID card title for this job preference.</summary>
+        public string? CustomTitle { get; set; }
     }
 
     public enum DbJobPriority

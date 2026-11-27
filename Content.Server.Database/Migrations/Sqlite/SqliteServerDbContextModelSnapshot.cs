@@ -633,6 +633,10 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("job_id");
 
+                    b.Property<string>("CustomTitle")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("custom_title");
+
                     b.Property<string>("JobName")
                         .IsRequired()
                         .HasColumnType("TEXT")

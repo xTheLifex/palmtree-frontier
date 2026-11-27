@@ -1,5 +1,6 @@
 humanoid-profile-editor-body-tab = Body
 
+genital-editor-body-size = Body size
 genital-editor-preview = Preview
 genital-editor-preview-only = Preview only; these toggles are not saved.
 genital-editor-clothes = Clothes

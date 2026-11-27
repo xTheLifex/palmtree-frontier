@@ -9,6 +9,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Preferences;
 using Content.Shared.Preferences.Loadouts;
 using Content.Shared.Preferences.Loadouts.Effects;
+using Content.Shared.Roles;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Robust.Shared.Configuration;
@@ -62,6 +63,10 @@ namespace Content.IntegrationTests.Tests.Preferences
                     new (),
                     HumanoidLegStyle.Digitigrade) // Palmtree/Coyote: leg style round-trip
             };
+
+            // Palmtree: custom ID job title round-trip (only for opt-in jobs).
+            profile = profile.WithJobPriority("Contractor", JobPriority.High)
+                .WithJobCustomTitle("Contractor", "Freelancer");
 
             // Palmtree: genital organ + semen volume round-trip.
             profile.Genitals.Set(GenitalType.Penis, new GenitalOrganData

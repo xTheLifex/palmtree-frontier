@@ -268,6 +268,9 @@ namespace Content.Server.Database
         private static HumanoidCharacterProfile ConvertProfiles(Profile profile)
         {
             var jobs = profile.Jobs.ToDictionary(j => new ProtoId<JobPrototype>(j.JobName), j => (JobPriority) j.Priority);
+            var jobCustomTitles = profile.Jobs
+                .Where(j => !string.IsNullOrWhiteSpace(j.CustomTitle))
+                .ToDictionary(j => new ProtoId<JobPrototype>(j.JobName), j => j.CustomTitle!); // Palmtree
             var antags = profile.Antags.Select(a => new ProtoId<AntagPrototype>(a.AntagName));
             var traits = profile.Traits.Select(t => new ProtoId<TraitPrototype>(t.TraitName));
 
@@ -344,7 +347,7 @@ namespace Content.Server.Database
                 loadouts[role.RoleName] = loadout;
             }
 
-            return new HumanoidCharacterProfile(
+            var result = new HumanoidCharacterProfile(
                 profile.CharacterName,
                 profile.FlavorText,
                 profile.Species,
@@ -379,6 +382,8 @@ namespace Content.Server.Database
                 Width = profile.Width, // Palmtree
                 SnoutAboveHair = profile.SnoutAboveHair, // Palmtree
             };
+
+            return result.WithJobCustomTitles(jobCustomTitles); // Palmtree
         }
 
         private static Profile ConvertProfiles(HumanoidCharacterProfile humanoid, int slot, Profile? profile = null)
@@ -421,7 +426,13 @@ namespace Content.Server.Database
             profile.Jobs.AddRange(
                 humanoid.JobPriorities
                     .Where(j => j.Value != JobPriority.Never)
-                    .Select(j => new Job {JobName = j.Key, Priority = (DbJobPriority) j.Value})
+                    .Select(j => new Job
+                    {
+                        JobName = j.Key,
+                        Priority = (DbJobPriority) j.Value,
+                        // Palmtree: only stored for jobs that opted in; EnsureValid strips the rest.
+                        CustomTitle = humanoid.JobCustomTitles.GetValueOrDefault(j.Key),
+                    })
             );
 
             profile.Antags.Clear();

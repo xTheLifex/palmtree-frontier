@@ -671,6 +671,10 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CustomTitle")
+                        .HasColumnType("text")
+                        .HasColumnName("custom_title");
+
                     b.Property<string>("JobName")
                         .IsRequired()
                         .HasColumnType("text")

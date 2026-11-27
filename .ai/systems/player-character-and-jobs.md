@@ -71,6 +71,18 @@ All playable species carry `kind` lists so Floof/Coyote markings apply via `kind
 - **Job whitelists are disabled** in the config presets (`Resources/ConfigPresets/_NF/frontier.toml`,
   `hypatia.toml`, `maunder.toml`, `Build/development.toml`): `game.role_whitelist = false`. Playtime
   requirements (`game.role_timers`) are untouched, and admins bypass playtime only.
+- **Custom job titles (Palmtree):** `JobPrototype.AllowCustomTitle` opts a job into a player-chosen
+  ID card title; currently `Contractor`, `Pilot` and `Mercenary` have `allowCustomTitle: true`.
+  `HumanoidCharacterProfile.JobCustomTitles` stores one optional title per job (trimmed, newline
+  stripped and clamped to `CCVars.MaxIdJobLength`). `EnsureValid` drops titles for jobs that do not
+  exist or do not opt in, so NFSD/pirate/other restricted jobs cannot use them even if a client
+  sends one. The Jobs tab shows a text field under each opt-in job. On spawn,
+  `StationSpawningSystem.SetPdaAndIdCardData` applies the title to the ID card in place of
+  `JobPrototype.LocalizedName`; access, job icon, crew records and the mind's job role still use
+  the real job prototype. Persisted in the nullable `job.custom_title` column (migration
+  `AddJobCustomTitle`). `PresetIdCardSystem.PlayerJobsAssigned` runs after players spawn to fix
+  extended access; it writes access only and must not re-write the job title/department/icon, or it
+  overwrites the custom title (only the `MapInit` pass updates identity fields).
 
 ## Markings in the profile
 

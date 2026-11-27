@@ -73,6 +73,7 @@ namespace Content.Client.Lobby.UI
 
         // CCvar.
         private int _maxNameLength;
+        private int _maxIdJobLength;
         private bool _allowFlavorText;
 
         private FlavorText.FlavorText? _flavorText;
@@ -116,18 +117,27 @@ namespace Content.Client.Lobby.UI
 
         // Palmtree: Body tab (genital organs).
         private GenitalEditorControl? _genitalEditor;
-        private Control? _genitalsPage;
         private bool _showUndergarments = true;
         private bool _showAroused;
+        private bool _showClothes = true;
         private bool _updatingSnoutAboveHair; // Palmtree
 
         private List<(string, RequirementsSelector)> _jobPriorities = new();
+        private readonly Dictionary<ProtoId<JobPrototype>, List<BoxContainer>> _jobCustomTitleRows = new();
 
         private readonly Dictionary<string, BoxContainer> _jobCategories;
 
         private readonly Dictionary<string, EmoteCategoryWindow> _openEmoteWindows = new(); // Palmtree/Coyote: emote category picker
 
         private Direction _previewRotation = Direction.North;
+
+        private enum PreviewBackgroundKind : byte
+        {
+            Blank,
+            Steel,
+            Dark,
+            White,
+        }
 
         private ColorSelectorWithClipboard _rgbSkinColorSelector;
 
@@ -168,14 +178,20 @@ namespace Content.Client.Lobby.UI
             _random = IoCManager.Resolve<IRobustRandom>();
 
             _maxNameLength = _cfgManager.GetCVar(CCVars.MaxNameLength);
+            _maxIdJobLength = _cfgManager.GetCVar(CCVars.MaxIdJobLength);
             _allowFlavorText = _cfgManager.GetCVar(CCVars.FlavorText);
 
             MoreOptionsButton.OnToggled += args => MoreOptions.Visible = args.Pressed;
-            SpriteZoom.OnValueChanged += _ =>
+
+            PreviewBackgroundButton.AddItem(Loc.GetString("humanoid-profile-editor-preview-background-blank"), (int) PreviewBackgroundKind.Blank);
+            PreviewBackgroundButton.AddItem(Loc.GetString("humanoid-profile-editor-preview-background-steel"), (int) PreviewBackgroundKind.Steel);
+            PreviewBackgroundButton.AddItem(Loc.GetString("humanoid-profile-editor-preview-background-dark"), (int) PreviewBackgroundKind.Dark);
+            PreviewBackgroundButton.AddItem(Loc.GetString("humanoid-profile-editor-preview-background-white"), (int) PreviewBackgroundKind.White);
+            PreviewBackgroundButton.SelectId((int) PreviewBackgroundKind.Blank);
+            PreviewBackgroundButton.OnItemSelected += args =>
             {
-                var scale = Math.Clamp(SpriteZoom.Value, 4f, 16f);
-                SpriteView.Scale = new Vector2(scale, scale);
-                SpriteView.InvalidateMeasure();
+                PreviewBackgroundButton.SelectId(args.Id);
+                ApplyPreviewBackground((PreviewBackgroundKind) args.Id);
             };
 
             ImportButton.OnPressed += args =>
@@ -251,26 +267,12 @@ namespace Content.Client.Lobby.UI
 
             #endregion Age
 
-            #region Size (Palmtree)
+            #region Marking options (Palmtree)
 
-            CHeightSlider.OnValueChanged += _ => OnHeightChanged();
-            CWidthSlider.OnValueChanged += _ => OnWidthChanged();
-            Markings.ShowSnoutAboveHair = true; // Palmtree
-            Markings.OnSnoutAboveHairChanged += OnSnoutAboveHairChanged; // Palmtree
+            Markings.ShowSnoutAboveHair = true;
+            Markings.OnSnoutAboveHairChanged += OnSnoutAboveHairChanged;
 
-            CHeightReset.OnPressed += _ =>
-            {
-                CHeightSlider.SetValueWithoutEvent(1f);
-                OnHeightChanged();
-            };
-
-            CWidthReset.OnPressed += _ =>
-            {
-                CWidthSlider.SetValueWithoutEvent(1f);
-                OnWidthChanged();
-            };
-
-            #endregion Size
+            #endregion Marking options
 
             #region Gender
 
@@ -532,12 +534,6 @@ namespace Content.Client.Lobby.UI
 
             #endregion Left
 
-            ShowClothes.OnToggled += args =>
-            {
-                _genitalEditor?.SetClothesPressed(args.Pressed);
-                ReloadPreview();
-            };
-
             SpeciesInfoButton.OnPressed += OnSpeciesInfoButtonPressed;
 
             UpdateSpeciesGuidebookIcon();
@@ -576,18 +572,11 @@ namespace Content.Client.Lobby.UI
         }
 
         /// <summary>
-        /// Palmtree: builds (once) and refreshes the Body tab. The tab (and therefore all organ
-        /// editing) only exists while the account has NSFW content enabled; organs already saved
-        /// in a profile are left untouched and simply hidden.
+        /// Palmtree: builds (once) and refreshes the Body tab. Height/width remain available when
+        /// the NSFW gate is closed; only the genital organ section is hidden in that case.
         /// </summary>
         public void RefreshGenitals()
         {
-            if (!NsfwGate.Allowed)
-            {
-                RemoveGenitalsTab();
-                return;
-            }
-
             if (_genitalEditor == null)
             {
                 _genitalEditor = new GenitalEditorControl(_prototypeManager);
@@ -595,6 +584,8 @@ namespace Content.Client.Lobby.UI
                 _genitalEditor.ClothesToggled += OnGenitalClothesToggled;
                 _genitalEditor.UndergarmentsToggled += OnGenitalUndergarmentsToggled;
                 _genitalEditor.ArousedToggled += OnGenitalArousedToggled;
+                _genitalEditor.HeightChanged += OnBodyHeightChanged;
+                _genitalEditor.WidthChanged += OnBodyWidthChanged;
 
                 var scroll = new ScrollContainer
                 {
@@ -604,56 +595,48 @@ namespace Content.Client.Lobby.UI
                 };
                 scroll.AddChild(_genitalEditor);
 
-                _genitalsPage = scroll;
                 TabContainer.AddChild(scroll);
                 TabContainer.SetTabTitle(scroll, Loc.GetString("humanoid-profile-editor-body-tab"));
+            }
+
+            _genitalEditor.SetGenitalContentVisible(NsfwGate.Allowed);
+
+            if (!NsfwGate.Allowed)
+            {
+                // The genital section is hidden, so its preview toggles cannot be changed anymore.
+                _showAroused = false;
+                _showUndergarments = true;
+                _showClothes = true;
+                ApplyPreviewArousal();
+                ApplyPreviewUndergarmentVisibility();
             }
 
             if (Profile == null)
                 return;
 
             _genitalEditor.SetSettings(Profile.Genitals, Profile.Appearance.SkinColor);
-            _genitalEditor.SetPreviewState(ShowClothes.Pressed, _showUndergarments, _showAroused);
+            _genitalEditor.SetBodySize(Profile.Height, Profile.Width);
+            _genitalEditor.SetPreviewState(_showClothes, _showUndergarments, _showAroused);
         }
 
-        /// <summary>
-        /// Palmtree: removes the Body tab (NSFW disabled). Uses the stored page control instead of
-        /// assuming the tab is the last child, so dynamic Flavor Text/Body pages can change order.
-        /// </summary>
-        private void RemoveGenitalsTab()
+        private void OnBodyHeightChanged(float value)
         {
-            if (_genitalEditor == null || _genitalsPage == null)
+            if (Profile == null)
                 return;
 
-            // Move the selection off the page before removing it so the TabContainer's index
-            // bookkeeping stays valid.
-            for (var i = 0; i < TabContainer.ChildCount; i++)
-            {
-                if (TabContainer.GetChild(i) != _genitalsPage)
-                    continue;
+            Profile = Profile.WithHeight(value);
+            SetDirty();
+            ReloadProfilePreview();
+        }
 
-                if (TabContainer.CurrentTab == i)
-                    TabContainer.CurrentTab = 0;
+        private void OnBodyWidthChanged(float value)
+        {
+            if (Profile == null)
+                return;
 
-                break;
-            }
-
-            TabContainer.RemoveChild(_genitalsPage);
-
-            _genitalEditor.SettingsChanged -= OnGenitalSettingsChanged;
-            _genitalEditor.ClothesToggled -= OnGenitalClothesToggled;
-            _genitalEditor.UndergarmentsToggled -= OnGenitalUndergarmentsToggled;
-            _genitalEditor.ArousedToggled -= OnGenitalArousedToggled;
-            _genitalEditor.Dispose();
-
-            _genitalEditor = null;
-            _genitalsPage = null;
-
-            // Reset the preview-only state so the dummy does not keep NSFW preview toggles on.
-            _showAroused = false;
-            _showUndergarments = true;
-            ApplyPreviewArousal();
-            ApplyPreviewUndergarmentVisibility();
+            Profile = Profile.WithWidth(value);
+            SetDirty();
+            ReloadProfilePreview();
         }
 
         private void OnGenitalSettingsChanged(GenitalOrganSettings settings)
@@ -668,9 +651,7 @@ namespace Content.Client.Lobby.UI
 
         private void OnGenitalClothesToggled(bool pressed)
         {
-            if (ShowClothes.Pressed != pressed)
-                ShowClothes.Pressed = pressed;
-
+            _showClothes = pressed;
             ReloadPreview();
         }
 
@@ -1124,7 +1105,7 @@ namespace Content.Client.Lobby.UI
             if (Profile == null || !_prototypeManager.HasIndex(Profile.Species))
                 return;
 
-            PreviewDummy = _controller.LoadProfileEntity(Profile, JobOverride, ShowClothes.Pressed);
+            PreviewDummy = _controller.LoadProfileEntity(Profile, JobOverride, _showClothes);
             SpriteView.SetEntity(PreviewDummy);
             ApplyPreviewLayerDirection(SpriteView.OverrideDirection ?? Direction.South);
             _entManager.System<MetaDataSystem>().SetEntityName(PreviewDummy, Profile.Name);
@@ -1167,7 +1148,6 @@ namespace Content.Client.Lobby.UI
             UpdateSpawnPriorityControls();
             UpdateVoiceBarkControls(); // Palmtree
             UpdateAgeEdit();
-            UpdateHeightWidthControls(); // Palmtree
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();
@@ -1240,6 +1220,7 @@ namespace Content.Client.Lobby.UI
             JobList.DisposeAllChildren();
             _jobCategories.Clear();
             _jobPriorities.Clear();
+            _jobCustomTitleRows.Clear();
             var firstCategory = true;
 
             // Get all displayed departments
@@ -1314,6 +1295,11 @@ namespace Content.Client.Lobby.UI
 
                 foreach (var job in jobs)
                 {
+                    var jobBlock = new BoxContainer()
+                    {
+                        Orientation = LayoutOrientation.Vertical,
+                    };
+
                     var jobContainer = new BoxContainer()
                     {
                         Orientation = LayoutOrientation.Horizontal,
@@ -1366,6 +1352,7 @@ namespace Content.Client.Lobby.UI
                         }
 
                         // TODO: Only reload on high change (either to or from).
+                        UpdateJobCustomTitleVisibility(job.ID);
                         ReloadPreview();
 
                         UpdateJobPriorities();
@@ -1412,7 +1399,46 @@ namespace Content.Client.Lobby.UI
                     _jobPriorities.Add((job.ID, selector));
                     jobContainer.AddChild(selector);
                     jobContainer.AddChild(loadoutWindowBtn);
-                    category.AddChild(jobContainer);
+                    jobBlock.AddChild(jobContainer);
+
+                    // Palmtree: opt-in jobs may use a custom ID card title at spawn.
+                    if (job.AllowCustomTitle)
+                    {
+                        var titleRow = new BoxContainer
+                        {
+                            Orientation = LayoutOrientation.Horizontal,
+                            Margin = new Thickness(3f, 0f, 3f, 3f),
+                        };
+
+                        titleRow.AddChild(new Label
+                        {
+                            Text = Loc.GetString("humanoid-profile-editor-custom-job-title"),
+                            MinSize = new Vector2(200, 0),
+                            VerticalAlignment = VAlignment.Center,
+                        });
+
+                        var titleEdit = new LineEdit
+                        {
+                            Text = Profile?.GetJobCustomTitle(job.ID) ?? string.Empty,
+                            PlaceHolder = Loc.GetString("humanoid-profile-editor-custom-job-title-placeholder"),
+                            ToolTip = Loc.GetString("humanoid-profile-editor-custom-job-title-tooltip"),
+                            HorizontalExpand = true,
+                            IsValid = text => text.Length <= _maxIdJobLength,
+                        };
+
+                        titleEdit.OnTextChanged += args =>
+                        {
+                            Profile = Profile?.WithJobCustomTitle(job.ID, args.Text);
+                            SetDirty();
+                        };
+
+                        titleRow.AddChild(titleEdit);
+                        jobBlock.AddChild(titleRow);
+                        _jobCustomTitleRows.GetOrNew(new ProtoId<JobPrototype>(job.ID)).Add(titleRow);
+                        titleRow.Visible = GetJobPriority(job.ID) != JobPriority.Never;
+                    }
+
+                    category.AddChild(jobBlock);
                 }
             }
 
@@ -1791,56 +1817,6 @@ namespace Content.Client.Lobby.UI
             AgeEdit.Text = Profile?.Age.ToString() ?? "";
         }
 
-        // Palmtree: height/width sliders (max double the standard size).
-        private void UpdateHeightWidthControls()
-        {
-            var height = Math.Clamp(Profile?.Height ?? 1f, HumanoidCharacterProfile.MinHeight, HumanoidCharacterProfile.MaxHeight);
-            var width = Math.Clamp(Profile?.Width ?? 1f, HumanoidCharacterProfile.MinWidth, HumanoidCharacterProfile.MaxWidth);
-
-            CHeightSlider.SetValueWithoutEvent(height);
-            CWidthSlider.SetValueWithoutEvent(width);
-            UpdateHeightLabel(height);
-            UpdateWidthLabel(width);
-        }
-
-        private void UpdateHeightLabel(float value)
-        {
-            CHeightLabel.Text = Loc.GetString("humanoid-profile-editor-height-label",
-                ("height", $"{value * 100f:F0}%"));
-        }
-
-        private void UpdateWidthLabel(float value)
-        {
-            CWidthLabel.Text = Loc.GetString("humanoid-profile-editor-width-label",
-                ("width", $"{value * 100f:F0}%"));
-        }
-
-        private void OnHeightChanged()
-        {
-            if (Profile == null)
-                return;
-
-            var value = Math.Clamp(CHeightSlider.Value, HumanoidCharacterProfile.MinHeight, HumanoidCharacterProfile.MaxHeight);
-            CHeightSlider.SetValueWithoutEvent(value);
-            UpdateHeightLabel(value);
-            Profile = Profile.WithHeight(value);
-            SetDirty();
-            ReloadProfilePreview();
-        }
-
-        private void OnWidthChanged()
-        {
-            if (Profile == null)
-                return;
-
-            var value = Math.Clamp(CWidthSlider.Value, HumanoidCharacterProfile.MinWidth, HumanoidCharacterProfile.MaxWidth);
-            CWidthSlider.SetValueWithoutEvent(value);
-            UpdateWidthLabel(value);
-            Profile = Profile.WithWidth(value);
-            SetDirty();
-            ReloadProfilePreview();
-        }
-
         // Palmtree: whether snout markings render above hair in east/west views.
         private void UpdateSnoutAboveHair()
         {
@@ -1869,6 +1845,24 @@ namespace Content.Client.Lobby.UI
                 var priority = Profile?.JobPriorities.GetValueOrDefault(jobId, JobPriority.Never) ?? JobPriority.Never;
                 prioritySelector.Select((int) priority);
             }
+        }
+
+        // Palmtree: custom job title fields only matter for jobs the player actually prioritized.
+        private void UpdateJobCustomTitleVisibility(ProtoId<JobPrototype> jobId)
+        {
+            var visible = GetJobPriority(jobId) != JobPriority.Never;
+            if (!_jobCustomTitleRows.TryGetValue(jobId, out var rows))
+                return;
+
+            foreach (var row in rows)
+            {
+                row.Visible = visible;
+            }
+        }
+
+        private JobPriority GetJobPriority(ProtoId<JobPrototype> jobId)
+        {
+            return Profile?.JobPriorities.GetValueOrDefault(jobId, JobPriority.Never) ?? JobPriority.Never;
         }
 
         private void UpdateSexControls()
@@ -2167,6 +2161,28 @@ namespace Content.Client.Lobby.UI
             SaveButton.Disabled = Profile is null || !IsDirty;
             ResetButton.Disabled = Profile is null || !IsDirty;
             DirtyLabel.Visible = IsDirty;
+        }
+
+        private void ApplyPreviewBackground(PreviewBackgroundKind background)
+        {
+            switch (background)
+            {
+                case PreviewBackgroundKind.Steel:
+                    PreviewTile.TexturePath = "/Textures/_PS/Interface/CharacterEditor/steel_tile.png";
+                    PreviewTile.Visible = true;
+                    break;
+                case PreviewBackgroundKind.Dark:
+                    PreviewTile.TexturePath = "/Textures/_PS/Interface/CharacterEditor/dark_tile.png";
+                    PreviewTile.Visible = true;
+                    break;
+                case PreviewBackgroundKind.White:
+                    PreviewTile.TexturePath = "/Textures/_PS/Interface/CharacterEditor/white_tile.png";
+                    PreviewTile.Visible = true;
+                    break;
+                default:
+                    PreviewTile.Visible = false;
+                    break;
+            }
         }
 
         private void SetPreviewRotation(Direction direction)

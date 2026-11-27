@@ -287,7 +287,11 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem
 
         if (prototype != null && TryComp(entity.Value, out MetaDataComponent? metaData))
         {
-            SetPdaAndIdCardData(entity.Value, metaData.EntityName, prototype, station);
+            string? customJobTitle = null;
+            if (profile != null && prototype.AllowCustomTitle)
+                profile.JobCustomTitles.TryGetValue(new ProtoId<JobPrototype>(prototype.ID), out customJobTitle);
+
+            SetPdaAndIdCardData(entity.Value, metaData.EntityName, prototype, station, customJobTitle);
         }
 
         DoJobSpecials(job, entity.Value);
@@ -313,7 +317,8 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem
     /// <param name="characterName">Character name to use for the ID.</param>
     /// <param name="jobPrototype">Job prototype to use for the PDA and ID.</param>
     /// <param name="station">The station this player is being spawned on.</param>
-    public void SetPdaAndIdCardData(EntityUid entity, string characterName, JobPrototype jobPrototype, EntityUid? station)
+    /// <param name="customJobTitle">Palmtree: optional player-chosen ID card title for opt-in jobs.</param>
+    public void SetPdaAndIdCardData(EntityUid entity, string characterName, JobPrototype jobPrototype, EntityUid? station, string? customJobTitle = null)
     {
         if (!InventorySystem.TryGetSlotEntity(entity, "id", out var idUid))
             return;
@@ -326,7 +331,7 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem
             return;
 
         _cardSystem.TryChangeFullName(cardId, characterName, card);
-        _cardSystem.TryChangeJobTitle(cardId, jobPrototype.LocalizedName, card);
+        _cardSystem.TryChangeJobTitle(cardId, customJobTitle ?? jobPrototype.LocalizedName, card);
 
         if (_prototypeManager.TryIndex(jobPrototype.Icon, out var jobIcon))
             _cardSystem.TryChangeJobIcon(cardId, jobIcon, card);

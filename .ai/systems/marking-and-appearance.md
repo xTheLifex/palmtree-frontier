@@ -306,10 +306,14 @@ tail). To add a new species, give every category it supports `points: 10`.
 
 `HumanoidCharacterProfile.Height`/`Width` are visual multipliers (standard `1`, clamped to
 `0.5`-`2` — the sliders max out at double the standard size). They are set by the **Height**/
-**Width** sliders in the editor's Appearance tab (`CHeightSlider`/`CWidthSlider`), copied to
+**Width** sliders at the top of the editor's **Body** tab (`GenitalEditorControl.HeightSlider`/
+`WidthSlider`, always visible even when the NSFW gate is closed), copied to
 `HumanoidAppearanceComponent.Height`/`Width` (networked) by `LoadProfile`, and applied on the client
-as `SpriteComponent.Scale = (Width, Height)` in `HumanoidAppearanceSystem.UpdateSprite`. Persisted
-in the `height`/`width` profile DB columns (`HeightWidth` migration, default 1).
+as `SpriteComponent.Scale = (Width, Height)` in `HumanoidAppearanceSystem.UpdateSprite`. The lobby
+preview `SpriteView` is a fixed `320x380` area with `Stretch=None` (no auto-fit) so body scale is
+visible relative to a single 160 px tile; `PreviewBackgroundButton` selects blank, steel, dark or
+white tile backgrounds. The fixed area prevents body scale from resizing the editor layout.
+Persisted in the `height`/`width` profile DB columns (`HeightWidth` migration, default 1).
 
 ## Genital content
 

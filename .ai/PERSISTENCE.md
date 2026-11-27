@@ -7,7 +7,7 @@
 
 | Area | Tables/columns | Notes |
 |---|---|---|
-| Preferences | `Preference` + `Profile` | Profile includes `Markings` (jsonb), nullable `VoiceBark` (Palmtree voice bark, `voice_bark` column), nullable `Genitals` (Palmtree genital organ selection string, `genitals` column, migration `GenitalOrgans`), `Height`/`Width` (`height`/`width` real columns, migration `HeightWidth`), `SnoutAboveHair` (`snout_above_hair` bool column, migration `SnoutAboveHair`) and `LegStyle` (`leg_style` text column, migration `AddLegStyle`, default `Plantigrade`); `Preference.NsfwConsent` is a nullable bool (`nsfw_consent` column, migration `NsfwConsent`; null = age gate unanswered). `CharacterConsentFreetext` is **absent here**. Palmtree bank account numbers are derived at runtime from `NetUserId` + character slot (no DB column) |
+| Preferences | `Preference` + `Profile` | Profile includes `Markings` (jsonb), nullable `VoiceBark` (Palmtree voice bark, `voice_bark` column), nullable `Genitals` (Palmtree genital organ selection string, `genitals` column, migration `GenitalOrgans`), `Height`/`Width` (`height`/`width` real columns, migration `HeightWidth`), `SnoutAboveHair` (`snout_above_hair` bool column, migration `SnoutAboveHair`), `LegStyle` (`leg_style` text column, migration `AddLegStyle`, default `Plantigrade`) and per-job custom ID titles (`job.custom_title`, migration `AddJobCustomTitle`; Palmtree); `Preference.NsfwConsent` is a nullable bool (`nsfw_consent` column, migration `NsfwConsent`; null = age gate unanswered). `CharacterConsentFreetext` is **absent here**. Palmtree bank account numbers are derived at runtime from `NetUserId` + character slot (no DB column) |
 | Admin | `Admin`, `AdminRank`, notes, bans, role bans | `LogType` numeric values are load-bearing |
 | Playtime | playtime/role time tracking | Frontier/job requirements |
 | Whitelist / Patreon | whitelist, patreon tiers | server config dependent |
@@ -44,7 +44,8 @@ markingId@#rrggbb,...@m3@cCustom Name               # Palmtree: + toggle flags (
   `AddLegStyle` (`leg_style` text column, default `Plantigrade` — patched from the generated empty
   default; `ServerDbBase` falls back to `Plantigrade` for unparseable values), `NsfwConsent`
   (`nsfw_consent` nullable bool on `preference`; null = age gate unanswered, so existing rows are
-  prompted once) and `SnoutAboveHair` (`snout_above_hair` bool on `profile`, default false).
+  prompted once) and `SnoutAboveHair` (`snout_above_hair` bool on `profile`, default false), plus
+  `AddJobCustomTitle` (`custom_title` nullable text on `job`; Palmtree custom ID card titles).
 - Migration IDs/order matter; don't renumber or hand-edit old migrations.
 - A drift test compares the model to migrations; keep it green.
 

@@ -36,7 +36,8 @@ public sealed partial class PresetIdCardSystem : EntitySystem
             if (station == null || !TryComp<StationJobsComponent>(station.Value, out var jobsComp) || !jobsComp.ExtendedAccess)
                 continue;
 
-            SetupIdAccess(uid, card, true);
+            // Palmtree: this runs after players spawn and must not reset custom ID titles.
+            SetupIdAccess(uid, card, true, updateIdentity: false);
             SetupIdName(uid, card);
         }
     }
@@ -55,7 +56,7 @@ public sealed partial class PresetIdCardSystem : EntitySystem
         if (TryComp(station, out StationJobsComponent? stationJobs))
             extended = stationJobs.ExtendedAccess;
 
-        SetupIdAccess(uid, id, extended);
+        SetupIdAccess(uid, id, extended, updateIdentity: true);
         SetupIdName(uid, id);
     }
 
@@ -66,7 +67,7 @@ public sealed partial class PresetIdCardSystem : EntitySystem
         _cardSystem.TryChangeFullName(uid, id.IdName);
     }
 
-    private void SetupIdAccess(EntityUid uid, PresetIdCardComponent id, bool extended)
+    private void SetupIdAccess(EntityUid uid, PresetIdCardComponent id, bool extended, bool updateIdentity)
     {
         if (id.JobName == null)
             return;
@@ -78,6 +79,11 @@ public sealed partial class PresetIdCardSystem : EntitySystem
         }
 
         _accessSystem.SetAccessToJob(uid, job, extended);
+
+        // Palmtree: access updates happen again after players spawn. Only the MapInit pass should
+        // write the identity fields, otherwise it overwrites player-chosen custom job titles.
+        if (!updateIdentity)
+            return;
 
         _cardSystem.TryChangeJobTitle(uid, job.LocalizedName);
         _cardSystem.TryChangeJobDepartment(uid, job);

@@ -5,6 +5,7 @@
   playTimeTracker: JobPassenger
   icon: "JobIconContractor"
   supervisors: job-supervisors-hire
+  allowCustomTitle: true
   displayWeight: 40 # Top
   accessGroups:
   - GeneralAccess

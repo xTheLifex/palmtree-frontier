@@ -8,6 +8,7 @@
       time: 108000
   icon: "JobIconMercenary"
   supervisors: job-supervisors-hire
+  allowCustomTitle: true
   weight: 3 # Prioritize station & department jobs
   displayWeight: 20 # Second from the bottom
   access:

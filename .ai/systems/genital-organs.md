@@ -214,21 +214,26 @@ queries).
 
 ## Editor tab
 
-The tab is titled **Body** (`humanoid-profile-editor-body-tab`), not "Genitals". It is still a
-dynamic page appended by `HumanoidProfileEditor.RefreshGenitals`, so the upstream tab indices do
-not change, and it still only exists while the NSFW account gate is open. The page control is
-stored explicitly (`_genitalsPage`) so NSFW-off removal does not assume it is the last child.
+The tab is titled **Body** (`humanoid-profile-editor-body-tab`), not "Genitals". It is a dynamic
+page appended by `HumanoidProfileEditor.RefreshGenitals`, so the upstream tab indices do not
+change. The tab is always present: **height/width live at the top** and are available even when the
+NSFW account gate is closed. `GenitalEditorControl.SetGenitalContentVisible` hides only the
+genital section in that case; existing profile organs are left untouched.
 
-`GenitalEditorControl` is a two-part layout:
+`GenitalEditorControl` layout:
 
-1. **Preview strip** — compact `Clothes`, `Undergarments` and `Aroused` toggles with a "preview
-   only; not saved" hint. `Clothes` stays in sync with the Appearance tab's `ShowClothes`
-   checkbox. The other two call the existing preview helpers in `HumanoidProfileEditor`.
-2. **Organ selector** — one toggle button per `GenitalType` that has a catalog, ordered Penis,
+1. **Body size** — Height and Width sliders (0.5–2.0, shown as percentages) with reset buttons,
+   raising `HeightChanged`/`WidthChanged`; `HumanoidProfileEditor` stores them with
+   `WithHeight`/`WithWidth` and reloads the preview.
+2. **Preview strip** — compact `Clothes`, `Undergarments` and `Aroused` toggles with a "preview
+   only; not saved" hint. There is no duplicate clothing toggle in the preview pane or Appearance
+   tab; `Clothes` is the single control and is kept as `_showClothes` in the editor. The other two
+   call the existing preview helpers in `HumanoidProfileEditor`.
+3. **Organ selector** — one toggle button per `GenitalType` that has a catalog, ordered Penis,
    Vagina, Balls, Breasts, Butt, Belly. `Anus` is omitted while it has no organ art. A filled dot
    (`●`) means the organ is enabled; a hollow dot (`○`) means it is not. `ButtonGroup` enforces a
    single selection, and only the selected `GenitalOrganPanel` is visible.
-3. **Detail card** — `GenitalOrganPanel` groups the controls:
+4. **Detail card** — `GenitalOrganPanel` groups the controls:
    - Basics: Enable checkbox, Type, Size, Visibility with a live help line explaining the rule.
    - Appearance: `Use skin color` checkbox (the pickers hide while it is on), primary color,
      detail/nipple color and detail glow only when the selected marking has a second color group,
@@ -238,7 +243,7 @@ stored explicitly (`_genitalsPage`) so NSFW-off removal does not assume it is th
    - Footer: `Remove organ` (unchecks Enable).
    Changing type keeps the current size number where the new catalog supports it, rather than
    always resetting to size 1.
-4. **Global card** — `Fluid per climax` (1-500) with a hint that it applies to all climaxes, plus
+5. **Global card** — `Fluid per climax` (1-500) with a hint that it applies to all climaxes, plus
    `Reset all organs` (a `ConfirmButton`).
 
 The editor builds one panel per organ type and toggles `Visible`, so switching organs preserves

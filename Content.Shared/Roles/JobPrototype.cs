@@ -36,6 +36,13 @@ namespace Content.Shared.Roles
         public string LocalizedName => Loc.GetString(Name);
 
         /// <summary>
+        /// Palmtree: whether players may set a custom ID card job title while playing this job.
+        /// Keep this false for authority/restricted jobs (NFSD, pirates, etc.).
+        /// </summary>
+        [DataField("allowCustomTitle")]
+        public bool AllowCustomTitle { get; private set; }
+
+        /// <summary>
         ///     The name of this job as displayed to players.
         /// </summary>
         [DataField("description")]

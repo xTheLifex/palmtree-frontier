@@ -1,8 +1,8 @@
 # Character Editor Modernization (2026-11)
 
 **Status**: Partially implemented (2026-11) on `ps/character-editor-modernization`: phases 1-2
-(editor extraction + Body tab redesign) and most of the shell wave are in the tree. The
-MarkingPicker and final polish waves remain.
+(editor extraction + Body tab redesign), the shell wave, and height/width placement in Body are in
+the tree. The MarkingPicker redesign was attempted and reverted; it stays on the dropdown layout.
 **Scope**: UI-only cleanup of the lobby character editor, with the **Body** (genital organ) tab as
 the primary target: replace the six always-expanded organ blocks with a single-organ editor, group
 related controls, explain the visibility rules, and remove duplicated slider/spin-box plumbing.
@@ -205,9 +205,10 @@ Implementation notes:
 - **Header bar**: name + randomize on the left; on the right a small "Unsaved changes" badge,
   primary Save, Reset, and an overflow menu for Import / Export / Export image / Open images.
   This frees the 60 px vertical button column.
-- **Preview pane**: keep the 8x sprite, add a zoom slider and keep rotate buttons directly under
-  it; move "Show clothing" next to those controls so it is a preview control instead of an
-  Appearance-tab checkbox. Give the view a neutral backdrop.
+- **Preview pane**: fixed `320x380` preview area at tile scale (`SpriteView` `Stretch=None`, tile
+  background selector: blank / steel / dark / white) with rotate buttons. The zoom slider was tried
+  and removed because it was glitchy; the preview-pane clothing toggle was removed as redundant.
+  Height and width live at the top of the Body tab instead of Appearance.
 - **Tab titles**: use `TabContainer.SetTabTitle(Control, string)` instead of numeric indices for
   the static pages, so Frontier/Palmtree tab insertion cannot silently retitle the wrong page.
 - **Dynamic pages**: keep Flavor Text and Genitals appended last, but store their page controls
@@ -330,11 +331,11 @@ minimum; narrow editor widths and 1.5 UI scale.
    toggle, reset/reset-all, compact preview toggles, global fluid card, visibility help, and
    independent X/Y scale behind the lock button.
 3. **SliderSpinBox** — done for the organ panels; applying it to `MarkingPicker` remains.
-4. **Shell polish** — partially done: compact header with save state and an expandable
-   import/export row, preview zoom and clothing toggle, control-based tab titles, and grouped
-   Appearance sections (Identity / Body / Hair & eyes / Preferences). The optional
-   Identity/Appearance tab split remains open.
-5. **MarkingPicker** layout polish — pending.
+4. **Shell polish** — done except the optional Identity/Appearance split: compact header with save
+   state and an expandable import/export row, control-based tab titles, grouped Appearance sections
+   (Identity / Body / Hair & eyes / Preferences), and height/width moved to the Body tab. Preview
+   zoom and the duplicate clothing toggle were removed.
+5. **MarkingPicker** — reverted to the dropdown layout; the chip/detail-card redesign was rejected.
 6. **Docs and changelog** — `.ai/systems/genital-organs.md` is updated. Add a `:cl:` block for the
    player-visible editor change when committing.
 
