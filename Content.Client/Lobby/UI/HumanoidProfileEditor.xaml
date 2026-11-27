@@ -180,7 +180,6 @@
                 <PanelContainer Name="PreviewFrame"
                                 MinSize="320 380"
                                 MaxSize="320 380"
-                                StyleClasses="PanelBackgroundBaseDark"
                                 HorizontalAlignment="Center">
                     <TextureRect Name="PreviewTile"
                                  Stretch="KeepCentered"
