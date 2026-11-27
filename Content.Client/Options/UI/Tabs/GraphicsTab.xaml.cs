@@ -44,6 +44,8 @@ public sealed partial class GraphicsTab : Control
                 new OptionDropDownCVar<float>.ValueOption(2.00f, Loc.GetString("ui-options-scale-200")),
             ]);
 
+        Control.AddOptionCheckBox(PSCVars.LobbyMenuTransparent, LobbyMenuTransparentCheckBox);
+
         Control.AddOptionDropDown(
             CCVars.ViewportScalingFilterMode,
             DropDownFilterMode,

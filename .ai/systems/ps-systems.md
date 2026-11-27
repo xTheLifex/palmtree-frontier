@@ -73,6 +73,33 @@ gloves' examine text mentions the attached ring.
   30 seconds of game time and broadcasts `TickerLobbyStatusEvent` via `SendStatusToAll()`.
 - Crossfade: `Content.Client/Lobby/LobbyState.cs` keeps `_currentBg`/`_nextBg` and animates a second
   `BackgroundFade` `TextureRect` (in `LobbyGui.xaml`) over 1 second with a smoothstep curve.
+- Layout: `LobbyGui.xaml` is a `LayoutContainer` with a directly centered `MainMenuPanel` (center
+  anchors plus `GrowDirection.Both`); the old left/right `SplitContainer` is gone. Character setup
+  is a full-area `CharacterSetupPanel` (`Wide` anchors; `CharacterSetupState` is the injected
+  editor container).
+- Chat: a right-side full-height `ChatPanel` (width from `server.lobby_right_panel_width`, applied
+  through `MinWidth` because `LayoutContainer` sizes anchored children from their measured size)
+  containing only the `ChatBox`. The panel header has a `Collapse` button and the collapsed
+  `ChatCollapsedPanel` button sits in the bottom-right corner. In the main menu chat starts
+  collapsed and the Chat button opens it; while open it has a `Collapse` button. `ChatCollapsedPanel`
+  uses `MinSize` instead of a fixed `SetSize`, because the `AngleRect` patch margins eat into the
+  inner button's content area and squish the label. Entering character setup auto-opens chat when
+  the editor would still be at least `CharacterSetupMinWidth` (1400) wide; the editor is then shrunk
+  with a negative right margin so chat gets its own column instead of overlapping it. In character
+  setup the chat is a fixed part of the layout: it has no collapse button and the editor cannot
+  reclaim its space. On narrow screens both chat panels and the chat button stay hidden in character
+  setup, so it is either editor or chat, not both. `LobbyState.SetMainChat(true)` still runs so chat
+  receives history while hidden.
+- Menu transparency: `ps.lobby_menu_transparent` (`PSCVars`, Graphics tab, Interface section) is
+  applied live by `LobbyState`. `LobbyGui.SetMenuTransparent` sets
+  `MainMenuPanel.ModulateSelfOverride` to a translucent version of the style colour. This only
+  affects the panel itself, not its children, and deliberately uses no shader or blur.
+- Layout regression: `Content.IntegrationTests/Tests/_PS/LobbyLayoutTest.cs` arranges `LobbyGui` at
+  2390×1060 and checks the centered main menu, the configured chat width/placement, the collapsed
+  chat button size/placement, menu transparency, and wide/narrow character-setup chat rules.
+- Ready state: `LobbyGui.SetReadyState` swaps `ReadyStatusIcon` between the Nano checked/cross icons
+  and tints it green/red; `LobbyState.UpdateLobbyUi` hides the icon while the round is running and
+  shows it with `AreWeReady` otherwise.
 
 ## Weapons / grenades / hitscan
 

@@ -9,6 +9,7 @@ using Content.Client.Playtime;
 using Content.Client.UserInterface.Systems.Chat;
 using Content.Client.Voting;
 using Content.Shared.CCVar;
+using Content.Shared._PS.CCVar;
 using Robust.Client;
 using Robust.Client.Console;
 using Robust.Client.ResourceManagement;
@@ -78,7 +79,10 @@ namespace Content.Client.Lobby
                 : lobbyNameCvar;
 
             var width = _cfg.GetCVar(CCVars.ServerLobbyRightPanelWidth);
-            Lobby.RightSide.SetWidth = width;
+            Lobby.SetChatWidth(width);
+
+            // Palmtree: opaque or translucent main lobby menu.
+            _cfg.OnValueChanged(PSCVars.LobbyMenuTransparent, Lobby.SetMenuTransparent, true);
 
             UpdateLobbyUi();
 
@@ -108,6 +112,7 @@ namespace Content.Client.Lobby
         {
             var chatController = _userInterfaceManager.GetUIController<ChatUIController>();
             chatController.SetMainChat(false);
+            _cfg.UnsubValueChanged(PSCVars.LobbyMenuTransparent, Lobby!.SetMenuTransparent);
             _gameTicker.InfoBlobUpdated -= UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated -= LobbyStatusUpdated;
             _gameTicker.LobbyLateJoinStatusUpdated -= LobbyLateJoinStatusUpdated;
@@ -250,6 +255,7 @@ namespace Content.Client.Lobby
                 Lobby!.ReadyButton.ToggleMode = false;
                 Lobby!.ReadyButton.Pressed = false;
                 Lobby!.ObserveButton.Disabled = false;
+                Lobby!.SetReadyState(false, false);
             }
             else
             {
@@ -259,6 +265,7 @@ namespace Content.Client.Lobby
                 Lobby!.ReadyButton.ToggleMode = true;
                 Lobby!.ReadyButton.Disabled = false;
                 Lobby!.ObserveButton.Disabled = true;
+                Lobby!.SetReadyState(_gameTicker.AreWeReady);
             }
 
             if (_gameTicker.ServerInfoBlob != null)

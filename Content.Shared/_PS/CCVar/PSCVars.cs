@@ -130,4 +130,11 @@ public sealed partial class PSCVars
     /// </summary>
     public static readonly CVarDef<float> Bloom =
         CVarDef.Create("ps.client.bloom", 0f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Palmtree: makes the main lobby menu translucent so the lobby background shows through.
+    /// This is a plain alpha change; no shader or blur is involved.
+    /// </summary>
+    public static readonly CVarDef<bool> LobbyMenuTransparent =
+        CVarDef.Create("ps.lobby_menu_transparent", true, CVar.CLIENTONLY | CVar.ARCHIVE);
 }
