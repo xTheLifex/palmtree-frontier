@@ -59,11 +59,98 @@
 - type: markingPoints
   id: MobResomiMarkingLimits
   points:
-    # Coyote: Allow unlimited markings
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Tail:
       required: true
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       defaultMarkings: [ ResomiTailFeathered ]
+    Special:
+      points: 10
+      required: false
+    Hair:
+      points: 10
+      required: false
+    FacialHair:
+      points: 10
+      required: false
+    Head:
+      points: 10
+      required: false
+    HeadTop:
+      points: 10
+      required: false
+    HeadSide:
+      points: 10
+      required: false
+    Snout:
+      points: 10
+      required: false
+    SnoutCover:
+      points: 10
+      required: false
+    Chest:
+      points: 10
+      required: false
+    NeckFluff:
+      points: 10
+      required: false
+    UndergarmentTop:
+      points: 10
+      required: false
+    UndergarmentBottom:
+      points: 10
+      required: false
+    Genital:
+      points: 10
+      required: false
+    Arms:
+      points: 10
+      required: false
+    Legs:
+      points: 10
+      required: false
+    TailExtras:
+      points: 10
+      required: false
+    Overlay:
+      points: 10
+      required: false
+    BaseChest:
+      points: 10
+      required: false
+    BaseHead:
+      points: 10
+      required: false
+    BaseLArm:
+      points: 10
+      required: false
+    BaseLFoot:
+      points: 10
+      required: false
+    BaseLHand:
+      points: 10
+      required: false
+    BaseLLeg:
+      points: 10
+      required: false
+    BaseRArm:
+      points: 10
+      required: false
+    BaseRFoot:
+      points: 10
+      required: false
+    BaseRHand:
+      points: 10
+      required: false
+    BaseRLeg:
+      points: 10
+      required: false
+    BaseArms:
+      points: 10
+      required: false
+    BaseLegs:
+      points: 10
+      required: false
 
 - type: humanoidBaseSprite
   id: MobResomiEyes

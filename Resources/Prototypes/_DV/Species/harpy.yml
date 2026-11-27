@@ -6,10 +6,11 @@
   sprites: MobHarpySprites
   markingLimits: MobHarpyMarkingLimits
   dollPrototype: MobHarpyDummy
+  defaultSkinTone: "#FFE0CC" # Palmtree: keep the old human-toned default now that skin uses the HSV picker
   kind:
   - BasicHumanlike
   - BasicFurry
-  skinColoration: HumanToned
+  skinColoration: Hues # Palmtree: RGB/HSV colors instead of human skin tones
 
 - type: speciesBaseSprites
   id: MobHarpySprites
@@ -51,42 +52,103 @@
 - type: markingPoints
   id: MobHarpyMarkingLimits
   points:
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Genital:
-      points: 35
+      points: 10
       required: false
     Hair:
-      points: 1
+      points: 10
       required: false
     FacialHair:
-      points: 1
+      points: 10
       required: false
     Tail:
-      points: 1
+      points: 10
       required: true
       defaultMarkings: [ HarpyTailPhoenix ]
     HeadTop:
-      points: 1
+      points: 10
       required: true
       defaultMarkings: [ HarpyEarsDefault ]
     # Frontier: apparently these don't exist on Delta
     UndergarmentTop:
-      points: 1
+      points: 10
       required: false
     UndergarmentBottom:
-      points: 1
+      points: 10
       required: false
     # End Frontier
     Chest:
-      points: 1
+      points: 10
       required: true
       defaultMarkings: [ HarpyChestDefault ]
     Legs:
-      points: 2
+      points: 10
       required: false
     Arms:
-      points: 1
+      points: 10
       required: false
       defaultMarkings: [ HarpyWingDefaultHuescale ]
+    Special:
+      points: 10
+      required: false
+    Head:
+      points: 10
+      required: false
+    HeadSide:
+      points: 10
+      required: false
+    Snout:
+      points: 10
+      required: false
+    SnoutCover:
+      points: 10
+      required: false
+    NeckFluff:
+      points: 10
+      required: false
+    TailExtras:
+      points: 10
+      required: false
+    Overlay:
+      points: 10
+      required: false
+    BaseChest:
+      points: 10
+      required: false
+    BaseHead:
+      points: 10
+      required: false
+    BaseLArm:
+      points: 10
+      required: false
+    BaseLFoot:
+      points: 10
+      required: false
+    BaseLHand:
+      points: 10
+      required: false
+    BaseLLeg:
+      points: 10
+      required: false
+    BaseRArm:
+      points: 10
+      required: false
+    BaseRFoot:
+      points: 10
+      required: false
+    BaseRHand:
+      points: 10
+      required: false
+    BaseRLeg:
+      points: 10
+      required: false
+    BaseArms:
+      points: 10
+      required: false
+    BaseLegs:
+      points: 10
+      required: false
 
 - type: humanoidBaseSprite
   id: MobHarpyHead

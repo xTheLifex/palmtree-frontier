@@ -53,85 +53,100 @@
 - type: markingPoints
   id: MobFeroxiMarkingLimits
   points:
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Genital:
-      points: 35
+      points: 10
       required: false
     Hair:
-      points: 35
+      points: 10
       required: false
     FacialHair:
-      points: 35
+      points: 10
       required: false
-    # Coyote: Allow unlimited markings
     Tail:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: true
       defaultMarkings: [ FeroxiTailAndDorsal ]
     Head:
-      points: 35
+      points: 10
       required: false
     Legs:
-      points: 35
+      points: 10
       required: false
     Arms:
-      points: 35
+      points: 10
       required: false
     Snout:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: true
       defaultMarkings: [ FeroxiSnout ]
     NeckFluff:
-      points: 35
+      points: 10
       required: false
     UndergarmentTop:
-      points: 35
+      points: 10
       required: false
     UndergarmentBottom:
-      points: 35
+      points: 10
       required: false
     HeadTop:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: true
       defaultMarkings: [ FeroxiEars ]
     # Copypaste these into every species I HATE THIS CODE
     BaseChest:
-      points: 35
+      points: 10
       required: false
     BaseHead:
-      points: 35
+      points: 10
       required: false
     BaseLArm:
-      points: 35
+      points: 10
       required: false
     BaseLFoot:
-      points: 35
+      points: 10
       required: false
     BaseLHand:
-      points: 35
+      points: 10
       required: false
     BaseLLeg:
-      points: 35
+      points: 10
       required: false
     BaseRArm:
-      points: 35
+      points: 10
       required: false
     BaseRFoot:
-      points: 35
+      points: 10
       required: false
     BaseRHand:
-      points: 35
+      points: 10
       required: false
     BaseRLeg:
-      points: 35
+      points: 10
       required: false
     Chest:
-      points: 35
+      points: 10
       required: false
     Overlay:
-      points: 35
+      points: 10
       required: false
     Special:
-      points: 35
+      points: 10
+      required: false
+    HeadSide:
+      points: 10
+      required: false
+    SnoutCover:
+      points: 10
+      required: false
+    TailExtras:
+      points: 10
+      required: false
+    BaseArms:
+      points: 10
+      required: false
+    BaseLegs:
+      points: 10
       required: false
 
 - type: humanoidBaseSprite

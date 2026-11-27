@@ -74,8 +74,9 @@ Every layer a marking may use needs an entry. The Floof set used by the ported c
   or they render wrong/invisible.
 - Digitigrade variants go on `humanoidBaseSprite` entries as
   `altSprites: { Digitigrade: DigilegFurryTorsoMale }` (the marking must exist).
-- Marking points: add at least `Genital` (and any category with required defaults). Missing
-  categories behave as unlimited (`PointsLeft` returns −1).
+- Marking points: list **every** category at `points: 10` (set a category to `0` only when the
+  species deliberately has none of that art). Missing categories behave as unlimited
+  (`PointsLeft` returns −1), which bypasses the global 10-marking cap.
 
 ## 3. Mob entity
 

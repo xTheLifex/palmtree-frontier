@@ -49,7 +49,7 @@ angle changes animate immediately.
 | Harpy, Vulpkanin | `_DV` | have digitigrade `altSprites` |
 | Felinid, Oni | `Nyanotrasen` | |
 | Goblin, Sheleg | `_NF` | have digitigrade `altSprites` |
-| Rodentia | `_DV` (ported) | 999-point tail/ears defaults, digileg support, rat speech |
+| Rodentia | `_DV` (ported) | tail/ear default markings, digileg support, rat speech |
 | Anthromorph | `_CS` (ported) | BasicHumanlike + BasicFurry, custom body sprites |
 | Tajaran | `_EE` (ported) | body/markings/sprites/damage/names, Felinid component |
 | Synth | `_PS` (new) | IPC replacement: 1.5× speed, 3× durability, marking-based appearance, IPC-like resistances; immune to cold and to heat below 4000K, and reagent effects are skipped (`skipEffects`) |

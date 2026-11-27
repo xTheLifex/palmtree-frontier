@@ -49,46 +49,101 @@
   id: MobVoxMarkingLimits
   onlyWhitelisted: true
   points:
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Genital:
-      points: 35
+      points: 10
       required: false
     Hair:
-      points: 1
+      points: 10
       required: false
     FacialHair:
-      points: 1
+      points: 10
       required: false
     Head:
-      points: 1
+      points: 10
       required: true
     Snout:
-      points: 1
+      points: 10
       required: true
       defaultMarkings: [ VoxBeak ]
     Arms:
-      points: 4
+      points: 10
       required: true
       defaultMarkings: [ VoxLArmScales, VoxRArmScales, VoxRHandScales, VoxLHandScales ]
     Legs:
-      points: 4
+      points: 10
       required: true
       defaultMarkings: [ VoxLLegScales, VoxRLegScales, VoxRFootScales, VoxLFootScales ]
     UndergarmentTop:
-      points: 1
+      points: 10
       required: false
     UndergarmentBottom:
-      points: 1
+      points: 10
       required: false
     Chest:
-      points: 2
+      points: 10
       required: false
     Overlay: # imp
-      points: 4
+      points: 10
       required: false
     Tail:
-      points: 1
+      points: 10
       required: true
       defaultMarkings: [ VoxTail ]
+    Special:
+      points: 10
+      required: false
+    HeadTop:
+      points: 10
+      required: false
+    HeadSide:
+      points: 10
+      required: false
+    SnoutCover:
+      points: 10
+      required: false
+    NeckFluff:
+      points: 10
+      required: false
+    TailExtras:
+      points: 10
+      required: false
+    BaseChest:
+      points: 10
+      required: false
+    BaseHead:
+      points: 10
+      required: false
+    BaseLArm:
+      points: 10
+      required: false
+    BaseLFoot:
+      points: 10
+      required: false
+    BaseLHand:
+      points: 10
+      required: false
+    BaseLLeg:
+      points: 10
+      required: false
+    BaseRArm:
+      points: 10
+      required: false
+    BaseRFoot:
+      points: 10
+      required: false
+    BaseRHand:
+      points: 10
+      required: false
+    BaseRLeg:
+      points: 10
+      required: false
+    BaseArms:
+      points: 10
+      required: false
+    BaseLegs:
+      points: 10
+      required: false
 
 - type: humanoidBaseSprite
   id: MobVoxEyes

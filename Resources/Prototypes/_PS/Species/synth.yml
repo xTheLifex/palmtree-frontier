@@ -60,95 +60,96 @@
 - type: markingPoints
   id: MobSynthMarkingLimits
   points:
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Special:
-      points: 999
+      points: 10
       required: false
     Hair:
-      points: 999
+      points: 10
       required: false
     FacialHair:
-      points: 999
+      points: 10
       required: false
     Head:
-      points: 999
+      points: 10
       required: false
     HeadTop:
-      points: 999
+      points: 10
       required: false
     HeadSide:
-      points: 999
+      points: 10
       required: false
     Snout:
-      points: 999
+      points: 10
       required: false
     SnoutCover:
-      points: 999
+      points: 10
       required: false
     Chest:
-      points: 999
+      points: 10
       required: false
     NeckFluff:
-      points: 999
+      points: 10
       required: false
     UndergarmentTop:
-      points: 999
+      points: 10
       required: false
     UndergarmentBottom:
-      points: 999
+      points: 10
       required: false
     Genital:
-      points: 999
+      points: 10
       required: false
     Arms:
-      points: 999
+      points: 10
       required: false
     Legs:
-      points: 999
+      points: 10
       required: false
     Tail:
-      points: 999
+      points: 10
       required: false
     TailExtras:
-      points: 999
+      points: 10
       required: false
     Overlay:
-      points: 999
+      points: 10
       required: false
     BaseChest:
-      points: 999
+      points: 10
       required: false
     BaseHead:
-      points: 999
+      points: 10
       required: false
     BaseLArm:
-      points: 999
+      points: 10
       required: false
     BaseLFoot:
-      points: 999
+      points: 10
       required: false
     BaseLHand:
-      points: 999
+      points: 10
       required: false
     BaseLLeg:
-      points: 999
+      points: 10
       required: false
     BaseRArm:
-      points: 999
+      points: 10
       required: false
     BaseRFoot:
-      points: 999
+      points: 10
       required: false
     BaseRHand:
-      points: 999
+      points: 10
       required: false
     BaseRLeg:
-      points: 999
+      points: 10
       required: false
     BaseArms:
-      points: 999
+      points: 10
       required: false
     BaseLegs:
-      points: 999
+      points: 10
       required: false
 
 # Silicon base sprites: synths default to a robot look, and the species-adaptor

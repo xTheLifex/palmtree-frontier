@@ -42,9 +42,9 @@ Also remember `onlyWhitelisted` logic: a marking counts as whitelisted if it has
 ## 3. `MarkingsSet.EnsureDefault` loop
 
 The loop must be `while (points.Points > 0 && index < points.DefaultMarkings.Count)`. Using `||`
-indexes past `DefaultMarkings` whenever points > defaults (Rodentia uses 999 points with one default
-marking) and crashes entity spawning. It also skips categories that already have markings (so
-imported characters are not given defaults on top).
+indexes past `DefaultMarkings` whenever points > defaults (e.g. Rodentia has one default tail
+marking but 10 points) and crashes entity spawning. It also skips categories that already have
+markings (so imported characters are not given defaults on top).
 
 ## 4. Fork-patched upstream files
 

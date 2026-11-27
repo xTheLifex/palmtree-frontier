@@ -164,7 +164,7 @@ These are important because they are easy to reintroduce:
    `Timer.SpawnRepeating(30000, CycleLobbyBackground, ...)` + `SendStatusToAll()`. Frontier only
    randomized once at startup.
 4. **`MarkingsSet.EnsureDefault` overrun** — the loop condition used `||`, so a category with more
-   points than `DefaultMarkings` (e.g. Rodentia's 999-point tail) indexed past the list and crashed
+   points than `DefaultMarkings` (e.g. Rodentia's tail) indexed past the list and crashed
    entity spawning. Fixed to `&&`.
 5. **Kind-shared markings stripped** — `MarkingsSet.EnsureSpecies` filtered with
    `SpeciesRestrictions.Contains(species)` only, removing markings allowed through `kindAllowance`

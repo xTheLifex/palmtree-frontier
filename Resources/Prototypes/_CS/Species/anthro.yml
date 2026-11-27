@@ -50,51 +50,97 @@
 - type: markingPoints
   id: MobAnthromorphMarkingLimits
   points:
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Special:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Hair:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     FacialHair:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Head:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     HeadTop:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     HeadSide:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Snout:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Chest:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     UndergarmentTop:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     UndergarmentBottom:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Genital:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Arms:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Legs:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Tail:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
     Overlay:
-      points: 999 # Coyote: Allow unlimited markings
+      points: 10
       required: false # Coyote
+    SnoutCover:
+      points: 10
+      required: false
+    NeckFluff:
+      points: 10
+      required: false
+    TailExtras:
+      points: 10
+      required: false
+    BaseChest:
+      points: 10
+      required: false
+    BaseHead:
+      points: 10
+      required: false
+    BaseLArm:
+      points: 10
+      required: false
+    BaseLFoot:
+      points: 10
+      required: false
+    BaseLHand:
+      points: 10
+      required: false
+    BaseLLeg:
+      points: 10
+      required: false
+    BaseRArm:
+      points: 10
+      required: false
+    BaseRFoot:
+      points: 10
+      required: false
+    BaseRHand:
+      points: 10
+      required: false
+    BaseRLeg:
+      points: 10
+      required: false
+    BaseArms:
+      points: 10
+      required: false
+    BaseLegs:
+      points: 10
+      required: false
 
 - type: humanoidBaseSprite
   id: MobAnthromorphHead

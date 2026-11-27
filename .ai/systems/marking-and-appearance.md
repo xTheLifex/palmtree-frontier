@@ -284,9 +284,11 @@ To make markings work for a species:
 Rodentia/Anthromorph/Tajaran were adapted this way; see `.ai/guides/adding-species.md`.
 
 Marking-point limits decide which markings survive `EnsureValid` on import/load (over-limit entries
-are dropped, in list order). Human, Vulpkanin and Reptilian use Coyote's 35-per-category limits
-(Tail/HeadTop 999 on Vulpkanin) so Coyote character exports keep their tails and cross-species
-markings; Anthromorph is already 999 everywhere.
+are dropped, in list order). **All species are capped at 10 markings per category** (Palmtree,
+2026-11): Coyote had set 999 ("unlimited") on several species/categories, and other species used
+lower values. Every non-zero category was normalized to 10 — 35s, 8s, 4s, 2s and 1s included.
+A category set to `0` stays `0` (the species deliberately has no marking art for it, e.g. Sheleg
+tail). To add a new species, give every category it supports `points: 10`.
 
 ## Height / width
 

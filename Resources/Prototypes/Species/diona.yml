@@ -50,88 +50,98 @@
   id: MobDionaMarkingLimits
   onlyWhitelisted: true
   points:
+    # Palmtree: all marking categories are capped at 10 (0 = category disabled for this species).
     Genital:
-      points: 35
+      points: 10
       required: false
     Head:
-      points: 2
+      points: 10
       required: false
     HeadTop:
-      points: 1
+      points: 10
       required: false
     HeadSide:
-      points: 1
+      points: 10
       required: false
     Hair: # Palmtree: allow all markings
-      points: 35
+      points: 10
       required: false
     FacialHair: # Palmtree: allow all markings
-      points: 35
+      points: 10
       required: false
     Snout: # Palmtree: allow all markings
-      points: 35
+      points: 10
       required: false
     Special: # Palmtree: allow all markings (cat ears etc.)
-      points: 35
+      points: 10
       required: false
     Tail: # Palmtree: allow all markings
-      points: 35
+      points: 10
       required: false
     UndergarmentTop:
-      points: 1
+      points: 10
       required: false
     UndergarmentBottom:
-      points: 1
+      points: 10
       required: false
     Chest:
-      points: 2
+      points: 10
       required: false
     Legs:
-      points: 2
+      points: 10
       required: false
     Arms:
-      points: 2
+      points: 10
       required: false
     Overlay:
-      points: 1
+      points: 10
       required: true
       defaultMarkings: [ DionaVineOverlay ]
     # Palmtree: base-layer adaptor markings (Synth-style body replacement)
     BaseChest:
-      points: 35
+      points: 10
       required: false
     BaseHead:
-      points: 35
+      points: 10
       required: false
     BaseLArm:
-      points: 35
+      points: 10
       required: false
     BaseLFoot:
-      points: 35
+      points: 10
       required: false
     BaseLHand:
-      points: 35
+      points: 10
       required: false
     BaseLLeg:
-      points: 35
+      points: 10
       required: false
     BaseRArm:
-      points: 35
+      points: 10
       required: false
     BaseRFoot:
-      points: 35
+      points: 10
       required: false
     BaseRHand:
-      points: 35
+      points: 10
       required: false
     BaseRLeg:
-      points: 35
+      points: 10
       required: false
     BaseArms:
-      points: 35
+      points: 10
       required: false
     BaseLegs:
-      points: 35
+      points: 10
+      required: false
+    SnoutCover:
+      points: 10
+      required: false
+    NeckFluff:
+      points: 10
+      required: false
+    TailExtras:
+      points: 10
       required: false
 
 - type: humanoidBaseSprite
