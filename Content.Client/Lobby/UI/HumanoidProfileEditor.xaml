@@ -170,6 +170,12 @@
                     End Frontier -->
                     <BoxContainer Name="TraitsTab" Orientation="Vertical" Margin="10">
                         <!-- Traits -->
+                        <LineEdit Name="TraitsSearch"
+                                  PlaceHolder="{Loc 'humanoid-profile-editor-traits-search'}"
+                                  HorizontalExpand="True" />
+                        <Label Name="TraitsSummary"
+                               StyleClasses="LabelSubText"
+                               Margin="0 2 0 4" />
                         <ScrollContainer VerticalExpand="True">
                             <BoxContainer Name="TraitsList" Orientation="Vertical" />
                         </ScrollContainer>

@@ -497,6 +497,7 @@ namespace Content.Client.Lobby.UI
 
             //TabContainer.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab")); // Frontier
 
+            TraitsSearch.OnTextChanged += _ => RefreshTraits();
             RefreshTraits();
 
             #region Markings
@@ -756,8 +757,17 @@ namespace Content.Client.Lobby.UI
         {
             TraitsList.DisposeAllChildren();
 
-            var traits = _prototypeManager.EnumeratePrototypes<TraitPrototype>().OrderBy(t => Loc.GetString(t.Name)).ToList();
             TabContainer.SetTabTitle(TraitsTab, Loc.GetString("humanoid-profile-editor-traits-tab")); // Frontier: 3<2
+
+            var search = TraitsSearch.Text.Trim();
+            var selected = Profile?.TraitPreferences;
+            TraitsSummary.Text = Loc.GetString(
+                "humanoid-profile-editor-traits-selected",
+                ("count", selected?.Count ?? 0));
+
+            var traits = _prototypeManager.EnumeratePrototypes<TraitPrototype>()
+                .OrderBy(t => Loc.GetString(t.Name))
+                .ToList();
 
             if (traits.Count < 1)
             {
@@ -790,33 +800,31 @@ namespace Content.Client.Lobby.UI
             }
 
             // Create UI view from model
+            var anyVisible = false;
             foreach (var (categoryId, categoryTraits) in traitGroups)
             {
                 TraitCategoryPrototype? category = null;
-
                 if (categoryId != TraitCategoryPrototype.Default)
-                {
                     category = _prototypeManager.Index<TraitCategoryPrototype>(categoryId);
-                    // Label
-                    TraitsList.AddChild(new Label
-                    {
-                        Text = Loc.GetString(category.Name),
-                        Margin = new Thickness(0, 10, 0, 0),
-                        StyleClasses = { StyleBase.StyleClassLabelHeading },
-                    });
-                }
 
-                List<TraitPreferenceSelector?> selectors = new();
+                List<TraitPreferenceSelector> selectors = new();
                 var selectionCount = 0;
 
                 foreach (var traitProto in categoryTraits)
                 {
                     var trait = _prototypeManager.Index<TraitPrototype>(traitProto);
-                    var selector = new TraitPreferenceSelector(trait);
+                    var selectedTrait = selected?.Contains(trait.ID) == true;
 
-                    selector.Preference = Profile?.TraitPreferences.Contains(trait.ID) == true;
-                    if (selector.Preference)
+                    if (selectedTrait)
                         selectionCount += trait.Cost;
+
+                    if (search.Length > 0 && !TraitMatches(trait, search))
+                        continue;
+
+                    var selector = new TraitPreferenceSelector(trait)
+                    {
+                        Preference = selectedTrait,
+                    };
 
                     selector.PreferenceChanged += preference =>
                     {
@@ -835,21 +843,35 @@ namespace Content.Client.Lobby.UI
                     selectors.Add(selector);
                 }
 
+                if (selectors.Count == 0)
+                    continue;
+
+                anyVisible = true;
+
+                if (category != null)
+                {
+                    TraitsList.AddChild(new Label
+                    {
+                        Text = Loc.GetString(category.Name),
+                        Margin = new Thickness(0, 10, 0, 0),
+                        StyleClasses = { StyleBase.StyleClassLabelHeading },
+                    });
+                }
+
                 // Selection counter
                 if (category is { MaxTraitPoints: >= 0 })
                 {
                     TraitsList.AddChild(new Label
                     {
-                        Text = Loc.GetString("humanoid-profile-editor-trait-count-hint", ("current", selectionCount) ,("max", category.MaxTraitPoints)),
-                        FontColorOverride = Color.Gray
+                        Text = Loc.GetString("humanoid-profile-editor-trait-count-hint",
+                            ("current", selectionCount),
+                            ("max", category.MaxTraitPoints)),
+                        FontColorOverride = Color.Gray,
                     });
                 }
 
                 foreach (var selector in selectors)
                 {
-                    if (selector == null)
-                        continue;
-
                     if (category is { MaxTraitPoints: >= 0 } &&
                         selector.Cost + selectionCount > category.MaxTraitPoints)
                     {
@@ -858,6 +880,18 @@ namespace Content.Client.Lobby.UI
 
                     TraitsList.AddChild(selector);
                 }
+            }
+
+            if (!anyVisible)
+            {
+                TraitsList.AddChild(new Label
+                {
+                    Text = Loc.GetString(search.Length > 0
+                        ? "humanoid-profile-editor-traits-no-results"
+                        : "humanoid-profile-editor-no-traits"),
+                    FontColorOverride = Color.Gray,
+                });
+                return;
             }
 
             // Palmtree/Coyote: emote category picker lives at the bottom of the traits tab.
@@ -869,6 +903,12 @@ namespace Content.Client.Lobby.UI
             });
 
             CreateNestedEmoteCategoryButton();
+        }
+
+        private static bool TraitMatches(TraitPrototype trait, string search)
+        {
+            return trait.ID.Contains(search, StringComparison.OrdinalIgnoreCase)
+                   || Loc.GetString(trait.Name).Contains(search, StringComparison.OrdinalIgnoreCase);
         }
 
         private void CreateNestedEmoteCategoryButton()
