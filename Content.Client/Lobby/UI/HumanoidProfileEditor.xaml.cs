@@ -170,6 +170,14 @@ namespace Content.Client.Lobby.UI
             _maxNameLength = _cfgManager.GetCVar(CCVars.MaxNameLength);
             _allowFlavorText = _cfgManager.GetCVar(CCVars.FlavorText);
 
+            MoreOptionsButton.OnToggled += args => MoreOptions.Visible = args.Pressed;
+            SpriteZoom.OnValueChanged += _ =>
+            {
+                var scale = Math.Clamp(SpriteZoom.Value, 4f, 16f);
+                SpriteView.Scale = new Vector2(scale, scale);
+                SpriteView.InvalidateMeasure();
+            };
+
             ImportButton.OnPressed += args =>
             {
                 ImportProfile();
@@ -219,7 +227,7 @@ namespace Content.Client.Lobby.UI
 
             #region Appearance
 
-            TabContainer.SetTabTitle(0, Loc.GetString("humanoid-profile-editor-appearance-tab"));
+            TabContainer.SetTabTitle(AppearanceTab, Loc.GetString("humanoid-profile-editor-appearance-tab"));
 
             #region Sex
 
@@ -458,7 +466,7 @@ namespace Content.Client.Lobby.UI
 
             #region Jobs
 
-            TabContainer.SetTabTitle(1, Loc.GetString("humanoid-profile-editor-jobs-tab"));
+            TabContainer.SetTabTitle(JobsTab, Loc.GetString("humanoid-profile-editor-jobs-tab"));
 
             PreferenceUnavailableButton.AddItem(
                 Loc.GetString("humanoid-profile-editor-preference-unavailable-stay-in-lobby-button"),
@@ -493,7 +501,7 @@ namespace Content.Client.Lobby.UI
 
             #region Markings
 
-            TabContainer.SetTabTitle(3, Loc.GetString("humanoid-profile-editor-markings-tab")); // Frontier: 4<3
+            TabContainer.SetTabTitle(MarkingsTab, Loc.GetString("humanoid-profile-editor-markings-tab")); // Frontier: 4<3
 
             Markings.OnMarkingAdded += OnMarkingChange;
             Markings.OnMarkingRemoved += OnMarkingChange;
@@ -547,7 +555,7 @@ namespace Content.Client.Lobby.UI
 
                 _flavorText = new FlavorText.FlavorText();
                 TabContainer.AddChild(_flavorText);
-                TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("humanoid-profile-editor-flavortext-tab"));
+                TabContainer.SetTabTitle(_flavorText, Loc.GetString("humanoid-profile-editor-flavortext-tab"));
                 _flavorTextEdit = _flavorText.CFlavorTextInput;
 
                 _flavorText.OnFlavorTextChanged += OnFlavorTextChange;
@@ -749,7 +757,7 @@ namespace Content.Client.Lobby.UI
             TraitsList.DisposeAllChildren();
 
             var traits = _prototypeManager.EnumeratePrototypes<TraitPrototype>().OrderBy(t => Loc.GetString(t.Name)).ToList();
-            TabContainer.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-traits-tab")); // Frontier: 3<2
+            TabContainer.SetTabTitle(TraitsTab, Loc.GetString("humanoid-profile-editor-traits-tab")); // Frontier: 3<2
 
             if (traits.Count < 1)
             {
@@ -2118,6 +2126,7 @@ namespace Content.Client.Lobby.UI
         {
             SaveButton.Disabled = Profile is null || !IsDirty;
             ResetButton.Disabled = Profile is null || !IsDirty;
+            DirtyLabel.Visible = IsDirty;
         }
 
         private void SetPreviewRotation(Direction direction)

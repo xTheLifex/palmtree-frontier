@@ -1,8 +1,8 @@
 # Character Editor Modernization (2026-11)
 
 **Status**: Partially implemented (2026-11) on `ps/character-editor-modernization`: phases 1-2
-(editor extraction + Body tab redesign) are in the tree. The shell, MarkingPicker and polish waves
-remain.
+(editor extraction + Body tab redesign) and most of the shell wave are in the tree. The
+MarkingPicker and final polish waves remain.
 **Scope**: UI-only cleanup of the lobby character editor, with the **Body** (genital organ) tab as
 the primary target: replace the six always-expanded organ blocks with a single-organ editor, group
 related controls, explain the visibility rules, and remove duplicated slider/spin-box plumbing.
@@ -271,8 +271,10 @@ Implementation notes:
    toggle, reset/reset-all, compact preview toggles, global fluid card, visibility help, and
    independent X/Y scale behind the lock button.
 3. **SliderSpinBox** — done for the organ panels; applying it to `MarkingPicker` remains.
-4. **Shell polish** — pending: header bar, preview controls, control-based tab titles, Appearance
-   section headings. Decide on the Identity/Appearance split.
+4. **Shell polish** — partially done: compact header with save state and an expandable
+   import/export row, preview zoom and clothing toggle, control-based tab titles, and grouped
+   Appearance sections (Identity / Body / Hair & eyes / Preferences). The optional
+   Identity/Appearance tab split remains open.
 5. **MarkingPicker** layout polish — pending.
 6. **Docs and changelog** — `.ai/systems/genital-organs.md` is updated. Add a `:cl:` block for the
    player-visible editor change when committing.
