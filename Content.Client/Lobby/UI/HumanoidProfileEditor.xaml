@@ -195,9 +195,18 @@
                     <cc:VSeparator Margin="2 0 3 0" />
                     <Button Name="SpriteRotateRight" Text="▶" StyleClasses="OpenLeft" />
                 </BoxContainer>
-                <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="6">
-                    <Label Text="{Loc 'humanoid-profile-editor-preview-background'}" VerticalAlignment="Center" />
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="2" Margin="0 0 0 4">
+                    <Label Text="{Loc 'humanoid-profile-editor-preview-background'}" />
                     <OptionButton Name="PreviewBackgroundButton" HorizontalExpand="True" />
+                </BoxContainer>
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="2">
+                    <Label Name="PreviewZoomLabel" Text="{Loc 'humanoid-profile-editor-preview-zoom'}" />
+                    <Slider Name="PreviewZoom"
+                            HorizontalExpand="True"
+                            MinValue="3"
+                            MaxValue="10"
+                            Value="5"
+                            Rounded="False" />
                 </BoxContainer>
             </BoxContainer>
         </BoxContainer>

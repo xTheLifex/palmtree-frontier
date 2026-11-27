@@ -37,6 +37,7 @@ public sealed partial class GenitalEditorControl : BoxContainer
     private GenitalType? _selectedType;
     private bool _hasSettings;
     private bool _suppress;
+    private bool _bodyScaleLocked = true;
 
     /// <summary>Raised when the user edits any organ or the global fluid setting.</summary>
     public event Action<GenitalOrganSettings>? SettingsChanged;
@@ -102,13 +103,28 @@ public sealed partial class GenitalEditorControl : BoxContainer
             HeightSlider.SetValueWithoutEvent(1f);
             UpdateHeightLabel(1f);
             HeightChanged?.Invoke(1f);
+
+            if (_bodyScaleLocked)
+            {
+                WidthSlider.SetValueWithoutEvent(1f);
+                UpdateWidthLabel(1f);
+                WidthChanged?.Invoke(1f);
+            }
         };
         WidthReset.OnPressed += _ =>
         {
             WidthSlider.SetValueWithoutEvent(1f);
             UpdateWidthLabel(1f);
             WidthChanged?.Invoke(1f);
+
+            if (_bodyScaleLocked)
+            {
+                HeightSlider.SetValueWithoutEvent(1f);
+                UpdateHeightLabel(1f);
+                HeightChanged?.Invoke(1f);
+            }
         };
+        BodySizeLockButton.OnPressed += _ => ToggleBodyScaleLock();
 
         SetBodySize(1f, 1f);
     }
@@ -119,6 +135,8 @@ public sealed partial class GenitalEditorControl : BoxContainer
         height = Math.Clamp(height, HumanoidCharacterProfile.MinHeight, HumanoidCharacterProfile.MaxHeight);
         width = Math.Clamp(width, HumanoidCharacterProfile.MinWidth, HumanoidCharacterProfile.MaxWidth);
 
+        _bodyScaleLocked = Math.Abs(height - width) < 0.0001f;
+
         var previousSuppress = _suppress;
         _suppress = true;
         HeightSlider.SetValueWithoutEvent(height);
@@ -126,6 +144,7 @@ public sealed partial class GenitalEditorControl : BoxContainer
         UpdateHeightLabel(height);
         UpdateWidthLabel(width);
         _suppress = previousSuppress;
+        UpdateBodySizeLock();
     }
 
     private void OnHeightChanged()
@@ -136,6 +155,14 @@ public sealed partial class GenitalEditorControl : BoxContainer
         var value = Math.Clamp(HeightSlider.Value, HumanoidCharacterProfile.MinHeight, HumanoidCharacterProfile.MaxHeight);
         HeightSlider.SetValueWithoutEvent(value);
         UpdateHeightLabel(value);
+
+        if (_bodyScaleLocked)
+        {
+            WidthSlider.SetValueWithoutEvent(value);
+            UpdateWidthLabel(value);
+            WidthChanged?.Invoke(value);
+        }
+
         HeightChanged?.Invoke(value);
     }
 
@@ -147,7 +174,43 @@ public sealed partial class GenitalEditorControl : BoxContainer
         var value = Math.Clamp(WidthSlider.Value, HumanoidCharacterProfile.MinWidth, HumanoidCharacterProfile.MaxWidth);
         WidthSlider.SetValueWithoutEvent(value);
         UpdateWidthLabel(value);
+
+        if (_bodyScaleLocked)
+        {
+            HeightSlider.SetValueWithoutEvent(value);
+            UpdateHeightLabel(value);
+            HeightChanged?.Invoke(value);
+        }
+
         WidthChanged?.Invoke(value);
+    }
+
+    private void ToggleBodyScaleLock()
+    {
+        _bodyScaleLocked = !_bodyScaleLocked;
+
+        if (_bodyScaleLocked)
+        {
+            var value = Math.Clamp(HeightSlider.Value,
+                HumanoidCharacterProfile.MinHeight,
+                HumanoidCharacterProfile.MaxHeight);
+
+            WidthSlider.SetValueWithoutEvent(value);
+            UpdateWidthLabel(value);
+            WidthChanged?.Invoke(value);
+        }
+
+        UpdateBodySizeLock();
+    }
+
+    private void UpdateBodySizeLock()
+    {
+        BodySizeLockButton.TexturePath = _bodyScaleLocked
+            ? "/Textures/Interface/VerbIcons/lock.svg.192dpi.png"
+            : "/Textures/Interface/VerbIcons/unlock.svg.192dpi.png";
+        BodySizeLockButton.ToolTip = Loc.GetString(_bodyScaleLocked
+            ? "genital-editor-body-size-unlock-tooltip"
+            : "genital-editor-body-size-lock-tooltip");
     }
 
     private void UpdateHeightLabel(float value)

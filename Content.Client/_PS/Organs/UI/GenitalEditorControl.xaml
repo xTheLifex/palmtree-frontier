@@ -5,7 +5,15 @@
               HorizontalExpand="True"
               Margin="10"
               SeparationOverride="6">
-    <Label Text="{Loc 'genital-editor-body-size'}" StyleClasses="LabelHeading" />
+    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="4">
+        <Label Text="{Loc 'genital-editor-body-size'}" StyleClasses="LabelHeading" VerticalAlignment="Center" />
+        <TextureButton Name="BodySizeLockButton"
+                       TexturePath="/Textures/Interface/VerbIcons/lock.svg.192dpi.png"
+                       Scale="0.3 0.3"
+                       MinSize="20 20"
+                       VerticalAlignment="Center"
+                       ToolTip="{Loc 'genital-editor-body-size-unlock-tooltip'}" />
+    </BoxContainer>
 
     <GridContainer Columns="2" HorizontalExpand="True">
         <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="0 0 6 0">

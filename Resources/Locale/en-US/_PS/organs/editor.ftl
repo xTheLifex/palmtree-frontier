@@ -1,6 +1,8 @@
 humanoid-profile-editor-body-tab = Body
 
 genital-editor-body-size = Body size
+genital-editor-body-size-lock-tooltip = Lock height and width together
+genital-editor-body-size-unlock-tooltip = Unlock separate height and width
 genital-editor-preview = Preview
 genital-editor-preview-only = Preview only; these toggles are not saved.
 genital-editor-clothes = Clothes

@@ -194,6 +194,9 @@ namespace Content.Client.Lobby.UI
                 ApplyPreviewBackground((PreviewBackgroundKind) args.Id);
             };
 
+            PreviewZoom.OnValueChanged += _ => ApplyPreviewZoom(PreviewZoom.Value);
+            ApplyPreviewZoom(PreviewZoom.Value);
+
             ImportButton.OnPressed += args =>
             {
                 ImportProfile();
@@ -2183,6 +2186,18 @@ namespace Content.Client.Lobby.UI
                     PreviewTile.Visible = false;
                     break;
             }
+        }
+
+        private void ApplyPreviewZoom(float zoom)
+        {
+            const float defaultZoom = 5f;
+            zoom = Math.Clamp(zoom, 3f, 10f);
+
+            SpriteView.Scale = new Vector2(zoom, zoom);
+            PreviewTile.TextureScale = new Vector2(zoom, zoom);
+            PreviewZoomLabel.Text = Loc.GetString(
+                "humanoid-profile-editor-preview-zoom-label",
+                ("zoom", MathF.Round(zoom / defaultZoom * 100f)));
         }
 
         private void SetPreviewRotation(Direction direction)

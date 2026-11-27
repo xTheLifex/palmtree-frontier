@@ -206,8 +206,9 @@ Implementation notes:
   primary Save, Reset, and an overflow menu for Import / Export / Export image / Open images.
   This frees the 60 px vertical button column.
 - **Preview pane**: fixed `320x380` preview area at tile scale (`SpriteView` `Stretch=None`, tile
-  background selector: blank / steel / dark / white) with rotate buttons. The zoom slider was tried
-  and removed because it was glitchy; the preview-pane clothing toggle was removed as redundant.
+  background selector: blank / steel / dark / white) with rotate buttons, a Background selector and
+  a 3–10× preview zoom slider scaling the sprite and tile together. The zoom was re-added after the
+  fixed-size work because it no longer disturbs layout. The preview-pane clothing toggle is removed.
   Height and width live at the top of the Body tab instead of Appearance.
 - **Tab titles**: use `TabContainer.SetTabTitle(Control, string)` instead of numeric indices for
   the static pages, so Frontier/Palmtree tab insertion cannot silently retitle the wrong page.

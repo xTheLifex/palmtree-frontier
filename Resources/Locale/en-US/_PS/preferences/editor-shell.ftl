@@ -11,6 +11,8 @@ humanoid-profile-editor-preview-background-blank = Blank
 humanoid-profile-editor-preview-background-steel = Steel tile
 humanoid-profile-editor-preview-background-dark = Dark tile
 humanoid-profile-editor-preview-background-white = White tile
+humanoid-profile-editor-preview-zoom = Zoom
+humanoid-profile-editor-preview-zoom-label = Zoom: {$zoom}%
 
 humanoid-profile-editor-traits-search = Search traits
 humanoid-profile-editor-traits-selected = Selected traits: {$count}

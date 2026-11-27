@@ -312,8 +312,12 @@ tail). To add a new species, give every category it supports `points: 10`.
 as `SpriteComponent.Scale = (Width, Height)` in `HumanoidAppearanceSystem.UpdateSprite`. The lobby
 preview `SpriteView` is a fixed `320x380` area with `Stretch=None` (no auto-fit) so body scale is
 visible relative to a single 160 px tile; `PreviewBackgroundButton` selects blank, steel, dark or
-white tile backgrounds. The fixed area prevents body scale from resizing the editor layout.
-Persisted in the `height`/`width` profile DB columns (`HeightWidth` migration, default 1).
+white tile backgrounds. The `PreviewZoom` slider scales both the sprite and the tile together
+(3–10, default 5 = 100%) without changing the fixed preview area. Height and width have a UI-only
+lock button: while locked, moving either slider updates the other; the profile still stores them
+separately. The lock starts locked when the values are equal and unlocks when they differ. The fixed
+area prevents body scale from resizing the editor layout. Persisted in the `height`/`width` profile
+DB columns (`HeightWidth` migration, default 1).
 
 ## Genital content
 
