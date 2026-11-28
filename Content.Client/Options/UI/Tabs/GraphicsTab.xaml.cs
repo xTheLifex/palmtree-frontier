@@ -44,7 +44,8 @@ public sealed partial class GraphicsTab : Control
                 new OptionDropDownCVar<float>.ValueOption(2.00f, Loc.GetString("ui-options-scale-200")),
             ]);
 
-        Control.AddOptionCheckBox(PSCVars.LobbyMenuTransparent, LobbyMenuTransparentCheckBox);
+        var lobbyTransparent = Control.AddOptionCheckBox(PSCVars.LobbyMenuTransparent, LobbyMenuTransparentCheckBox);
+        Control.AddOptionCheckBox(PSCVars.LobbyMenuBlur, LobbyMenuBlurCheckBox);
 
         Control.AddOptionDropDown(
             CCVars.ViewportScalingFilterMode,
@@ -80,11 +81,19 @@ public sealed partial class GraphicsTab : Control
 
         Control.Initialize();
 
+        lobbyTransparent.ImmediateValueChanged += _ => UpdateLobbyBlurAvailability();
+
         _cfg.OnValueChanged(CCVars.ViewportMinimumWidth, _ => UpdateViewportWidthRange());
         _cfg.OnValueChanged(CCVars.ViewportMaximumWidth, _ => UpdateViewportWidthRange());
 
         UpdateViewportWidthRange();
         UpdateViewportSettingsVisibility();
+        UpdateLobbyBlurAvailability();
+    }
+
+    private void UpdateLobbyBlurAvailability()
+    {
+        LobbyMenuBlurCheckBox.Disabled = !LobbyMenuTransparentCheckBox.Pressed;
     }
 
     private void UpdateViewportSettingsVisibility()

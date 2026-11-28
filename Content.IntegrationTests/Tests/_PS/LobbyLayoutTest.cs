@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Threading.Tasks;
+using Content.Client._PS.Lobby.UI;
 using Content.Client.Lobby.UI;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
@@ -39,6 +40,33 @@ public sealed class LobbyLayoutTest
                 "transparent menu should have an alpha below 1");
             var center = panel.GlobalPosition.X + panel.Width / 2f;
             Assert.That(center, Is.EqualTo(ScreenWidth / 2f).Within(2f), $"panel center was {center}");
+
+            var backdropPanel = panel as LobbyMenuBackdropPanel;
+            Assert.That(backdropPanel, Is.Not.Null);
+            lobby.SetMenuBackground("/Textures/_PS/Lobby/carp.png");
+            Assert.That(backdropPanel!.Backdrop, Is.Not.Null,
+                "transparent menu should build a blurred backdrop from the lobby background");
+            Assert.That(backdropPanel.Backdrop!.Size, Is.EqualTo(panel.PixelSize),
+                "blurred backdrop should match the menu panel size");
+
+            lobby.SetMenuBlur(false);
+            Assert.That(backdropPanel.Backdrop, Is.Null,
+                "disabling blur should clear the blurred backdrop");
+            lobby.SetMenuBlur(true);
+            Assert.That(backdropPanel.Backdrop, Is.Not.Null,
+                "re-enabling blur should rebuild the blurred backdrop");
+
+            lobby.SetMenuTransparent(false);
+            Assert.That(backdropPanel.Backdrop, Is.Null,
+                "disabling transparency should disable the blurred backdrop");
+
+            lobby.SetMenuBlur(true);
+            Assert.That(backdropPanel.Backdrop, Is.Null,
+                "blur should stay disabled while transparency is off");
+
+            lobby.SetMenuTransparent(true);
+            Assert.That(backdropPanel.Backdrop, Is.Not.Null,
+                "re-enabling transparency should rebuild the blurred backdrop");
 
             var chat = lobby.FindControl<Control>("ChatPanel");
             Assert.That(chat, Is.Not.Null);

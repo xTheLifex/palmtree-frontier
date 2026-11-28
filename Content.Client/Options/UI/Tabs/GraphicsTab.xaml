@@ -25,6 +25,9 @@
                 <CheckBox Name="LobbyMenuTransparentCheckBox"
                           Text="{Loc 'ui-options-lobby-menu-transparent'}"
                           ToolTip="{Loc 'ui-options-lobby-menu-transparent-tooltip'}" />
+                <CheckBox Name="LobbyMenuBlurCheckBox"
+                          Text="{Loc 'ui-options-lobby-menu-blur'}"
+                          ToolTip="{Loc 'ui-options-lobby-menu-blur-tooltip'}" />
                 <CheckBox Name="ViewportStretchCheckBox" Text="{Loc 'ui-options-vp-stretch'}" />
                 <ui:OptionSlider Name="ViewportScaleSlider" Title="{Loc ui-options-vp-scale}" />
                 <ui:OptionSlider Name="ViewportWidthSlider" Title="{Loc ui-options-vp-width}" />

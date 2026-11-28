@@ -90,13 +90,24 @@ gloves' examine text mentions the attached ring.
   reclaim its space. On narrow screens both chat panels and the chat button stay hidden in character
   setup, so it is either editor or chat, not both. `LobbyState.SetMainChat(true)` still runs so chat
   receives history while hidden.
-- Menu transparency: `ps.lobby_menu_transparent` (`PSCVars`, Graphics tab, Interface section) is
-  applied live by `LobbyState`. `LobbyGui.SetMenuTransparent` sets
-  `MainMenuPanel.ModulateSelfOverride` to a translucent version of the style colour. This only
-  affects the panel itself, not its children, and deliberately uses no shader or blur.
+- Menu transparency + blur: `ps.lobby_menu_transparent` and `ps.lobby_menu_blur` (`PSCVars`,
+  Graphics tab, Interface section) are applied live by `LobbyState`. `LobbyGui.SetMenuTransparent`
+  sets `MainMenuPanel.ModulateSelfOverride` to a translucent version of the style colour; this only
+  affects the panel itself, not its children. `LobbyGui.SetMenuBlur` enables/disables the frosted
+  backdrop, and blur defaults on; the effective backdrop is only enabled while both options are on,
+  so turning transparency off also removes the blur (the blur checkbox is disabled in that case).
+  The frosted backdrop is
+  shader-free: `LobbyMenuBackdropPanel` (`Content.Client/_PS/Lobby/UI`) draws a pre-blurred crop of
+  the current lobby background under the `AngleRect` style. `LobbyGui` and
+  `LobbyMenuBackdropBuilder` build that crop on the CPU (box-downscale, small box blur, bilinear
+  upscale, chamfer mask) whenever the background, panel size or UI scale changes; it never reads
+  the screen or runs per frame. `LobbyState` passes the current/next background paths and the
+  crossfade progress, so the card blur fades with the background. Decoded 256px background sources
+  are cached per path.
 - Layout regression: `Content.IntegrationTests/Tests/_PS/LobbyLayoutTest.cs` arranges `LobbyGui` at
   2390×1060 and checks the centered main menu, the configured chat width/placement, the collapsed
-  chat button size/placement, menu transparency, and wide/narrow character-setup chat rules.
+  chat button size/placement, menu transparency/blur gating and blurred backdrop
+  creation/clearing, and wide/narrow character-setup chat rules.
 - Ready state: `LobbyGui.SetReadyState` swaps `ReadyStatusIcon` between the Nano checked/cross icons
   and tints it green/red; `LobbyState.UpdateLobbyUi` hides the icon while the round is running and
   shows it with `AreWeReady` otherwise.

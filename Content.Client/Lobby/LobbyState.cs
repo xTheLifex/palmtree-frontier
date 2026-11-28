@@ -49,6 +49,8 @@ namespace Content.Client.Lobby
         // Palmtree - background crossfade
         private TextureResource? _currentBg;
         private TextureResource? _nextBg;
+        private string? _currentBgPath;
+        private string? _nextBgPath;
         private float _fade = 1f;
         private const float FadeTime = 1f;
 
@@ -81,8 +83,9 @@ namespace Content.Client.Lobby
             var width = _cfg.GetCVar(CCVars.ServerLobbyRightPanelWidth);
             Lobby.SetChatWidth(width);
 
-            // Palmtree: opaque or translucent main lobby menu.
+            // Palmtree: lobby menu transparency and background blur.
             _cfg.OnValueChanged(PSCVars.LobbyMenuTransparent, Lobby.SetMenuTransparent, true);
+            _cfg.OnValueChanged(PSCVars.LobbyMenuBlur, Lobby.SetMenuBlur, true);
 
             UpdateLobbyUi();
 
@@ -113,6 +116,7 @@ namespace Content.Client.Lobby
             var chatController = _userInterfaceManager.GetUIController<ChatUIController>();
             chatController.SetMainChat(false);
             _cfg.UnsubValueChanged(PSCVars.LobbyMenuTransparent, Lobby!.SetMenuTransparent);
+            _cfg.UnsubValueChanged(PSCVars.LobbyMenuBlur, Lobby!.SetMenuBlur);
             _gameTicker.InfoBlobUpdated -= UpdateLobbyUi;
             _gameTicker.LobbyStatusUpdated -= LobbyStatusUpdated;
             _gameTicker.LobbyLateJoinStatusUpdated -= LobbyLateJoinStatusUpdated;
@@ -122,6 +126,8 @@ namespace Content.Client.Lobby
 
             _preferencesManager.OnServerDataLoaded -= OnPreferencesDataLoaded; // Palmtree
             _nsfwConsentOverlay?.Orphan(); // Palmtree
+
+            Lobby?.ClearMenuBackdrop();
 
             Lobby!.CharacterPreview.CharacterSetupButton.OnPressed -= OnSetupPressed;
             Lobby!.ReadyButton.OnPressed -= OnReadyPressed;
@@ -171,9 +177,12 @@ namespace Content.Client.Lobby
                     _fade = 1f;
                     _currentBg = _nextBg;
                     _nextBg = null;
+                    _currentBgPath = _nextBgPath;
+                    _nextBgPath = null;
 
                     Lobby.Background.Texture = _currentBg;
                     Lobby.BackgroundFade.Texture = null;
+                    Lobby!.SetMenuBackground(_currentBgPath);
                 }
                 else
                 {
@@ -185,6 +194,7 @@ namespace Content.Client.Lobby
 
                     Lobby.BackgroundFade.Texture = _nextBg;
                     Lobby.BackgroundFade.Modulate = new Color(1f, 1f, 1f, t);
+                    Lobby.SetMenuBackgroundFade(t);
                 }
             }
 
@@ -332,17 +342,23 @@ namespace Content.Client.Lobby
                 Lobby!.BackgroundFade.Texture = null;
                 _currentBg = null;
                 _nextBg = null;
+                _currentBgPath = null;
+                _nextBgPath = null;
                 _fade = 1f;
+                Lobby!.SetMenuBackground(null);
                 return;
             }
 
-            var newTexture = _resourceCache.GetResource<TextureResource>(_gameTicker.LobbyBackground);
+            var newPath = _gameTicker.LobbyBackground;
+            var newTexture = _resourceCache.GetResource<TextureResource>(newPath);
 
             if (_currentBg == null)
             {
                 _currentBg = newTexture;
+                _currentBgPath = newPath;
                 Lobby!.Background.Texture = newTexture;
                 Lobby!.BackgroundFade.Texture = null;
+                Lobby!.SetMenuBackground(_currentBgPath);
                 return;
             }
 
@@ -350,7 +366,9 @@ namespace Content.Client.Lobby
                 return;
 
             _nextBg = newTexture;
+            _nextBgPath = newPath;
             _fade = 0f;
+            Lobby!.SetMenuBackground(_currentBgPath, _nextBgPath);
         }
 
         private void SetReady(bool newReady)
