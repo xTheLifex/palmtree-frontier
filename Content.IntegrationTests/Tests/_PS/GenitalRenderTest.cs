@@ -383,8 +383,10 @@ public sealed class GenitalRenderTest
                     "the vagina must render below the balls");
                 Assert.That(ballsLayer, Is.LessThan(penisLayer),
                     "the balls must render below the penis");
-                Assert.That(penisLayer, Is.LessThan(bellyLayer),
-                    "the penis must render below the belly");
+                Assert.That(bellyLayer, Is.LessThan(penisLayer),
+                    "the penis must render above the belly in the exposed south stack");
+                Assert.That(breastLayer, Is.LessThan(penisLayer),
+                    "the penis must render above exposed breasts in the exposed south stack");
                 Assert.That(bellyLayer, Is.GreaterThan(armLayer),
                     "the belly must render above the arms");
                 Assert.That(bellyLayer, Is.GreaterThan(handLayer),
@@ -903,6 +905,8 @@ public sealed class GenitalRenderTest
                     "PSGenitalBreasts0-m_breasts_pair_0_FRONT_primary",
                     out var breastLayer,
                     false), Is.True, "the breast layer must exist in the side view");
+                Assert.That(penisLayer, Is.LessThan(breastLayer),
+                    "east/west keep the normal priority order: penis below breasts");
                 Assert.That(spriteSystem.LayerMapTryGet(
                     (mob.Value, sprite),
                     "PSGenitalBreasts0-m_breasts_pair_0_FRONT_secondary",

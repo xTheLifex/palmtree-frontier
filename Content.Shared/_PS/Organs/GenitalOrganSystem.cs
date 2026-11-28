@@ -547,9 +547,11 @@ public sealed class GenitalOrganSystem : EntitySystem
 
     /// <summary>
     /// Order in which organs are added to the Genital layer. Later entries draw on top: the belly
-    /// covers the penis and balls, and the breasts are the only organ above the belly.
+    /// covers the penis and balls, and the breasts are the only organ above the belly. The client
+    /// re-sorts the penis above the belly and breasts in the exposed south view; other directions
+    /// keep this table.
     /// </summary>
-    private static int GetRenderPriority(GenitalType type)
+    public static int GetRenderPriority(GenitalType type)
     {
         return type switch
         {

@@ -85,7 +85,9 @@ queries).
    marking layers inserted at the same index render newest-first. The resulting bottom-to-top stack
    is butt, vagina, balls, penis, belly, breasts, so the penis draws over the balls, the belly draws
    over the groin, and the breasts are the only organ drawn over the belly, regardless of the order
-   the player enabled them in the editor.
+   the player enabled them in the editor. The exposed south view is the exception: the client lifts
+   the penis above the belly and breasts (butt, vagina, balls, belly, breasts, penis) so a large
+   breast sprite cannot paint over it. East/west/north keep the normal order.
    `NeverHidden` additionally sets `Marking.RenderOverClothing` to draw above outer clothing.
    `VisibleUnderClothes` renders even when covered but leaves the normal layer clamp in place, so
    clothing still draws over the organ.
@@ -151,8 +153,9 @@ queries).
    per-sprite offset, so a breast's nipple sprite still renders above the breast sprite and a
    butt's front/mid sprites stay ordered. A visible relevant undergarment forces this clamp in
    every direction (south included). The client sorts the exposed group by the explicit
-   `Marking.RenderPriority`: butt < vagina < balls < penis < belly < breasts. Clothed and
-   undergarment states clamp the organs and keep neckwear above the breasts.
+   `Marking.RenderPriority`: butt < vagina < balls < penis < belly < breasts, except in the exposed
+   south view where the penis is lifted to the top (butt < vagina < balls < belly < breasts <
+   penis). Clothed and undergarment states clamp the organs and keep neckwear above the breasts.
    `GenitalUnder` sits immediately before `back` (and therefore before `neck`); the exposed south
    organ stack goes there, which keeps satchel/backpack straps and neckwear above the breasts.
    `GenitalLow` sits after `LLeg` and before `UndergarmentBottom`; under-clothing bottom organs

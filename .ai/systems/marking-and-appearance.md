@@ -183,8 +183,9 @@ undershirts) so hiding a parent hides its sublayers.
      the uppermost leg layer. A client system
      (`DirectionalLayerOrderSystem`) rebuilds the sprite when the cardinal or side-facing state
      changes. When naked and facing south the whole organ stack is routed to `GenitalUnder`, below
-     `neck` and `hair`, in explicit priority order (butt < vagina < balls < penis < belly <
-     breasts). Neckwear therefore covers exposed breasts, and hair stays above the neckwear.
+     `neck` and `hair`, in explicit priority order (butt < vagina < balls < belly < breasts <
+     penis; the penis is lifted above the belly and breasts so a large breast sprite cannot cover
+     it). Neckwear therefore covers exposed breasts, and hair stays above the neckwear.
      Exposed east/west views put the same stack between the hand groups. East uses the base order
      (far `LHand` below, near `RHand` above); west swaps the hand layers so far `RHand` stays below
      and near `LHand` stays above. Hand/arm adaptor markings add layers, so the stack is moved to
@@ -225,6 +226,10 @@ Genital organ order is explicit rather than dependent on insertion anchors:
 - `ApplyMarkingSet` orders the Genital category by `RenderPriority` descending before applying.
   Because layers inserted at the same index render newest-first, the final bottom-to-top stack is
   butt < vagina < balls < penis < belly < breasts.
+- Exposed south is the one exception: the penis sorts as `int.MaxValue` so the stack becomes
+  butt < vagina < balls < belly < breasts < penis. The condition is the same one that routes the
+  stack to `GenitalUnder` (`ShouldUseSouthOrganStack`), so covered/undergarment states and every
+  other direction keep the normal order.
 - Exposed south (no jumpsuit/outer clothing and no visible bottom undergarment): the whole Genital
   group is routed to `GenitalUnder`, which is before `back`, `neck` and `hair`. The chosen policy
   is lower organs < belly < breasts < back-slot clothing < neckwear < hair. Satchel/backpack

@@ -9,6 +9,7 @@ using Content.Shared.DisplacementMap; // Palmtree/Coyote: leg displacement
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
+using Content.Shared._PS.Interactions; // Palmtree: GenitalType
 using Content.Shared._PS.Organs; // Palmtree
 using Content.Shared.Inventory;
 using Content.Shared.Inventory.Events;
@@ -519,13 +520,22 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         var applyUndergarmentTop = censorNudity;
         var applyUndergarmentBottom = censorNudity;
 
+        // Palmtree: the exposed south stack draws the penis above the belly and breasts so large
+        // breasts cannot paint over it. Every other direction keeps the normal priority order.
+        var southOrganStack = ShouldUseSouthOrganStack(entity.Comp1, entity.Comp2, entity.Owner, GetScreenDirection(entity.Owner));
+        var penisPriority = GenitalOrganSystem.GetRenderPriority(GenitalType.Penis);
+
         foreach (var (category, markingList) in humanoid.MarkingSet.Markings)
         {
             // Palmtree: genital organs carry an explicit bottom-to-top RenderPriority. Applying
             // them highest-first makes the newest insertion (lowest priority) end up underneath.
             IEnumerable<Marking> markings = markingList;
             if (category == MarkingCategories.Genital)
-                markings = markingList.OrderByDescending(m => m.RenderPriority);
+            {
+                markings = southOrganStack
+                    ? markingList.OrderByDescending(m => m.RenderPriority == penisPriority ? int.MaxValue : m.RenderPriority)
+                    : markingList.OrderByDescending(m => m.RenderPriority);
+            }
 
             foreach (var marking in markings)
             {
@@ -838,6 +848,24 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
         }
     }
 
+    /// <summary>
+    /// Palmtree: whether an exposed south view routes the whole genital organ stack to GenitalUnder.
+    /// Shared by the layer routing and the south-specific render-priority sort so they cannot drift.
+    /// </summary>
+    private bool ShouldUseSouthOrganStack(
+        HumanoidAppearanceComponent humanoid,
+        SpriteComponent sprite,
+        EntityUid uid,
+        RsiDirection screenDirection)
+    {
+        return screenDirection == RsiDirection.South
+               && !HasCoveringClothing(uid)
+               && !HasVisibleUndergarment(humanoid, MarkingCategories.UndergarmentBottom)
+               && humanoid.BaseLayers.TryGetValue(HumanoidVisualLayers.GenitalUnder, out var underSetting)
+               && underSetting.AllowsMarkings
+               && _sprite.LayerMapTryGet((uid, sprite), HumanoidVisualLayers.GenitalUnder, out _, false);
+    }
+
     private void ApplyMarking(MarkingPrototype markingPrototype,
         IReadOnlyList<Color>? colors,
         bool visible,
@@ -948,12 +976,7 @@ public sealed partial class HumanoidAppearanceSystem : SharedHumanoidAppearanceS
             // the explicit RenderPriority. Covered states keep the normal Genital layer clamp.
             if (layerSlot == HumanoidVisualLayers.Genital
                 && !renderOverClothing
-                && screenDirection == RsiDirection.South
-                && !HasCoveringClothing(entity.Owner)
-                && !HasVisibleUndergarment(humanoid, MarkingCategories.UndergarmentBottom)
-                && humanoid.BaseLayers.TryGetValue(HumanoidVisualLayers.GenitalUnder, out var underSetting)
-                && underSetting.AllowsMarkings
-                && _sprite.LayerMapTryGet((entity.Owner, sprite), HumanoidVisualLayers.GenitalUnder, out _, false))
+                && ShouldUseSouthOrganStack(humanoid, sprite, entity.Owner, screenDirection))
             {
                 layerSlot = HumanoidVisualLayers.GenitalUnder;
             }
