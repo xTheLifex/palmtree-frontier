@@ -2421,3 +2421,11 @@ Entries:
   time: '2026-11-27T16:30:48.0000000+00:00'
   url: >-
     https://github.com/xTheLifex/palmtree-frontier/commit/55d6f539ea92aafaedade824159d680f7e624569
+- author: xTheLifex
+  changes:
+    - type: Fix
+      message: Fixed exposed breasts covering the penis when facing south.
+  id: 90164
+  time: '2026-11-28T18:12:14.0000000+00:00'
+  url: >-
+    https://github.com/xTheLifex/palmtree-frontier/commit/f7791c36a15b807dcc4e9cb11077de583cadae34
